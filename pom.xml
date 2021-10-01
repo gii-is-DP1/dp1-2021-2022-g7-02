@@ -31,6 +31,23 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
+    
+    <developers>
+ 		<developer>
+ 			<id>javmarjae</id>
+ 			<name>Javier</name>
+ 			<email>javmarjae@gmail.com</email>
+ 			<url>https://github.com/javiierm31</url>
+ 			<roles>
+ 				<role>developer</role>
+ 			</roles>
+ 			<properties>
+ 				<picUrl>
+					https://i.ytimg.com/vi/K7ylwMki3mw/maxresdefault.jpg
+				</picUrl>
+ 			</properties>
+ 		</developer>
+ 	</developers>
 
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
