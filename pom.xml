@@ -31,9 +31,47 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-    
-    <developers>
- 		<developer>
+
+<developers>
+	<developer>
+		<id>migromdor</id>
+		<name>Miguel Angel</name>
+		<email>romalde3@gmail.com</email>
+		<url>https://www.linkedin.com/in/mromalde/</url>
+		<roles>
+			<role>leader</role>
+		</roles>
+		<properties>
+		</properties>
+	</developer>
+	<developer>
+			<id>marrodgar62</id>
+			<name>Mario</name>
+			<email>mario_plis@hotmail.com</email>
+			<url>https://es.linkedin.com/in/mario-rodr%C3%ADguez-garc%C3%ADa-975881219</url>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<properties>
+				<picUrl>
+				</picUrl>
+			</properties>
+		</developer>
+		<developer>
+			<id>pabesphoy</id>
+			<name>Pablo</name>
+			<email>pabesphoy@alum.us.es</email>
+			<url>https://github.com/pabesphoy</url>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<properties>
+				<picUrl>
+				https://www.elplural.com/uploads/s1/11/96/26/0/josep-pedrerol-en-el-chiringuito.jpeg
+				</picUrl>
+			</properties>
+		</developer>
+		<developer>
  			<id>javmarjae</id>
  			<name>Javier</name>
  			<email>javmarjae@gmail.com</email>
@@ -47,7 +85,7 @@
 				</picUrl>
  			</properties>
  		</developer>
- 	</developers>
+</developers>
 
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
