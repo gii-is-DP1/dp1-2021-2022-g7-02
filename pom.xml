@@ -31,7 +31,19 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-
+	<developers>
+	<developer>
+		<id>migromdor</id>
+		<name>Miguel Angel</name>
+		<email>romalde3@gmail.com</email>
+		<url>https://www.linkedin.com/in/mromalde/</url>
+		<roles>
+			<role>leader</role>
+		</roles>
+		<properties>
+		</properties>
+	</developer>
+</developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
