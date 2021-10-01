@@ -56,6 +56,20 @@
 				</picUrl>
 			</properties>
 		</developer>
+		<developer>
+			<id>pabesphoy</id>
+			<name>Pablo</name>
+			<email>pabesphoy@alum.us.es</email>
+			<url>https://github.com/pabesphoy</url>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<properties>
+				<picUrl>
+				https://www.elplural.com/uploads/s1/11/96/26/0/josep-pedrerol-en-el-chiringuito.jpeg
+				</picUrl>
+			</properties>
+		</developer>
 </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
