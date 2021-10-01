@@ -97,6 +97,19 @@
 				</picUrl>
  			</properties>
  		</developer>
+ 		<developer>
+ 			<id>pedsotsan</id>
+ 			<name>Pedro Luis Soto Santos</name>
+ 			<email>pepoluis712@gmail.com</email>
+ 			<url></url>
+ 			<roles>
+ 				<role>developer</role>
+ 			</roles>
+ 			<properties>
+ 				<picUrl>
+				</picUrl>
+ 			</properties>
+ 		</developer>
 </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
