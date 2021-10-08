@@ -33,7 +33,7 @@ class ValidatorTests {
 		person.setLastName("smith");
 		Person person1 = new Person();
 		person.setFirstName("");
-		person.setLastName("smith6");
+		person.setLastName("smith6.5");
 
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Person>> constraintViolations = validator.validate(person);
