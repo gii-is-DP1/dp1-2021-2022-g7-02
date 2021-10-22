@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 public class CartaLocalizacionService {
 	
 	@Autowired
-	private CartaLocalizacionRepository diseasesRepository;
+	private CartaLocalizacionRepository cartaLocalizacionRepository;
 	
 	@Transactional
 	public Collection<CartaLocalizacion> findAll(){
-		return diseasesRepository.findAll();
+		return cartaLocalizacionRepository.findAll();
 	}
 
 }
