@@ -63,4 +63,4 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
 
---INSERT INTO cartasLocalizacion(id,name,description) VALUES (1,'Campo','Un campo muy bonito');
+INSERT INTO cartasLocalizacion(id,name,description) VALUES (1,'Campo','Un campo muy bonito');
