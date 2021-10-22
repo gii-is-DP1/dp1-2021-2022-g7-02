@@ -9,4 +9,3 @@ public interface CartaLocalizacionRepository extends CrudRepository<CartaLocaliz
 
 	public Collection<CartaLocalizacion> findAll() throws DataAccessException;
 }
-//

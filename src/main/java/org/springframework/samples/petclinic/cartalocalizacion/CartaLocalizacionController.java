@@ -14,28 +14,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 
-
-    @Controller
-    @RequestMapping("/cartasLocalizacion")
-    public class CartaLocalizacionController {
-
-
-        private final CartaLocalizacionService cartaLocalizacionService;
-
-        @Autowired
-        public CartaLocalizacionController(CartaLocalizacionService CartaLocalizacionService, UserService userService, AuthoritiesService authoritiesService) {
-            this.cartaLocalizacionService = CartaLocalizacionService;
-        }
-
-        @GetMapping()
-        public String showCartaLocalizacionList(ModelMap modelMap) {
-            Collection<CartaLocalizacion> cartasLocalizacion = cartaLocalizacionService.findAll();
-            modelMap.addAttribute("Carta Localizacion", cartasLocalizacion);
-
-            return "cartasLocalizacion/CartaLocalizacionListing";
-        }
-
-
-    }
-    
-    //
+@Controller
+@RequestMapping("/cartaloc")
+public class CartaLocalizacionController{
+	
+	@Autowired
+	private CartaLocalizacionService cartaLocalizacionService;
+	
+	@GetMapping()
+	public String listadoCartasLocalizacion(ModelMap modelMap) {
+		String vista = "cartaloc/listadoCartasLoc";
+		Iterable<CartaLocalizacion> cartas = cartaLocalizacionService.findAll();
+		modelMap.addAttribute("cartasLoc", cartas);
+		return vista;
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+	
+}
