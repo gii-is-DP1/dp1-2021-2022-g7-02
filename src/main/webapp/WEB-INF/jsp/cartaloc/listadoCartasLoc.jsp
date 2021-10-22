@@ -18,10 +18,10 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${cartasLoc}" var="carta">
+        <c:forEach items="${cartasloc}" var="carta">
             <tr>
                 <td>
-                    <spring:url value="/cartaLoc/{cartaId}" var="cartaUrl">
+                    <spring:url value="/cartasLoc/{cartaId}" var="cartaUrl">
                         <spring:param name="cartaId" value="${carta.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(cartaUrl)}"><c:out value="${carta.name}"/></a>
@@ -30,7 +30,7 @@
                     <c:out value="${carta.description}"/>
                 </td>
                 <td>
-                	<a href="/cartaloc/${carta.id}/edit">
+                	<a href="/cartasloc/${carta.id}/edit">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
                 </td>     

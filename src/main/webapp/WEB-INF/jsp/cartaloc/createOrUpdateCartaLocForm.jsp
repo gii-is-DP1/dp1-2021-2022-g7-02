@@ -8,24 +8,16 @@
 
 <petclinic:layout pageName="owners">
     <h2>
-        <c:if test="${cartaLoc['new']}">Nueva </c:if> Carta de Localización
+		Carta
     </h2>
-
-    <form:form modelAttribute="cartaLoc" class="form-horizontal" id="add-owner-form">
+    <form:form modelAttribute="cartaloc" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Name" name="name"/>
             <petclinic:inputField label="Description" name="description"/>            
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <c:choose>
-                    <c:when test="${cartaLoc['new']}">
-                        <button class="btn btn-default" type="submit">Añadir carta</button>
-                    </c:when>
-                    <c:otherwise>
-                        <button class="btn btn-default" type="submit">Actualizar carta</button>
-                    </c:otherwise>
-                </c:choose>
+                  <button class="btn btn-default" type="submit">Actualizar carta</button>
             </div>
         </div>
     </form:form>

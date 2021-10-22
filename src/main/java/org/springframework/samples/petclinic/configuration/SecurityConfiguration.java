@@ -30,20 +30,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	DataSource dataSource;
 	
+	/*
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/cartaloc").permitAll()
+				.antMatchers("/cartasloc/**").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/vets/**").authenticated()
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
-				 	/*.loginPage("/login")*/
+				 	//.loginPage("/login")
 				 	.failureUrl("/login-error")
 				.and()
 					.logout()
@@ -55,7 +56,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 http.csrf().ignoringAntMatchers("/h2-console/**");
                 http.headers().frameOptions().sameOrigin();
 	}
+	
+	*/
 
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http 
+			.csrf() 
+			.disable()
+			.authorizeRequests()
+			.antMatchers("/**").permitAll()
+			.anyRequest().authenticated();
+	}
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication()
