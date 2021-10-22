@@ -21,8 +21,10 @@ public class CartaLocalizacion extends NamedEntity{
     public String getDescription() {
 	        return description;
 	    }
+    
 	}
 	
 	
+  
 
 
