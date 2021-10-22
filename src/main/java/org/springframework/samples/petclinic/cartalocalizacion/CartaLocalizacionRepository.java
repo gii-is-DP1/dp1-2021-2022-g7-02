@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes;
+package org.springframework.samples.petclinic.cartalocalizacion;
 
 import java.util.Collection;
 
@@ -9,3 +9,4 @@ public interface CartaLocalizacionRepository extends CrudRepository<CartaLocaliz
 
 	public Collection<CartaLocalizacion> findAll() throws DataAccessException;
 }
+//
