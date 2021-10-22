@@ -16,23 +16,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
     @Controller
-    @RequestMapping("/CartaLocalizacion")
+    @RequestMapping("/cartasLocalizacion")
     public class CartaLocalizacionController {
 
 
-        private final CartaLocalizacionService CartaLocalizacionService;
+        private final CartaLocalizacionService cartaLocalizacionService;
 
         @Autowired
         public CartaLocalizacionController(CartaLocalizacionService CartaLocalizacionService, UserService userService, AuthoritiesService authoritiesService) {
-            this.CartaLocalizacionService = CartaLocalizacionService;
+            this.cartaLocalizacionService = CartaLocalizacionService;
         }
 
         @GetMapping()
         public String showCartaLocalizacionList(ModelMap modelMap) {
-            Collection<CartaLocalizacion> Cartalocalizacion = CartaLocalizacionService.findAll();
-            modelMap.addAttribute("Carta Localizacion", Cartalocalizacion);
+            Collection<CartaLocalizacion> cartasLocalizacion = cartaLocalizacionService.findAll();
+            modelMap.addAttribute("Carta Localizacion", cartasLocalizacion);
 
-            return "CartaLocalizacion/CartaLocalizacionListing";
+            return "cartasLocalizacion/CartaLocalizacionListing";
         }
 
 
