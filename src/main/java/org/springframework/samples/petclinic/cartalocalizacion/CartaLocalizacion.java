@@ -23,4 +23,3 @@ public class CartaLocalizacion extends NamedEntity{
         }
 
     }
-//

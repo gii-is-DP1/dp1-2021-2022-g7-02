@@ -7,10 +7,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="cartasLocalizacion">
-    <h2>Cartas de Localización</h2>
+<petclinic:layout pageName="cartasLoc">
+    <h2>Cartas</h2>
 
-    <table id="cartasLocalizacionTable" class="table table-striped">
+    <table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
             <th style="width: 150px;">Name</th>
@@ -18,14 +18,14 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${cartasLocalizacion}" var="cartaLocalizacion">
+        <c:forEach items="${cartasLoc}" var="carta">
             <tr>
-            	<td>
-                	<c:out value="${cartaLocalizacion.name}"/>
-            	</td>
-            	<td>
-                	<c:out value="${cartaLocalizacion.description}"/>
-            	</td> 
+                <td>
+                    <c:out value="${carta.name}"/>
+                </td>
+                <td>
+                    <c:out value="${carta.description}"/>
+                </td>     
             </tr>
         </c:forEach>
         </tbody>
