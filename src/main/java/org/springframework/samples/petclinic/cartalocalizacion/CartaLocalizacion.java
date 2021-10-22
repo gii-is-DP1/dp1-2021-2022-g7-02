@@ -10,7 +10,7 @@ import org.springframework.samples.petclinic.model.NamedEntity;
 
 
 @Entity
-@Table(name="cartasLocalizacion")
+@Table(name="cartas_Localizacion")
 public class CartaLocalizacion extends NamedEntity{
 
     @Column(name="description",columnDefinition = "LONGTEXT")
