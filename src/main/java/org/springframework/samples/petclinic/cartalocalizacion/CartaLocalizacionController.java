@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -34,8 +35,8 @@ public class CartaLocalizacionController{
 		return CARTA_LOCALIZACION_LISTING;
 	}
 	
-	@GetMapping(path="/{id}/edit")
-	public String editCartaLoc(@PathVariable("id") int id,ModelMap model) {
+	@GetMapping(value="/{id}/edit")
+	public String initUpdateCartaLocalizacionForm(@PathVariable("id") int id,ModelMap model) {
 		
 		Optional<CartaLocalizacion> carta=cartaLocalizacionService.findById(id);
 		if(carta.isPresent()) {
@@ -47,17 +48,20 @@ public class CartaLocalizacionController{
 		}
 	}
 	
-	@PostMapping("{id}/edit")
-	public String editCartaLocalizacion(@PathVariable("id") int id, @Valid CartaLocalizacion cartaModificada, BindingResult binding, ModelMap model) {
+	@PostMapping(value="{id}/edit")
+	public String processUpdateCartaLocalizacionForm(@PathVariable("id") int id, 
+			@Valid CartaLocalizacion cartaModificada, BindingResult binding, ModelMap model) {
 		Optional<CartaLocalizacion> cartaLocalizacion = cartaLocalizacionService.findById(id);
 		if(binding.hasErrors()) {
 			return CARTA_LOCALIZACION_FORM;
 		}else {
-			BeanUtils.copyProperties(cartaModificada, cartaLocalizacion.get(), "id");
-			cartaLocalizacionService.save(cartaLocalizacion.get());
-			model.addAttribute("message","Carta modificada con éxito!");
-			return listadoCartasLocalizacion(model);
-		}
+			cartaModificada.setId(id);
+			this.cartaLocalizacionService.save(cartaModificada);
+			return "redirect:/cartasloc";
 	}
 	
+	
+}
+	
+
 }

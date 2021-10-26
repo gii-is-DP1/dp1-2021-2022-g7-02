@@ -10,7 +10,7 @@
     <h2>
 		Carta
     </h2>
-    <form:form modelAttribute="cartaloc" class="form-horizontal" id="add-owner-form">
+    <form:form method="POST" modelAttribute="cartaloc" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Name" name="name"/>
             <petclinic:inputField label="Description" name="description"/>            
