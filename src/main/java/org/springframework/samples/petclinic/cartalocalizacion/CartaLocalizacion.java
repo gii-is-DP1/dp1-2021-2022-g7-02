@@ -23,4 +23,9 @@ public class CartaLocalizacion extends NamedEntity{
     @NotEmpty
     private String description;
 
+
+    public String getDescription() {
+            return description;
+        }
+
     }

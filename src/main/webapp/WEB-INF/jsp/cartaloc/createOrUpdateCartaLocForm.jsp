@@ -10,7 +10,11 @@
     <h2>
 		Carta
     </h2>
+<<<<<<< HEAD
     <form:form method="POST" modelAttribute="cartaloc" class="form-horizontal" id="add-owner-form">
+=======
+    <form:form modelAttribute="cartaloc" class="form-horizontal" id="add-owner-form">
+>>>>>>> branch 'pabesphoy' of https://github.com/gii-is-DP1/dp1-2021-2022-g7-02.git
         <div class="form-group has-feedback">
             <petclinic:inputField label="Name" name="name"/>
             <petclinic:inputField label="Description" name="description"/>            
