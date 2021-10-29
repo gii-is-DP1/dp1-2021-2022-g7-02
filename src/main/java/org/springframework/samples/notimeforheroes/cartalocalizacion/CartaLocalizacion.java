@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.cartalocalizacion;
+package org.springframework.samples.notimeforheroes.cartalocalizacion;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

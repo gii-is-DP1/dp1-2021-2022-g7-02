@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.configuration;
+package org.springframework.samples.notimeforheroes.configuration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,5 +35,4 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setViewClass(JstlView.class);
         registry.viewResolver(resolver);
     }
-    
 }

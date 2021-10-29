@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.cartalocalizacion;
+package org.springframework.samples.notimeforheroes.cartalocalizacion;
 
 
 import java.util.Optional;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/cartasloc")
+@RequestMapping()
 public class CartaLocalizacionController{
 	
 	public static final String CARTA_LOCALIZACION_FORM="cartaloc/createOrUpdateCartaLocForm";
@@ -28,14 +28,14 @@ public class CartaLocalizacionController{
 	@Autowired
 	private CartaLocalizacionService cartaLocalizacionService;
 	
-	@GetMapping()
+	@GetMapping({"/", "/cartasloc"})
 	public String listadoCartasLocalizacion(ModelMap modelMap) {
 		Iterable<CartaLocalizacion> cartas = cartaLocalizacionService.findAll();
 		modelMap.addAttribute("cartasloc", cartas);
 		return CARTA_LOCALIZACION_LISTING;
 	}
 	
-	@GetMapping(value="/{id}/edit")
+	@GetMapping(value="cartasloc/{id}/edit")
 	public String initUpdateCartaLocalizacionForm(@PathVariable("id") int id,ModelMap model) {
 		
 		Optional<CartaLocalizacion> carta=cartaLocalizacionService.findById(id);
@@ -48,7 +48,7 @@ public class CartaLocalizacionController{
 		}
 	}
 	
-	@PostMapping(value="{id}/edit")
+	@PostMapping(value="cartasloc/{id}/edit")
 	public String processUpdateCartaLocalizacionForm(@PathVariable("id") int id, 
 			@Valid CartaLocalizacion cartaModificada, BindingResult binding, ModelMap model) {
 		Optional<CartaLocalizacion> cartaLocalizacion = cartaLocalizacionService.findById(id);

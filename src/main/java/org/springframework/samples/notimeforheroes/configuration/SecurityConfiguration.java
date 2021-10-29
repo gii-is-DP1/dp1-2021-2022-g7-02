@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.configuration;
+package org.springframework.samples.notimeforheroes.configuration;
 
 import javax.sql.DataSource;
 
