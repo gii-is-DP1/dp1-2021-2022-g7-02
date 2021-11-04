@@ -1,8 +1,9 @@
-# No Time For Heroes
+<img width="400" alt="ntfh-screenshot" src="https://garesys.com/blog/wp-content/uploads/2016/01/LogoNT4H.png">
 
 No Time For Heroes es un juego de rol en el que no hay tablero, siendo basado en héroes que luchan contra una horda de monstruos liderada por un boss final, tratando de vencer a la horda, y posteriormente siendo el héroe con más gloria.
 
 Es un juego fácil y rápido en el cual pasar un buen rato con amigos de forma on-line.
+
 
 # Desarrollo de la partida
 
@@ -10,6 +11,9 @@ En una partida puede haber desde 2 hasta 4 jugadores, desarrollándose de la sig
 - Para empezar, cada jugador elige un héroe, no pudiendo haber dos del mismo tipo.
 - Después se eligen dos cartas de la mano para ver quien es el jugador que empieza, siendo este el que tenga más ataque en las 2 cartas elegidas; estas dos cartas se descartan y se robarán 2 nuevas. Si hay empate, se decidirá por la edad de los jugadores, comenzando el mayor.
 - Preparamos en la mesa 5 cartas de mercado del mazo destinado a estas, 3 cartas de enemigos del mazo de horda y una carta de escenario. La última carta de este mazo deberá ser el boss final.
+
+<img width="800" alt="ntfh-screenshot" src="https://consolaytablero.com/wp-content/uploads/2016/08/No-Time-For-Heroes-Rese%C3%B1a.jpg">
+
 
 Empieza el juego.
 
