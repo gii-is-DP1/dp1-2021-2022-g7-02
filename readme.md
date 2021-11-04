@@ -1,117 +1,39 @@
-# Spring PetClinic Sample Application 
+# No Time For Heroes
 
-This is a fork of https://github.com/spring-projects/spring-petclinic to be used for the DP1 course. The main changes that have been performed were:
-- Trimming several parts of the application to keep the example low
-- Reorganize some parts of the code according to best practices introduced in the course
+No Time For Heroes es un juego de rol en el que no hay tablero, siendo basado en héroes que luchan contra una horda de monstruos liderada por un boss final, tratando de vencer a la horda, y posteriormente siendo el héroe con más gloria.
 
-## Understanding the Spring Petclinic application with a few diagrams
-<a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
+Es un juego fácil y rápido en el cual pasar un buen rato con amigos de forma on-line.
 
-## Running petclinic locally
-Petclinic is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can build a jar file and run it from the command line:
+# Desarrollo de la partida
 
+En una partida puede haber desde 2 hasta 4 jugadores, desarrollándose de la siguiente manera:
+- Para empezar, cada jugador elige un héroe, no pudiendo haber dos del mismo tipo.
+- Después se eligen dos cartas de la mano para ver quien es el jugador que empieza, siendo este el que tenga más ataque en las 2 cartas elegidas; estas dos cartas se descartan y se robarán 2 nuevas. Si hay empate, se decidirá por la edad de los jugadores, comenzando el mayor.
+- Preparamos en la mesa 5 cartas de mercado del mazo destinado a estas, 3 cartas de enemigos del mazo de horda y una carta de escenario. La última carta de este mazo deberá ser el boss final.
 
-```
-git clone https://github.com/gii-is-DP1/spring-petclinic.git
-cd spring-petclinic
-./mvnw package
-java -jar target/*.jar
-```
+Empieza el juego.
 
-You can then access petclinic here: http://localhost:8080/
+Los turnos se dividen en 3 fases:
+- 1º Fase: el héroe utiliza sus cartas de habilidades para matar a los enemigos de la horda, cada vez que utiliza una carta de habilidad, esta va al mazo de descarte. Sus cartas irán infligiendo daño a los enemigos hasta matarlos,siempre y cuando este daño supere a sus puntos de fortaleza. Cada enemigo derrotado otorga unos puntos de gloria al jugador, y puede otorgar además puntos de gloria y/o monedas extras, que no se conocerán hasta derrotar al enemigo. 
+- 2º Fase: al terminar el turno, cada enemigo inflige al héroe un daño equivalente a la suma de las vidas que queden en las cartas de horda en el campo, (si haces daño a un enemigo, pero no lo matas, te hace el daño de su vida menos la vida que le has quitado).
+El daño que recibe el héroe se traduce en el número de cartas del mazo de habilidades que tienes que enviar al mazo de descarte. Si no tienes suficientes cartas en el mazo, se voltea el mazo de descarte, se baraja y se restablece tu mazo de habilidades, pero el héroe pierde 1 punto de vida; si se queda sin vidas el héroe correspondiente morirá y no participará más en el juego.
+- 3º Fase: es el turno de comprar en el mercado, utilizando las monedas que has recibido al matar a la horda, o de habilidades de ciertas cartas. Puedes comprar cartas de mercado, que suelen ser tanto ayudas como mejoras o armas para hacer más daño. Cada carta de mercado cuenta como una carta de habilidad más en el mazo.
 
-<img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
+Una vez terminadas las 3 fases, llega el turno al siguiente héroe. Se repondrán las cartas de mercado, hasta llegar a 5, y se añadirá un número de enemigos dependiendo de cuantos hayan sido derrotados. Si todos los enemigos de la mesa son derrotados en este turno, la carta de escenario cambiará, y se sacarán tres cartas nuevas del mazo de la horda. Si al finalizar aún quedan 1 o 2 enemigos con vida, se colocará una nueva carta de la horda.
 
-Or you can run it from Maven directly using the Spring Boot Maven plugin. If you do this it will pick up changes that you make in the project immediately (changes to Java source files require a compile as well - most people use an IDE for this):
+- Las partidas suelen durar en torno a 20-30 minutos, y terminan cuando se mata al boss final de la horda.
 
-```
-./mvnw spring-boot:run
-```
+Para elegir al vencedor de entre los héroes, se hará un recuento del número de fichas de gloria que tiene cada uno (estas fichas se consiguen con el botín de matar a las cartas de horda, o se te otorgan con las diferentes habilidades del mazo o del propio héroe) y el que tenga más será el vencedor.
 
-## In case you find a bug/suggested improvement for Spring Petclinic
-Our issue tracker is available here: https://github.com/gii-is-DP1/spring-petclinic/issues
+# Contenido de la aplicación
 
+En nuestra aplicación podras jugar de forma online con gente de todo el mundo, además de poder disfrutar del juego también tenemos disponibles todo tipo de logros los cuales haran una experiencia mas atractiva las partidas online, estos logros de iran actualizando y subiendo nuevos a lo largo de los días. También se incluye un apartado de estadísticas en las cuales se ve el desarrollo de tu perfil como jugador, asi podrás analizar y estudiar tu forma de jugar para identificar puntos débiles y mejorarlos. 
+La aplicación contiene rankings de mejores jugadores, esto supone un gran incentivo para la gente mas Pro, estar en el top semanal sera uno de los retos mas dificiles para el jugador.
 
-## Database configuration
+# Apartado de comunicación
 
-In its default configuration, Petclinic uses an in-memory database (H2) which
-gets populated at startup with data. 
+La aplicación forma parte de un proyecto de 6 alumnos de la universidad de Sevilla, si se encuentra algun bug podéis contactar con cualquiera de nosotros.
 
-## Working with Petclinic in your IDE
+# Apartado tecnológico
 
-### Prerequisites
-The following items should be installed in your system:
-* Java 8 or newer.
-* git command line tool (https://help.github.com/articles/set-up-git)
-* Your preferred IDE 
-  * Eclipse with the m2e plugin. Note: when m2e is available, there is an m2 icon in `Help -> About` dialog. If m2e is
-  not there, just follow the install process here: https://www.eclipse.org/m2e/
-  * [Spring Tools Suite](https://spring.io/tools) (STS)
-  * IntelliJ IDEA
-  * [VS Code](https://code.visualstudio.com)
-
-### Steps:
-
-1) On the command line
-```
-git clone https://github.com/gii-is-DP1/spring-petclinic.git
-```
-2) Inside Eclipse or STS
-```
-File -> Import -> Maven -> Existing Maven project
-```
-
-Then either build on the command line `./mvnw generate-resources` or using the Eclipse launcher (right click on project and `Run As -> Maven install`) to generate the css. Run the application main method by right clicking on it and choosing `Run As -> Java Application`.
-
-3) Inside IntelliJ IDEA
-
-In the main menu, choose `File -> Open` and select the Petclinic [pom.xml](pom.xml). Click on the `Open` button.
-
-CSS files are generated from the Maven build. You can either build them on the command line `./mvnw generate-resources`
-or right click on the `spring-petclinic` project then `Maven -> Generates sources and Update Folders`.
-
-A run configuration named `PetClinicApplication` should have been created for you if you're using a recent Ultimate
-version. Otherwise, run the application by right clicking on the `PetClinicApplication` main class and choosing
-`Run 'PetClinicApplication'`.
-
-4) Navigate to Petclinic
-
-Visit [http://localhost:8080](http://localhost:8080) in your browser.
-
-
-## Looking for something in particular?
-
-|Spring Boot Configuration | Class or Java property files  |
-|--------------------------|---|
-|The Main Class | [PetClinicApplication](https://github.com/gii-is-DP1/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java) |
-|Properties Files | [application.properties](https://github.com/gii-is-DP1/spring-petclinic/blob/master/src/main/resources) |
-|Caching | [CacheConfiguration](https://github.com/gii-is-DP1/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/system/CacheConfiguration.java) |
-
-## Interesting Spring Petclinic branches and forks
-
-The Spring Petclinic master branch in the main [spring-projects](https://github.com/spring-projects/spring-petclinic)
-GitHub org is the "canonical" implementation, currently based on Spring Boot and Thymeleaf. There are
-[quite a few forks](https://spring-petclinic.github.io/docs/forks.html) in a special GitHub org
-[spring-petclinic](https://github.com/spring-petclinic). If you have a special interest in a different technology stack
-that could be used to implement the Pet Clinic then please join the community there.
-
-# Contributing
-
-The [issue tracker](https://github.com/gii-is-DP1/spring-petclinic/issues) is the preferred channel for bug reports, features requests and submitting pull requests.
-
-For pull requests, editor preferences are available in the [editor config](.editorconfig) for easy use in common text editors. Read more and download plugins at <https://editorconfig.org>. If you have not previously done so, please fill out and submit the [Contributor License Agreement](https://cla.pivotal.io/sign/spring).
-
-# License
-
-The Spring PetClinic sample application is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
-
-[spring-petclinic]: https://github.com/spring-projects/spring-petclinic
-[spring-framework-petclinic]: https://github.com/spring-petclinic/spring-framework-petclinic
-[spring-petclinic-angularjs]: https://github.com/spring-petclinic/spring-petclinic-angularjs 
-[javaconfig branch]: https://github.com/spring-petclinic/spring-framework-petclinic/tree/javaconfig
-[spring-petclinic-angular]: https://github.com/spring-petclinic/spring-petclinic-angular
-[spring-petclinic-microservices]: https://github.com/spring-petclinic/spring-petclinic-microservices
-[spring-petclinic-reactjs]: https://github.com/spring-petclinic/spring-petclinic-reactjs
-[spring-petclinic-graphql]: https://github.com/spring-petclinic/spring-petclinic-graphql
-[spring-petclinic-kotlin]: https://github.com/spring-petclinic/spring-petclinic-kotlin
-[spring-petclinic-rest]: https://github.com/spring-petclinic/spring-petclinic-rest
+Este proyecto esta desarrollado en Java, Maven y Loombook.
