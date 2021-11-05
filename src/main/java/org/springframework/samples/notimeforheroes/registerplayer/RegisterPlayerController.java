@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.jugadoresregistrados;
+package org.springframework.samples.notimeforheroes.registerplayer;
 
 import java.util.Map;
 import java.util.Optional;
