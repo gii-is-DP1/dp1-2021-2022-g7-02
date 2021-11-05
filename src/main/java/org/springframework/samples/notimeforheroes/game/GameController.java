@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/game")
+@RequestMapping()
 public class GameController {
 	
-	public static final String GAMES_LISTING = "games/gamesListing";
+	public static final String GAMES_LISTING = "games/listadoGames";
 
 	@Autowired
 	GameService gameService;
 	
-	@GetMapping
+	@GetMapping("/games")
 	public String listGames(ModelMap model) {
-		model.addAttribute("game", gameService.findAll());
+		model.addAttribute("games", gameService.findAll());
 		return GAMES_LISTING;
 	}
 }
