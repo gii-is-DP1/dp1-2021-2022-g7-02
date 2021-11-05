@@ -70,5 +70,4 @@ INSERT INTO cartas_Localizacion(id,name,description) VALUES (1,'Campo','Un campo
 INSERT INTO usuarios_registrados(id,name,lastname, username, email, password) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze');
 INSERT INTO usuarios_registrados(id,name,lastname, username, email, password) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze');
 
-
-
+INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (1,1,'2021-11-05',3600,0);
