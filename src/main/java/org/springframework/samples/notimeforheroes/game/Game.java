@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.samples.notimeforheroes.jugadoresregistrados.JugadoresRegistrados;
 
 import lombok.Getter;
 import lombok.Setter;

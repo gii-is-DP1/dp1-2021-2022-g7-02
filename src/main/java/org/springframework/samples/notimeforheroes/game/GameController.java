@@ -2,6 +2,7 @@ package org.springframework.samples.notimeforheroes.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.GameService;
+import org.springframework.samples.notimeforheroes.jugadoresregistrados.RegisterPlayer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ public class GameController {
 
 	@Autowired
 	GameService gameService;
+	RegisterPlayer playerService;
 	
 	@GetMapping("/games")
 	public String listGames(ModelMap model) {
