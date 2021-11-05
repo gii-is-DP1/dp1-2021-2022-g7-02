@@ -19,12 +19,19 @@ import lombok.Setter;
 @Setter
 @Table(name = "games") 
 public class Game{
+	
+	@Id
+	@Column(name="id",columnDefinition = "INT")
+	@NotEmpty
+	private int id;
+	
+	
 	@Column(name="creator",columnDefinition = "INT")
 	@NotEmpty
-	private JugadoresRegistrados creator;
+	private int creator;		//Id del creador
 	
 	
-	private List<JugadoresRegistrados> players;			//TODO: Puede que no sea una propiedad
+	//private List<JugadoresRegistrados> players;			//TODO: Puede que no sea una propiedad
 	
 
 	@Column(name="duration",columnDefinition = "INT")
