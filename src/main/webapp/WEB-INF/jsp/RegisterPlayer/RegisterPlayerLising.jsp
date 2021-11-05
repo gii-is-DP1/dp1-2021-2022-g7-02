@@ -7,8 +7,8 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 
-<petclinic:layout pageName="jugadorRegistrado">
-    <h2>Jugadores Registrados</h2>
+<petclinic:layout pageName="RegisterPlayer">
+    <h2>Register Player</h2>
 
     <table id="ownersTable" class="table table-striped">
         <thead>
@@ -20,7 +20,7 @@
         </tr>
          </thead>
         <tbody>
-        <c:forEach items="${jugadores}" var="jugador">
+        <c:forEach items="${players}" var="player">
             <tr>
                 <!-- <td>
                    <spring:url value="/jugadores" var="jugadoresUrl">
@@ -29,24 +29,24 @@
                     <a href="${fn:escapeXml(cartaUrl)}"><c:out value="${carta.name}"/></a>
                 </td>-->
                 <td>
-                    <c:out value="${jugador.name}"/>
+                    <c:out value="${player.name}"/>
                 </td>
                 <td>
-                    <c:out value="${jugador.lastname}"/>
+                    <c:out value="${player.lastname}"/>
                 </td>
                 <td>
-                    <c:out value="${jugador.username}"/>
+                    <c:out value="${player.username}"/>
                 </td>
                 <td>
-                    <c:out value="${jugador.email}"/>
+                    <c:out value="${player.email}"/>
                 </td>
                 <td>
-                	<a href="/jugadores/${jugador.id}/edit">
+                	<a href="/players/${player.id}/edit">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
                 </td>
                 <td>
-                	<a href="/jugadores/${jugador.id}/delete">
+                	<a href="/players/${player.id}/delete">
                 	<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 	</a>
                 </td>        
@@ -55,4 +55,7 @@
         </c:forEach>
         </tbody>
     </table>
+    <p>
+    	<a href="/players/new" class="btn  btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Player</a>
+    </p>
 </petclinic:layout>
