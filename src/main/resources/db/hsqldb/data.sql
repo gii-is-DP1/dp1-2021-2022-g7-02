@@ -67,8 +67,8 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 */
 INSERT INTO cartas_Localizacion(id,name,description) VALUES (1,'Campo','Un campo muy bonito');
 
-INSERT INTO usuarios_registrados(id,name,lastname, username, email, password) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze');
-INSERT INTO usuarios_registrados(id,name,lastname, username, email, password) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze');
+INSERT INTO register_players(id,name,lastname, username, email, password) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze');
+INSERT INTO register_players(id,name,lastname, username, email, password) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze');
 
 
 
