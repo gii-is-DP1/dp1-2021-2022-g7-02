@@ -13,8 +13,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="register_players")
-public class RegisterPlayer extends NamedEntity{
+@Table(name="players")
+public class Player extends NamedEntity{
 
 	@Column(name="lastname",columnDefinition = "LONGTEXT")
     @NotEmpty

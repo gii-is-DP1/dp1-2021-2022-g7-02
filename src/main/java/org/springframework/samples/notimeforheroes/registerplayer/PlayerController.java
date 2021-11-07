@@ -17,69 +17,69 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/players")
-public class RegisterPlayerController {
+public class PlayerController {
 
-	public static final String REGISTER_PLAYER_LISING = "RegisterPlayer/RegisterPlayerLising";
-	public static final String REGISTER_PLAYER_FORM =  "RegisterPlayer/createOrUpdatePlayerForm";
+	public static final String PLAYER_LISTING = "players/playerLising";
+	public static final String PLAYER_FORM =  "players/createOrUpdatePlayerForm";
 	
 	@Autowired
-	RegisterPlayerService RegisterPlayerService;
+	PlayerService playerService;
 	
 	@GetMapping
-	public String listRegisterPlayer(ModelMap model) {
-		model.addAttribute("players", RegisterPlayerService.findAll());
-		return REGISTER_PLAYER_LISING;
+	public String listPlayers(ModelMap model) {
+		model.addAttribute("players", playerService.findAll());
+		return PLAYER_LISTING;
 	}
 	
 	@GetMapping("/{id}/edit")
 	public String editPlayer(ModelMap model, @PathVariable("id") int id) {
-		Optional<RegisterPlayer> player = RegisterPlayerService.findById(id);
+		Optional<Player> player = playerService.findById(id);
 		if(player.isPresent()) {
 			model.addAttribute("players", player.get());
-			return REGISTER_PLAYER_FORM;
+			return PLAYER_FORM;
 		} else {
-			model.addAttribute("message", "This player doesn't exits");
-			return listRegisterPlayer(model);
+			model.addAttribute("message", "This player doesn't exist");
+			return listPlayers(model);
 		}
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editPlayer(ModelMap model, @PathVariable("id") int id, @Valid RegisterPlayer modifiedPlayer, BindingResult result) {
-		Optional<RegisterPlayer> player = RegisterPlayerService.findById(id);
+	public String editPlayer(ModelMap model, @PathVariable("id") int id, @Valid Player modifiedPlayer, BindingResult result) {
+		Optional<Player> player = playerService.findById(id);
 		if(result.hasErrors()) {
 			model.addAttribute("message", "The player has errors");
-			return REGISTER_PLAYER_FORM;
+			return PLAYER_FORM;
 		} else {
 			BeanUtils.copyProperties(modifiedPlayer, player.get(), "id");
 			model.addAttribute("players", player.get());
-			return listRegisterPlayer(model);
+			return listPlayers(model);
 		}
 	}
 	
 	@GetMapping("/new")
 	public String newPlayer(Map<String, Object> map) {
-		RegisterPlayer player = new RegisterPlayer();
+		Player player = new Player();
 		map.put("players", player);
-		return REGISTER_PLAYER_FORM;
+		return PLAYER_FORM;
 	}
 	
 	@PostMapping("/new")
-	public String newPlayer(@Valid RegisterPlayer player,BindingResult result, ModelMap model) {
+	public String newPlayer(@Valid Player player,BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
-			return REGISTER_PLAYER_FORM;
+			return PLAYER_FORM;
 		} else {
-			RegisterPlayerService.createRegisterPlayer(player);
+			playerService.createRegisterPlayer(player);
 			model.addAttribute("message", "Player created");
-			return listRegisterPlayer(model);
+			return listPlayers(model);
 		}
 	}
 	
 	@GetMapping("/{id}/delete")
 	public String deletePlayer(ModelMap model, @PathVariable("id") int id) {
-		Optional<RegisterPlayer> player = RegisterPlayerService.findById(id);
-		RegisterPlayerService.deleteRegisterPlayer(player.get());
+		Optional<Player> player = playerService.findById(id);
+		playerService.deleteRegisterPlayer(player.get());
 		model.addAttribute("message", "Player Deleted");
-		return listRegisterPlayer(model);
+		return listPlayers(model);
 	}
 	
 	

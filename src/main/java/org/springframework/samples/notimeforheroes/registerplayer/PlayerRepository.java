@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface RegisterPlayerRepository extends CrudRepository<RegisterPlayer, Integer>{
+public interface PlayerRepository extends CrudRepository<Player, Integer>{
 
 	
-	Collection<RegisterPlayer> findAll();
+	Collection<Player> findAll();
 	
 }

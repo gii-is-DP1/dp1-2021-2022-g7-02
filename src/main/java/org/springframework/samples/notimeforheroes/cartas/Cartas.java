@@ -1,4 +1,4 @@
-package org.springframework.cartas;
+package org.springframework.samples.notimeforheroes.cartas;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
