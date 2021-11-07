@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/players")
 public class PlayerController {
 
-	public static final String PLAYER_LISTING = "players/playerLising";
+	public static final String PLAYER_LISTING = "players/playerListing";
 	public static final String PLAYER_FORM =  "players/createOrUpdatePlayerForm";
 	
 	@Autowired
