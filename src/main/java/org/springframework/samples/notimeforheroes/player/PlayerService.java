@@ -32,7 +32,7 @@ public class PlayerService {
 		}
 	
 	@Transactional
-	public void createRegisterPlayer(@Valid Player player) {
+	public void createPlayer(@Valid Player player) {
 		playerRepository.save(player);
 	}
 }

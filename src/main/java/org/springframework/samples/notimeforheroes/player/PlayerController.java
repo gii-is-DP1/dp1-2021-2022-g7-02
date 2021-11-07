@@ -68,7 +68,7 @@ public class PlayerController {
 		if(result.hasErrors()) {
 			return PLAYER_FORM;
 		} else {
-			playerService.createRegisterPlayer(player);
+			playerService.createPlayer(player);
 			model.addAttribute("message", "Player created");
 			return listPlayers(model);
 		}

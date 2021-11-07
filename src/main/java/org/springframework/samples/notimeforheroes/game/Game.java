@@ -37,7 +37,7 @@ public class Game{
 	
 	@ManyToOne
 	@JoinColumn(name="creator")
-	private Player creator;
+	private Player creator;									//TODO: Hay que hacer que tome el valor del jugador que la crea
 	
 	
 	//private List<JugadoresRegistrados> players;			//TODO: Es un one to many, hay que hacer un many to one en el otro lado
