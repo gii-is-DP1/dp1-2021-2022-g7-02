@@ -19,4 +19,9 @@ public class GameService {
 	public Optional<Game> findById(Integer id){
 		return GameRepo.findById(id);
 	}
+	
+	
+	public Collection<Game> findAllEnded(){
+		return GameRepo.findAllEnded();
+	}
 }

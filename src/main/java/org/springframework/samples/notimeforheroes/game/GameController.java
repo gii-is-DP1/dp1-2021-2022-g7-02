@@ -23,4 +23,10 @@ public class GameController {
 		model.addAttribute("games", gameService.findAll());
 		return GAMES_LISTING;
 	}
+	
+	@GetMapping("/games/ended")
+	public String listEndedGames(ModelMap model) {
+		model.addAttribute("games", gameService.findAllEnded());
+		return GAMES_LISTING;
+	}
 }
