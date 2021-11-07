@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.registerplayer;
+package org.springframework.samples.notimeforheroes.player;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -27,7 +27,7 @@ public class PlayerService {
 	}
 	
 	@Transactional
-	public void deleteRegisterPlayer(Player player) {
+	public void deletePlayer(Player player) {
 		playerRepository.deleteById(player.getId());
 		}
 	

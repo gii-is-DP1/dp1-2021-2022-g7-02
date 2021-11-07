@@ -21,6 +21,16 @@
             "request": "attach",
             "hostName": "localhost",
             "port": 0
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-NoTimeForHeroesApplication<spring-petclinic>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "org.springframework.samples.notimeforheroes.NoTimeForHeroesApplication",
+            "projectName": "spring-petclinic",
+            "args": ""
         }
     ]
 }

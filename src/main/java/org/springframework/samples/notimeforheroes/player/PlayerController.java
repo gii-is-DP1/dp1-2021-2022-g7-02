@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.registerplayer;
+package org.springframework.samples.notimeforheroes.player;
 
 import java.util.Map;
 import java.util.Optional;
@@ -77,7 +77,7 @@ public class PlayerController {
 	@GetMapping("/{id}/delete")
 	public String deletePlayer(ModelMap model, @PathVariable("id") int id) {
 		Optional<Player> player = playerService.findById(id);
-		playerService.deleteRegisterPlayer(player.get());
+		playerService.deletePlayer(player.get());
 		model.addAttribute("message", "Player Deleted");
 		return listPlayers(model);
 	}

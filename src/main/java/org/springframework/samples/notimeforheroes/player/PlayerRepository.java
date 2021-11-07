@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.registerplayer;
+package org.springframework.samples.notimeforheroes.player;
 
 import java.util.Collection;
 
