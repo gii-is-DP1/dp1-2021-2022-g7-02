@@ -1,19 +1,16 @@
 package org.springframework.samples.notimeforheroes.game;
 import java.time.LocalDate;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.player.Player;
-import org.springframework.samples.notimeforheroes.player.PlayerRepository;
-import org.springframework.samples.notimeforheroes.player.PlayerService;
+import org.springframework.samples.petclinic.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,23 +22,18 @@ import lombok.Setter;
 
 
 
-public class Game{
+public class Game extends BaseEntity{
 	
-	
-	
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
 	
 	
 	@ManyToOne
 	@JoinColumn(name="creator")
-	private Player creator;									//TODO: Hay que hacer que tome el valor del jugador que la crea
+	private Player creator;								//TODO: Hay que hacer que tome el valor del jugador que la crea
 	
-	
-	//private List<JugadoresRegistrados> players;			//TODO: Es un one to many, hay que hacer un many to one en el otro lado
-	
+	/*
+	@OneToMany
+	private Collection<Player> players;						
+	*/
 
 	@Column(name="duration",columnDefinition = "INT")
 	private Integer duration = 0;	//En segundos

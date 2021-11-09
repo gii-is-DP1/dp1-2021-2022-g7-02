@@ -23,7 +23,7 @@
         <c:forEach items="${games}" var="game">
             <tr>
                 <td>
-                	<c:out value="${game.creator}"/>
+                	<c:out value="${game.creator!=null ? game.creator : '?'}"/>
                 </td>
                 <td>
                     <c:out value="${game.date}"/>
@@ -40,7 +40,7 @@
         </tbody>
     </table>
     <p>
-    	<a href="/games/new" class="btn  btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>New Game</a>
+    	<a href="/games/new" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>New Game</a>
     </p>
     
 </petclinic:layout>
