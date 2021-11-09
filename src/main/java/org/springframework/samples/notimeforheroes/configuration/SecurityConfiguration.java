@@ -29,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	DataSource dataSource;
-	/*
+	
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/vets/**").authenticated()
-				.anyRequest().denyAll()
+				.anyRequest().permitAll()
 				.and()
 				 	.formLogin()
 				 	//.loginPage("/login")
@@ -57,19 +57,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 http.csrf().ignoringAntMatchers("/h2-console/**");
                 http.headers().frameOptions().sameOrigin();
 	}
-	*/
 	
-
+	
+	/*
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http 
 			.csrf() 
 			.disable()
 			.authorizeRequests()
-			.antMatchers("/**").permitAll()
-			.anyRequest().authenticated();
+			.anyRequest().permitAll();
 	}
-	
+	*/
 	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {

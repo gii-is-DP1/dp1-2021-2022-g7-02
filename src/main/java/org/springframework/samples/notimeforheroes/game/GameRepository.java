@@ -10,8 +10,10 @@ public interface GameRepository extends CrudRepository<Game, Integer>{
 	
 	Collection<Game> findAll();
 	
-	@Query("SELECT g FROM games g WHERE g.isInProgress = 1")
+	@Query("SELECT g FROM games g WHERE g.isInProgress = 0")
 	Collection<Game> findAllEnded();
+
+	Collection<Game> findAllByIsInProgress(Integer isInProgress);
 	
 	
 }

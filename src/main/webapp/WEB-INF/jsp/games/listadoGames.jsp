@@ -32,11 +32,15 @@
                     <c:out value="${game.duration}"/>
                 </td>
                 <td>
-                    <c:out value="${game.isInProgress}"/>
+                    <c:out value="${game.isInProgress == 1 ? 'Sí' : 'No'}"/>
                 </td>
                 <td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+    <p>
+    	<a href="/games/new" class="btn  btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>New Game</a>
+    </p>
+    
 </petclinic:layout>

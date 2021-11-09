@@ -1,4 +1,4 @@
-package org.springframework.cartas;
+package org.springframework.samples.notimeforheroes.cartas;
 
 import java.util.Collection;
 import java.util.Optional;
