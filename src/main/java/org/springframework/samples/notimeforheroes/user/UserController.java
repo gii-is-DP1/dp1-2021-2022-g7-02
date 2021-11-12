@@ -35,7 +35,7 @@ public class UserController {
 	public String editUser(ModelMap model, @PathVariable("id") int id) {
 		Optional<User> user = userService.findById(id);
 		if(user.isPresent()) {
-			model.addAttribute("players", user.get());
+			model.addAttribute("users", user.get());
 			return USER_FORM;
 		} else {
 			model.addAttribute("message", "This user doesn't exist");
