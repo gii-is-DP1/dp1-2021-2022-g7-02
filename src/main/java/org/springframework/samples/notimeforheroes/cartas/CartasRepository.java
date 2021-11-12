@@ -12,4 +12,6 @@ public interface CartasRepository extends CrudRepository<Cartas, Integer>{
 		
 		Collection<Cartas> findAll();
 		
+		
+		
 	}

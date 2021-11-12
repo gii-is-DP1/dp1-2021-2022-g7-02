@@ -15,5 +15,6 @@ public interface GameRepository extends CrudRepository<Game, Integer>{
 
 	Collection<Game> findAllByIsInProgress(Integer isInProgress);
 	
+
 	
 }
