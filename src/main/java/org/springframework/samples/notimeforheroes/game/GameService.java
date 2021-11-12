@@ -8,8 +8,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.notimeforheroes.player.Player;
-import org.springframework.samples.notimeforheroes.player.PlayerService;
+import org.springframework.samples.notimeforheroes.user.User;
+import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +19,7 @@ public class GameService {
 	GameRepository gameRepository;
 
 	@Autowired
-	PlayerService playerService;
+	UserService playerService;
 	
 	public Collection<Game> findAll(){
 		return gameRepository.findAll();
