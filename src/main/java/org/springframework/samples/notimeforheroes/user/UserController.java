@@ -57,7 +57,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/new")
-	public String newPlayer(Map<String, Object> map) {
+	public String newUser(Map<String, Object> map) {
 		User user = new User();
 		map.put("users", user);
 		return USER_FORM;
