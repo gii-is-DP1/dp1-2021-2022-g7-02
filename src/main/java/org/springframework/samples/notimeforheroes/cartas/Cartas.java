@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="usuarios_registrados")
+@Table(name="cartas")
 public class Cartas extends NamedEntity{
 
 	@Column(name="type",columnDefinition = "LONGTEXT")
@@ -23,10 +23,6 @@ public class Cartas extends NamedEntity{
 	@Column(name="life",columnDefinition = "LONGTEXT")
     @NotEmpty
 	private Integer life;
-	
-	@Column(name="available",columnDefinition = "LONGTEXT")
-    @NotEmpty
-	private Boolean available;
 	
 	@Column(name="glory",columnDefinition = "LONGTEXT")
     @NotEmpty
