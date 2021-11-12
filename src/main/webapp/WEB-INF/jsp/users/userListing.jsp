@@ -7,8 +7,8 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 
-<petclinic:layout pageName="RegisterPlayer">
-    <h2>Register Player</h2>
+<petclinic:layout pageName="RegisterUser">
+    <h2>Register User</h2>
 
     <table id="ownersTable" class="table table-striped">
         <thead>
@@ -20,7 +20,7 @@
         </tr>
          </thead>
         <tbody>
-        <c:forEach items="${players}" var="player">
+        <c:forEach items="${users}" var="user">
             <tr>
                 <!-- <td>
                    <spring:url value="/jugadores" var="jugadoresUrl">
@@ -29,24 +29,24 @@
                     <a href="${fn:escapeXml(cartaUrl)}"><c:out value="${carta.name}"/></a>
                 </td>-->
                 <td>
-                    <c:out value="${player.name}"/>
+                    <c:out value="${user.name}"/>
                 </td>
                 <td>
-                    <c:out value="${player.lastname}"/>
+                    <c:out value="${user.lastname}"/>
                 </td>
                 <td>
-                    <c:out value="${player.username}"/>
+                    <c:out value="${user.username}"/>
                 </td>
                 <td>
-                    <c:out value="${player.email}"/>
+                    <c:out value="${user.email}"/>
                 </td>
                 <td>
-                	<a href="/players/${player.id}/edit">
+                	<a href="/users/${user.id}/edit">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
                 </td>
                 <td>
-                	<a href="/players/${player.id}/delete">
+                	<a href="/users/${user.id}/delete">
                 	<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 	</a>
                 </td>        
@@ -56,6 +56,6 @@
         </tbody>
     </table>
     <p>
-    	<a href="/players/new" class="btn  btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Player</a>
+    	<a href="/users/new" class="btn  btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add User</a>
     </p>
 </petclinic:layout>

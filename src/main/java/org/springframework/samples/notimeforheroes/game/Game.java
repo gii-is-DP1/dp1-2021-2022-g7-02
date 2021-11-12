@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.samples.notimeforheroes.player.Player;
+import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
 import lombok.Getter;
@@ -28,7 +28,7 @@ public class Game extends BaseEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="creator")
-	private Player creator;								//TODO: Hay que hacer que tome el valor del jugador que la crea
+	private User creator;								//TODO: Hay que hacer que tome el valor del jugador que la crea
 	
 	/*
 	@OneToMany
