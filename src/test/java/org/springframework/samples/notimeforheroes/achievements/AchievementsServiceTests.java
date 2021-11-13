@@ -7,9 +7,12 @@ import java.util.Collection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.notimeforheroes.achievements.exceptions.DuplicatedAchievementNameException;
-import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
+import org.springframework.stereotype.Service;
 
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class AchievementsServiceTests {
 
 	@Autowired
@@ -68,16 +71,14 @@ public class AchievementsServiceTests {
 
 
 	@Test
-	public void testEditAchievementSameName() throws DuplicatedUserEmailException{
+	public void testEditAchievementSameName() throws DuplicatedAchievementNameException{
 		String name = achievementsService.findById(1).get().getName();
 
 		Achievement achievement= new Achievement();
 		achievement.setName(name);
 		achievement.setDescription("Play 10 games");
 	
-		
-		//playerService.createPlayer(player);
-		
+				
 		Assertions.assertThrows(DuplicatedAchievementNameException.class, () ->{
 			achievementsService.createAchievement(achievement);
 		});	
