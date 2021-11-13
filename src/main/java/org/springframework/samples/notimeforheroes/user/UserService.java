@@ -18,6 +18,9 @@ public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	AuthoritiesService authoritiesService;
 	
 	@Transactional
 	public Collection<User> findAll(){
@@ -28,6 +31,10 @@ public class UserService {
 	public Optional<User> findById(Integer id){
 		return userRepository.findById(id);
 	}
+
+	public Optional<User> findByUsername(String username){
+		return userRepository.findByUsername(username);
+	}
 	
 	@Transactional
 	public void deleteUser(User user) {
@@ -36,7 +43,9 @@ public class UserService {
 	
 	@Transactional
 	public void createUser(@Valid User user) {
+		user.setEnabled(true);
 		userRepository.save(user);
+		authoritiesService.saveAuthorities(user.getUsername(), "player");
 	}
 	
 	@Transactional(rollbackOn = DuplicatedUserEmailException.class)
