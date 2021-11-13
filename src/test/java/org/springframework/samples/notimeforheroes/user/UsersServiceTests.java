@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.notimeforheroes.user.User;
-import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Service;
 
@@ -80,8 +78,10 @@ public class UsersServiceTests {
 		assertThat(user.getName()).isEqualTo(newName);
 	}
 	
+
+
 	@Test
-	public void testEditarJugadorMismoNombre(){
+	public void testEditUserSameName() throws DuplicatedUserEmailException{
 		String email = userService.findById(1).get().getEmail();
 
 		User  user= new User();
@@ -91,18 +91,12 @@ public class UsersServiceTests {
 		user.setUsername("Jose7");
 		user.setPassword("1234");
 		
-		try {
-			userService.createUser(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//playerService.createPlayer(player);
 		
 		Assertions.assertThrows(DuplicatedUserEmailException.class, () ->{
-			user.setEmail("Jose1@gmail.com");
 			userService.createUser(user);
 		});	
 
 		
 	}
-
 }
