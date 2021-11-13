@@ -72,3 +72,5 @@ INSERT INTO users(id,name,lastname, username, email, password) VALUES (2,'Albert
 
 INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (1,1,'2021-11-03',1000,1);
 INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (2,2,'2021-11-05',3600,0);
+
+INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
