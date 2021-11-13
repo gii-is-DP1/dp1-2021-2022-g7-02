@@ -80,7 +80,7 @@ public class AchievementsServiceTests {
 	
 				
 		Assertions.assertThrows(DuplicatedAchievementNameException.class, () ->{
-			achievementsService.createAchievement(achievement);
+			achievementsService.saveAchievement(achievement);
 		});	
 
 		
