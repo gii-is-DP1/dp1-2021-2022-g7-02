@@ -21,6 +21,7 @@ public class UserController {
 
 	public static final String USER_LISTING = "users/userListing";
 	public static final String USER_FORM =  "users/createOrUpdateUserForm";
+	public static final String USER_DETAILS =  "users/userDetails";
 	
 	@Autowired
 	UserService userService;
@@ -29,6 +30,18 @@ public class UserController {
 	public String listUsers(ModelMap model) {
 		model.addAttribute("users", userService.findAll());
 		return USER_LISTING;
+	}
+	
+	@GetMapping("/{id}/details")
+	public String PlayerDetails(ModelMap model, @PathVariable("id") int id) {
+		Optional<User> user = userService.findById(id);
+		if(user.isPresent()) {
+			model.addAttribute("user", user.get());
+			return USER_DETAILS;
+		} else {
+			model.addAttribute("message", "This user doesn't exits");
+			return listUsers(model);
+		}
 	}
 	
 	@GetMapping("/{id}/edit")
@@ -57,7 +70,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/new")
-	public String newPlayer(Map<String, Object> map) {
+	public String newUser(Map<String, Object> map) {
 		User user = new User();
 		map.put("users", user);
 		return USER_FORM;
