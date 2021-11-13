@@ -8,8 +8,11 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +22,7 @@ public class GameService {
 	GameRepository gameRepository;
 
 	@Autowired
-	UserService playerService;
+	UserService userService;
 	
 	public Collection<Game> findAll(){
 		return gameRepository.findAll();
@@ -39,9 +42,26 @@ public class GameService {
 	}
 	
 	@Transactional
-	public void createGame(@Valid Game game) {
-		//game.setPlayers(List.of(playerService.findById(1).get()));	//TODO: Cambiar el 1 por la id del creador
-		gameRepository.save(game);
+	public void createGame(@Valid Game game){	
+		
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			User creator;
+			if(auth == null){
+				creator = null; 
+			}else{
+				String creatorUsername = ((org.springframework.security.core.userdetails.User)auth.getPrincipal()).getUsername();
+				creator = userService.findByUsername(creatorUsername).get();
+			}
+			
+			game.setCreator(creator);
+
+			//TODO: Añadir el creador a los jugadores
+
+			gameRepository.save(game);
+		
+
+
+		
 	}
 	
 	@Transactional

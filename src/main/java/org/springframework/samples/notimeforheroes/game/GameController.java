@@ -5,6 +5,9 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -49,14 +52,29 @@ public class GameController {
 	}
 	
 	@PostMapping("/new")
-	public String newGame(@Valid Game game, BindingResult result, ModelMap model) {
+	public String newGame(@Valid Game game, BindingResult result, ModelMap model) throws NotAuthenticatedError {
 		if(result.hasErrors()) {
 			System.out.println("ERRORES: " + result.getErrorCount());
 			result.getAllErrors().forEach(error -> System.out.println(error.toString()));
 			return GAMES_FORM;
 		}else {
-			gameService.createGame(game);
-			model.addAttribute("message", "Game created");
+
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if(auth.isAuthenticated()){
+
+				try {
+					gameService.createGame(game);
+					model.addAttribute("message", "Game created");
+					
+				} catch (Exception e) {
+					model.addAttribute("message", "ERROR: Partida no creada");
+					e.printStackTrace();
+				}	
+			}else{
+				model.addAttribute("message", "ERROR: Usuario no identificado");
+			}
+
+			
 			return listGames(model);
 		}
 	}
