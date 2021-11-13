@@ -60,8 +60,8 @@ public class GameController {
 		}else {
 
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if(auth.isAuthenticated()){
-
+			if(!auth.getPrincipal().toString().equals("anonymousUser")){		//Si estamos logeados
+				System.out.println();
 				try {
 					gameService.createGame(game);
 					model.addAttribute("message", "Game created");
@@ -70,7 +70,7 @@ public class GameController {
 					model.addAttribute("message", "ERROR: Partida no creada");
 					e.printStackTrace();
 				}	
-			}else{
+			}else{																//Si no estamos logeados
 				model.addAttribute("message", "ERROR: Usuario no identificado");
 			}
 

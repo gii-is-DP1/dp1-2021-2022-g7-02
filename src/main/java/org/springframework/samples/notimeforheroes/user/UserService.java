@@ -10,6 +10,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.notimeforheroes.game.Game;
+import org.springframework.samples.notimeforheroes.game.GameService;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,9 @@ public class UserService {
 
 	@Autowired
 	AuthoritiesService authoritiesService;
+
+	@Autowired
+	GameService gameService;
 	
 	@Transactional
 	public Collection<User> findAll(){
@@ -38,6 +43,11 @@ public class UserService {
 	
 	@Transactional
 	public void deleteUser(User user) {
+		Collection<Game> gamesOfUser = gameService.findAllByCreator(user);
+		for(Game game : gamesOfUser){
+			System.out.println(game);
+			gameService.deleteGame(game);
+		}
 		userRepository.deleteById(user.getId());
 		}
 	

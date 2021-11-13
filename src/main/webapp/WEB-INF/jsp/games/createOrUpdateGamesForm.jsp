@@ -20,7 +20,11 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                  <a href="/games" class="btn btn-default" type="submit">Create</a>
+
+                <a href="/games">
+                    <button  class="btn btn-default" type="submit">Create</button>
+                </a>
+                  
             </div>
         </div>
     </form:form>

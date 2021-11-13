@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-md-12">
             <spring:url value="/resources/images/pets.png" htmlEscape="true" var="petsImage"/>
-            <img class="img-responsive" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNAQQH8c5JvZpKgD9zE2UffaVNhp-T6-476w&usqp=CAU"/>
+            <img class="img-responsive" src="https://ludonoticias.com/wp-content/uploads/2016/01/No-time-for-heroes-cover.jpg"/>
         </div>
     </div>
 </petclinic:layout>
