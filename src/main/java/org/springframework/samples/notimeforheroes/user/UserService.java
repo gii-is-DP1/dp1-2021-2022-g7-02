@@ -41,23 +41,21 @@ public class UserService {
 		userRepository.deleteById(user.getId());
 		}
 	
-	@Transactional
-	public void createUser(@Valid User user) {
-		user.setEnabled(true);
-		userRepository.save(user);
-		authoritiesService.saveAuthorities(user.getUsername(), "player");
-	}
 	
 	@Transactional(rollbackOn = DuplicatedUserEmailException.class)
-	public void savePlayer(User player) throws DataAccessException,DuplicatedUserEmailException { // 
+	public void saveUser(@Valid User user) throws DataAccessException,DuplicatedUserEmailException { // 
 			List<String> emails=new ArrayList<String>();
 			List<User> jugadores= (List<User>) this.findAll();
 			for (int i=0; i<jugadores.size(); i++) {
-				emails.add(jugadores.get(i).getEmail());				
+				if(!jugadores.get(i).getId().equals(user.getId()))
+					emails.add(jugadores.get(i).getEmail());				
 			}
-            if (emails.contains(player.getEmail())) {            	
+            if (emails.contains(user.getEmail())) {            	
             	throw new DuplicatedUserEmailException();
-            }else
-                userRepository.save(player);                
+            }else{
+				user.setEnabled(true);
+				userRepository.save(user);
+				authoritiesService.saveAuthorities(user.getUsername(), "player");
+			}           
 	}
 }

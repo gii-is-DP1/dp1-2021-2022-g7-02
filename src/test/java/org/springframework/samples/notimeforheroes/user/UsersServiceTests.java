@@ -66,13 +66,13 @@ public class UsersServiceTests {
 	}
 
 	@Test
-	public void testEditUser(){
+	public void testEditUser() throws DuplicatedUserEmailException{
 		User user = userService.findById(1).get();
 		String oldName = user.getName();
 
 		String newName = oldName + "X";
 		user.setName(newName);
-		userService.createUser(user);
+		userService.saveUser(user);
 
 		user = userService.findById(1).get();
 		assertThat(user.getName()).isEqualTo(newName);
@@ -94,7 +94,7 @@ public class UsersServiceTests {
 		//playerService.createPlayer(player);
 		
 		Assertions.assertThrows(DuplicatedUserEmailException.class, () ->{
-			userService.createUser(user);
+			userService.saveUser(user);
 		});	
 
 		

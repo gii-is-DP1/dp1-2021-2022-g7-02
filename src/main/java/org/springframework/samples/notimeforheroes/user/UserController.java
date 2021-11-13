@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -77,11 +79,11 @@ public class UserController {
 	}
 	
 	@PostMapping("/new")
-	public String newUser(@Valid User user,BindingResult result, ModelMap model) {
+	public String newUser(@Valid User user,BindingResult result, ModelMap model) throws DataAccessException, DuplicatedUserEmailException {
 		if(result.hasErrors()) {
 			return USER_FORM;
 		} else {
-			userService.createUser(user);
+			userService.saveUser(user);
 			model.addAttribute("message", "User created");
 			return listUsers(model);
 		}
