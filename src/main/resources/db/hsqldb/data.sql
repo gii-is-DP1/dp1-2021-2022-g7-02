@@ -61,6 +61,13 @@ INSERT INTO cartas_Localizacion(id,name,description) VALUES (1,'Campo','Un campo
 
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze',TRUE);
+INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (3,'Pablo','Espada','pabloespada', 'pablo@email.com','123',TRUE);
+
+INSERT INTO authorities(id,authority,username) VALUES (1,'admin','pabloespada');
+INSERT INTO authorities(id,authority,username) VALUES (2,'admin','peras2');
+INSERT INTO authorities(id,authority,username) VALUES (3,'admin','juangar2');
+
+
 
 INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (1,1,'2021-11-03',1000,1);
 INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (2,2,'2021-11-05',3600,0);

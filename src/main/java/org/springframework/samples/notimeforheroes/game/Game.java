@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,10 +31,10 @@ public class Game extends BaseEntity{
 	@JoinColumn(name="creator")
 	private User creator;								//TODO: Hay que hacer que tome el valor del jugador que la crea
 	
-	/*
-	@OneToMany
-	private Collection<Player> players;						
-	*/
+	
+	@ManyToMany
+	private Collection<User> players;						
+	
 
 	@Column(name="duration",columnDefinition = "INT")
 	private Integer duration = 0;	//En segundos
