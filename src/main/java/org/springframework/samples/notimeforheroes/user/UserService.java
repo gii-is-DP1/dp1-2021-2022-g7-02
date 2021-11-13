@@ -1,12 +1,16 @@
 package org.springframework.samples.notimeforheroes.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,5 +46,18 @@ public class UserService {
 		user.setEnabled(true);
 		userRepository.save(user);
 		authoritiesService.saveAuthorities(user.getUsername(), "player");
+	}
+	
+	@Transactional(rollbackOn = DuplicatedUserEmailException.class)
+	public void savePlayer(User player) throws DataAccessException,DuplicatedUserEmailException { // 
+			List<String> emails=new ArrayList<String>();
+			List<User> jugadores= (List<User>) this.findAll();
+			for (int i=0; i<jugadores.size(); i++) {
+				emails.add(jugadores.get(i).getEmail());				
+			}
+            if (emails.contains(player.getEmail())) {            	
+            	throw new DuplicatedUserEmailException();
+            }else
+                userRepository.save(player);                
 	}
 }

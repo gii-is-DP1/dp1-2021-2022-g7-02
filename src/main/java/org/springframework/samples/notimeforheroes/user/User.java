@@ -9,13 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.core.sym.Name;
 
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.samples.petclinic.model.NamedEntity;
 
 import lombok.Getter;
