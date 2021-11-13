@@ -29,7 +29,7 @@ public class Game extends BaseEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="creator")
-	private User creator;								//TODO: Hay que hacer que tome el valor del jugador que la crea
+	private User creator;				
 	
 	
 	@ManyToMany
@@ -42,8 +42,8 @@ public class Game extends BaseEntity{
 	@Column(name = "date", columnDefinition = "DATE")
 	private LocalDate date = LocalDate.now();
 	
-	@Column(name="isInProgress", columnDefinition = "INT")
-	private Integer isInProgress = 1;						// 1 = está en progreso. 0 = no está en progreso.
+	@Column()
+	private Boolean isInProgress = true;						
 
 	@Override
 	public String toString() {

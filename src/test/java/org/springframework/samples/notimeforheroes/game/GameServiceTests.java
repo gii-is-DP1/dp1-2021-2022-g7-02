@@ -64,7 +64,7 @@ public class GameServiceTests {
 		game.setCreator(userService.findById(1).orElse(null));
 		game.setDate(LocalDate.now());
 		game.setDuration(4000);
-		game.setIsInProgress(0);
+		game.setIsInProgress(false);
 		gameService.createGame(game);
 		Collection<Game> gamesInDatabase = gameService.findAll();
 		
@@ -77,7 +77,7 @@ public class GameServiceTests {
 		game.setCreator(userService.findById(1).orElse(null));
 		game.setDate(LocalDate.now());
 		game.setDuration(4000);
-		game.setIsInProgress(0);
+		game.setIsInProgress(false);
 		gameService.createGame(game);
 		Collection<Game> gamesInDatabase = gameService.findAll();
 		assertTrue(gamesInDatabase.contains(game));
@@ -115,7 +115,7 @@ public class GameServiceTests {
 		g.setCreator(userService.findById(creatorId).get());
 		g.setDate(date);
 		g.setDuration(duration);
-		g.setIsInProgress(isInProgress ? 1 : 0);
+		g.setIsInProgress(isInProgress);
 		
 		return g;
 	}

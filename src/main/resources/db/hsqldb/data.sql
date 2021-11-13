@@ -57,8 +57,6 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 */
 
-INSERT INTO cartas_Localizacion(id,name,description) VALUES (1,'Campo','Un campo muy bonito');
-
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (3,'Pablo','Espada','pabloespada', 'pablo@email.com','123',TRUE);
@@ -69,7 +67,7 @@ INSERT INTO authorities(id,authority,username) VALUES (3,'admin','juangar2');
 
 
 
-INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (1,1,'2021-11-03',1000,1);
-INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (2,2,'2021-11-05',3600,0);
+INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (1,1,'2021-11-03',1000,TRUE);
+INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (2,2,'2021-11-05',3600,FALSE);
 
 INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');

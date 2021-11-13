@@ -1,6 +1,7 @@
 package org.springframework.samples.notimeforheroes.game;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -37,7 +38,11 @@ public class GameService {
 	}
 	
 	public Collection<Game> findAllByIsInProgress(){
-		return gameRepository.findAllByIsInProgress(1);
+		return gameRepository.findAllByIsInProgress(true);
+	}
+
+	public Collection<Game> findAllByCreator(User user){
+		return gameRepository.findAllByCreator(user);
 	}
 	
 	@Transactional
@@ -54,7 +59,7 @@ public class GameService {
 			
 			game.setCreator(creator);
 
-			//TODO: Añadir el creador a los jugadores
+			game.setPlayers(List.of(creator));
 
 			gameRepository.save(game);
 		

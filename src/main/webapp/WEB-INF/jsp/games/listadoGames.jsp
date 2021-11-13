@@ -32,7 +32,7 @@
                     <c:out value="${game.duration}"/>
                 </td>
                 <td>
-                    <c:out value="${game.isInProgress == 1 ? 'Sí' : 'No'}"/>
+                    <c:out value="${game.isInProgress ? 'Sí' : 'No'}"/>
                 </td>
                 <td>
             </tr>
