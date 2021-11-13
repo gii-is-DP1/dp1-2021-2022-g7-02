@@ -42,11 +42,13 @@ public class AchievementService {
 	
 	
 	@Transactional(rollbackOn = DuplicatedAchievementNameException.class)
-	public void saveAchievement(Achievement achievement) throws DataAccessException,DuplicatedAchievementNameException { // 
+	public void saveAchievement(Achievement achievement) throws DataAccessException,DuplicatedAchievementNameException { 
 			List<String> names=new ArrayList<String>();
 			List<Achievement> achievements= (List<Achievement>) this.findAll();
 			for (int i=0; i<achievements.size(); i++) {
-				names.add(achievements.get(i).getName());				
+				names.add(achievements.get(i).getName());
+				if(!achievements.get(i).getId().equals(achievement.getId()))
+					names.add(achievements.get(i).getName());
 			}
             if (names.contains(achievement.getName())) {            	
             	throw new DuplicatedAchievementNameException();
