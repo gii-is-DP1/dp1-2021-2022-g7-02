@@ -34,12 +34,12 @@
                     <c:out value="${achievement.description}"/>
                 </td>
                 <td>
-                	<a href="/achievement/${achievement.id}/edit">
+                	<a href="/achievements/${achievement.id}/edit">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
                 </td>
                 <td>
-                	<a href="/achievement/${achievement.id}/delete">
+                	<a href="/achievements/${achievement.id}/delete">
                 	<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 	</a>
                 </td>                     
@@ -50,6 +50,6 @@
         </tbody>
     </table>
     <p>
-    	<a href="/achievements/new" class="btn  btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Achievementr</a>
+    	<a href="/achievements/new" class="btn  btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Achievement</a>
     </p>
 </petclinic:layout>
