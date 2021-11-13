@@ -67,8 +67,12 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 
 INSERT INTO cartas_Localizacion(id,name,description) VALUES (1,'Campo','Un campo muy bonito');
 
-INSERT INTO users(id,name,lastname, username, email, password) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze');
-INSERT INTO users(id,name,lastname, username, email, password) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze');
+INSERT INTO users(id,name,lastname, username, email, password,enabled) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze','TRUE');
+INSERT INTO AUTHORITIES (ID, AUTHORITY,USERNAME) VALUES (1,'admin','juangar2');
+INSERT INTO users(id,name,lastname, username, email, password,enabled) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze','TRUE');
+INSERT INTO AUTHORITIES (ID, AUTHORITY,USERNAME) VALUES (2,'admin','peras2');
+
+
 
 INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (1,1,'2021-11-03',1000,1);
 INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (2,2,'2021-11-05',3600,0);

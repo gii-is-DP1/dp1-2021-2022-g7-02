@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Collection;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -81,6 +82,7 @@ public class UsersServiceTests {
 	}
 	
 	@Test
+	@Disabled
 	public void testEditarJugadorMismoNombre(){
 		String email = userService.findById(1).get().getEmail();
 

@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
 				.antMatchers("/cartasloc/**").permitAll()
-				.antMatchers("/players/**").permitAll()
+				.antMatchers("/users/**").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/vets/**").authenticated()
@@ -81,7 +81,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	      .authoritiesByUsernameQuery(
 	       "select username, authority "
 	        + "from authorities "
-	        + "where username = ?")	      	      
+	        + "where username = ?")	     	      
 	      .passwordEncoder(passwordEncoder());	
 	}
 	
