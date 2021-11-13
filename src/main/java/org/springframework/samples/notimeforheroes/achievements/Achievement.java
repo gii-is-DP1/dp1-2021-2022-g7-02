@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="achievement")
+@Table(name="achievement" /*, uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) }*/)
 public class Achievement extends NamedEntity{
 
 	@Column(name="description",columnDefinition = "LONGTEXT")
