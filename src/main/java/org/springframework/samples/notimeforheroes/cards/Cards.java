@@ -21,15 +21,15 @@ public class Cards extends NamedEntity{
 	private String type;
 	
 	@Column(name="life",columnDefinition = "LONGTEXT")
-    @NotEmpty
+    
 	private Integer life;
 	
 	@Column(name="glory",columnDefinition = "LONGTEXT")
-    @NotEmpty
+    
 	private Integer glory;
 
 	@Column(name="gold",columnDefinition = "LONGTEXT")
-    @NotEmpty
+    
 	private Integer gold;
 	
 	@Column(name="skill",columnDefinition = "LONGTEXT")
@@ -37,15 +37,15 @@ public class Cards extends NamedEntity{
 	private String skill;
 	
 	@Column(name="extraglory",columnDefinition = "LONGTEXT")
-    @NotEmpty
+    
 	private Integer extraglory;
 	
 	@Column(name="color",columnDefinition = "LONGTEXT")
     @NotEmpty
 	private String color;
 	
-	@Column(name="deckId",columnDefinition = "LONGTEXT")
-    @NotEmpty
-	private Integer deckId;
+	@Column(name="deckid",columnDefinition = "LONGTEXT")
+    
+	private Integer deckid;
 	
 }
