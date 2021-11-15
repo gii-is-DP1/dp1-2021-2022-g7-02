@@ -16,70 +16,71 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/cartas")
+@RequestMapping("/cards")
 public class CardsController {
 
-	public static final String CARTAS_LISTING = "cartas/cartasListing";
-	public static final String CARTAS_FORM =  "cartas/createOrUpdatecartasForm";
+	public static final String CARDS_LISTING = "cards/cardsListing";
+	public static final String CARDS_FORM =  "cards/createOrUpdatecardsForm";
 	
 	@Autowired
-	CardsService cartasService;
+	CardsService cardsService;
+	
 	
 	@GetMapping
-	public String listCartas(ModelMap model) {
-		model.addAttribute("cartas", cartasService.findAll());
-		return CARTAS_LISTING;
+	public String listCards(ModelMap model) {
+		model.addAttribute("cards", cardsService.findAll());
+		return CARDS_LISTING;
 	}
 	
 	@GetMapping("/{id}/edit")
-	public String editCarta(ModelMap model, @PathVariable("id") int id) {
-		Optional<Cards> carta = cartasService.findById(id);
-		if(carta.isPresent()) {
-			model.addAttribute("cartas", carta.get());
-			return CARTAS_FORM;
+	public String editCard(ModelMap model, @PathVariable("id") int id) {
+		Optional<Cards> card = cardsService.findById(id);
+		if(card.isPresent()) {
+			model.addAttribute("cards", card.get());
+			return CARDS_FORM;
 		} else {
 			model.addAttribute("message", "This card doesn't exist");
-			return listCartas(model);
+			return listCards(model);
 		}
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editCarta(ModelMap model, @PathVariable("id") int id, @Valid Cards modifiedCartas, BindingResult result) {
-		Optional<Cards> carta = cartasService.findById(id);
+	public String editCard(ModelMap model, @PathVariable("id") int id, @Valid Cards modifiedCards, BindingResult result) {
+		Optional<Cards> card = cardsService.findById(id);
 		if(result.hasErrors()) {
 			model.addAttribute("message", "The card has errors");
-			return CARTAS_FORM;
+			return CARDS_FORM;
 		} else {
-			BeanUtils.copyProperties(modifiedCartas, carta.get(), "id");
-			model.addAttribute("cartas", carta.get());
-			return listCartas(model);
+			BeanUtils.copyProperties(modifiedCards, card.get(), "id");
+			model.addAttribute("cards", card.get());
+			return listCards(model);
 		}
 	}
 	
 	@GetMapping("/new")
-	public String newCarta(Map<String, Object> map) {
-		Cards cartas= new Cards();
-		map.put("cartas", cartas);
-		return CARTAS_FORM;
+	public String newCard(Map<String, Object> map) {
+		Cards cards= new Cards();
+		map.put("cards", cards);
+		return CARDS_FORM;
 	}
 	
 	@PostMapping("/new")
-	public String newCarta(@Valid Cards carta,BindingResult result, ModelMap model) {
+	public String newCard(@Valid Cards card,BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
-			return CARTAS_FORM;
+			return CARDS_FORM;
 		} else {
-			cartasService.createCarta(carta);
+			cardsService.createCarta(card);
 			model.addAttribute("message", "Carta created");
-			return listCartas(model);
+			return listCards(model);
 		}
 	}
 	
 	@GetMapping("/{id}/delete")
 	public String deleteCarta(ModelMap model, @PathVariable("id") int id) {
-		Optional<Cards> carta = cartasService.findById(id);
-		cartasService.deleteCarta(carta.get());
+		Optional<Cards> card = cardsService.findById(id);
+		cardsService.deleteCarta(card.get());
 		model.addAttribute("message", "Card Deleted");
-		return listCartas(model);
+		return listCards(model);
 	}
 	
 	
