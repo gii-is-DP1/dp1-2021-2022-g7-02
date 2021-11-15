@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.cartas;
+package org.springframework.samples.notimeforheroes.cards;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +13,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="cartas")
-public class Cartas extends NamedEntity{
+@Table(name="cards")
+public class Cards extends NamedEntity{
 
 	@Column(name="type",columnDefinition = "LONGTEXT")
     @NotEmpty

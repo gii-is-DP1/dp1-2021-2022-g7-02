@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.cartas;
+package org.springframework.samples.notimeforheroes.cards;
 
 import java.util.Map;
 import java.util.Optional;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/cartas")
-public class CartasController {
+public class CardsController {
 
 	public static final String CARTAS_LISTING = "cartas/cartasListing";
 	public static final String CARTAS_FORM =  "cartas/createOrUpdatecartasForm";
 	
 	@Autowired
-	CartasService cartasService;
+	CardsService cartasService;
 	
 	@GetMapping
 	public String listCartas(ModelMap model) {
@@ -33,7 +33,7 @@ public class CartasController {
 	
 	@GetMapping("/{id}/edit")
 	public String editCarta(ModelMap model, @PathVariable("id") int id) {
-		Optional<Cartas> carta = cartasService.findById(id);
+		Optional<Cards> carta = cartasService.findById(id);
 		if(carta.isPresent()) {
 			model.addAttribute("cartas", carta.get());
 			return CARTAS_FORM;
@@ -44,8 +44,8 @@ public class CartasController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editCarta(ModelMap model, @PathVariable("id") int id, @Valid Cartas modifiedCartas, BindingResult result) {
-		Optional<Cartas> carta = cartasService.findById(id);
+	public String editCarta(ModelMap model, @PathVariable("id") int id, @Valid Cards modifiedCartas, BindingResult result) {
+		Optional<Cards> carta = cartasService.findById(id);
 		if(result.hasErrors()) {
 			model.addAttribute("message", "The card has errors");
 			return CARTAS_FORM;
@@ -58,13 +58,13 @@ public class CartasController {
 	
 	@GetMapping("/new")
 	public String newCarta(Map<String, Object> map) {
-		Cartas cartas= new Cartas();
+		Cards cartas= new Cards();
 		map.put("cartas", cartas);
 		return CARTAS_FORM;
 	}
 	
 	@PostMapping("/new")
-	public String newCarta(@Valid Cartas carta,BindingResult result, ModelMap model) {
+	public String newCarta(@Valid Cards carta,BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
 			return CARTAS_FORM;
 		} else {
@@ -76,7 +76,7 @@ public class CartasController {
 	
 	@GetMapping("/{id}/delete")
 	public String deleteCarta(ModelMap model, @PathVariable("id") int id) {
-		Optional<Cartas> carta = cartasService.findById(id);
+		Optional<Cards> carta = cartasService.findById(id);
 		cartasService.deleteCarta(carta.get());
 		model.addAttribute("message", "Card Deleted");
 		return listCartas(model);
