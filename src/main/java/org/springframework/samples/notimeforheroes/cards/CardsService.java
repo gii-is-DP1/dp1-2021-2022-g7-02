@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.cartas;
+package org.springframework.samples.notimeforheroes.cards;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -11,31 +11,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CartasService {
+public class CardsService {
 
 	@Autowired
-	CartasRepository cartasrepo;
+	CardsRepository cartasrepo;
 	
 	
 	@Transactional
-	public Collection<Cartas> findAll(){
+	public Collection<Cards> findAll(){
 		return cartasrepo.findAll();
 	}
 	
 	
 	
 	@Transactional
-	public Optional<Cartas> findById(Integer id){
+	public Optional<Cards> findById(Integer id){
 		return cartasrepo.findById(id);
 	}
 	
 	@Transactional
-	public void deleteCarta(Cartas carta) {
+	public void deleteCarta(Cards carta) {
 		cartasrepo.deleteById(carta.getId());
 		}
 	
 	@Transactional
-	public void createCarta(@Valid Cartas carta) {
+	public void createCarta(@Valid Cards carta) {
 		cartasrepo.save(carta);
 	}
 }
