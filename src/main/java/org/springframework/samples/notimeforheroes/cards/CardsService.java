@@ -14,28 +14,28 @@ import org.springframework.stereotype.Service;
 public class CardsService {
 
 	@Autowired
-	CardsRepository cartasrepo;
+	CardsRepository cardsrepo;
 	
 	
 	@Transactional
 	public Collection<Cards> findAll(){
-		return cartasrepo.findAll();
+		return cardsrepo.findAll();
 	}
 	
 	
 	
 	@Transactional
 	public Optional<Cards> findById(Integer id){
-		return cartasrepo.findById(id);
+		return cardsrepo.findById(id);
 	}
 	
 	@Transactional
-	public void deleteCarta(Cards carta) {
-		cartasrepo.deleteById(carta.getId());
+	public void deleteCarta(Cards card) {
+		cardsrepo.deleteById(card.getId());
 		}
 	
 	@Transactional
-	public void createCarta(@Valid Cards carta) {
-		cartasrepo.save(carta);
+	public void createCarta(@Valid Cards card) {
+		cardsrepo.save(card);
 	}
 }
