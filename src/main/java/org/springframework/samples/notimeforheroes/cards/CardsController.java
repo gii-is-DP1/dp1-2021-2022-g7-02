@@ -70,7 +70,7 @@ public class CardsController {
 			return CARDS_FORM;
 		} else {
 			cardsService.createCarta(card);
-			model.addAttribute("message", "Carta created");
+			model.addAttribute("message", "Card created");
 			return listCards(model);
 		}
 	}

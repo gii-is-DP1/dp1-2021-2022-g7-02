@@ -71,3 +71,5 @@ INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (1,1,'2021-11-
 INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (2,2,'2021-11-05',3600,FALSE);
 
 INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
+
+INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (1,'John','Heroe',100,20,100, 'Saltar ronda',100,'Azul',1);
