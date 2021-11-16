@@ -36,8 +36,8 @@ La aplicación contiene rankings de mejores jugadores, esto supone un gran incen
 
 # Apartado de comunicación
 
-La aplicación forma parte de un proyecto de 6 alumnos de la universidad de Sevilla, si se encuentra algun bug podéis contactar con cualquiera de nosotros.
+La aplicación forma parte de un proyecto de 6 alumnos de la universidad de Sevilla, si se encuentra algun bug o error podéis contactar con cualquiera de nosotros mediante git o correo electrónico.
 
 # Apartado tecnológico
 
-Este proyecto esta desarrollado en Java, Maven y Loombook.
+Este proyecto esta desarrollado en Java, Maven y Loombook con herramientas de spring.
