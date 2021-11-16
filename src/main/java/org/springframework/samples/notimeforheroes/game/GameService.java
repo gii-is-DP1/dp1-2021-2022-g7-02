@@ -51,7 +51,7 @@ public class GameService {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			User creator;
 			if(auth == null){
-				creator = null; 
+				creator = userService.findById(1).get();	//Esto se hace para que los juegos que se crean en los tests tengan creador
 			}else{
 				String creatorUsername = ((org.springframework.security.core.userdetails.User)auth.getPrincipal()).getUsername();
 				creator = userService.findByUsername(creatorUsername).get();
