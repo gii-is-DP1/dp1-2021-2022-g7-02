@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
+import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,9 +22,14 @@ public class GameController {
 	
 	public static final String GAMES_LISTING = "games/listadoGames";
 	public static final String GAMES_FORM = "games/createOrUpdateGamesForm";
+	public static final String GAMES_WAITING_FOR_PLAYERS = "games/waitingForPlayers";
+
 
 	@Autowired
 	GameService gameService;
+
+	@Autowired
+	UserService userService;
 	
 	@GetMapping()
 	public String listGames(ModelMap model) {
@@ -61,10 +67,10 @@ public class GameController {
 
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if(!auth.getPrincipal().toString().equals("anonymousUser")){		//Si estamos logeados
-				System.out.println();
 				try {
 					gameService.createGame(game);
 					model.addAttribute("message", "Game created");
+					model.addAttribute("users",userService.findAllInGame(game));
 					
 				} catch (Exception e) {
 					model.addAttribute("message", "ERROR: Partida no creada");
@@ -75,7 +81,7 @@ public class GameController {
 			}
 
 			
-			return listGames(model);
+			return GAMES_WAITING_FOR_PLAYERS;
 		}
 	}
 	

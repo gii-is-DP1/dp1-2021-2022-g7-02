@@ -1,12 +1,15 @@
 package org.springframework.samples.notimeforheroes.user;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +17,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.core.sym.Name;
 
+import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.petclinic.model.NamedEntity;
 
 import lombok.Getter;
@@ -39,6 +43,9 @@ public class User extends NamedEntity implements Serializable{
 	private String password;
 
 	boolean enabled = true;
+
+	@ManyToMany(mappedBy="users")
+    private List<Game> games;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
