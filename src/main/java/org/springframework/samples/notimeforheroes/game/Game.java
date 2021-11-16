@@ -1,10 +1,12 @@
 package org.springframework.samples.notimeforheroes.game;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -31,9 +33,18 @@ public class Game extends BaseEntity{
 	@JoinColumn(name="creator")
 	private User creator;				
 	
-	
+	/*
 	@ManyToMany
-	private Collection<User> players;						
+    @JoinTable(name = "book_author",
+        joinColumns = { @JoinColumn(name = "fk_book") },
+        inverseJoinColumns = { @JoinColumn(name = "fk_author") })
+    private List<Author> authors = new ArrayList<Author>();
+	*/
+	@ManyToMany
+	@JoinTable(name = "games_users",
+		joinColumns = {@JoinColumn(name = "fk_game")},
+		inverseJoinColumns = {@JoinColumn(name = "fk_user")})
+	private Collection<User> users;						
 	
 
 	@Column(name="duration",columnDefinition = "INT")
@@ -43,7 +54,15 @@ public class Game extends BaseEntity{
 	private LocalDate date = LocalDate.now();
 	
 	@Column()
-	private Boolean isInProgress = true;						
+	private Boolean isInProgress = false;						
+
+	@Column()
+	private String joinCode = UUID.randomUUID().toString();
+
+
+
+	//METODOS EQUALS TOSTRING Y HASHCODE
+
 
 	@Override
 	public String toString() {

@@ -67,8 +67,8 @@ INSERT INTO authorities(id,authority,username) VALUES (3,'admin','juangar2');
 
 
 
-INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (1,1,'2021-11-03',1000,TRUE);
-INSERT INTO games(id,creator,date,duration,is_in_progress) VALUES (2,2,'2021-11-05',3600,FALSE);
+INSERT INTO games(id,creator,date,duration,is_in_progress,join_code) VALUES (1,1,'2021-11-03',1000,TRUE,'1e7be917-55b7-4970-8084-9ef0910c044d');
+INSERT INTO games(id,creator,date,duration,is_in_progress,join_code) VALUES (2,2,'2021-11-05',3600,FALSE,'99ae49ed-18bf-458e-8957-6a2d313a6e70');
 
 INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
 

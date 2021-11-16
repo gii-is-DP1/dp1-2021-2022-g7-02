@@ -40,6 +40,16 @@ public class UserService {
 	public Optional<User> findByUsername(String username){
 		return userRepository.findByUsername(username);
 	}
+
+	public Collection<User> findAllInGame(Game game){
+		Collection<User> users = userRepository.findAll();
+		List<User> res = new ArrayList<>();
+		users.stream().forEach(user -> {
+			if(user.getGames().contains(game))
+				res.add(user);
+		});
+		return res;
+ 	}
 	
 	@Transactional
 	public void deleteUser(User user) {
@@ -68,4 +78,5 @@ public class UserService {
 				authoritiesService.saveAuthorities(user.getUsername(), "player");
 			}           
 	}
+	
 }

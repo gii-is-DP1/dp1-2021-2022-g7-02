@@ -22,7 +22,7 @@
             <div class="col-sm-offset-2 col-sm-10">
 
                 <a href="/games">
-                    <button  class="btn btn-default" type="submit">Create</button>
+                    <button class="btn btn-default" type="submit">Create</button>
                 </a>
                   
             </div>

@@ -59,7 +59,7 @@ public class GameService {
 			
 			game.setCreator(creator);
 
-			game.setPlayers(List.of(creator));
+			game.setUsers(List.of(creator));
 
 			gameRepository.save(game);
 		
