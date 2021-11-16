@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -70,19 +71,28 @@ public class GameController {
 				try {
 					gameService.createGame(game);
 					model.addAttribute("message", "Game created");
-					model.addAttribute("users",userService.findAllInGame(game));
 					
 				} catch (Exception e) {
 					model.addAttribute("message", "ERROR: Partida no creada");
 					e.printStackTrace();
+					return GAMES_FORM;
 				}	
 			}else{																//Si no estamos logeados
 				model.addAttribute("message", "ERROR: Usuario no identificado");
+				return GAMES_FORM;
 			}
 
 			
-			return GAMES_WAITING_FOR_PLAYERS;
+			return "redirect:/games/waiting/" + game.getId();
 		}
+	}
+
+	@GetMapping("/waiting/{gameId}")
+	public String waitingGame(ModelMap model, @PathVariable("gameId") int gameId){
+		Game game = gameService.findById(gameId).get();
+		model.addAttribute("game",game);
+		model.addAttribute("users",userService.findAllInGame(game));
+		return GAMES_WAITING_FOR_PLAYERS;
 	}
 	
 }
