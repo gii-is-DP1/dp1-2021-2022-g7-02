@@ -60,15 +60,24 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (3,'Pablo','Espada','pabloespada', 'pablo@email.com','123',TRUE);
+INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (4,'Pablo','Espada','pabloespada2', 'pablo2@email.com','123',TRUE);
 
 INSERT INTO authorities(id,authority,username) VALUES (1,'admin','pabloespada');
 INSERT INTO authorities(id,authority,username) VALUES (2,'admin','peras2');
 INSERT INTO authorities(id,authority,username) VALUES (3,'admin','juangar2');
+INSERT INTO authorities(id,authority,username) VALUES (4,'player','pabloespada2');
 
 
 
-INSERT INTO games(id,creator,date,duration,is_in_progress,join_code) VALUES (1,1,'2021-11-03',1000,TRUE,'1e7be917-55b7-4970-8084-9ef0910c044d');
-INSERT INTO games(id,creator,date,duration,is_in_progress,join_code) VALUES (2,2,'2021-11-05',3600,FALSE,'99ae49ed-18bf-458e-8957-6a2d313a6e70');
+INSERT INTO games(id,creator,date,duration,is_in_progress,join_code) VALUES (1,1,'2021-11-03',1000,TRUE,'1e7be91755b7497080849ef0910c044d');
+INSERT INTO games(id,creator,date,duration,is_in_progress,join_code) VALUES (2,2,'2021-11-05',3600,FALSE,'99ae49ed18bf458e89576a2d313a6e70');
+INSERT INTO games_users(fk_user, fk_game) VALUES(1,1);
+INSERT INTO games_users(fk_user, fk_game) VALUES(2,2);
+
+--INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,2);
+--INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,3);
+--INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,4);
+
 
 INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
 

@@ -1,11 +1,15 @@
 package org.springframework.samples.notimeforheroes.game;
 
+import java.util.Collection;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
+import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/games")
@@ -24,6 +30,7 @@ public class GameController {
 	public static final String GAMES_LISTING = "games/listadoGames";
 	public static final String GAMES_FORM = "games/createOrUpdateGamesForm";
 	public static final String GAMES_WAITING_FOR_PLAYERS = "games/waitingForPlayers";
+	public static final String GAMES_JOIN = "games/joinGame";
 
 
 	@Autowired
@@ -87,8 +94,33 @@ public class GameController {
 		}
 	}
 
+	@GetMapping("/join")
+	public String joinGame(ModelMap model){
+		User loggedUser = userService.getLoggedUser();
+		model.addAttribute("user", loggedUser);
+		return GAMES_JOIN;
+	}
+
+	@RequestMapping(value="/join", method=RequestMethod.POST)
+	public String joinGame(ModelMap model, @RequestParam("joinCode") String joinCode){
+		Game game = gameService.findByJoinCode(joinCode).orElse(null);
+
+		if(game.getUsers().size() < 4){
+			User loggedUser = userService.getLoggedUser();
+			game.getUsers().add(loggedUser);
+			gameService.updateGame(game);
+			return "redirect:/games/waiting/" + game.getId();
+		}else{
+			model.addAttribute("message", "Game full!");
+			return GAMES_JOIN;
+		}
+		
+	}
+
 	@GetMapping("/waiting/{gameId}")
-	public String waitingGame(ModelMap model, @PathVariable("gameId") int gameId){
+	public String waitingGame(ModelMap model, @PathVariable("gameId") int gameId, HttpServletResponse response){
+		
+		response.addHeader("Refresh", "10");
 		Game game = gameService.findById(gameId).get();
 		model.addAttribute("game",game);
 		model.addAttribute("users",userService.findAllInGame(game));

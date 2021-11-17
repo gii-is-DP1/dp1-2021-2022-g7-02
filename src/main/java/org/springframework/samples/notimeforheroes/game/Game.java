@@ -57,8 +57,14 @@ public class Game extends BaseEntity{
 	private Boolean isInProgress = false;						
 
 	@Column()
-	private String joinCode = UUID.randomUUID().toString();
+	private String joinCode = UUID.randomUUID().toString().replace("-", "");
 
+
+
+
+	public void addUser(User newUser){
+		this.users.add(newUser);
+	}
 
 
 	//METODOS EQUALS TOSTRING Y HASHCODE
@@ -67,7 +73,7 @@ public class Game extends BaseEntity{
 	@Override
 	public String toString() {
 		return "Game [id=" + id + ", creator=" + creator + ", duration=" + duration + ", date=" + date
-				+ ", isInProgress=" + isInProgress + "]";
+				+ ", isInProgress=" + isInProgress + ", players" + users + "]";
 	}
 
 	@Override

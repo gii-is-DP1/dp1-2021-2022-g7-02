@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,6 +42,12 @@ public class UserService {
 		return userRepository.findByUsername(username);
 	}
 
+	public User getLoggedUser(){
+		org.springframework.security.core.userdetails.User user_aux = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User loggedUser = this.findByUsername(user_aux.getUsername()).get();
+		return loggedUser;
+	}
+
 	public Collection<User> findAllInGame(Game game){
 		Collection<User> users = userRepository.findAll();
 		List<User> res = new ArrayList<>();
@@ -55,9 +62,12 @@ public class UserService {
 	public void deleteUser(User user) {
 		Collection<Game> gamesOfUser = gameService.findAllByCreator(user);
 		for(Game game : gamesOfUser){
-			System.out.println(game);
 			gameService.deleteGame(game);
 		}
+		for(Game game : user.getGames()){
+			game.getUsers().remove(user);
+		}
+
 		userRepository.deleteById(user.getId());
 		}
 	

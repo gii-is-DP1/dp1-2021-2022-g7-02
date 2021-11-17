@@ -44,6 +44,10 @@ public class GameService {
 	public Collection<Game> findAllByCreator(User user){
 		return gameRepository.findAllByCreator(user);
 	}
+
+	public Optional<Game> findByJoinCode(String joinCode){
+		return gameRepository.findByJoinCode(joinCode.trim());
+	}
 	
 	@Transactional
 	public void createGame(@Valid Game game){	
@@ -62,10 +66,11 @@ public class GameService {
 			game.setUsers(List.of(creator));
 
 			gameRepository.save(game);
-		
+	}
 
-
-		
+	@Transactional
+	public void updateGame(@Valid Game game){
+		gameRepository.save(game);
 	}
 	
 	@Transactional
