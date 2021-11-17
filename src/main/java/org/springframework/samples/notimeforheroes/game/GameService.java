@@ -44,6 +44,10 @@ public class GameService {
 	public Collection<Game> findAllByCreator(User user){
 		return gameRepository.findAllByCreator(user);
 	}
+
+	public Optional<Game> findByJoinCode(String joinCode){
+		return gameRepository.findByJoinCode(joinCode.trim());
+	}
 	
 	@Transactional
 	public void createGame(@Valid Game game){	
@@ -51,7 +55,7 @@ public class GameService {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			User creator;
 			if(auth == null){
-				creator = null; 
+				creator = userService.findById(1).get();	//Esto se hace para que los juegos que se crean en los tests tengan creador
 			}else{
 				String creatorUsername = ((org.springframework.security.core.userdetails.User)auth.getPrincipal()).getUsername();
 				creator = userService.findByUsername(creatorUsername).get();
@@ -62,10 +66,11 @@ public class GameService {
 			game.setUsers(List.of(creator));
 
 			gameRepository.save(game);
-		
+	}
 
-
-		
+	@Transactional
+	public void updateGame(@Valid Game game){
+		gameRepository.save(game);
 	}
 	
 	@Transactional
