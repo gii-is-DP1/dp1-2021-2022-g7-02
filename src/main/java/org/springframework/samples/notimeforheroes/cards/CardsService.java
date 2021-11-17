@@ -30,12 +30,12 @@ public class CardsService {
 	}
 	
 	@Transactional
-	public void deleteCarta(Cards card) {
+	public void deleteCard(Cards card) {
 		cardsrepo.deleteById(card.getId());
 		}
 	
 	@Transactional
-	public void createCarta(@Valid Cards card) {
+	public void createCard(@Valid Cards card) {
 		cardsrepo.save(card);
 	}
 }

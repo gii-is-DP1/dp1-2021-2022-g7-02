@@ -16,36 +16,31 @@ import lombok.Setter;
 @Table(name="cards")
 public class Cards extends NamedEntity{
 
-	@Column(name="type",columnDefinition = "LONGTEXT")
+	@Column(name="type")
     @NotEmpty
 	private String type;
 	
-	@Column(name="life",columnDefinition = "LONGTEXT")
-    
+	@Column(name="life")
 	private Integer life;
 	
-	@Column(name="glory",columnDefinition = "LONGTEXT")
-    
+	@Column(name="glory")
 	private Integer glory;
 
-	@Column(name="gold",columnDefinition = "LONGTEXT")
-    
+	@Column(name="gold")
 	private Integer gold;
 	
 	@Column(name="skill",columnDefinition = "LONGTEXT")
     @NotEmpty
 	private String skill;
 	
-	@Column(name="extraglory",columnDefinition = "LONGTEXT")
-    
+	@Column(name="extraglory")
 	private Integer extraglory;
 	
-	@Column(name="color",columnDefinition = "LONGTEXT")
+	@Column(name="color")
     @NotEmpty
 	private String color;
 	
-	@Column(name="deckid",columnDefinition = "LONGTEXT")
-    
+	@Column(name="deckid")
 	private Integer deckid;
 	
 }

@@ -53,7 +53,8 @@ public class CardsController {
 		} else {
 			BeanUtils.copyProperties(modifiedCards, card.get(), "id");
 			model.addAttribute("cards", card.get());
-			return listCards(model);
+			listCards(model);
+			return "redirect:/cards";
 		}
 	}
 	
@@ -69,18 +70,21 @@ public class CardsController {
 		if(result.hasErrors()) {
 			return CARDS_FORM;
 		} else {
-			cardsService.createCarta(card);
+			cardsService.createCard(card);
 			model.addAttribute("message", "Card created");
-			return listCards(model);
+			listCards(model);
+			return "redirect:/cards";
 		}
 	}
 	
 	@GetMapping("/{id}/delete")
 	public String deleteCarta(ModelMap model, @PathVariable("id") int id) {
 		Optional<Cards> card = cardsService.findById(id);
-		cardsService.deleteCarta(card.get());
+		cardsService.deleteCard(card.get());
 		model.addAttribute("message", "Card Deleted");
-		return listCards(model);
+		listCards(model);
+		return "redirect:/cards";
+
 	}
 	
 	
