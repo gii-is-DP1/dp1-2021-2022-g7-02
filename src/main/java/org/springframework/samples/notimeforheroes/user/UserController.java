@@ -67,10 +67,19 @@ public class UserController {
 			model.addAttribute("message", "The user has errors");
 			return USER_FORM;
 		} else {
-			BeanUtils.copyProperties(modifiedUser, user.get(), "id");
-			model.addAttribute("users", user.get());
-			listUsers(model);
-			return "redirect:/users";
+			int userId = userService.getLoggedUser().getId();
+
+			if(user.get().getId()==userId) {
+				BeanUtils.copyProperties(modifiedUser, user.get(), "id");
+				model.addAttribute("users", user.get());
+				listUsers(model);
+				return "redirect:/users";
+			}
+			else {
+				model.addAttribute("message", "This is not your user");
+				return "redirect:/users";
+			}
+
 		}
 	}
 	
