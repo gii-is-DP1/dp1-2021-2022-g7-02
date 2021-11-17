@@ -61,6 +61,8 @@ INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (3,'Pablo','Espada','pabloespada', 'pablo@email.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (4,'Pablo','Espada','pabloespada2', 'pablo2@email.com','123',TRUE);
+INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (5,'Mario','Rodruiguez','mario', 'maroi@email.com','123',TRUE);
+
 
 INSERT INTO authorities(id,authority,username) VALUES (1,'admin','pabloespada');
 INSERT INTO authorities(id,authority,username) VALUES (2,'admin','peras2');
