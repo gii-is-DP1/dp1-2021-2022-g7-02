@@ -21,6 +21,7 @@ public class CardsController {
 
 	public static final String CARDS_LISTING = "cards/cardsListing";
 	public static final String CARDS_FORM =  "cards/createOrUpdatecardsForm";
+	public static final String CARDS_CHOOSE = "cards/carsChoose";
 	
 	@Autowired
 	CardsService cardsService;
@@ -92,6 +93,12 @@ public class CardsController {
 		return "redirect:/cards";
 
 	}
+	
+	/*@GetMapping("/choose")
+	public String ChooseHeroes(ModelMap model) {
+		model.addAttribute("cards", cardsService.findByType("Heroe"));
+		return CARDS_CHOOSE;
+	}*/
 	
 	
 }

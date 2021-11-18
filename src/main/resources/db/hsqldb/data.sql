@@ -58,7 +58,7 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 */
 
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze',TRUE);
-INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze',TRUE);
+INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (3,'Pablo','Espada','pabloespada', 'pablo@email.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (4,'Pablo','Espada','pabloespada2', 'pablo2@email.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (5,'Mario','Rodruiguez','mario', 'maroi@email.com','123',TRUE);
@@ -91,3 +91,5 @@ INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VA
 INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (6,'Beleth-Il','Heroe',3,0,0, 'Cuando utilices la carta Disparo Rapido, la primera carta fallida que robes podrás recuperarla y robar otra. Dos veces por partida.',0,'Verde',2);
 INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (7,'Neddia','Heroe',2,0,0, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.',0,'Rojo',3);
 INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (8,'Valerys','Heroe',3,0,0, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.',0,'Azul',4);
+
+--INSERT INTO card_users(fk_user,fk_card) VALUES (1,1);
