@@ -1,9 +1,7 @@
 package org.springframework.samples.notimeforheroes.game;
 
-import java.util.Collection;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 

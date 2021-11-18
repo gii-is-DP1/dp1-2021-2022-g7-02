@@ -12,6 +12,6 @@ public interface CardsRepository extends CrudRepository<Cards, Integer>{
 		
 		Collection<Cards> findAll();
 		
-		
+		Collection<Cards> findAllByType(String type);
 		
 	}

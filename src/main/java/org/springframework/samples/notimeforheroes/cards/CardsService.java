@@ -23,10 +23,14 @@ public class CardsService {
 	}
 	
 	
-	
 	@Transactional
 	public Optional<Cards> findById(Integer id){
 		return cardsrepo.findById(id);
+	}
+	
+	@Transactional
+	public Collection<Cards> findByType(String type){
+		return cardsrepo.findAllByType(type);
 	}
 	
 	@Transactional
