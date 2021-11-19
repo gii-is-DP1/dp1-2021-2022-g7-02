@@ -54,7 +54,8 @@ public class AchievementControler {
 		} else {
 			BeanUtils.copyProperties(modifiedAchivement, achievement.get(), "id");
 			model.addAttribute("achievements", achievement.get());
-			return listAchievements(model);
+			listAchievements(model);
+			return "redirect:/achievements";
 		}
 	}
 	
@@ -72,7 +73,7 @@ public class AchievementControler {
 		} else {
 			achievementService.createAchievement(achievemets);
 			model.addAttribute("message", "Achievement created");
-			return listAchievements(model);
+			return "redirect:/achievements";
 		}
 	}
 	
@@ -81,7 +82,8 @@ public class AchievementControler {
 		Optional<Achievement> achievement = achievementService.findById(id);
 		achievementService.deleteAchievement(achievement.get());
 		model.addAttribute("message", "Achievement deleted");
-		return listAchievements(model);
+		listAchievements(model);
+		return "redirect:/achievements";
 	}
 	
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -65,11 +67,22 @@ public class UserController {
 			model.addAttribute("message", "The user has errors");
 			return USER_FORM;
 		} else {
-			BeanUtils.copyProperties(modifiedUser, user.get(), "id");
-			model.addAttribute("users", user.get());
-			return listUsers(model);
+			int userId = userService.getLoggedUser().getId();
+
+			if(user.get().getId()==userId) {
+				BeanUtils.copyProperties(modifiedUser, user.get(), "id");
+				model.addAttribute("users", user.get());
+				listUsers(model);
+				return "redirect:/users";
+			}
+			else {
+				model.addAttribute("message", "This is not your user");
+				return "redirect:/users";
+			}
+
 		}
 	}
+	
 	
 	@GetMapping("/new")
 	public String newUser(Map<String, Object> map) {
@@ -85,7 +98,7 @@ public class UserController {
 		} else {
 			userService.saveUser(user);
 			model.addAttribute("message", "User created");
-			return listUsers(model);
+			return "redirect:/users";
 		}
 	}
 	
@@ -94,7 +107,9 @@ public class UserController {
 		Optional<User> user = userService.findById(id);
 		userService.deleteUser(user.get());
 		model.addAttribute("message", "User Deleted");
-		return listUsers(model);
+		listUsers(model);
+		return "redirect:/users";
+
 	}
 	
 	
