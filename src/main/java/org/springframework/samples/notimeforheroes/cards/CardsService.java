@@ -23,19 +23,23 @@ public class CardsService {
 	}
 	
 	
-	
 	@Transactional
 	public Optional<Cards> findById(Integer id){
 		return cardsrepo.findById(id);
 	}
 	
 	@Transactional
-	public void deleteCarta(Cards card) {
+	public Collection<Cards> findByType(String type){
+		return cardsrepo.findAllByType(type);
+	}
+	
+	@Transactional
+	public void deleteCard(Cards card) {
 		cardsrepo.deleteById(card.getId());
 		}
 	
 	@Transactional
-	public void createCarta(@Valid Cards card) {
+	public void createCard(@Valid Cards card) {
 		cardsrepo.save(card);
 	}
 }

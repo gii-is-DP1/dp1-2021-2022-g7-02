@@ -58,9 +58,11 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 */
 
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze',TRUE);
-INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','a2adsze',TRUE);
+INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (3,'Pablo','Espada','pabloespada', 'pablo@email.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (4,'Pablo','Espada','pabloespada2', 'pablo2@email.com','123',TRUE);
+INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (5,'Mario','Rodruiguez','mario', 'maroi@email.com','123',TRUE);
+
 
 INSERT INTO authorities(id,authority,username) VALUES (1,'admin','pabloespada');
 INSERT INTO authorities(id,authority,username) VALUES (2,'admin','peras2');
@@ -81,4 +83,13 @@ INSERT INTO games_users(fk_user, fk_game) VALUES(2,2);
 
 INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
 
-INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (1,'John','Heroe',100,20,100, 'Saltar ronda',100,'Azul',1);
+INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (1,'Taheral','Heroe',2,0,0, 'Al realizar la maniobra de evasión, coge dos monedas por cada carta que descartes. Una vez por partida.',0,'Morado',1);
+INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (2,'Idril','Heroe',3,0,0, 'En cualquier momento puedes mirar las tres cartas inferiores de la horda y devolverlas al mazo en el orden que prefieras. Dos veces por partida.',0,'Verde',2);
+INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (3,'Feldon','Heroe',2,0,0, 'Al resolver el ataque de la horda, tan solo pierde la mitad de cartas de las indicadas por el daño. Una vez por partida.',0,'Rojo',3);
+INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (4,'Lisavette','Heroe',3,0,0, 'Mientras un heroe se enfrenta a la horda, utiliza un escudo para prevenirle del daño del enemigo. Roba hasta dos monedas de ese heroe. Dos veces por partida.',0,'Azul',4);
+INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (5,'Aranel','Heroe',2,0,0, 'En cualquier momento, busca una carta del mazo de Habilidad y sustituyela por una de tu mano. Acto seguido baraja el mazo. Una vez por partida.',0,'Morado',1);
+INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (6,'Beleth-Il','Heroe',3,0,0, 'Cuando utilices la carta Disparo Rapido, la primera carta fallida que robes podrás recuperarla y robar otra. Dos veces por partida.',0,'Verde',2);
+INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (7,'Neddia','Heroe',2,0,0, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.',0,'Rojo',3);
+INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (8,'Valerys','Heroe',3,0,0, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.',0,'Azul',4);
+
+--INSERT INTO card_users(fk_user,fk_card) VALUES (1,1);
