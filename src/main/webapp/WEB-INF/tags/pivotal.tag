@@ -8,7 +8,7 @@
                                              alt="Sponsored by Pivotal"/></div>
     </div>-->
     <div class="row">
-        <div class="col-12 text-center"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNAQQH8c5JvZpKgD9zE2UffaVNhp-T6-476w&usqp=CAU"
+        <div class="col-12 text-center"><img width = 30% src="/resources/images/LogoNT4H.png"
                                             /></div>
     </div>
 </div>
