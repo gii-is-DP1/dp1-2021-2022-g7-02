@@ -1,6 +1,8 @@
 package org.springframework.samples.notimeforheroes.achievements;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
@@ -21,38 +23,69 @@ public class AchievementsServiceTests {
 	@Test
 	public void testNoAchievement(){
 		Collection<Achievement> achievements=achievementsService.findAll();
-		achievements.clear();
-		assertThat(achievements.isEmpty()).isTrue();
+		for(Achievement ac : achievements) {
+			achievementsService.deleteAchievement(ac);
+		}
+		assertThat(achievementsService.findAll().isEmpty()).isTrue();
 	}
 	
 	@Test
 	public void testOneAchievement(){
 		Collection<Achievement> achievements=achievementsService.findAll();
-		achievements.clear();
+		for(Achievement ac : achievements) {
+			achievementsService.deleteAchievement(ac);
+		}
 		
 		Achievement achievement= new Achievement();
 		achievement.setName("Beginner");
 		achievement.setDescription("Play 5 games");
-		achievements.add(achievement);
-		assertThat(achievements.size()).isEqualTo(1);
+		achievementsService.createAchievement(achievement);
+		assertThat(achievementsService.findAll().size()).isEqualTo(1);
 	}
 	
 	@Test
 	public void testMoreThanOneAchievements(){
 		Collection<Achievement> achievements=achievementsService.findAll();
-		achievements.clear();
+		
+		for(Achievement ac : achievements) {
+			achievementsService.deleteAchievement(ac);
+		}
 		
 		Achievement  achievement= new Achievement();
 		achievement.setName("Beginner");
 		achievement.setDescription("Play 5 games");
-		achievements.add(achievement);
+		achievementsService.createAchievement(achievement);
 		
 		Achievement  achievement1= new Achievement();
 		achievement1.setName("Amateur");
 		achievement1.setDescription("Play 10 games");
-		achievements.add(achievement1);
+		achievementsService.createAchievement(achievement1);
 		
-		assertThat(achievements.size()).isGreaterThan(1);
+		assertThat(achievementsService.findAll().size()).isGreaterThan(1);
+	}
+	
+	@Test
+	void testNewAchievement() {
+		Achievement achievement = new Achievement();
+		achievement.setName("Beginner");
+		achievement.setDescription("Play 5 games");
+		achievementsService.createAchievement(achievement);
+		Collection<Achievement> achievementsInDatabase = achievementsService.findAll();
+		
+		assertTrue(achievementsInDatabase.contains(achievement));
+	}
+	
+	@Test
+	void testDeleteAchievement() {
+		Achievement achievement = new Achievement();
+		achievement.setName("Beginner");
+		achievement.setDescription("Play 5 games");
+		achievementsService.createAchievement(achievement);
+		
+		assertTrue(achievementsService.findAll().contains(achievement));
+		achievementsService.deleteAchievement(achievement);
+		assertFalse(achievementsService.findAll().contains(achievement));
+
 	}
 
 	@Test

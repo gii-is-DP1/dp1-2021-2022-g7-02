@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Service;
 
@@ -22,37 +23,41 @@ public class UsersServiceTests {
 	@Test
 	public void testNingunJugador(){
 		Collection<User> users=userService.findAll();
-		users.clear();
-		assertThat(users.isEmpty()).isTrue();
+		for(User u : users) {
+			userService.deleteUser(u);
+		}
+		assertThat(userService.findAll().isEmpty()).isTrue();
 	}
 	
 	@Test
-	public void testUnJugador(){
+	public void testUnJugador() throws DataAccessException, DuplicatedUserEmailException{
 		Collection<User> users=userService.findAll();
-		users.clear();
-		
+		for(User u : users) {
+			userService.deleteUser(u);
+		}		
 		User user= new User();
 		user.setName("Juan");
 		user.setEmail("juan@gmail.com");
 		user.setLastname("Soto");
 		user.setUsername("Juanillo7");
 		user.setPassword("1234");
-		users.add(user);
-		assertThat(users.size()).isEqualTo(1);
+		userService.saveUser(user);
+		assertThat(userService.findAll().size()).isEqualTo(1);
 	}
 	
 	@Test
-	public void testMasJugadores(){
+	public void testMasJugadores() throws DataAccessException, DuplicatedUserEmailException{
 		Collection<User> users=userService.findAll();
-		users.clear();
-		
+		for(User u : users) {
+			userService.deleteUser(u);
+		}		
 		User  user= new User();
 		user.setName("Juan");
 		user.setEmail("juan@gmail.com");
 		user.setLastname("Soto");
 		user.setUsername("Juanillo7");
 		user.setPassword("1234");
-		users.add(user);
+		userService.saveUser(user);
 		
 		User  user1= new User();
 		user1.setName("Jose");
@@ -60,9 +65,9 @@ public class UsersServiceTests {
 		user1.setLastname("Sota");
 		user1.setUsername("Jose7");
 		user1.setPassword("1234");
-		users.add(user1);
+		userService.saveUser(user1);
 		
-		assertThat(users.size()).isGreaterThan(1);
+		assertThat(userService.findAll().size()).isGreaterThan(1);
 	}
 
 	@Test
@@ -91,7 +96,6 @@ public class UsersServiceTests {
 		user.setUsername("Jose7");
 		user.setPassword("1234");
 		
-		//playerService.createPlayer(player);
 		
 		Assertions.assertThrows(DuplicatedUserEmailException.class, () ->{
 			userService.saveUser(user);
