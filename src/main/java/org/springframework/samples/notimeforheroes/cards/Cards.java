@@ -47,8 +47,5 @@ public class Cards extends NamedEntity{
 	@Column(name="deckid")
 	private Integer deckid;
 	
-	@OneToOne
-	@JoinTable(name = "card_users", joinColumns = {@JoinColumn(name = "fk_user")}, inverseJoinColumns = {@JoinColumn(name = "fk_card")})
-	private User user;
 	
 }

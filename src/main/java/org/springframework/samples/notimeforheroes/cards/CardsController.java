@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/cards")
@@ -21,7 +22,6 @@ public class CardsController {
 
 	public static final String CARDS_LISTING = "cards/cardsListing";
 	public static final String CARDS_FORM =  "cards/createOrUpdatecardsForm";
-	public static final String CARDS_CHOOSE = "cards/carsChoose";
 	
 	@Autowired
 	CardsService cardsService;
@@ -52,7 +52,7 @@ public class CardsController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editCard(ModelMap model, @PathVariable("id") int id, @Valid Cards modifiedCards, BindingResult result) {
+	public String editCard(RedirectAttributes redirect, ModelMap model, @PathVariable("id") int id, @Valid Cards modifiedCards, BindingResult result) {
 		Optional<Cards> card = cardsService.findById(id);
 		if(result.hasErrors()) {
 			model.addAttribute("message", "The card has errors");
@@ -61,6 +61,7 @@ public class CardsController {
 			BeanUtils.copyProperties(modifiedCards, card.get(), "id");
 			model.addAttribute("cards", card.get());
 			listCards(model);
+			redirect.addFlashAttribute("message", "Card modified");
 			return "redirect:/cards";
 		}
 	}
@@ -73,32 +74,27 @@ public class CardsController {
 	}
 	
 	@PostMapping("/new")
-	public String newCard(@Valid Cards card,BindingResult result, ModelMap model) {
+	public String newCard(RedirectAttributes redirect, @Valid Cards card,BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
 			return CARDS_FORM;
 		} else {
 			cardsService.createCard(card);
 			model.addAttribute("message", "Card created");
 			listCards(model);
+			redirect.addFlashAttribute("message", "Card created");
 			return "redirect:/cards";
 		}
 	}
 	
 	@GetMapping("/{id}/delete")
-	public String deleteCarta(ModelMap model, @PathVariable("id") int id) {
+	public String deleteCarta(RedirectAttributes redirect,ModelMap model, @PathVariable("id") int id) {
 		Optional<Cards> card = cardsService.findById(id);
 		cardsService.deleteCard(card.get());
-		model.addAttribute("message", "Card Deleted");
 		listCards(model);
+		redirect.addFlashAttribute("message", "Card deleted");
 		return "redirect:/cards";
 
 	}
-	
-	/*@GetMapping("/choose")
-	public String ChooseHeroes(ModelMap model) {
-		model.addAttribute("cards", cardsService.findByType("Heroe"));
-		return CARDS_CHOOSE;
-	}*/
 	
 	
 }

@@ -32,6 +32,6 @@
         </tbody>
     </table>
     <p>
-    	<a class="btn btn-default">Start Game</a>
+    	<a href="" class="btn btn-default">Start Game</a>
     </p>
 </petclinic:layout>
