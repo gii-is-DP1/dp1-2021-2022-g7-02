@@ -54,8 +54,14 @@ public class UserController {
 	public String editUser(ModelMap model, @PathVariable("id") int id) {
 		Optional<User> user = userService.findById(id);
 		if(user.isPresent()) {
-			model.addAttribute("users", user.get());
-			return USER_FORM;
+			if(userService.getLoggedUser().getId().equals(id)){
+				model.addAttribute("users", user.get());
+				return USER_FORM;
+			}else {
+				model.addAttribute("message", "You can't edit this user");
+				return listUsers(model);
+			}
+			
 		} else {
 			model.addAttribute("message", "This user doesn't exist");
 			return listUsers(model);
