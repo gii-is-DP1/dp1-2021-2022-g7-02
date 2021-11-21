@@ -89,8 +89,8 @@ public class UserService {
 				authoritiesService.saveAuthorities(user.getUsername(), "player");
 			}        
 			*/
-			Optional<User> userWithSameEmail = userRepository.findByEmail(user.getEmail());
-			if(userWithSameEmail.isPresent()){
+			Optional<User> userFindedByEmail = userRepository.findByEmail(user.getEmail());
+			if(userFindedByEmail.isPresent()){
 				throw new DuplicatedUserEmailException();
 			}else{
 				user.setEnabled(true);
