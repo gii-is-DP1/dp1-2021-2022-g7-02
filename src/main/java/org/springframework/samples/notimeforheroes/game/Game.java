@@ -32,13 +32,6 @@ public class Game extends BaseEntity{
 	@JoinColumn(name="creator")
 	private User creator;				
 	
-	/*
-	@ManyToMany
-    @JoinTable(name = "book_author",
-        joinColumns = { @JoinColumn(name = "fk_book") },
-        inverseJoinColumns = { @JoinColumn(name = "fk_author") })
-    private List<Author> authors = new ArrayList<Author>();
-	*/
 	@ManyToMany
 	@JoinTable(name = "games_users",
 		joinColumns = {@JoinColumn(name = "fk_game")},
@@ -53,7 +46,10 @@ public class Game extends BaseEntity{
 	private LocalDate date = LocalDate.now();
 	
 	@Column()
-	private Boolean isInProgress = false;						
+	private Boolean isInProgress = false;	
+
+	@Column()
+	private Boolean isPublic = true;					
 
 	@Column()
 	private String joinCode = UUID.randomUUID().toString().replace("-", "");

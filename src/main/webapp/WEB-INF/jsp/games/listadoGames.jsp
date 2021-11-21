@@ -13,14 +13,15 @@
     <table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Creador</th>
-            <th style="width: 200px;">Fecha</th>
-            <th style="width: 150px;">Duracion</th>
-            <th style="width: 200px;">Está en progreso</th>
+            <th class="width20">Creador</th>
+            <th class="width10">Fecha</th>
+            <th class="width8">Duracion</th>
+            <th class="width8">Está en progreso</th>
+            <th class="width8">Visibilidad</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${games}" var="game">
+        <c:forEach items="${gamesPublicAndOwn}" var="game">
             <tr>
                 <td>
                 	<c:out value="${game.creator!=null ? game.creator : '?'}"/>
@@ -35,6 +36,8 @@
                     <c:out value="${game.isInProgress ? 'Sí' : 'No'}"/>
                 </td>
                 <td>
+                    <c:out value="${game.isPublic ? 'Público' : 'Privado'}"/>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

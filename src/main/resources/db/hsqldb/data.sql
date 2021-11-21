@@ -72,8 +72,8 @@ INSERT INTO authorities(id,authority,username) VALUES (4,'player','pabloespada2'
 INSERT INTO authorities(id,authority,username) VALUES (5,'admin','mromalde');
 
 
-INSERT INTO games(id,creator,date,duration,is_in_progress,join_code) VALUES (1,1,'2021-11-03',1000,TRUE,'1e7be91755b7497080849ef0910c044d');
-INSERT INTO games(id,creator,date,duration,is_in_progress,join_code) VALUES (2,2,'2021-11-05',3600,FALSE,'99ae49ed18bf458e89576a2d313a6e70');
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code) VALUES (1,1,'2021-11-03',1000,TRUE,TRUE,'1e7be91755b7497080849ef0910c044d');
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70');
 INSERT INTO games_users(fk_user, fk_game) VALUES(1,1);
 INSERT INTO games_users(fk_user, fk_game) VALUES(2,2);
 
