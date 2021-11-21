@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/users")
@@ -35,6 +36,7 @@ public class UserController {
 		model.addAttribute("users", userService.findAll());
 		return USER_LISTING;
 	}
+	
 	
 	@GetMapping("/{id}/details")
 	public String PlayerDetails(ModelMap model, @PathVariable("id") int id) {
@@ -61,7 +63,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editUser(ModelMap model, @PathVariable("id") int id, @Valid User modifiedUser, BindingResult result) {
+	public String editUser(RedirectAttributes redirect,ModelMap model, @PathVariable("id") int id, @Valid User modifiedUser, BindingResult result) {
 		Optional<User> user = userService.findById(id);
 		if(result.hasErrors()) {
 			model.addAttribute("message", "The user has errors");
@@ -73,10 +75,11 @@ public class UserController {
 				BeanUtils.copyProperties(modifiedUser, user.get(), "id");
 				model.addAttribute("users", user.get());
 				listUsers(model);
+				redirect.addFlashAttribute("message", "User modified");
 				return "redirect:/users";
 			}
 			else {
-				model.addAttribute("message", "This is not your user");
+				redirect.addFlashAttribute("message", "You cannot modify this user");
 				return "redirect:/users";
 			}
 
@@ -92,22 +95,22 @@ public class UserController {
 	}
 	
 	@PostMapping("/new")
-	public String newUser(@Valid User user,BindingResult result, ModelMap model) throws DataAccessException, DuplicatedUserEmailException {
+	public String newUser(RedirectAttributes redirect, @Valid User user,BindingResult result, ModelMap model) throws DataAccessException, DuplicatedUserEmailException {
 		if(result.hasErrors()) {
 			return USER_FORM;
 		} else {
 			userService.saveUser(user);
-			model.addAttribute("message", "User created");
+			redirect.addFlashAttribute("message", "User created");
 			return "redirect:/users";
 		}
 	}
 	
 	@GetMapping("/{id}/delete")
-	public String deleteUser(ModelMap model, @PathVariable("id") int id) {
+	public String deleteUser(RedirectAttributes redirect, ModelMap model, @PathVariable("id") int id) {
 		Optional<User> user = userService.findById(id);
 		userService.deleteUser(user.get());
-		model.addAttribute("message", "User Deleted");
 		listUsers(model);
+		redirect.addFlashAttribute("message", "User deleted");
 		return "redirect:/users";
 
 	}
