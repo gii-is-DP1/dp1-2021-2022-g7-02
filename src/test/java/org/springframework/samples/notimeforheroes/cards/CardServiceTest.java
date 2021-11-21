@@ -35,16 +35,9 @@ public class CardServiceTest {
 			cardService.deleteCard(c);
 		}		
 		Cards card = new Cards();
-		card.setColor("Blue");
-		card.setDeckid(2);
-		card.setExtraglory(15);
-		card.setGlory(100);
-		card.setGold(100);
 		card.setId(2);
-		card.setLife(100);
-		card.setName("Lisa");
-		card.setSkill("Kill");
-		card.setType("heroe");
+		card.setName("Salomon");
+		card.setUrl("https:");
 		cardService.createCard(card);
 		assertThat(cardService.findAll().size()).isEqualTo(1);
 
@@ -58,29 +51,15 @@ public class CardServiceTest {
 			cardService.deleteCard(c);
 		}			
 		Cards card = new Cards();
-		card.setColor("Blue");
-		card.setDeckid(2);
-		card.setExtraglory(15);
-		card.setGlory(100);
-		card.setGold(100);
 		card.setId(2);
-		card.setLife(100);
-		card.setName("Lisa");
-		card.setSkill("Kill");
-		card.setType("heroe");
+		card.setName("Salomon");
+		card.setUrl("https:");
 		cardService.createCard(card);
 		
 		Cards card1 = new Cards();
-		card1.setColor("Red");
-		card1.setDeckid(4);
-		card1.setExtraglory(13);
-		card1.setGlory(10);
-		card1.setGold(10);
 		card1.setId(3);
-		card1.setLife(100);
-		card1.setName("Bill");
-		card1.setSkill("Run");
-		card1.setType("Heroe");
+		card1.setName("Salomon2");
+		card1.setUrl("https:");
 		cardService.createCard(card1);
 		
 		assertThat(cardService.findAll().size()).isGreaterThan(1);
@@ -90,14 +69,14 @@ public class CardServiceTest {
 	@Test 
 	public void TestEditCard() {
 		Cards card = cardService.findById(1).get();
-		String oldColor = card.getColor();
+		String oldName = card.getName();
 		
-		String newColor = oldColor + " sky";
-		card.setColor(newColor);
+		String newName = oldName + " sky";
+		card.setName(newName);
 		cardService.createCard(card);
 		
 		card = cardService.findById(1).get();
-		assertThat(card.getColor()).isEqualTo(newColor);
+		assertThat(card.getName()).isEqualTo(newName);
 
 	}
 	
@@ -105,16 +84,9 @@ public class CardServiceTest {
 	public void TestDeleteCard() {	
 		
 		Cards card = new Cards();
-		card.setColor("Blue");
-		card.setDeckid(5);
-		card.setExtraglory(15);
-		card.setGlory(100);
-		card.setGold(100);
-		card.setId(1);
-		card.setLife(100);
-		card.setName("Lisa");
-		card.setSkill("Kill");
-		card.setType("heroe");
+		card.setId(2);
+		card.setName("Salomon");
+		card.setUrl("https:");
 		cardService.createCard(card);
 		
 		assertTrue(cardService.findAll().contains(card));
@@ -126,16 +98,9 @@ public class CardServiceTest {
 	public void TestNewCard() {	
 		
 		Cards card = new Cards();
-		card.setColor("Blue");
-		card.setDeckid(5);
-		card.setExtraglory(15);
-		card.setGlory(100);
-		card.setGold(100);
-		card.setId(1);
-		card.setLife(100);
-		card.setName("Lisa");
-		card.setSkill("Kill");
-		card.setType("heroe");
+		card.setId(2);
+		card.setName("Salomon");
+		card.setUrl("https:");
 		cardService.createCard(card);
 
 		assertTrue(cardService.findAll().contains(card));

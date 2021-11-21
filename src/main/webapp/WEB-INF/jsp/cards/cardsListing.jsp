@@ -19,14 +19,7 @@
 		<thead>
 			<tr>
 				<th style="width: 10%;">Name</th>
-				<th style="width: 10%;">Type</th>
-				<th style="width: 5%;">Life</th>
-				<th style="width: 5%;">Glory</th>
-				<th style="width: 5%;">Gold</th>
-				<th style="width: 80%;">Skill</th>
-				<th style="width: 5%;">Extraglory</th>
-				<th style="width: 10%;">Color</th>
-				<th style="width: 5%;">DeckId</th>
+				<th style="width: 10%;">Url</th>
 				<th style="width: 5%;"></th>
 				<th style="width: 5%;"></th>
 
@@ -37,14 +30,7 @@
 			<c:forEach items="${cards}" var="card">
 				<tr>
 					<td><c:out value="${card.name}" /></td>
-					<td><c:out value="${card.type}" /></td>
-					<td><c:out value="${card.life}" /></td>
-					<td><c:out value="${card.glory}" /></td>
-					<td><c:out value="${card.gold}" /></td>
-					<td><c:out value="${card.skill}" /></td>
-					<td><c:out value="${card.extraglory}" /></td>
-					<td><c:out value="${card.color}" /></td>
-					<td><c:out value="${card.deckid}" /></td>
+					<td><c:out value="${card.url}" /></td>
 					<td><a href="/cards/${card.id}/edit"> <span
 							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					</a></td>

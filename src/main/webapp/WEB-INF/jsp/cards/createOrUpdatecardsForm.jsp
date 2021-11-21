@@ -13,14 +13,7 @@
     <form:form method="POST" modelAttribute="cards" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Name" name="name"/>
-            <petclinic:inputField label="Type" name="type"/> 
-            <petclinic:inputField label="Life" name="life"/>            
-            <petclinic:inputField label="Glory" name="glory"/>  
-            <petclinic:inputField label="Gold" name="gold"/>
-            <petclinic:inputField label="Skill" name="skill"/>  
-            <petclinic:inputField label="Extraglory" name="extraglory"/>                                   
-            <petclinic:inputField label="Color" name="color"/>                                   
-            <petclinic:inputField label="DeckId" name="deckid"/>                        
+            <petclinic:inputField label="Url" name="url"/>                        
                                              
                                                
                                              
