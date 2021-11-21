@@ -33,11 +33,6 @@ public class CardsController {
 		return CARDS_LISTING;
 	}
 	
-	@GetMapping("/{type}")
-	public String listCardsType(ModelMap model, @PathVariable("type") String type) {
-		model.addAttribute("cards", cardsService.findByType(type));
-		return CARDS_LISTING;
-	}
 	
 	@GetMapping("/{id}/edit")
 	public String editCard(ModelMap model, @PathVariable("id") int id) {

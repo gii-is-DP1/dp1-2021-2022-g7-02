@@ -28,10 +28,6 @@ public class CardsService {
 		return cardsrepo.findById(id);
 	}
 	
-	@Transactional
-	public Collection<Cards> findByType(String type){
-		return cardsrepo.findAllByType(type);
-	}
 	
 	@Transactional
 	public void deleteCard(Cards card) {
