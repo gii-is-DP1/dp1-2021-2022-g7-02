@@ -73,7 +73,8 @@ public class UserService {
 	
 	
 	@Transactional(rollbackOn = DuplicatedUserEmailException.class)
-	public void saveUser(@Valid User user) throws DataAccessException,DuplicatedUserEmailException { // 
+	public void saveUser(@Valid User user) throws DataAccessException,DuplicatedUserEmailException { 
+		/*
 			List<String> emails=new ArrayList<String>();
 			List<User> jugadores= (List<User>) this.findAll();
 			for (int i=0; i<jugadores.size(); i++) {
@@ -86,7 +87,17 @@ public class UserService {
 				user.setEnabled(true);
 				userRepository.save(user);
 				authoritiesService.saveAuthorities(user.getUsername(), "player");
-			}           
+			}        
+			*/
+			Optional<User> userWithSameEmail = userRepository.findByEmail(user.getEmail());
+			if(userWithSameEmail.isPresent()){
+				throw new DuplicatedUserEmailException();
+			}else{
+				user.setEnabled(true);
+				userRepository.save(user);
+				authoritiesService.saveAuthorities(user.getUsername(), "player");
+			}
+
 	}
 	
 }
