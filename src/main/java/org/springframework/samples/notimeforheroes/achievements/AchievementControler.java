@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/achievements")
@@ -46,7 +47,7 @@ public class AchievementControler {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editAchievement(ModelMap model, @PathVariable("id") int id, @Valid Achievement modifiedAchivement, BindingResult result) {
+	public String editAchievement(RedirectAttributes redirect,ModelMap model, @PathVariable("id") int id, @Valid Achievement modifiedAchivement, BindingResult result) {
 		Optional<Achievement> achievement = achievementService.findById(id);
 		if(result.hasErrors()) {
 			model.addAttribute("message", "The achievement has error");
@@ -55,6 +56,7 @@ public class AchievementControler {
 			BeanUtils.copyProperties(modifiedAchivement, achievement.get(), "id");
 			model.addAttribute("achievements", achievement.get());
 			listAchievements(model);
+			redirect.addFlashAttribute("message", "Achievement modified");
 			return "redirect:/achievements";
 		}
 	}
@@ -67,22 +69,22 @@ public class AchievementControler {
 	}
 	
 	@PostMapping("/new")
-	public String newAchievement(@Valid Achievement achievemets, BindingResult result, ModelMap model) {
+	public String newAchievement(RedirectAttributes redirect,@Valid Achievement achievemets, BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
 			return ACHIEVEMENTS_FORM;
 		} else {
 			achievementService.createAchievement(achievemets);
-			model.addAttribute("message", "Achievement created");
+			redirect.addFlashAttribute("message", "Achievement created");
 			return "redirect:/achievements";
 		}
 	}
 	
 	@GetMapping("/{id}/delete")
-	public String deleteAchievement(ModelMap model, @PathVariable("id") int id) {
+	public String deleteAchievement(RedirectAttributes redirect,ModelMap model, @PathVariable("id") int id) {
 		Optional<Achievement> achievement = achievementService.findById(id);
 		achievementService.deleteAchievement(achievement.get());
-		model.addAttribute("message", "Achievement deleted");
 		listAchievements(model);
+		redirect.addFlashAttribute("message", "Achievement deleted");
 		return "redirect:/achievements";
 	}
 	

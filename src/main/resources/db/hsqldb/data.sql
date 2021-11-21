@@ -92,4 +92,3 @@ INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VA
 INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (7,'Neddia','Heroe',2,0,0, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.',0,'Rojo',3);
 INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (8,'Valerys','Heroe',3,0,0, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.',0,'Azul',4);
 
---INSERT INTO card_users(fk_user,fk_card) VALUES (1,1);

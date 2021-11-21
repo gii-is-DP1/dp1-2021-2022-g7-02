@@ -8,6 +8,9 @@
 
 
 <petclinic:layout pageName="RegisterUser">
+
+<div th:if="${message}" th:text="${message}"/>
+
     <h2>Register User</h2>
 
     <table id="ownersTable" class="table table-striped">

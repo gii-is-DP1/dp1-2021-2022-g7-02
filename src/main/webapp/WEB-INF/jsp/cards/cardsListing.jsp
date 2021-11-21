@@ -9,20 +9,24 @@
 
 
 <petclinic:layout pageName="GameCards">
+
+<div th:if="${message}" th:text="${message}"/>
+
+
 	<h2>Game Cards</h2>
 
 	<table id="CardsTable" class="table table-striped">
 		<thead>
 			<tr>
-				<th style="width: 20%;">Name</th>
-				<th style="width: 20%;">Type</th>
-				<th style="width: 20%;">Life</th>
-				<th style="width: 10%;">Glory</th>
-				<th style="width: 10%;">Gold</th>
-				<th style="width: 30%;">Skill</th>
-				<th style="width: 20%;">Extraglory</th>
-				<th style="width: 20%;">Color</th>
-				<th style="width: 20%;">DeckId</th>
+				<th style="width: 10%;">Name</th>
+				<th style="width: 10%;">Type</th>
+				<th style="width: 5%;">Life</th>
+				<th style="width: 5%;">Glory</th>
+				<th style="width: 5%;">Gold</th>
+				<th style="width: 80%;">Skill</th>
+				<th style="width: 5%;">Extraglory</th>
+				<th style="width: 10%;">Color</th>
+				<th style="width: 5%;">DeckId</th>
 				<th style="width: 5%;"></th>
 				<th style="width: 5%;"></th>
 
