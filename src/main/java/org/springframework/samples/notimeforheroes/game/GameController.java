@@ -29,6 +29,7 @@ public class GameController {
 	public static final String GAMES_FORM = "games/createOrUpdateGamesForm";
 	public static final String GAMES_WAITING_FOR_PLAYERS = "games/waitingForPlayers";
 	public static final String GAMES_JOIN = "games/joinGame";
+	public static final Integer MAX_NUMBER_PLAYERS = 4;
 
 
 	@Autowired
@@ -103,7 +104,7 @@ public class GameController {
 	public String joinGame(ModelMap model, @RequestParam("joinCode") String joinCode){
 		Game game = gameService.findByJoinCode(joinCode).orElse(null);
 
-		if(game.getUsers().size() < 4){
+		if(game.getUsers().size() < MAX_NUMBER_PLAYERS){
 			User loggedUser = userService.getLoggedUser();
 			game.getUsers().add(loggedUser);
 			gameService.updateGame(game);
