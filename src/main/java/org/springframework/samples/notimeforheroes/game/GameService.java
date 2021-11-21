@@ -30,7 +30,9 @@ public class GameService {
 	public Optional<Game> findById(Integer id){
 		return gameRepository.findById(id);
 	}
-	
+	public Collection<Game> findPublicAndOwn(User user){
+		return gameRepository.findPublicAndOwn(user);
+	}
 	
 	public Collection<Game> findAllEnded(){
 		return gameRepository.findAllEnded();

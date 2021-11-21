@@ -12,7 +12,10 @@
     </h2>
     <form:form method="POST" modelAttribute="games" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">            
- 
+        <select name="isPublic">
+            <option value="0">Privado</option>
+            <option value="1" selected>Publico</option>
+        </select>   
  
  
  
