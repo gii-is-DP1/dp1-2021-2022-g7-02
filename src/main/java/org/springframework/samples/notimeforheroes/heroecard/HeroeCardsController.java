@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/heroes")
-public class CardsController {
+public class HeroeCardsController {
 
 	public static final String HEROE_CARD_LISTING = "heroes/heroeCardsListing";
 	public static final String HEROE_CARD_FORM =  "heroes/createOrUpdateHeroeCardsForm";
