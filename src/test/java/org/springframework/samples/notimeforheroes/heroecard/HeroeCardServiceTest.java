@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.notimeforheroes.heroecard.HeroeCards;
-import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -57,7 +55,7 @@ public class HeroeCardServiceTest {
 			HeroeCardService.deleteHeroeCard(c);
 		}			
 		HeroeCards HeroeCard = new HeroeCards();
-		HeroeCard.setId(2);
+		HeroeCard.setId(1);
 		HeroeCard.setName("Salomon");
 		HeroeCard.setUrl("https:");
 		HeroeCard.setLife(2);
@@ -82,14 +80,13 @@ public class HeroeCardServiceTest {
 	
 	@Test 
 	public void TestEditHeroeCard() {
-		HeroeCards Heroecard = HeroeCardService.findById(2).get();
+		HeroeCards Heroecard = HeroeCardService.findById(1).get();
 		String oldColor = Heroecard.getColor();
 		
 		String newColor = oldColor + " sky";
-		Heroecard.setName(newColor);
+		Heroecard.setColor(newColor);
 		HeroeCardService.createHeroeCard(Heroecard);
 		
-		Heroecard = HeroeCardService.findById(2).get();
 		assertThat(Heroecard.getColor()).isEqualTo(newColor);
 
 	}
@@ -107,9 +104,12 @@ public class HeroeCardServiceTest {
 		HeroeCard.setDeckid(5);
 		HeroeCardService.createHeroeCard(HeroeCard);
 		
-		assertTrue(HeroeCardService.findAll().contains(HeroeCard));
+		HeroeCards Heroe=HeroeCardService.findById(HeroeCard.getId()).get();
+		
+		assertTrue(HeroeCardService.findAll().contains(Heroe));
+		
 		HeroeCardService.deleteHeroeCard(HeroeCard);
-		assertFalse(HeroeCardService.findAll().contains(HeroeCard));
+		assertFalse(HeroeCardService.findAll().contains(Heroe));
 
 	}
 	
