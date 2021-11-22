@@ -19,9 +19,9 @@
 		<thead>
 			<tr>
 				<th style="width: 10%;">Name</th>
-				<th style="width: 10%;">Url</th>
+				<th style="width: 25%;">Url</th>
 				<th style="width: 10%;">Life</th>
-				<th style="width: 10%;">Skill</th>
+				<th style="width: 80%;">Skill</th>
 				<th style="width: 10%;">Color</th>
 				<th style="width: 10%;">DeckId</th>
 				<th style="width: 5%;"></th>

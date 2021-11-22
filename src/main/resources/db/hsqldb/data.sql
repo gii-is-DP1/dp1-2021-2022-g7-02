@@ -85,15 +85,13 @@ INSERT INTO games_users(fk_user, fk_game) VALUES(2,2);
 
 INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
 
-/*INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (1,'Taheral','Heroe',2,0,0, 'Al realizar la maniobra de evasión, coge dos monedas por cada carta que descartes. Una vez por partida.',0,'Morado',1);
-INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (2,'Idril','Heroe',3,0,0, 'En cualquier momento puedes mirar las tres cartas inferiores de la horda y devolverlas al mazo en el orden que prefieras. Dos veces por partida.',0,'Verde',2);
-INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (3,'Feldon','Heroe',2,0,0, 'Al resolver el ataque de la horda, tan solo pierde la mitad de cartas de las indicadas por el daño. Una vez por partida.',0,'Rojo',3);
-INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (4,'Lisavette','Heroe',3,0,0, 'Mientras un heroe se enfrenta a la horda, utiliza un escudo para prevenirle del daño del enemigo. Roba hasta dos monedas de ese heroe. Dos veces por partida.',0,'Azul',4);
-INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (5,'Aranel','Heroe',2,0,0, 'En cualquier momento, busca una carta del mazo de Habilidad y sustituyela por una de tu mano. Acto seguido baraja el mazo. Una vez por partida.',0,'Morado',1);
-INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (6,'Beleth-Il','Heroe',3,0,0, 'Cuando utilices la carta Disparo Rapido, la primera carta fallida que robes podrás recuperarla y robar otra. Dos veces por partida.',0,'Verde',2);
-INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (7,'Neddia','Heroe',2,0,0, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.',0,'Rojo',3);
-INSERT INTO cards(id,name,type,life,glory,gold,skill,extraglory,color,deckid) VALUES (8,'Valerys','Heroe',3,0,0, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.',0,'Azul',4);*/
 
-
-INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (2,'Idril','https7',3, 'En cualquier momento puedes mirar las tres cartas inferiores de la horda y devolverlas al mazo en el orden que prefieras. Dos veces por partida.','Verde',2);
+INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (1,'Taheral','https:',2, 'Al realizar la maniobra de evasión, coge dos monedas por cada carta que descartes. Una vez por partida.','Morado',1);
+INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (2,'Idril','https:',3, 'En cualquier momento puedes mirar las tres cartas inferiores de la horda y devolverlas al mazo en el orden que prefieras. Dos veces por partida.','Verde',2);
+INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (3,'Feldon','https:',2, 'Al resolver el ataque de la horda, tan solo pierde la mitad de cartas de las indicadas por el daño. Una vez por partida.','Rojo',3);
+INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (4,'Lisavette','https:',3, 'Mientras un heroe se enfrenta a la horda, utiliza un escudo para prevenirle del daño del enemigo. Roba hasta dos monedas de ese heroe. Dos veces por partida.','Azul',4);
+INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (5,'Aranel','https:',2, 'En cualquier momento, busca una carta del mazo de Habilidad y sustituyela por una de tu mano. Acto seguido baraja el mazo. Una vez por partida.','Morado',1);
+INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (6,'Beleth-Il','https:',3, 'Cuando utilices la carta Disparo Rapido, la primera carta fallida que robes podrás recuperarla y robar otra. Dos veces por partida.','Verde',2);
+INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (7,'Neddia','https:',2, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.','Rojo',3);
+INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (8,'Valerys','https:',3, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.','Azul',4);
 
