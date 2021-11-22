@@ -20,6 +20,10 @@
 			<tr>
 				<th style="width: 10%;">Name</th>
 				<th style="width: 10%;">Url</th>
+				<th style="width: 10%;">Life</th>
+				<th style="width: 10%;">Skill</th>
+				<th style="width: 10%;">Color</th>
+				<th style="width: 10%;">DeckId</th>
 				<th style="width: 5%;"></th>
 				<th style="width: 5%;"></th>
 
@@ -27,14 +31,19 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${cards}" var="card">
+			<c:forEach items="${heroes}" var="heroe">
 				<tr>
-					<td><c:out value="${card.name}" /></td>
-					<td><c:out value="${card.url}" /></td>
-					<td><a href="/cards/${card.id}/edit"> <span
+					<td><c:out value="${heroe.name}" /></td>
+					<td><c:out value="${heroe.url}" /></td>
+					<td><c:out value="${heroe.life}" /></td>
+					<td><c:out value="${heroe.skill}" /></td>
+					<td><c:out value="${heroe.color}" /></td>
+					<td><c:out value="${heroe.deckid}" /></td>
+					
+					<td><a href="/heroes/${heroe.id}/edit"> <span
 							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					</a></td>
-					<td><a href="/cards/${card.id}/delete"> <span
+					<td><a href="/heroes/${heroe.id}/delete"> <span
 							class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 					</a></td>
 				</tr>
@@ -44,7 +53,7 @@
 		</tbody>
 	</table>
 	<p>
-		<a href="/cards/new" class="btn  btn-success"><span
-			class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Card</a>
+		<a href="/heroes/new" class="btn  btn-success"><span
+			class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Heroe</a>
 	</p>
 </petclinic:layout>
