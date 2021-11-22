@@ -6,14 +6,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="cards">
+<petclinic:layout pageName="heroesCards">
     <h2>
-		Card
+		Heroes Card
     </h2>
-    <form:form method="POST" modelAttribute="cards" class="form-horizontal" id="add-owner-form">
+    <form:form method="POST" modelAttribute="heroes" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Name" name="name"/>
             <petclinic:inputField label="Url" name="url"/>                        
+            <petclinic:inputField label="Life" name="life"/>                        
+            <petclinic:inputField label="Skill" name="skill"/>                        
+            <petclinic:inputField label="Color" name="color"/>                        
+            <petclinic:inputField label="DeckId" name="deckid"/>                        
                                              
                                                
                                              

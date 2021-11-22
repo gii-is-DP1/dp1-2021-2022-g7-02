@@ -10,19 +10,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.notimeforheroes.heroecard.HeroeCards;
+import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class CardServiceTest {
 
 	@Autowired
-	CardsService cardService;
+	HeroeCardsService cardService;
 	
 	@Test
 	public void TestNoCard() {
-		Collection<Cards> cards = cardService.findAll();
-		for(Cards c : cards) {
-			cardService.deleteCard(c);
+		Collection<HeroeCards> cards = cardService.findAll();
+		for(HeroeCards c : cards) {
+			cardService.deleteHeroeCard(c);
 		}
 		assertThat(cardService.findAll().isEmpty()).isTrue();
 
@@ -30,15 +32,15 @@ public class CardServiceTest {
 	
 	@Test
 	public void TestOneCard() {
-		Collection<Cards> cards = cardService.findAll();
-		for(Cards c : cards) {
-			cardService.deleteCard(c);
+		Collection<HeroeCards> cards = cardService.findAll();
+		for(HeroeCards c : cards) {
+			cardService.deleteHeroeCard(c);
 		}		
-		Cards card = new Cards();
+		HeroeCards card = new HeroeCards();
 		card.setId(2);
 		card.setName("Salomon");
 		card.setUrl("https:");
-		cardService.createCard(card);
+		cardService.createHeroeCard(card);
 		assertThat(cardService.findAll().size()).isEqualTo(1);
 
 	}
@@ -46,21 +48,21 @@ public class CardServiceTest {
 	@Test
 	public void TestMoreThanOneCard() {
 		
-		Collection<Cards> cards = cardService.findAll();
-		for(Cards c : cards) {
-			cardService.deleteCard(c);
+		Collection<HeroeCards> cards = cardService.findAll();
+		for(HeroeCards c : cards) {
+			cardService.deleteHeroeCard(c);
 		}			
-		Cards card = new Cards();
+		HeroeCards card = new HeroeCards();
 		card.setId(2);
 		card.setName("Salomon");
 		card.setUrl("https:");
-		cardService.createCard(card);
+		cardService.createHeroeCard(card);
 		
-		Cards card1 = new Cards();
+		HeroeCards card1 = new HeroeCards();
 		card1.setId(3);
 		card1.setName("Salomon2");
 		card1.setUrl("https:");
-		cardService.createCard(card1);
+		cardService.createHeroeCard(card1);
 		
 		assertThat(cardService.findAll().size()).isGreaterThan(1);
 
@@ -68,12 +70,12 @@ public class CardServiceTest {
 	
 	@Test 
 	public void TestEditCard() {
-		Cards card = cardService.findById(1).get();
+		HeroeCards card = cardService.findById(1).get();
 		String oldName = card.getName();
 		
 		String newName = oldName + " sky";
 		card.setName(newName);
-		cardService.createCard(card);
+		cardService.createHeroeCard(card);
 		
 		card = cardService.findById(1).get();
 		assertThat(card.getName()).isEqualTo(newName);
@@ -83,25 +85,25 @@ public class CardServiceTest {
 	@Test
 	public void TestDeleteCard() {	
 		
-		Cards card = new Cards();
+		HeroeCards card = new HeroeCards();
 		card.setId(2);
 		card.setName("Salomon");
 		card.setUrl("https:");
-		cardService.createCard(card);
+		cardService.createHeroeCard(card);
 		
 		assertTrue(cardService.findAll().contains(card));
-		cardService.deleteCard(card);
+		cardService.deleteHeroeCard(card);
 		assertFalse(cardService.findAll().contains(card));
 	}
 	
 	@Test
 	public void TestNewCard() {	
 		
-		Cards card = new Cards();
+		HeroeCards card = new HeroeCards();
 		card.setId(2);
 		card.setName("Salomon");
 		card.setUrl("https:");
-		cardService.createCard(card);
+		cardService.createHeroeCard(card);
 
 		assertTrue(cardService.findAll().contains(card));
 
