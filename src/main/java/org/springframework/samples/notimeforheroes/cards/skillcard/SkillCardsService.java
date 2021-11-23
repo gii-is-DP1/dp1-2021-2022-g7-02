@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.skillcard;
+package org.springframework.samples.notimeforheroes.cards.skillcard;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -16,22 +16,22 @@ public class SkillCardsService {
 	SkillCardsRepository SkillRepository;
 	
 	@Transactional
-	public Collection<SkillCards> findAll(){
+	public Collection<SkillCard> findAll(){
 		return SkillRepository.findAll();
 	}
 	
 	@Transactional
-	public Optional<SkillCards> findById(Integer id){
+	public Optional<SkillCard> findById(Integer id){
 		return SkillRepository.findById(id);
 	}
 	
 	@Transactional
-	public void saveSkillCard(@Valid SkillCards skill) {
+	public void saveSkillCard(@Valid SkillCard skill) {
 		SkillRepository.save(skill);
 	}
 	
 	@Transactional
-	public void deleteSkillCard(SkillCards skill) {
+	public void deleteSkillCard(SkillCard skill) {
 		SkillRepository.delete(skill);
 	}
 

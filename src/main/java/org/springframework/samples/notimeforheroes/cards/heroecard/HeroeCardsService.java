@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.heroecard;
+package org.springframework.samples.notimeforheroes.cards.heroecard;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -18,24 +18,24 @@ public class HeroeCardsService {
 	
 	
 	@Transactional
-	public Collection<HeroeCards> findAll(){
+	public Collection<HeroeCard> findAll(){
 		return HeroeCardsRepo.findAll();
 	}
 	
 	
 	@Transactional
-	public Optional<HeroeCards> findById(Integer id){
+	public Optional<HeroeCard> findById(Integer id){
 		return HeroeCardsRepo.findById(id);
 	}
 	
 	
 	@Transactional
-	public void deleteHeroeCard(HeroeCards card) {
+	public void deleteHeroeCard(HeroeCard card) {
 		HeroeCardsRepo.deleteById(card.getId());
 		}
 	
 	@Transactional
-	public void createHeroeCard(@Valid HeroeCards card) {
+	public void createHeroeCard(@Valid HeroeCard card) {
 		HeroeCardsRepo.save(card);
 	}
 }

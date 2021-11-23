@@ -1,10 +1,10 @@
-package org.springframework.samples.notimeforheroes.scenecard;
+package org.springframework.samples.notimeforheroes.cards.scenecard;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.springframework.samples.petclinic.model.Card;
+import org.springframework.samples.notimeforheroes.cards.Card;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="scenes")
-public class SceneCards extends Card{
+public class SceneCard extends Card{
 	
 	@Column(columnDefinition = "LONGTEXT")
 	private String description;

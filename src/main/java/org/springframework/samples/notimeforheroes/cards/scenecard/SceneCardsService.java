@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.scenecard;
+package org.springframework.samples.notimeforheroes.cards.scenecard;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -16,22 +16,22 @@ public class SceneCardsService {
 	SceneCardsRepository SceneRepository;
 	
 	@Transactional
-	public Collection<SceneCards> findAll(){
+	public Collection<SceneCard> findAll(){
 		return SceneRepository.findAll();
 	}
 	
 	@Transactional
-	public Optional<SceneCards> findById(Integer id){
+	public Optional<SceneCard> findById(Integer id){
 		return SceneRepository.findById(id);
 	}
 	
 	@Transactional
-	public void saveSceneCard(@Valid SceneCards scene) {
+	public void saveSceneCard(@Valid SceneCard scene) {
 		SceneRepository.save(scene);
 	}
 	
 	@Transactional
-	public void deleteSceneCard(SceneCards scene) {
+	public void deleteSceneCard(SceneCard scene) {
 		SceneRepository.delete(scene);
 	}
 	

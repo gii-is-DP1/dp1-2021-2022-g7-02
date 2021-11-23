@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.scenecard;
+package org.springframework.samples.notimeforheroes.cards.scenecard;
 
 import java.util.Map;
 import java.util.Optional;
@@ -34,7 +34,7 @@ public class SceneCardsControler {
 	
 	@GetMapping("/{id}/edit")
 	public String editSceneCard(ModelMap model, @PathVariable("id") int id) {
-		Optional<SceneCards> scene = SceneService.findById(id);
+		Optional<SceneCard> scene = SceneService.findById(id);
 		if(scene.isPresent()) {
 			model.addAttribute("scenes", scene.get());
 			return SCENE_CARD_FORM;
@@ -45,8 +45,8 @@ public class SceneCardsControler {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editSceneCard(RedirectAttributes redirect, ModelMap model, @PathVariable("id") int id, @Valid SceneCards modifiedScene, BindingResult result) {
-		Optional<SceneCards> scene = SceneService.findById(id);
+	public String editSceneCard(RedirectAttributes redirect, ModelMap model, @PathVariable("id") int id, @Valid SceneCard modifiedScene, BindingResult result) {
+		Optional<SceneCard> scene = SceneService.findById(id);
 		if(result.hasErrors()) {
 			model.addAttribute("message", "The Scene has errors");
 			return SCENE_CARD_FORM;
@@ -61,13 +61,13 @@ public class SceneCardsControler {
 	
 	@GetMapping("/new")
 	public String newSceneCard(Map<String, Object> map) {
-		SceneCards scene= new SceneCards();
+		SceneCard scene= new SceneCard();
 		map.put("scenes", scene);
 		return SCENE_CARD_FORM;
 	}
 	
 	@PostMapping("/new")
-	public String newSceneCard(RedirectAttributes redirect, @Valid SceneCards scene,BindingResult result, ModelMap model) {
+	public String newSceneCard(RedirectAttributes redirect, @Valid SceneCard scene,BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
 			return SCENE_CARD_FORM;
 		} else {
@@ -81,7 +81,7 @@ public class SceneCardsControler {
 	
 	@GetMapping("/{id}/delete")
 	public String deleteSceneCard(RedirectAttributes redirect,ModelMap model, @PathVariable("id") int id) {
-		Optional<SceneCards> scene = SceneService.findById(id);
+		Optional<SceneCard> scene = SceneService.findById(id);
 		SceneService.deleteSceneCard(scene.get());
 		listSceneCard(model);
 		redirect.addFlashAttribute("message", "Scene deleted");
