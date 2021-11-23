@@ -95,3 +95,4 @@ INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (6,'Beleth-Il','h
 INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (7,'Neddia','https:',2, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.','Rojo',3);
 INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (8,'Valerys','https:',3, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.','Azul',4);
 
+INSERT INTO scenes(id,name,url,description) VALUES (1,'Campo de batalla', 'https:','Cada enemigo vencido aportara 1 moneda adicional al héroe que lo derrotó' );
