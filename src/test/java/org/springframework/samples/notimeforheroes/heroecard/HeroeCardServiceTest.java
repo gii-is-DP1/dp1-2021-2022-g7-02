@@ -4,130 +4,138 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
+
+import javax.validation.constraints.Min.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class HeroeCardServiceTest {
 
 	@Autowired
-	HeroeCardsService HeroeCardService;
+	HeroeCardsService heroeCardsService;
 	
 	@Test
 	public void TestNoHeroeCard() {
-		Collection<HeroeCards> HeroeCard = HeroeCardService.findAll();
-		for(HeroeCards c : HeroeCard) {
-			HeroeCardService.deleteHeroeCard(c);
+		Collection<HeroeCard> HeroeCard = heroeCardsService.findAll();
+		for(HeroeCard c : HeroeCard) {
+			heroeCardsService.deleteHeroeCard(c);
 		}
-		assertThat(HeroeCardService.findAll().isEmpty()).isTrue();
+		assertThat(heroeCardsService.findAll().isEmpty()).isTrue();
 
 	}
 	
 	@Test
-	public void TestOneHeroeCard() {
-		Collection<HeroeCards> HeroeCards = HeroeCardService.findAll();
-		for(HeroeCards c : HeroeCards) {
-			HeroeCardService.deleteHeroeCard(c);
+	public void testOneHeroeCard() {
+		Collection<HeroeCard> heroeCards= heroeCardsService.findAll();
+		for(HeroeCard c : heroeCards) {
+			heroeCardsService.deleteHeroeCard(c);
 		}		
-		HeroeCards HeroeCard = new HeroeCards();
-		HeroeCard.setId(2);
-		HeroeCard.setName("Salomon");
-		HeroeCard.setUrl("https:");
-		HeroeCard.setLife(2);
-		HeroeCard.setSkill("skill");
-		HeroeCard.setColor("blue");
-		HeroeCard.setDeckid(5);
-		HeroeCardService.createHeroeCard(HeroeCard);
-		assertThat(HeroeCardService.findAll().size()).isEqualTo(1);
+		HeroeCard heroeCard = new HeroeCard();
+		heroeCard.setId(2);
+		heroeCard.setName("Salomon");
+		heroeCard.setUrl("https:");
+		heroeCard.setLife(2);
+		heroeCard.setSkill("skill");
+		heroeCard.setColor("blue");
+		heroeCard.setDeckid(5);
+		heroeCardsService.createHeroeCard(heroeCard);
+		assertThat(heroeCardsService.findAll().size()).isEqualTo(1);
+		assertThat(new ArrayList<>(heroeCardsService.findAll()).get(0).getName()).isEqualTo(heroeCard.getName());
 
 	}
 	
 	@Test
 	public void TestMoreThanOneHeroeCard() {
 		
-		Collection<HeroeCards> cards = HeroeCardService.findAll();
-		for(HeroeCards c : cards) {
-			HeroeCardService.deleteHeroeCard(c);
+		Collection<HeroeCard> cards = heroeCardsService.findAll();
+		for(HeroeCard c : cards) {
+			heroeCardsService.deleteHeroeCard(c);
 		}			
-		HeroeCards HeroeCard = new HeroeCards();
-		HeroeCard.setId(1);
-		HeroeCard.setName("Salomon");
-		HeroeCard.setUrl("https:");
-		HeroeCard.setLife(2);
-		HeroeCard.setSkill("skill");
-		HeroeCard.setColor("blue");
-		HeroeCard.setDeckid(5);
-		HeroeCardService.createHeroeCard(HeroeCard);
+		HeroeCard heroeCard = new HeroeCard();
+		heroeCard.setId(1);
+		heroeCard.setName("Salomon");
+		heroeCard.setUrl("https:");
+		heroeCard.setLife(2);
+		heroeCard.setSkill("skill");
+		heroeCard.setColor("blue");
+		heroeCard.setDeckid(5);
+		heroeCardsService.createHeroeCard(heroeCard);
 		
-		HeroeCards HeroeCard1 = new HeroeCards();
-		HeroeCard1.setId(2);
-		HeroeCard1.setName("Salomon");
-		HeroeCard1.setUrl("https:");
-		HeroeCard1.setLife(2);
-		HeroeCard1.setSkill("skill");
-		HeroeCard1.setColor("blue");
-		HeroeCard1.setDeckid(5);
-		HeroeCardService.createHeroeCard(HeroeCard1);
+		HeroeCard heroeCard1 = new HeroeCard();
+		heroeCard1.setId(2);
+		heroeCard1.setName("Salomon");
+		heroeCard1.setUrl("https:");
+		heroeCard1.setLife(2);
+		heroeCard1.setSkill("skill");
+		heroeCard1.setColor("blue");
+		heroeCard1.setDeckid(5);
+		heroeCardsService.createHeroeCard(heroeCard1);
 		
-		assertThat(HeroeCardService.findAll().size()).isGreaterThan(1);
+		assertThat(heroeCardsService.findAll().size()).isEqualTo(2);
 
 	}
 	
 	@Test 
 	public void TestEditHeroeCard() {
-		HeroeCards Heroecard = HeroeCardService.findById(1).get();
-		String oldColor = Heroecard.getColor();
+		HeroeCard heroecard = heroeCardsService.findById(1).get();
+		String oldColor = heroecard.getColor();
 		
 		String newColor = oldColor + " sky";
-		Heroecard.setColor(newColor);
-		HeroeCardService.createHeroeCard(Heroecard);
+		heroecard.setColor(newColor);
+		heroeCardsService.createHeroeCard(heroecard);
 		
-		assertThat(Heroecard.getColor()).isEqualTo(newColor);
+		assertThat(heroeCardsService.findById(heroecard.getId()).get().getColor()).isEqualTo(newColor);
 
 	}
 	
 	@Test
 	public void TestDeleteHeroeCard() {	
 		
-		HeroeCards HeroeCard = new HeroeCards();
-		HeroeCard.setId(2);
-		HeroeCard.setName("Salomon");
-		HeroeCard.setUrl("https:");
-		HeroeCard.setLife(2);
-		HeroeCard.setSkill("skill");
-		HeroeCard.setColor("blue");
-		HeroeCard.setDeckid(5);
-		HeroeCardService.createHeroeCard(HeroeCard);
+		HeroeCard heroeCard = new HeroeCard();
+		heroeCard.setId(2);
+		heroeCard.setName("Salomon");
+		heroeCard.setUrl("https:");
+		heroeCard.setLife(2);
+		heroeCard.setSkill("skill");
+		heroeCard.setColor("blue");
+		heroeCard.setDeckid(5);
+		heroeCardsService.createHeroeCard(heroeCard);
 		
-		HeroeCards Heroe=HeroeCardService.findById(HeroeCard.getId()).get();
+		HeroeCard heroe=heroeCardsService.findById(heroeCard.getId()).get();
 		
-		assertTrue(HeroeCardService.findAll().contains(Heroe));
+		assertTrue(heroeCardsService.findAll().contains(heroe));
 		
-		HeroeCardService.deleteHeroeCard(HeroeCard);
-		assertFalse(HeroeCardService.findAll().contains(Heroe));
+		heroeCardsService.deleteHeroeCard(heroeCard);
+		assertFalse(heroeCardsService.findAll().contains(heroe));
 
 	}
 	
 	@Test
 	public void TestNewHeroeCard() {	
-		Integer Heroes = HeroeCardService.findAll().size();
+		Integer Heroes = heroeCardsService.findAll().size();
 		
-		HeroeCards HeroeCard = new HeroeCards();
-		HeroeCard.setId(2);
-		HeroeCard.setName("Salomon");
-		HeroeCard.setUrl("https:");
-		HeroeCard.setLife(2);
-		HeroeCard.setSkill("skill");
-		HeroeCard.setColor("blue");
-		HeroeCard.setDeckid(5);
-		HeroeCardService.createHeroeCard(HeroeCard);
+		HeroeCard heroeCard = new HeroeCard();
+		heroeCard.setId(2);
+		heroeCard.setName("Salomon");
+		heroeCard.setUrl("https:");
+		heroeCard.setLife(2);
+		heroeCard.setSkill("skill");
+		heroeCard.setColor("blue");
+		heroeCard.setDeckid(5);
+		heroeCardsService.createHeroeCard(heroeCard);
 		
-		Integer newHeroes = HeroeCardService.findAll().size();
+		Integer newHeroes = heroeCardsService.findAll().size();
 		assertFalse(Heroes != newHeroes);
 	}
 	
