@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.notimeforheroes.heroecard.HeroeCards;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -35,7 +34,6 @@ public class SceneCardServiceTest {
 			sceneService.deleteSceneCard(c);
 		}		
 		SceneCards sceneCard = new SceneCards();
-		sceneCard.setId(2);
 		sceneCard.setName("Battlefield");
 		sceneCard.setUrl("https:");
 		sceneCard.setDescription("description");
@@ -52,15 +50,15 @@ public class SceneCardServiceTest {
 			sceneService.deleteSceneCard(c);
 		}		
 		SceneCards sceneCard = new SceneCards();
-		sceneCard.setId(2);
 		sceneCard.setName("Battlefield");
+		sceneCard.setId(2);
 		sceneCard.setUrl("https:");
 		sceneCard.setDescription("description");
 		sceneService.saveSceneCard(sceneCard);
 		
 		SceneCards sceneCard2 = new SceneCards();
-		sceneCard2.setId(3);
 		sceneCard2.setName("Battlefield2");
+		sceneCard.setId(3);
 		sceneCard2.setUrl("https:");
 		sceneCard2.setDescription("description2");
 		sceneService.saveSceneCard(sceneCard);
@@ -86,7 +84,6 @@ public class SceneCardServiceTest {
 	public void TestDeleteSceneCard() {	
 		
 		SceneCards sceneCard = new SceneCards();
-		sceneCard.setId(1);
 		sceneCard.setName("Battlefield");
 		sceneCard.setUrl("https:");
 		sceneCard.setDescription("description");
@@ -106,7 +103,6 @@ public class SceneCardServiceTest {
 		Integer scene = sceneService.findAll().size();
 		
 		SceneCards sceneCard = new SceneCards();
-		sceneCard.setId(2);
 		sceneCard.setName("Battlefield");
 		sceneCard.setUrl("https:");
 		sceneCard.setDescription("description");

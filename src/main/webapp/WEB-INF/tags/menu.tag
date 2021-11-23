@@ -45,6 +45,61 @@
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Users</span>
 				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'vets'}" url=""
+					title="cards" dropdown="${true}">
+						<ul class="dropdown-menu">
+							<li>
+								<div class="row">
+									<div class="text-center">
+										<a href="<c:url value="/heroes" />">Heroes</a>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+							<li>								
+									<div class="row">
+										<div class="text-center">																					
+												<a href="<c:url value="/scenes" />">Scenes</a>
+										</div>																					
+									</div>						
+							</li>
+							<li class="divider"></li>
+							<li>								
+									<div class="row">
+										<div class="text-center">																					
+												<a href="<c:url value="/skills" />">Hero Skill</a>
+										</div>																					
+									</div>						
+							</li>	
+							<li class="divider"></li>
+							<li>								
+									<div class="row">
+										<div class="text-center">																					
+												<a href="<c:url value="/enemies" />">Enemies</a>
+										</div>																					
+									</div>						
+							</li>
+							<li class="divider"></li>
+							<li>								
+									<div class="row">
+										<div class="text-center">																					
+												<a href="<c:url value="/market" />">Market cards</a>
+										</div>																					
+									</div>						
+							</li>
+							<li class="divider"></li>
+							<li>								
+									<div class="row">
+										<div class="text-center">																					
+												<a href="<c:url value="/tokens" />">Tokens</a>
+										</div>																					
+									</div>						
+							</li>				
+						</ul>
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Cards</span>
+				</petclinic:menuItem>
 
 				
 

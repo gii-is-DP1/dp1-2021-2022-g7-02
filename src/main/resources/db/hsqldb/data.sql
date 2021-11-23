@@ -96,3 +96,14 @@ INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (7,'Neddia','http
 INSERT INTO heroes(id,name,url,life,skill,color,deckid) VALUES (8,'Valerys','https:',3, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.','Azul',4);
 
 INSERT INTO scenes(id,name,url,description) VALUES (1,'Campo de batalla', 'https:','Cada enemigo vencido aportara 1 moneda adicional al héroe que lo derrotó' );
+INSERT INTO scenes(id,name,url,description) VALUES (2,'Lágrimas de Aradiel', 'https:','Una vez por turno, el héroe activo puede utilizar una carta de la mano de otro héroe (elegida al azar). Para hacerlo deberá entregarle 1 ficha de Gloria. Tras aplicar la carta, se descarta en la pila de Desgaste del propietario y este roba una nueva' );
+INSERT INTO scenes(id,name,url,description) VALUES (3,'Lodazal de Kalern', 'https:','Al comienzo del turno de cada héroe, el jugador de su izquierda elige un enemigo. El enemigo elegido vuelve a la parte inferior del mazo (si tuviera heridas, se descartan');
+INSERT INTO scenes(id,name,url,description) VALUES (4,'Mercado de Lotharion', 'https:','Mientras este sea el escenario activo, todos los articulos del mercado cuestan una Moneda menos');
+
+
+INSERT INTO skills(id,name,url,description,deckid) VALUES (1,'Compañero Lobo', 'https:', 'Previene 2 puntos de daño', 2);
+INSERT INTO skills(id,name,url,description,deckid) VALUES (2,'Disparo certero', 'https:', 'Pierdes 1 carta - Finalizas el ataque', 2);
+INSERT INTO skills(id,name,url,description,deckid) VALUES (3,'En la diana', 'https:', 'Gana 1 ficha de Gloria - Pierdes 1 carta', 2);
+
+
+
