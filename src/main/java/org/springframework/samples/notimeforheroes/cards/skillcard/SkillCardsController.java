@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.skillcard;
+package org.springframework.samples.notimeforheroes.cards.skillcard;
 
 import java.util.Map;
 import java.util.Optional;
@@ -35,7 +35,7 @@ public class SkillCardsController {
 	
 	@GetMapping("/{id}/edit")
 	public String editSkillCard(ModelMap model, @PathVariable("id") int id) {
-		Optional<SkillCards> skill = SkillService.findById(id);
+		Optional<SkillCard> skill = SkillService.findById(id);
 		if(skill.isPresent()) {
 			model.addAttribute("skills", skill.get());
 			return SKILL_CARD_FORM;
@@ -46,8 +46,8 @@ public class SkillCardsController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editSceneCard(RedirectAttributes redirect, ModelMap model, @PathVariable("id") int id, @Valid SkillCards modifiedSkill, BindingResult result) {
-		Optional<SkillCards> skill = SkillService.findById(id);
+	public String editSceneCard(RedirectAttributes redirect, ModelMap model, @PathVariable("id") int id, @Valid SkillCard modifiedSkill, BindingResult result) {
+		Optional<SkillCard> skill = SkillService.findById(id);
 		if(result.hasErrors()) {
 			model.addAttribute("message", "The skill has errors");
 			return SKILL_CARD_FORM;
@@ -62,13 +62,13 @@ public class SkillCardsController {
 	
 	@GetMapping("/new")
 	public String newSceneCard(Map<String, Object> map) {
-		SkillCards skill= new SkillCards();
+		SkillCard skill= new SkillCard();
 		map.put("skills", skill);
 		return SKILL_CARD_FORM;
 	}
 	
 	@PostMapping("/new")
-	public String newSceneCard(RedirectAttributes redirect, @Valid SkillCards skill,BindingResult result, ModelMap model) {
+	public String newSceneCard(RedirectAttributes redirect, @Valid SkillCard skill,BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
 			return SKILL_CARD_FORM;
 		} else {
@@ -82,7 +82,7 @@ public class SkillCardsController {
 	
 	@GetMapping("/{id}/delete")
 	public String deleteSceneCard(RedirectAttributes redirect,ModelMap model, @PathVariable("id") int id) {
-		Optional<SkillCards> skill = SkillService.findById(id);
+		Optional<SkillCard> skill = SkillService.findById(id);
 		SkillService.deleteSkillCard(skill.get());
 		listSkillCard(model);
 		redirect.addFlashAttribute("message", "Skill deleted");

@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.heroecard;
+package org.springframework.samples.notimeforheroes.cards.heroecard;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.samples.petclinic.model.Card;
+import org.springframework.samples.notimeforheroes.cards.Card;
 import org.springframework.samples.petclinic.model.NamedEntity;
 
 import lombok.Getter;
@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="heroes")
-public class HeroeCards extends Card{
+public class HeroeCard extends Card{
 
 	private Integer life;
 	
@@ -28,6 +28,8 @@ public class HeroeCards extends Card{
 	private String color;
 	
 	private Integer deckid;
+	
+
 	
 	
 }

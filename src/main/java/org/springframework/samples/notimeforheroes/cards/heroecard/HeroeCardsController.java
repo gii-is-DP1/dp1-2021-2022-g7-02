@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.heroecard;
+package org.springframework.samples.notimeforheroes.cards.heroecard;
 
 import java.util.Map;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class HeroeCardsController {
 	
 	@GetMapping("/{id}/edit")
 	public String editHeroeCard(ModelMap model, @PathVariable("id") int id) {
-		Optional<HeroeCards> heroe = HeroeCardService.findById(id);
+		Optional<HeroeCard> heroe = HeroeCardService.findById(id);
 		if(heroe.isPresent()) {
 			model.addAttribute("heroes", heroe.get());
 			return HEROE_CARD_FORM;
@@ -47,8 +47,8 @@ public class HeroeCardsController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editHeroeCard(RedirectAttributes redirect, ModelMap model, @PathVariable("id") int id, @Valid HeroeCards modifiedHeroe, BindingResult result) {
-		Optional<HeroeCards> heroe = HeroeCardService.findById(id);
+	public String editHeroeCard(RedirectAttributes redirect, ModelMap model, @PathVariable("id") int id, @Valid HeroeCard modifiedHeroe, BindingResult result) {
+		Optional<HeroeCard> heroe = HeroeCardService.findById(id);
 		if(result.hasErrors()) {
 			model.addAttribute("message", "The heroe has errors");
 			return HEROE_CARD_FORM;
@@ -63,13 +63,13 @@ public class HeroeCardsController {
 	
 	@GetMapping("/new")
 	public String newHeroeCard(Map<String, Object> map) {
-		HeroeCards heroe= new HeroeCards();
+		HeroeCard heroe= new HeroeCard();
 		map.put("heroes", heroe);
 		return HEROE_CARD_FORM;
 	}
 	
 	@PostMapping("/new")
-	public String newHeroeCard(RedirectAttributes redirect, @Valid HeroeCards heroe,BindingResult result, ModelMap model) {
+	public String newHeroeCard(RedirectAttributes redirect, @Valid HeroeCard heroe,BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
 			return HEROE_CARD_FORM;
 		} else {
@@ -83,7 +83,7 @@ public class HeroeCardsController {
 	
 	@GetMapping("/{id}/delete")
 	public String deleteHeroeCard(RedirectAttributes redirect,ModelMap model, @PathVariable("id") int id) {
-		Optional<HeroeCards> heroe = HeroeCardService.findById(id);
+		Optional<HeroeCard> heroe = HeroeCardService.findById(id);
 		HeroeCardService.deleteHeroeCard(heroe.get());
 		listHeroesCards(model);
 		redirect.addFlashAttribute("message", "Heroe deleted");
