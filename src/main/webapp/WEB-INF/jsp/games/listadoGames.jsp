@@ -18,6 +18,7 @@
             <th class="width8">Duracion</th>
             <th class="width8">Está en progreso</th>
             <th class="width8">Visibilidad</th>
+            <th class="width8">Codigo Invitacion</th>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +38,9 @@
                 </td>
                 <td>
                     <c:out value="${game.isPublic ? 'Público' : 'Privado'}"/>
+                </td>
+                <td>
+                    <c:out value="${game.joinCode}"/>
                 </td>
             </tr>
         </c:forEach>
