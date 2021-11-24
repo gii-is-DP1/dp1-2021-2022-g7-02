@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.notimeforheroes.cards.scenecard.SceneCard;
+import org.springframework.samples.notimeforheroes.cards.scenecard.SceneCardsService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -20,8 +22,8 @@ public class SceneCardServiceTest {
 	
 	@Test
 	public void TestNoSceneCard() {
-		Collection<SceneCards> scenes = sceneService.findAll();
-		for(SceneCards c: scenes) {
+		Collection<SceneCard> scenes = sceneService.findAll();
+		for(SceneCard c: scenes) {
 			sceneService.deleteSceneCard(c);
 		}	
 		assertThat(sceneService.findAll().isEmpty()).isTrue();
@@ -29,11 +31,11 @@ public class SceneCardServiceTest {
 	
 	@Test
 	public void TestOneSceneCard() {
-		Collection<SceneCards> SceneCards = sceneService.findAll();
-		for(SceneCards c : SceneCards) {
+		Collection<SceneCard> SceneCards = sceneService.findAll();
+		for(SceneCard c : SceneCards) {
 			sceneService.deleteSceneCard(c);
 		}		
-		SceneCards sceneCard = new SceneCards();
+		SceneCard sceneCard = new SceneCard();
 		sceneCard.setName("Battlefield");
 		sceneCard.setUrl("https:");
 		sceneCard.setDescription("description");
@@ -45,18 +47,18 @@ public class SceneCardServiceTest {
 	@Test
 	public void TestMoreThanOneSceneCard() {
 		
-		Collection<SceneCards> SceneCards = sceneService.findAll();
-		for(SceneCards c : SceneCards) {
+		Collection<SceneCard> SceneCards = sceneService.findAll();
+		for(SceneCard c : SceneCards) {
 			sceneService.deleteSceneCard(c);
 		}		
-		SceneCards sceneCard = new SceneCards();
+		SceneCard sceneCard = new SceneCard();
 		sceneCard.setName("Battlefield");
 		sceneCard.setId(2);
 		sceneCard.setUrl("https:");
 		sceneCard.setDescription("description");
 		sceneService.saveSceneCard(sceneCard);
 		
-		SceneCards sceneCard2 = new SceneCards();
+		SceneCard sceneCard2 = new SceneCard();
 		sceneCard2.setName("Battlefield2");
 		sceneCard.setId(3);
 		sceneCard2.setUrl("https:");
@@ -69,7 +71,7 @@ public class SceneCardServiceTest {
 	
 	@Test 
 	public void TestEditSceneCard() {
-		SceneCards SceneCard = sceneService.findById(1).get();
+		SceneCard SceneCard = sceneService.findById(1).get();
 		String oldName = SceneCard.getName();
 		
 		String newName = oldName + " sky";
@@ -83,13 +85,13 @@ public class SceneCardServiceTest {
 	@Test
 	public void TestDeleteSceneCard() {	
 		
-		SceneCards sceneCard = new SceneCards();
+		SceneCard sceneCard = new SceneCard();
 		sceneCard.setName("Battlefield");
 		sceneCard.setUrl("https:");
 		sceneCard.setDescription("description");
 		sceneService.saveSceneCard(sceneCard);
 		
-		SceneCards scene = sceneService.findById(sceneCard.getId()).get();
+		SceneCard scene = sceneService.findById(sceneCard.getId()).get();
 		assertTrue(sceneService.findAll().contains(scene));
 		
 		sceneService.deleteSceneCard(sceneCard);
@@ -102,7 +104,7 @@ public class SceneCardServiceTest {
 	public void TestNewSceneCard() {	
 		Integer scene = sceneService.findAll().size();
 		
-		SceneCards sceneCard = new SceneCards();
+		SceneCard sceneCard = new SceneCard();
 		sceneCard.setName("Battlefield");
 		sceneCard.setUrl("https:");
 		sceneCard.setDescription("description");

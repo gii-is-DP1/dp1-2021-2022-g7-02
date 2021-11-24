@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
+import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -21,8 +23,8 @@ public class SkillCardServiceTest {
 	
 	@Test
 	public void TestNoSkillCard() {
-		Collection<SkillCards> skill = skillService.findAll();
-		for(SkillCards c: skill) {
+		Collection<SkillCard> skill = skillService.findAll();
+		for(SkillCard c: skill) {
 			skillService.deleteSkillCard(c);
 		}	
 		assertThat(skillService.findAll().isEmpty()).isTrue();
@@ -30,11 +32,11 @@ public class SkillCardServiceTest {
 	
 	@Test
 	public void TestOneSkillCard() {
-		Collection<SkillCards> SkillCards = skillService.findAll();
-		for(SkillCards c : SkillCards) {
+		Collection<SkillCard> SkillCards = skillService.findAll();
+		for(SkillCard c : SkillCards) {
 			skillService.deleteSkillCard(c);
 		}		
-		SkillCards skillCard = new SkillCards();
+		SkillCard skillCard = new SkillCard();
 		skillCard.setName("Disparo certero");
 		skillCard.setUrl("https:");
 		skillCard.setDescription("description");
@@ -47,18 +49,18 @@ public class SkillCardServiceTest {
 	@Test
 	public void TestMoreThanOneSkillCard() {
 		
-		Collection<SkillCards> SkillCards = skillService.findAll();
-		for(SkillCards c : SkillCards) {
+		Collection<SkillCard> SkillCards = skillService.findAll();
+		for(SkillCard c : SkillCards) {
 			skillService.deleteSkillCard(c);
 		}		
-		SkillCards skillCard = new SkillCards();
+		SkillCard skillCard = new SkillCard();
 		skillCard.setName("Disparo certero");
 		skillCard.setUrl("https:");
 		skillCard.setDescription("description");
 		skillCard.setDeckid(2);
 		skillService.saveSkillCard(skillCard);
 		
-		SkillCards skillCard2 = new SkillCards();
+		SkillCard skillCard2 = new SkillCard();
 		skillCard2.setName("Lobo");
 		skillCard2.setUrl("https:");
 		skillCard2.setDescription("description");
@@ -71,7 +73,7 @@ public class SkillCardServiceTest {
 	
 	@Test 
 	public void TestEditSkillCard() {
-		SkillCards SkillCard = skillService.findById(1).get();
+		SkillCard SkillCard = skillService.findById(1).get();
 		String oldName = SkillCard.getName();
 		
 		String newName = oldName + " sky";
@@ -85,14 +87,14 @@ public class SkillCardServiceTest {
 	@Test
 	public void TestDeleteSkillCard() {	
 		
-		SkillCards skillCard = new SkillCards();
+		SkillCard skillCard = new SkillCard();
 		skillCard.setName("Disparo certero");
 		skillCard.setUrl("https:");
 		skillCard.setDescription("description");
 		skillCard.setDeckid(2);
 		skillService.saveSkillCard(skillCard);
 		
-		SkillCards skill = skillService.findById(skillCard.getId()).get();
+		SkillCard skill = skillService.findById(skillCard.getId()).get();
 		assertTrue(skillService.findAll().contains(skill));
 		
 		skillService.deleteSkillCard(skillCard);
@@ -105,7 +107,7 @@ public class SkillCardServiceTest {
 	public void TestNewSkillCard() {	
 		Integer skill = skillService.findAll().size();
 		
-		SkillCards skillCard = new SkillCards();
+		SkillCard skillCard = new SkillCard();
 		skillCard.setName("Disparo certero");
 		skillCard.setUrl("https:");
 		skillCard.setDescription("description");

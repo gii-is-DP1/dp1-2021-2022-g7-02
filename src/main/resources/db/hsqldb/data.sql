@@ -105,5 +105,5 @@ INSERT INTO skills(id,name,url,description,deckid) VALUES (1,'Compañero Lobo', 
 INSERT INTO skills(id,name,url,description,deckid) VALUES (2,'Disparo certero', 'https:', 'Pierdes 1 carta - Finalizas el ataque', 2);
 INSERT INTO skills(id,name,url,description,deckid) VALUES (3,'En la diana', 'https:', 'Gana 1 ficha de Gloria - Pierdes 1 carta', 2);
 
-
+INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica', 'https:', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
 
