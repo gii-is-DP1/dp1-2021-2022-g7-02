@@ -107,3 +107,4 @@ INSERT INTO skills(id,name,url,description,deckid) VALUES (3,'En la diana', 'htt
 
 INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica', 'https:', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
 
+INSERT INTO enemies(id,name,url,life,glory,extraglory,extragold) VALUES (1,'Simple Enemy', 'https:', 2, 1, 0, 0);

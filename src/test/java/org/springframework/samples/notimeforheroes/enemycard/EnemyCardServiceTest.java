@@ -133,7 +133,7 @@ public class EnemyCardServiceTest {
 		enemyCardService.createEnemyCard(enemyCard);
 		
 		Integer newEnemies = enemyCardService.findAll().size();
-		assertFalse(Enemies != newEnemies);
+		assertTrue(Enemies != newEnemies);
 	}
 	
 	
