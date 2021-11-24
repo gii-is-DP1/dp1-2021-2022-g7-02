@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.enemycard;
+package org.springframework.samples.notimeforheroes.cards.enemycard;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="enemies")
+
 
 public class EnemyCard extends Card {
 	

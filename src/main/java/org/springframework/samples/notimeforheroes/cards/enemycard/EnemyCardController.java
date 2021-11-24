@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.enemycard;
+package org.springframework.samples.notimeforheroes.cards.enemycard;
 
 import java.util.Map;
 import java.util.Optional;
