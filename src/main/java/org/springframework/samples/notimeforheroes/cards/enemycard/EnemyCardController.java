@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/enemies")
+@RequestMapping("/cards/enemies")
 public class EnemyCardController {
 
-	public static final String ENEMY_CARD_LISTING = "enemies/enemiesCardsListing";
-	public static final String ENEMY_CARD_FORM =  "enemies/createOrUpdateEnemiesCardsForm";
+	public static final String ENEMY_CARD_LISTING = "cards/enemies/enemiesCardsListing";
+	public static final String ENEMY_CARD_FORM =  "cards/enemies/createOrUpdateEnemiesCardsForm";
 	
 	@Autowired
 	EnemyCardService EnemyCardService;
@@ -57,7 +57,7 @@ public class EnemyCardController {
 			model.addAttribute("enemies", enemy.get());
 			listEnemiesCards(model);
 			redirect.addFlashAttribute("message", "enemy modified");
-			return "redirect:/enemies";
+			return "redirect:/cards/enemies";
 		}
 	}
 	
@@ -77,7 +77,7 @@ public class EnemyCardController {
 			model.addAttribute("message", "enemy created");
 			listEnemiesCards(model);
 			redirect.addFlashAttribute("message", "enemy created");
-			return "redirect:/enemies";
+			return "redirect:/cards/enemies";
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class EnemyCardController {
 		EnemyCardService.deleteEnemyCard(enemy.get());
 		listEnemiesCards(model);
 		redirect.addFlashAttribute("message", "Heroe deleted");
-		return "redirect:/enemies";
+		return "redirect:/cards/enemies";
 
 	}
 	

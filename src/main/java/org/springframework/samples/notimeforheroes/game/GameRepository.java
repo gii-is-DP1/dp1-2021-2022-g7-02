@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.notimeforheroes.user.User;
 
 public interface GameRepository extends CrudRepository<Game, Integer>{
-
+//
 	
 	Collection<Game> findAll();
 	

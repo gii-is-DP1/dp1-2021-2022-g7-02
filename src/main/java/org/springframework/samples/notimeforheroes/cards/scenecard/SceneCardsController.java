@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/scenes")
-public class SceneCardsControler {
+@RequestMapping("/cards/scenes")
+public class SceneCardsController {
 
-	public static final String SCENE_CARD_LISTING = "scenes/sceneCardsListing";
-	public static final String SCENE_CARD_FORM =  "scenes/createOrUpdateSceneCardsForm";
+	public static final String SCENE_CARD_LISTING = "cards/scenes/sceneCardsListing";
+	public static final String SCENE_CARD_FORM =  "cards/scenes/createOrUpdateSceneCardsForm";
 	
 	@Autowired
 	SceneCardsService SceneService;
@@ -55,7 +55,7 @@ public class SceneCardsControler {
 			model.addAttribute("scene", scene.get());
 			listSceneCard(model);
 			redirect.addFlashAttribute("message", "Scene modified");
-			return "redirect:/scenes";
+			return "redirect:/cards/scenes";
 		}
 	}
 	
@@ -75,7 +75,7 @@ public class SceneCardsControler {
 			model.addAttribute("message", "Scene created");
 			listSceneCard(model);
 			redirect.addFlashAttribute("message", "Scene created");
-			return "redirect:/scenes";
+			return "redirect:/cards/scenes";
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class SceneCardsControler {
 		SceneService.deleteSceneCard(scene.get());
 		listSceneCard(model);
 		redirect.addFlashAttribute("message", "Scene deleted");
-		return "redirect:/scenes";
+		return "redirect:/cards/scenes";
 
 	}
 	

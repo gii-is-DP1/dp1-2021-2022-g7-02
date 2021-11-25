@@ -13,17 +13,15 @@
 <div th:if="${message}" th:text="${message}"/>
 
 
-	<h2>Game Cards</h2>
+	<h2>Market Cards</h2>
 
 	<table id="CardsTable" class="table table-striped">
 		<thead>
 			<tr>
 				<th style="width: 10%;">Name</th>
 				<th style="width: 25%;">Url</th>
-				<th style="width: 10%;">Life</th>
-				<th style="width: 80%;">Skill</th>
-				<th style="width: 10%;">Color</th>
-				<th style="width: 10%;">DeckId</th>
+				<th style="width: 25%;">Cost</th>
+				<th style="width: 70%;">Description</th>
 				<th style="width: 5%;"></th>
 				<th style="width: 5%;"></th>
 
@@ -31,19 +29,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${heroes}" var="heroe">
+			<c:forEach items="${market}" var="market">
 				<tr>
-					<td><c:out value="${heroe.name}" /></td>
-					<td><c:out value="${heroe.url}" /></td>
-					<td><c:out value="${heroe.life}" /></td>
-					<td><c:out value="${heroe.skill}" /></td>
-					<td><c:out value="${heroe.color}" /></td>
-					<td><c:out value="${heroe.deckid}" /></td>
+					<td><c:out value="${market.name}" /></td>
+					<td><c:out value="${market.url}" /></td>
+					<td><c:out value="${market.cost}" /></td>
+					<td><c:out value="${market.description}" /></td>
 					
-					<td><a href="/heroes/${heroe.id}/edit"> <span
+					<td><a href="/cards/market/${market.id}/edit"> <span
 							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					</a></td>
-					<td><a href="/heroes/${heroe.id}/delete"> <span
+					<td><a href="/cards/market/${market.id}/delete"> <span
 							class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 					</a></td>
 				</tr>
@@ -53,7 +49,7 @@
 		</tbody>
 	</table>
 	<p>
-		<a href="/heroes/new" class="btn  btn-success"><span
-			class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Heroe</a>
+		<a href="/cards/market/new" class="btn btn-success"><span
+			class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Market Card</a>
 	</p>
 </petclinic:layout>
