@@ -52,7 +52,7 @@
 							<li>
 								<div class="row">
 									<div class="text-center">
-										<a href="<c:url value="/heroes" />">Heroes</a>
+										<a href="<c:url value="/cards/heroes"/>">Heroes</a>
 									</div>
 								</div>
 							</li>
@@ -60,15 +60,15 @@
 							<li>								
 									<div class="row">
 										<div class="text-center">																					
-												<a href="<c:url value="/scenes" />">Scenes</a>
+												<a href="<c:url value="/cards/scenes"/>">Scenes</a>
 										</div>																					
 									</div>						
 							</li>
 							<li class="divider"></li>
 							<li>								
 									<div class="row">
-										<div class="text-center">																					
-												<a href="<c:url value="/skills" />">Hero Skill</a>
+										<div class="text-center">																				
+												<a href="<c:url value="/cards/skills"/>">Hero Skill</a>
 										</div>																					
 									</div>						
 							</li>	
@@ -76,7 +76,7 @@
 							<li>								
 									<div class="row">
 										<div class="text-center">																					
-												<a href="<c:url value="/enemies" />">Enemies</a>
+												<a href="<c:url value="/cards/enemies"/>">Enemies</a>
 										</div>																					
 									</div>						
 							</li>
@@ -84,7 +84,7 @@
 							<li>								
 									<div class="row">
 										<div class="text-center">																					
-												<a href="<c:url value="/market" />">Market cards</a>
+												<a href="<c:url value="/cards/market"/>">Market cards</a>
 										</div>																					
 									</div>						
 							</li>
@@ -92,7 +92,7 @@
 							<li>								
 									<div class="row">
 										<div class="text-center">																					
-												<a href="<c:url value="/tokens" />">Tokens</a>
+												<a href="<c:url value="/tokens"/>">Tokens</a>
 										</div>																					
 									</div>						
 							</li>				

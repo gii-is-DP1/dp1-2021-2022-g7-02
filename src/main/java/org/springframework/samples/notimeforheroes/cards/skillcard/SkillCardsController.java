@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/skills")
+@RequestMapping("/cards/skills")
 public class SkillCardsController {
 
-	public static final String SKILL_CARD_LISTING = "skills/skillCardsListing";
-	public static final String SKILL_CARD_FORM =  "skills/createOrUpdateSkillCardsForm";
+	public static final String SKILL_CARD_LISTING = "cards/skills/skillCardsListing";
+	public static final String SKILL_CARD_FORM =  "cards/skills/createOrUpdateSkillCardsForm";
 	
 	
 	@Autowired
@@ -56,7 +56,7 @@ public class SkillCardsController {
 			model.addAttribute("skills", skill.get());
 			listSkillCard(model);
 			redirect.addFlashAttribute("message", "Skill modified");
-			return "redirect:/skills";
+			return "redirect:/cards/skills";
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class SkillCardsController {
 			model.addAttribute("message", "Skill created");
 			listSkillCard(model);
 			redirect.addFlashAttribute("message", "Skill created");
-			return "redirect:/skills";
+			return "redirect:/cards/skills";
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class SkillCardsController {
 		SkillService.deleteSkillCard(skill.get());
 		listSkillCard(model);
 		redirect.addFlashAttribute("message", "Skill deleted");
-		return "redirect:/skills";
+		return "redirect:/cards/skills";
 
 	}
 	

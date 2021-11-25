@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/market")
-public class MarketCardsControler {
+@RequestMapping("/cards/market")
+public class MarketCardsController {
 
-	public static final String MARKET_CARD_LISTING = "market/marketCardsListing";
-	public static final String MARKET_CARD_FORM =  "market/createOrUpdateMarketCardsForm";
+	public static final String MARKET_CARD_LISTING = "cards/market/marketCardsListing";
+	public static final String MARKET_CARD_FORM =  "cards/market/createOrUpdateMarketCardsForm";
 	
 	@Autowired
 	MarketCardsService MarketService;
@@ -55,7 +55,7 @@ public class MarketCardsControler {
 			model.addAttribute("market", market.get());
 			listMarketCard(model);
 			redirect.addFlashAttribute("message", "Market card modified");
-			return "redirect:/market";
+			return "redirect:/cards/market";
 		}
 	}
 	
@@ -75,7 +75,7 @@ public class MarketCardsControler {
 			model.addAttribute("message", "Market card created");
 			listMarketCard(model);
 			redirect.addFlashAttribute("message", "Market card created");
-			return "redirect:/market";
+			return "redirect:/cards/market";
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class MarketCardsControler {
 		MarketService.deleteMarketCard(market.get());
 		listMarketCard(model);
 		redirect.addFlashAttribute("message", "Market card deleted");
-		return "redirect:/market";
+		return "redirect:/cards/market";
 
 	}
 	

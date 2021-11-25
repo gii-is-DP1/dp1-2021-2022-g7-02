@@ -13,7 +13,7 @@
 <div th:if="${message}" th:text="${message}"/>
 
 
-	<h2>Skill Cards</h2>
+	<h2>Scene Cards</h2>
 
 	<table id="CardsTable" class="table table-striped">
 		<thead>
@@ -21,7 +21,6 @@
 				<th style="width: 10%;">Name</th>
 				<th style="width: 25%;">Url</th>
 				<th style="width: 70%;">Description</th>
-				<th style="width: 10%;">DeckId</th>
 				<th style="width: 5%;"></th>
 				<th style="width: 5%;"></th>
 
@@ -29,17 +28,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${skills}" var="skill">
+			<c:forEach items="${scenes}" var="scene">
 				<tr>
-					<td><c:out value="${skill.name}" /></td>
-					<td><c:out value="${skill.url}" /></td>
-					<td><c:out value="${skill.description}" /></td>
-					<td><c:out value="${skill.deckid}" /></td>
+					<td><c:out value="${scene.name}" /></td>
+					<td><c:out value="${scene.url}" /></td>
+					<td><c:out value="${scene.description}" /></td>
 					
-					<td><a href="/skills/${skill.id}/edit"> <span
+					<td><a href="/cards/scenes/${scene.id}/edit"> <span
 							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					</a></td>
-					<td><a href="/skills/${skill.id}/delete"> <span
+					<td><a href="/cards/scenes/${scene.id}/delete"> <span
 							class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 					</a></td>
 				</tr>
@@ -49,7 +47,7 @@
 		</tbody>
 	</table>
 	<p>
-		<a href="/skills/new" class="btn  btn-success"><span
-			class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Skill</a>
+		<a href="/cards/scenes/new" class="btn  btn-success"><span
+			class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Scene</a>
 	</p>
 </petclinic:layout>

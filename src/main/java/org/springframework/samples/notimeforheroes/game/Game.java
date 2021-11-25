@@ -36,8 +36,7 @@ public class Game extends BaseEntity{
 	@JoinTable(name = "games_users",
 		joinColumns = {@JoinColumn(name = "fk_game")},
 		inverseJoinColumns = {@JoinColumn(name = "fk_user")})
-	private Collection<User> users;						
-	
+	private Collection<User> users;			
 
 	@Column(name="duration",columnDefinition = "INT")
 	private Integer duration = 0;	//En segundos
