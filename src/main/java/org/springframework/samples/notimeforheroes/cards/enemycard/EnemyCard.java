@@ -1,6 +1,5 @@
 package org.springframework.samples.notimeforheroes.cards.enemycard;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import javax.persistence.Table;
@@ -19,12 +18,14 @@ import lombok.Setter;
 
 public class EnemyCard extends Card {
 	
+	private Boolean isboss; //false no es boss, true si es boss
+
 	private Integer life;
 	
 	private Integer glory;
 	
-	private Integer extraglory;
+	private Integer extraGlory;
 	
-	private Integer extragold;
+	private Integer extraGold;
 
 }

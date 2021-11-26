@@ -42,8 +42,8 @@ public class EnemyCardServiceTest {
 			enemyCardService.deleteEnemyCard(c);
 		}		
 		EnemyCard enemyCard = new EnemyCard();
-		enemyCard.setExtraglory(1);
-		enemyCard.setExtragold(0);
+		enemyCard.setExtraGlory(1);
+		enemyCard.setExtraGold(0);
 		enemyCard.setGlory(2);
 		enemyCard.setLife(4);
 		enemyCard.setName("Enemigo");
@@ -63,8 +63,8 @@ public class EnemyCardServiceTest {
 			enemyCardService.deleteEnemyCard(c);
 		}		
 		EnemyCard enemyCard = new EnemyCard();
-		enemyCard.setExtraglory(1);
-		enemyCard.setExtragold(0);
+		enemyCard.setExtraGlory(1);
+		enemyCard.setExtraGold(0);
 		enemyCard.setGlory(2);
 		enemyCard.setLife(4);
 		enemyCard.setName("Enemigo");
@@ -72,8 +72,8 @@ public class EnemyCardServiceTest {
 		enemyCardService.createEnemyCard(enemyCard);
 		
 		EnemyCard enemyCard1 = new EnemyCard();
-		enemyCard1.setExtraglory(0);
-		enemyCard1.setExtragold(2);
+		enemyCard1.setExtraGlory(0);
+		enemyCard1.setExtraGold(2);
 		enemyCard1.setGlory(3);
 		enemyCard1.setLife(5);
 		enemyCard1.setName("Enemigo");
@@ -88,13 +88,13 @@ public class EnemyCardServiceTest {
 	@Test 
 	public void TestEditEnemyCard() {
 		EnemyCard enemycard = enemyCardService.findById(1).get();
-		Integer oldExtraglory = enemycard.getExtraglory();
+		Integer oldExtraglory = enemycard.getExtraGlory();
 		
 		Integer newExtraglory = oldExtraglory + 1;
-		enemycard.setExtraglory(newExtraglory);
+		enemycard.setExtraGlory(newExtraglory);
 		enemyCardService.createEnemyCard(enemycard);
 		
-		assertThat(enemyCardService.findById(enemycard.getId()).get().getExtraglory()).isEqualTo(newExtraglory);
+		assertThat(enemyCardService.findById(enemycard.getId()).get().getExtraGlory()).isEqualTo(newExtraglory);
 
 	}
 	
@@ -102,8 +102,8 @@ public class EnemyCardServiceTest {
 	public void TestDeleteEnemyCard() {	
 		
 		EnemyCard enemyCard = new EnemyCard();
-		enemyCard.setExtraglory(1);
-		enemyCard.setExtragold(0);
+		enemyCard.setExtraGlory(1);
+		enemyCard.setExtraGold(0);
 		enemyCard.setGlory(2);
 		enemyCard.setLife(4);
 		enemyCard.setName("Enemigo");
@@ -124,8 +124,8 @@ public class EnemyCardServiceTest {
 		Integer Enemies = enemyCardService.findAll().size();
 		
 		EnemyCard enemyCard = new EnemyCard();
-		enemyCard.setExtraglory(1);
-		enemyCard.setExtragold(0);
+		enemyCard.setExtraGlory(1);
+		enemyCard.setExtraGold(0);
 		enemyCard.setGlory(2);
 		enemyCard.setLife(4);
 		enemyCard.setName("Enemigo");
