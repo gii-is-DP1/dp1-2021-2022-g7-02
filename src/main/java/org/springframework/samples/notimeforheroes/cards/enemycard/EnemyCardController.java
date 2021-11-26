@@ -41,7 +41,7 @@ public class EnemyCardController {
 			model.addAttribute("enemies", enemy.get());
 			return ENEMY_CARD_FORM;
 		} else {
-			model.addAttribute("message", "This Heroe doesn't exist");
+			model.addAttribute("message", "This enemy doesn't exist");
 			return listEnemiesCards(model);
 		}
 	}
@@ -86,7 +86,7 @@ public class EnemyCardController {
 		Optional<EnemyCard> enemy = EnemyCardService.findById(id);
 		EnemyCardService.deleteEnemyCard(enemy.get());
 		listEnemiesCards(model);
-		redirect.addFlashAttribute("message", "Heroe deleted");
+		redirect.addFlashAttribute("message", "Enemy deleted");
 		return "redirect:/cards/enemies";
 
 	}
