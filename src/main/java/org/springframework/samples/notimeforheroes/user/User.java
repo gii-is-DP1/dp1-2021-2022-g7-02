@@ -10,6 +10,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.petclinic.model.NamedEntity;
 

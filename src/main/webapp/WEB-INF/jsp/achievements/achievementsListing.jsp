@@ -7,7 +7,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="Achievemeents">
+<petclinic:layout pageName="Achievemeent">
 
 <div th:if="${message}" th:text="${message}"/>
 
@@ -26,7 +26,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${achievements}" var="achievement">
+			<c:forEach items="${achievement}" var="achievement">
 				<tr>
 					<td><c:out value="${achievement.id}" /></td>
 					<td><c:out value="${achievement.name}" /></td>
