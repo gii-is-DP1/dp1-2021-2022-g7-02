@@ -29,7 +29,7 @@ public class AchievementControler {
 	
 	@GetMapping
 	public String listAchievements(ModelMap model) {
-		model.addAttribute("achievements", achievementService.findAll());
+		model.addAttribute("achievement", achievementService.findAll());
 		return ACHIEVEMENTS_LISTING;
 		
 	}
@@ -38,7 +38,7 @@ public class AchievementControler {
 	public String editAchievement(ModelMap model, @PathVariable("id") int id) {
 		Optional<Achievement> achievement = achievementService.findById(id);
 		if(achievement.isPresent()) {
-			model.addAttribute("achievements", achievement.get());
+			model.addAttribute("achievement", achievement.get());
 			return ACHIEVEMENTS_FORM;
 		} else {
 			model.addAttribute("message", "This achievement doesn't exits");
@@ -54,7 +54,7 @@ public class AchievementControler {
 			return ACHIEVEMENTS_FORM;
 		} else {
 			BeanUtils.copyProperties(modifiedAchivement, achievement.get(), "id");
-			model.addAttribute("achievements", achievement.get());
+			model.addAttribute("achievement", achievement.get());
 			listAchievements(model);
 			redirect.addFlashAttribute("message", "Achievement modified");
 			return "redirect:/achievements";
@@ -64,7 +64,7 @@ public class AchievementControler {
 	@GetMapping("/new")
 	public String newAchievement(Map<String, Object> map) {
 		Achievement achievement = new Achievement();
-		map.put("achievements", achievement);
+		map.put("achievement", achievement);
 		return ACHIEVEMENTS_FORM;
 	}
 	

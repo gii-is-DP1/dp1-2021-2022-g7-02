@@ -7,13 +7,13 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 
-<petclinic:layout pageName="RegisterUser">
+<petclinic:layout pageName="user">
 
 <div th:if="${message}" th:text="${message}"/>
 
     <h2>Register User</h2>
 
-    <table id="ownersTable" class="table table-striped">
+    <table id="userTable" class="table table-striped">
         <thead>
         <tr>
             <th style="width: 20%;">Name</th>
@@ -28,7 +28,7 @@
         </tr>
          </thead>
         <tbody>
-        <c:forEach items="${users}" var="user">
+        <c:forEach items="${user}" var="user">
             <tr>
                 <!-- <td>
                    <spring:url value="/jugadores" var="jugadoresUrl">

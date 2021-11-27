@@ -33,7 +33,7 @@ public class UserController {
 	
 	@GetMapping
 	public String listUsers(ModelMap model) {
-		model.addAttribute("users", userService.findAll());
+		model.addAttribute("user", userService.findAll());
 		return USER_LISTING;
 	}
 	
@@ -55,7 +55,7 @@ public class UserController {
 		Optional<User> user = userService.findById(id);
 		if(user.isPresent()) {
 			if(userService.getLoggedUser().getId().equals(id)){
-				model.addAttribute("users", user.get());
+				model.addAttribute("user", user.get());
 				return USER_FORM;
 			}else {
 				model.addAttribute("message", "You can't edit this user");
@@ -79,7 +79,7 @@ public class UserController {
 
 			if(user.get().getId()==userId) {
 				BeanUtils.copyProperties(modifiedUser, user.get(), "id");
-				model.addAttribute("users", user.get());
+				model.addAttribute("user", user.get());
 				listUsers(model);
 				redirect.addFlashAttribute("message", "User modified");
 				return "redirect:/users";
@@ -96,12 +96,12 @@ public class UserController {
 	@GetMapping("/new")
 	public String newUser(Map<String, Object> map) {
 		User user = new User();
-		map.put("users", user);
+		map.put("user", user);
 		return USER_FORM;
 	}
 	
 	@PostMapping("/new")
-	public String newUser(RedirectAttributes redirect, @Valid User user,BindingResult result, ModelMap model) throws DataAccessException, DuplicatedUserEmailException {
+	public String newUser(@Valid User user,BindingResult result, ModelMap model,RedirectAttributes redirect) throws DataAccessException, DuplicatedUserEmailException {
 		if(result.hasErrors()) {
 			return USER_FORM;
 		} else {
