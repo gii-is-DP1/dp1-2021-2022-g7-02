@@ -19,6 +19,9 @@
             <th class="width8">Está en progreso</th>
             <th class="width8">Visibilidad</th>
             <th class="width8">Codigo Invitacion</th>
+            <c:if test="${user.isAdmin()}">
+                <th class="width8">Detalles</th>
+            </c:if>
         </tr>
         </thead>
         <tbody>
@@ -42,6 +45,13 @@
                 <td>
                     <c:out value="${game.joinCode}"/>
                 </td>
+                <c:if test="${user.isAdmin()}">
+                    <td> 
+                	    <a href="/games/details/${game.id}">
+                	    <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                	    </a>
+                    </td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>
