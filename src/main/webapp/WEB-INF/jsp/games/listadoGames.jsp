@@ -22,7 +22,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${gamesPublicAndOwn}" var="game">
+        <c:forEach items="${games}" var="game">
             <tr>
                 <td>
                 	<c:out value="${game.creator!=null ? game.creator : '?'}"/>

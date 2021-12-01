@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -48,6 +49,11 @@ public class UserService {
 		return loggedUser;
 	}
 
+	public Boolean isUserAdmin(User user){
+		Set<Authorities> authorities = user.getAuthorities();
+		return authorities.stream().anyMatch(auth -> auth.getAuthority().equals("admin"));
+	}
+
 	public Collection<User> findAllInGame(Game game){
 		Collection<User> users = userRepository.findAll();
 		List<User> res = new ArrayList<>();
@@ -74,21 +80,6 @@ public class UserService {
 	
 	@Transactional(rollbackOn = DuplicatedUserEmailException.class)
 	public void saveUser(@Valid User user) throws DataAccessException,DuplicatedUserEmailException { 
-		/*
-			List<String> emails=new ArrayList<String>();
-			List<User> jugadores= (List<User>) this.findAll();
-			for (int i=0; i<jugadores.size(); i++) {
-				if(!jugadores.get(i).getId().equals(user.getId()))
-					emails.add(jugadores.get(i).getEmail());				
-			}
-            if (emails.contains(user.getEmail())) {            	
-            	throw new DuplicatedUserEmailException();
-            }else{
-				user.setEnabled(true);
-				userRepository.save(user);
-				authoritiesService.saveAuthorities(user.getUsername(), "player");
-			}        
-			*/
 			Optional<User> userFindedByEmail = userRepository.findByEmail(user.getEmail());
 			if(userFindedByEmail.isPresent()){
 				throw new DuplicatedUserEmailException();

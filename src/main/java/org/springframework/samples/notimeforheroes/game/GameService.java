@@ -23,15 +23,16 @@ public class GameService {
 	@Autowired
 	UserService userService;
 	
+	public Collection<Game> findAvailableGames(){
+		return userService.isUserAdmin(userService.getLoggedUser()) ? gameRepository.findAll() : gameRepository.findPublicAndOwn(userService.getLoggedUser());
+	}
+
 	public Collection<Game> findAll(){
 		return gameRepository.findAll();
 	}
 	
 	public Optional<Game> findById(Integer id){
 		return gameRepository.findById(id);
-	}
-	public Collection<Game> findPublicAndOwn(User user){
-		return gameRepository.findPublicAndOwn(user);
 	}
 	
 	public Collection<Game> findAllEnded(){

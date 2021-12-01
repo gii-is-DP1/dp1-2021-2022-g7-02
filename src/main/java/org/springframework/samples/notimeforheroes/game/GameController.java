@@ -40,8 +40,7 @@ public class GameController {
 	
 	@GetMapping()
 	public String listGames(ModelMap model) {
-		model.addAttribute("games", gameService.findAll());
-		model.addAttribute("gamesPublicAndOwn", gameService.findPublicAndOwn(userService.getLoggedUser()));
+		model.addAttribute("games", gameService.findAvailableGames());
 		return GAMES_LISTING;
 	}
 	@GetMapping("/ended")
