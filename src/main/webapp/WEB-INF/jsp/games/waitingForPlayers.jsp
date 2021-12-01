@@ -31,7 +31,4 @@
         </c:forEach>
         </tbody>
     </table>
-    <p>
-    	<a href="" class="btn btn-default">Start Game</a>
-    </p>
 </petclinic:layout>

@@ -29,6 +29,7 @@ public class GameController {
 	public static final String GAMES_FORM = "games/createOrUpdateGamesForm";
 	public static final String GAMES_WAITING_FOR_PLAYERS = "games/waitingForPlayers";
 	public static final String GAMES_JOIN = "games/joinGame";
+	public static final String GAMES_DETAILS = "games/gameDetails";
 	public static final Integer MAX_NUMBER_PLAYERS = 4;
 
 
@@ -41,8 +42,18 @@ public class GameController {
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
+		model.addAttribute("user", userService.getLoggedUser());
 		return GAMES_LISTING;
 	}
+
+	@GetMapping("/details/{gameId}")
+	public String gameDetails(ModelMap model, @PathVariable("gameId") int gameId){
+		Game game = gameService.findById(gameId).get();
+		model.addAttribute("game", game);
+		model.addAttribute("users", userService.findAllInGame(game));
+		return GAMES_DETAILS;
+	}
+
 	@GetMapping("/ended")
 	public String listEndedGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAllEnded());

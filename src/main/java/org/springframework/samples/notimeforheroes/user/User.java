@@ -49,5 +49,10 @@ public class User extends NamedEntity implements Serializable{
 	public String toString(){
 		return this.username;
 	}
+
+	public Boolean isAdmin(){
+		UserService userService = new UserService();
+		return userService.isUserAdmin(this);
+	}
 	
 }
