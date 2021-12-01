@@ -140,34 +140,25 @@
 												<span class="glyphicon glyphicon-user icon-size"></span>
 											</p>
 										</div>
-										<div class="col-lg-8">
-											<p class="text-left">
-												<strong><sec:authentication property="name" /></strong>
-											</p>
-											<p class="text-left">
-												<a href="<c:url value="/logout"/>"
-													class="btn btn-primary btn-block btn-sm">Logout</a>
-											</p>
-										</div>
 									</div>
 								</div>
 							</li>
 							<li class="divider"></li>
-<!-- 							
+							
                             <li> 
 								<div class="navbar-login navbar-login-session">
 									<div class="row">
 										<div class="col-lg-12">
 											<p>
-												<a href="#" class="btn btn-primary btn-block">My Profile</a>
-												<a href="#" class="btn btn-danger btn-block">Change
-													Password</a>
+												<!-- <a href="#" class="btn btn-primary btn-block">My Profile</a>
+												<a href="/{id}/details" class="btn btn-danger btn-block">Change Password</a>-->
+												<a href="/logout" class="btn btn-danger btn-block">Logout</a>
 											</p>
 										</div>
 									</div>
 								</div>
 							</li>
--->
+
 						</ul></li>
 				</sec:authorize>
 			</ul>
