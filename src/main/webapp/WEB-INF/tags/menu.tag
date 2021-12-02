@@ -137,7 +137,7 @@
 									<div class="row">
 										<div class="col-lg-4">
 											<p class="text-center">
-												<span class="glyphicon glyphicon-user icon-size"></span>
+												<a href="/user//profile" class="glyphicon glyphicon-user icon-size"><sec:authentication property="principal.username"/></a>
 											</p>
 										</div>
 									</div>
