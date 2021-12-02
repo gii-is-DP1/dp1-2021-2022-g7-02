@@ -13,7 +13,11 @@
 	<table id="ownersTable" class="table table-striped">
 		<tr>
 			<th>Name</th>
-			<td><b><c:out value="${user.name} ${user.lastname}" /></b></td>
+			<td><b><c:out value="${user.name}" /></b></td>
+		</tr>
+		<tr>
+			<th>Last Name</th>
+			<td><b><c:out value="${user.lastname}" /></b></td>
 		</tr>
 		<tr>
 			<th>Username</th>

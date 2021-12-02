@@ -9,8 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -27,6 +25,7 @@ public class UserController {
 	public static final String USER_LISTING = "users/userListing";
 	public static final String USER_FORM =  "users/createOrUpdateUserForm";
 	public static final String USER_DETAILS =  "users/userDetails";
+	public static final String USER_PROFILE =  "users/userProfile";
 	
 	@Autowired
 	UserService userService;
@@ -37,6 +36,17 @@ public class UserController {
 		return USER_LISTING;
 	}
 	
+	@GetMapping("/{id}/profile")
+	public String PlayerProfile(ModelMap model, @PathVariable("id") int id) {
+		Optional<User> user = userService.findById(id);
+		if(userService.getLoggedUser().getId().equals(id)) {
+			model.addAttribute("user", user.get());
+			return USER_PROFILE;
+		} else {
+			model.addAttribute("message", "This is not your user");
+			return listUsers(model);
+		}
+	}
 	
 	@GetMapping("/{id}/details")
 	public String PlayerDetails(ModelMap model, @PathVariable("id") int id) {
@@ -82,7 +92,7 @@ public class UserController {
 				model.addAttribute("user", user.get());
 				listUsers(model);
 				redirect.addFlashAttribute("message", "User modified");
-				return "redirect:/users";
+				return "redirect:/users/{id}/details";
 			}
 			else {
 				redirect.addFlashAttribute("message", "You cannot modify this user");
