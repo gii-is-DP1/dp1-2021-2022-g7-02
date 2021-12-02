@@ -36,27 +36,33 @@ public class UserController {
 		return USER_LISTING;
 	}
 	
-	@GetMapping("/{id}/profile")
-	public String PlayerProfile(ModelMap model, @PathVariable("id") int id) {
-		Optional<User> user = userService.findById(id);
-		if(userService.getLoggedUser().getId().equals(id)) {
-			model.addAttribute("user", user.get());
+	@GetMapping("/profile")
+	public String PlayerProfile(ModelMap model) {
+		User user = userService.getLoggedUser();
+			model.addAttribute("user", user);
 			return USER_PROFILE;
-		} else {
-			model.addAttribute("message", "This is not your user");
-			return listUsers(model);
-		}
 	}
-	
-	@GetMapping("/{id}/details")
-	public String PlayerDetails(ModelMap model, @PathVariable("id") int id) {
-		Optional<User> user = userService.findById(id);
-		if(user.isPresent()) {
-			model.addAttribute("user", user.get());
-			return USER_DETAILS;
-		} else {
-			model.addAttribute("message", "This user doesn't exits");
-			return listUsers(model);
+
+	@GetMapping("/profile/edit")
+	public String profileEdit(ModelMap model) {
+		model.addAttribute("user", userService.getLoggedUser());
+		return USER_FORM;
+	}
+
+	@PostMapping("/profile/edit")
+	public String profileEdit(RedirectAttributes redirect,ModelMap model, @Valid User modifiedUser, BindingResult result){
+		
+		User loggedUser = userService.getLoggedUser();
+		
+		if(result.hasErrors()){
+			model.addAttribute("message", "The user has errors");
+			return USER_FORM;
+		}else{
+			BeanUtils.copyProperties(modifiedUser, loggedUser, "id");
+			model.addAttribute("user", loggedUser);
+			listUsers(model);
+			redirect.addFlashAttribute("message", "User modified");
+			return "redirect:/users/profile";
 		}
 	}
 	
@@ -64,7 +70,7 @@ public class UserController {
 	public String editUser(ModelMap model, @PathVariable("id") int id) {
 		Optional<User> user = userService.findById(id);
 		if(user.isPresent()) {
-			if(userService.getLoggedUser().getId().equals(id)){
+			if(userService.getLoggedUser().getId().equals(id) || userService.getLoggedUser().isAdmin()){
 				model.addAttribute("user", user.get());
 				return USER_FORM;
 			}else {
@@ -99,6 +105,19 @@ public class UserController {
 				return "redirect:/users";
 			}
 
+		}
+	}
+
+	
+	@GetMapping("/{id}/details")
+	public String PlayerDetails(ModelMap model, @PathVariable("id") int id) {
+		Optional<User> user = userService.findById(id);
+		if(user.isPresent()) {
+			model.addAttribute("user", user.get());
+			return USER_DETAILS;
+		} else {
+			model.addAttribute("message", "This user doesn't exits");
+			return listUsers(model);
 		}
 	}
 	
