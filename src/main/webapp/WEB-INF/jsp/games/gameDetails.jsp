@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 
@@ -17,7 +18,16 @@
     <p style="color: brown;">
         ¿Está en progreso?:  <c:out value="${game.isInProgress ? 'Sí' : 'No'}" />
     </p>
-    <h3  style="margin-top: 5%;">Jugadores</h3>
+    <p style="color: brown;">
+        Código: <c:out value="${game.joinCode}"/>
+    </p>
+    <form:form name="join" action="../join" method="POST" >
+        <div class="form-group has-feedback" style="margin-top: 1%;">
+            <input type="hidden" name="joinCode" value="${game.joinCode}"/>
+            <input class="btn btn-default" type="submit" value="Unirse"/>
+        </div>
+    </form:form>
+    <h3  style="margin-top: 1%;">Jugadores</h3>
     <table id="ownersTable" class="table table-striped">
         <thead>
             <tr>

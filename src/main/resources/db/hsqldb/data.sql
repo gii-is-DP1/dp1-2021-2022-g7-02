@@ -63,6 +63,7 @@ INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (4,'Pablo','Espada','pabloespada2', 'pablo2@email.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (5,'Mario','Rodriguez','mario', 'mario@email.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (6,'Miguel Angel','Romalde','mromalde', 'mromalde@email.com','123',TRUE);
+INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (7,'Javier','Martínez','javier', 'javmarjae@email.com','123',TRUE);
 
 
 INSERT INTO authorities(id,authority,username) VALUES (1,'admin','pabloespada');
@@ -71,6 +72,7 @@ INSERT INTO authorities(id,authority,username) VALUES (3,'admin','juangar2');
 INSERT INTO authorities(id,authority,username) VALUES (4,'player','pabloespada2');
 INSERT INTO authorities(id,authority,username) VALUES (5,'admin','mromalde');
 INSERT INTO authorities(id,authority,username) VALUES (6,'admin','mario');
+INSERT INTO authorities(id,authority,username) VALUES (7,'admin','javier');
 
 
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code) VALUES (1,1,'2021-11-03',1000,TRUE,TRUE,'1e7be91755b7497080849ef0910c044d');

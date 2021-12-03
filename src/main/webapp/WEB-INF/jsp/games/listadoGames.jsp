@@ -4,11 +4,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 
+
+
 <petclinic:layout pageName="games">
-    <h2>Partidas</h2>
+    <h2>Unirse a partida</h2>
+    <form:form name="join" action="games/join" method="POST">
+        <div class="form-group has-feedback">
+            Join Code:  <input type="text" name="joinCode" placeholder="Type join code"/>
+            <input class="btn btn-default" type="submit" value="Join"/>
+        </div>
+    </form:form>
+
+    <h2>Partidas disponibles</h2>
 
     <table id="ownersTable" class="table table-striped">
         <thead>

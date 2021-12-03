@@ -7,7 +7,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="Achievemeent">
+<petclinic:layout pageName="achievements">
 
 <div th:if="${message}" th:text="${message}"/>
 
