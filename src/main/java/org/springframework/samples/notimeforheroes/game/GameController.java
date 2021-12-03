@@ -113,12 +113,16 @@ public class GameController {
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public String joinGame(ModelMap model, @RequestParam("joinCode") String joinCode){
 		Game game = gameService.findByJoinCode(joinCode).orElse(null);
-
+		User loggedUser =userService.getLoggedUser();
 		if(game.getUsers().size() < MAX_NUMBER_PLAYERS){
-			User loggedUser = userService.getLoggedUser();
-			game.getUsers().add(loggedUser);
-			gameService.updateGame(game);
-			return "redirect:/games/waiting/" + game.getId();
+			if(game.getUsers().contains(loggedUser)) {
+				return "redirect:/games/waiting/" + game.getId();
+			}
+			else {
+				game.getUsers().add(loggedUser);
+				gameService.updateGame(game);
+				return "redirect:/games/waiting/" + game.getId();	
+			}
 		}else{
 			model.addAttribute("message", "Game full!");
 			return GAMES_JOIN;
