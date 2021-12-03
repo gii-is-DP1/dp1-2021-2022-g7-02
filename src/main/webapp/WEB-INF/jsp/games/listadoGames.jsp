@@ -11,7 +11,7 @@
 
 
 <petclinic:layout pageName="games">
-    <h2>Unirse a partida</h2>
+    <h2>Unirse a partida privada </h2>
     <form:form name="join" action="games/join" method="POST">
         <div class="form-group has-feedback">
             Join Code:  <input type="text" name="joinCode" placeholder="Type join code"/>
@@ -30,6 +30,7 @@
             <th class="width8">Está en progreso</th>
             <th class="width8">Visibilidad</th>
             <th class="width8">Codigo Invitacion</th>
+            <th class="width8"> Unirse </th>
             <c:if test="${user.isAdmin()}">
                 <th class="width8">Detalles</th>
             </c:if>
@@ -55,6 +56,14 @@
                 </td>
                 <td>
                     <c:out value="${game.joinCode}"/>
+                </td>
+                <td>
+                    <form:form name="join" action="games/join" method="POST" >
+                        <div class="form-group has-feedback" style="margin-top: 1%;">
+                            <input type="hidden" name="joinCode" value="${game.joinCode}"/>
+                            <input style="height: 30px; width: 70px;" class="btn btn-default" type="submit" value="Join"/>
+                        </div>
+                    </form:form>
                 </td>
                 <c:if test="${user.isAdmin()}">
                     <td> 
