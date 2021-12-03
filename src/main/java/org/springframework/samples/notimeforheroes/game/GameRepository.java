@@ -22,7 +22,7 @@ public interface GameRepository extends CrudRepository<Game, Integer>{
 	@Query("SELECT g FROM games g WHERE g.joinCode = ?1")
 	Optional<Game> findByJoinCode(String joinCode);
 
-	@Query(nativeQuery = true, value = "SELECT DISTINCT * FROM GAMES g JOIN  GAMES_USERS gu WHERE g.id= gu.fk_game AND (g.is_public=true or (g.is_public=false and gu.fk_user=?1))")
+	@Query(nativeQuery = true, value = "SELECT DISTINCT g.* FROM GAMES g JOIN GAMES_USERS gu WHERE g.id= gu.fk_game AND (g.is_public=true or (g.is_public=false and gu.fk_user=?1))")
 	Collection<Game> findPublicAndOwn(User user);
 	
 	
