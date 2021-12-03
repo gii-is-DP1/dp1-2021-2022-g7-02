@@ -116,8 +116,7 @@ public class GameController {
 		User loggedUser =userService.getLoggedUser();
 		if(game.getUsers().size() < MAX_NUMBER_PLAYERS){
 			if(game.getUsers().contains(loggedUser)) {
-				model.addAttribute("message", "You are in the game");
-				return GAMES_JOIN;
+				return "redirect:/games/waiting/" + game.getId();
 			}
 			else {
 				game.getUsers().add(loggedUser);
