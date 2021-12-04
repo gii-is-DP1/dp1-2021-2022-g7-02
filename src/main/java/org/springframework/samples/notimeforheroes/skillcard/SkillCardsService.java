@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.cards.skillcard;
+package org.springframework.samples.notimeforheroes.skillcard;
 
 import java.util.Collection;
 import java.util.Optional;

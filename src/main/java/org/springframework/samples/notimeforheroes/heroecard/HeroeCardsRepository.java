@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.cards.heroecard;
+package org.springframework.samples.notimeforheroes.heroecard;
 
 import java.util.Collection;
 
