@@ -1,14 +1,9 @@
-package org.springframework.samples.notimeforheroes.cards.heroecard;
+package org.springframework.samples.notimeforheroes.heroecard;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 
-import org.springframework.samples.notimeforheroes.cards.Card;
 import org.springframework.samples.petclinic.model.NamedEntity;
 
 import lombok.Getter;
@@ -18,7 +13,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="heroes")
-public class HeroeCard extends Card{
+public class HeroeCard extends NamedEntity{
+	
+    @Column()
+    public String url;
 
 	private Integer life;
 	

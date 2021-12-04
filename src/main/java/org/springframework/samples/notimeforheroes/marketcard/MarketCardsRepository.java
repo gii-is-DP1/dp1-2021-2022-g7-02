@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.cards.marketcard;
+package org.springframework.samples.notimeforheroes.marketcard;
 
 import java.util.Collection;
 

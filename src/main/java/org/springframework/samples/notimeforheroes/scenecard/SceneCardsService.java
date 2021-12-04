@@ -1,4 +1,4 @@
-package org.springframework.samples.notimeforheroes.cards.scenecard;
+package org.springframework.samples.notimeforheroes.scenecard;
 
 import java.util.Collection;
 import java.util.Optional;
