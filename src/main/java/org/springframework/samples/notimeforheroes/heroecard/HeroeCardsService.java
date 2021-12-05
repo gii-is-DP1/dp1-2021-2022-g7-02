@@ -38,4 +38,9 @@ public class HeroeCardsService {
 	public void createHeroeCard(@Valid HeroeCard card) {
 		HeroeCardsRepo.save(card);
 	}
+
+
+    public HeroeCard findByName(String heroe) {
+        return HeroeCardsRepo.findByName(heroe);
+    }
 }

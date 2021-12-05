@@ -7,6 +7,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
+import org.springframework.samples.notimeforheroes.gamesUsers.GameUser;
+import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
+import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
@@ -39,6 +42,12 @@ public class GameController {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	GameUserService gameUserService;
+
+	@Autowired 
+	HeroeCardsService heroeCardsService;
+
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
@@ -50,6 +59,7 @@ public class GameController {
 	public String selectHeroe(ModelMap model, @PathVariable("gameId") int gameId){
 
 		Game game = gameService.findById(gameId).get();
+		
 
 		if(!userService.findAllInGame(game).contains(userService.getLoggedUser())){
 			model.addAttribute("message", "You don't belong to this game!");
@@ -64,9 +74,21 @@ public class GameController {
 			game.setIsInProgress(true);
 			gameService.updateGame(game);
 		}
-
+		if(!model.containsAttribute("hasSelected")){
+			model.addAttribute("hasSelected", false);
+		}
+		
 		model.addAttribute("game",game);
 		return GAMES_SELECT_HEROE;
+	}
+
+	@RequestMapping(value = "/selectHeroe/{gameId}", method = RequestMethod.POST)
+	public String selectHeroe(@PathVariable("gameId") int gameId, ModelMap model, @RequestParam("heroe") String heroe, HttpServletResponse response){
+		GameUser gameUser = gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get();
+		gameUser.setHeroe(heroeCardsService.findByName(heroe));
+		gameUserService.createGameUser(gameUser);
+		model.addAttribute("hasSelected", true);
+		return selectHeroe(model, gameId);
 	}
 
 	@GetMapping("/details/{gameId}")

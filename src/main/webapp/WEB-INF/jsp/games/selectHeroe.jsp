@@ -7,11 +7,61 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="users">
-    <form:form name="join" action="join" method="POST">
-        <div class="form-group has-feedback">
-            Join Code:  <input type="text" name="joinCode" placeholder="Type join code"/>
-            <input class="btn btn-default" type="submit" value="Join"/>
+    <form:form name="heroe" action="" method="POST">
+        <div class=row>
+            <div class=col-md-3>
+                <img src="\resources\images\heroe.jpg">
+                <input type="radio" id="taheral" name="heroe" value="Taheral">
+                <label for="taheral">Taheral</label>   
+            </div>
+            <div class=col-md-3>
+                <img src="\resources\images\heroe.jpg">
+                <input type="radio" id="idril" name="heroe" value="Idril">
+                <label for="idril">Idril</label>   
+            </div>
+            <div class=col-md-3>
+                <img src="\resources\images\heroe.jpg">
+                <input type="radio" id="feldon" name="heroe" value="Feldon">
+                <label for="feldon">Feldon</label>   
+            </div>
+            <div class=col-md-3>
+                <img src="\resources\images\heroe.jpg">
+                <input type="radio" id="lisavette" name="heroe" value="Lisavette">
+                <label for="lisavette">Lisavette</label>   
+            </div>
         </div>
+        <div class=row>
+            <div class=col-md-3>
+                <img src="\resources\images\heroe.jpg">
+                <input type="radio" id="aranel" name="heroe" value="Aranel">
+                <label for="aranel">Aranel</label>   
+            </div>
+            <div class=col-md-3>
+                <img src="\resources\images\heroe.jpg">
+                <input type="radio" id="belethil" name="heroe" value="Beleth-Il">
+                <label for="belethil">Beleth-Il</label>   
+            </div>
+            <div class=col-md-3>
+                <img src="\resources\images\heroe.jpg">
+                <input type="radio" id="neddia" name="heroe" value="Neddia">
+                <label for="neddia">Neddia</label>   
+            </div>
+            <div class=col-md-3>
+                <img src="\resources\images\heroe.jpg">
+                <input type="radio" id="valerys" name="heroe" value="Valerys">
+                <label for="valerys">Valerys</label>   
+            </div>
+        </div>
+        <div class=row>
+            <div class="col-md-12 text-center" style="margin-top: 5%;">
+                <c:if test="${!hasSelected}">
+                    <input class="btn btn-default" type="submit" value="Select heroe"/>
+                </c:if>
+                
+            </div>
+            
+        </div>
+        
     </form:form>
     
 </petclinic:layout> 
