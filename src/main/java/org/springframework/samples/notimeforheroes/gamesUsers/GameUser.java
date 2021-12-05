@@ -6,11 +6,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
-import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
-import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.game.Game;
+import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
+import org.springframework.samples.notimeforheroes.marketcard.MarketCard;
+import org.springframework.samples.notimeforheroes.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import java.util.List;
