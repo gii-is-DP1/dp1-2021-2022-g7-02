@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.Game;
+import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
+import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class GameUserService {
 
 	@Autowired
 	GameUserService gameUserService;
+
+	@Autowired
+	HeroeCardsService heroeCardsService;
 	
 	
 
@@ -32,6 +37,16 @@ public class GameUserService {
 
 	public Optional<GameUser> findByGameAndUser(Game game, User user){
 		return gameUserRepository.findByGameAndUser(game.getId(), user.getId());
+	}
+
+	public Optional<HeroeCard> findHeroeOfGameUser(Game game, User user){
+		Optional<Integer> heroeId = gameUserRepository.findHeroeOfGameUser(game.getId(), user.getId());
+		if(heroeId.isPresent()){
+			return heroeCardsService.findById(heroeId.get());
+		}else{
+			return null;
+		}
+		
 	}
 	
 	
