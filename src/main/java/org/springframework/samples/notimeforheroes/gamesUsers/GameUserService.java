@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.Game;
+import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,14 +26,12 @@ public class GameUserService {
 		return gameUserRepository.findAll();
 	}
 
-	@Transactional
 	public Optional<GameUser> findById(Integer id){
 		return gameUserRepository.findById(id);
 	}
-    
-    public Collection<GameUser> findAllUserofGame(Game game){
-		return //gameUserRepository.findAllUserofGame(game);
-        null;
+
+	public Optional<GameUser> findByGameAndUser(Game game, User user){
+		return gameUserRepository.findByGameAndUser(game.getId(), user.getId());
 	}
 	
 	
