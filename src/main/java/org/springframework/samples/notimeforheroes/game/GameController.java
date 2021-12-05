@@ -34,6 +34,7 @@ public class GameController {
 	public static final String GAMES_JOIN = "games/joinGame";
 	public static final String GAMES_DETAILS = "games/gameDetails";
 	public static final String GAMES_SELECT_HEROE = "games/selectHeroe";
+	public static final String GAMES_PLAYING = "games/gamePlaying";
 	public static final Integer MAX_NUMBER_PLAYERS = 4;
 
 	@Autowired
@@ -68,6 +69,11 @@ public class GameController {
 
 		if(!game.getCreator().equals(userService.getLoggedUser()) && !game.getIsInProgress()){
 			return "redirect:/games/waiting/{gameId}";
+		}
+
+		if(gameUserService.findHeroeOfGameUser(game, userService.getLoggedUser())!=null){
+			model.addAttribute("hasSelected", true);
+			model.addAttribute("message", "You have already selected a heroe");
 		}
 
 		if(game.getCreator().equals(userService.getLoggedUser())){
