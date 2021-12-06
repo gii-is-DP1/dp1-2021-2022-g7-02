@@ -41,11 +41,8 @@ public class GameUserService {
 
 	public Optional<HeroeCard> findHeroeOfGameUser(Game game, User user){
 		Optional<Integer> heroeId = gameUserRepository.findHeroeOfGameUser(game.getId(), user.getId());
-		if(heroeId.isPresent()){
-			return heroeCardsService.findById(heroeId.get());
-		}else{
-			return null;
-		}
+		return heroeCardsService.findById(heroeId.orElse(-1));
+		
 		
 	}
 	
