@@ -43,4 +43,8 @@ public class HeroeCardsService {
     public HeroeCard findByName(String heroe) {
         return HeroeCardsRepo.findByName(heroe);
     }
+    
+    public HeroeCard findByColor(String color) {
+        return HeroeCardsRepo.findByColor(color);
+    }
 }
