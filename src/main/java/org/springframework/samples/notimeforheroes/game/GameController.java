@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.html.Option;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/games")
@@ -41,6 +43,7 @@ public class GameController {
 	public static final String GAMES_SELECT_HEROE = "games/selectHeroe";
 	public static final String GAMES_PLAYING = "games/gamePlaying";
 	public static final Integer MAX_NUMBER_PLAYERS = 4;
+	public static final String SELECT_PLAYER_TO_START = "games/selectPlayerToStart";
 
 	@Autowired
 	GameService gameService;
@@ -124,6 +127,24 @@ public class GameController {
 			model.addAttribute("hasSelected", true);
 		}
 		return selectHeroe(model, gameId);
+	}
+	
+	@GetMapping("/selectPlayerToStart/{gameId}")
+	public String selectPlayerToStart(ModelMap model, @PathVariable("gameId") int gameId) {
+		Game game = gameService.findById(gameId).get();
+		model.addAttribute("game", game);
+		model.addAttribute("users", userService.findAllInGame(game));
+		return SELECT_PLAYER_TO_START;
+	}
+	
+	@PostMapping("/selectPlayerToStart/{gameId}")
+	public String selectPlayerToStart(ModelMap model, @PathVariable("gameId") int gameId, RedirectAttributes redirect) {
+		List<User> users=(List<User>) userService.findAllInGame(gameService.findById(gameId).get());
+		Random ran = new Random();
+		Integer PlayerSelected = ran.nextInt(users.size());
+		String nombre = users.get(PlayerSelected).getUsername();
+		redirect.addFlashAttribute("message", nombre + " starts the game");
+		return "redirect:/games/selectPlayerToStart/" + gameId;
 	}
 
 	@GetMapping("/details/{gameId}")
