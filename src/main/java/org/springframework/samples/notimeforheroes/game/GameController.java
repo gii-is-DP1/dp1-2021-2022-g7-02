@@ -1,5 +1,7 @@
 package org.springframework.samples.notimeforheroes.game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
+import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
@@ -91,9 +94,19 @@ public class GameController {
 	@RequestMapping(value = "/selectHeroe/{gameId}", method = RequestMethod.POST)
 	public String selectHeroe(@PathVariable("gameId") int gameId, ModelMap model, @RequestParam("heroe") String heroe, HttpServletResponse response){
 		GameUser gameUser = gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get();
-		gameUser.setHeroe(heroeCardsService.findByName(heroe));
-		gameUserService.createGameUser(gameUser);
-		model.addAttribute("hasSelected", true);
+		List<User> users=(List<User>) userService.findAllInGame(gameService.findById(gameId).get());
+		List<HeroeCard> heroes=new ArrayList<HeroeCard>();
+		for(int i=0; i<users.size(); i++) {
+			heroes.add(gameUserService.findHeroeOfGameUser(gameService.findById(gameId).get(), users.get(i)).get());
+		}
+		if(heroes.contains(heroeCardsService.findByName(heroe))) {
+			model.addAttribute("message", "This heroe is selected");
+		}
+		else {
+			gameUser.setHeroe(heroeCardsService.findByName(heroe));
+			gameUserService.createGameUser(gameUser);
+			model.addAttribute("hasSelected", true);
+		}
 		return selectHeroe(model, gameId);
 	}
 

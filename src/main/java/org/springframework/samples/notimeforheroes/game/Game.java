@@ -11,10 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.user.User;
-import org.springframework.samples.notimeforheroes.user.UserRepository;
-import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
 import lombok.Getter;
