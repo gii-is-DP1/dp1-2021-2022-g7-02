@@ -79,7 +79,7 @@ public class GameController {
 		if(gameUserService.findHeroeOfGameUser(game, userService.getLoggedUser()).orElse(null)!=null){
 			model.addAttribute("hasSelected", true);
 			System.out.println(gameUserService.findHeroeOfGameUser(game, userService.getLoggedUser()).get());
-			model.addAttribute("message", "You have already selected a heroe");
+			model.addAttribute("message", "You have selected a heroe");
 		}
 
 		if(game.getCreator().equals(userService.getLoggedUser())){
@@ -105,8 +105,18 @@ public class GameController {
 			heroes.add(heroeCard.get());
 			}
 		}
+		List<String> colores = new ArrayList<String>();
+		for(int i=0; i<heroes.size(); i++){
+			String color = heroes.get(i).getColor();
+			colores.add(color);
+
+		}
+
 		if(heroes.contains(heroeCardsService.findByName(heroe))) {
-			model.addAttribute("message", "This heroe is selected");
+			model.addAttribute("message", "This heroe can`t be selected");
+		}
+		else if(colores.contains(heroeCardsService.findByName(heroe).getColor())){
+			model.addAttribute("message", "This color can`t be selected");
 		}
 		else {
 			gameUser.setHeroe(heroeCardsService.findByName(heroe));
