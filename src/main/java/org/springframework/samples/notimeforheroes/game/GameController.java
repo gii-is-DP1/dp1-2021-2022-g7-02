@@ -3,8 +3,10 @@ package org.springframework.samples.notimeforheroes.game;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,8 +76,9 @@ public class GameController {
 			return "redirect:/games/waiting/{gameId}";
 		}
 
-		if(gameUserService.findHeroeOfGameUser(game, userService.getLoggedUser())!=null){
+		if(gameUserService.findHeroeOfGameUser(game, userService.getLoggedUser()).orElse(null)!=null){
 			model.addAttribute("hasSelected", true);
+			System.out.println(gameUserService.findHeroeOfGameUser(game, userService.getLoggedUser()).get());
 			model.addAttribute("message", "You have already selected a heroe");
 		}
 
@@ -97,7 +100,10 @@ public class GameController {
 		List<User> users=(List<User>) userService.findAllInGame(gameService.findById(gameId).get());
 		List<HeroeCard> heroes=new ArrayList<HeroeCard>();
 		for(int i=0; i<users.size(); i++) {
-			heroes.add(gameUserService.findHeroeOfGameUser(gameService.findById(gameId).get(), users.get(i)).get());
+			Optional<HeroeCard> heroeCard = gameUserService.findHeroeOfGameUser(gameService.findById(gameId).get(), users.get(i));
+			if(heroeCard.isPresent()){
+			heroes.add(heroeCard.get());
+			}
 		}
 		if(heroes.contains(heroeCardsService.findByName(heroe))) {
 			model.addAttribute("message", "This heroe is selected");
