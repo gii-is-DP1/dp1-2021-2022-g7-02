@@ -124,15 +124,25 @@ public class GameController {
 			gameUser.setHeroe(heroeCardsService.findByName(heroe));
 			gameUserService.createGameUser(gameUser);
 			model.addAttribute("hasSelected", true);
+			return "redirect:/games/selectPlayerToStart/" + gameId;
 		}
 		return selectHeroe(model, gameId);
 	}
 	
 	@GetMapping("/selectPlayerToStart/{gameId}")
-	public String selectPlayerToStart(ModelMap model, @PathVariable("gameId") int gameId) {
-		Game game = gameService.findById(gameId).get();
+	public String selectPlayerToStart(ModelMap model, @PathVariable("gameId") int gameId, HttpServletResponse response) {
+		response.addHeader("Refresh", "5");
+		List<User> userswithheroe= new ArrayList<User>();
+        List<User> users=(List<User>) userService.findAllInGame(gameService.findById(gameId).get());
+        for(int i=0; i<users.size(); i++){
+            Optional<HeroeCard> heroeCard = gameUserService.findHeroeOfGameUser(gameService.findById(gameId).get(), users.get(i));
+            if(heroeCard.isPresent()){
+                userswithheroe.add(users.get(i));
+            }
+        }
+        Game game = gameService.findById(gameId).get();
 		model.addAttribute("game", game);
-		model.addAttribute("users", userService.findAllInGame(game));
+		model.addAttribute("users", userswithheroe);
 		return SELECT_PLAYER_TO_START;
 	}
 	
