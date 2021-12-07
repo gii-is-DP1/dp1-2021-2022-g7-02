@@ -20,6 +20,7 @@
 				<tr>
 					<td><c:out value="${user.username}" /></td>
 				</tr>
+
 			</c:forEach>
 		</tbody>
 	</table>
