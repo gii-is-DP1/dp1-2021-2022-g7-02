@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
+import org.springframework.samples.notimeforheroes.skillcard.SkillCard;
+import org.springframework.samples.notimeforheroes.skillcard.SkillCardsService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,8 @@ public class GameUserService {
 	@Autowired
 	HeroeCardsService heroeCardsService;
 	
-	
+	@Autowired
+	SkillCardsService skillCardService;
 
 	public Collection<GameUser> findAll(){
 		return gameUserRepository.findAll();
@@ -42,8 +45,12 @@ public class GameUserService {
 	public Optional<HeroeCard> findHeroeOfGameUser(Game game, User user){
 		Optional<Integer> heroeId = gameUserRepository.findHeroeOfGameUser(game.getId(), user.getId());
 		return heroeCardsService.findById(heroeId.orElse(-1));
-		
-		
+	}
+	
+	public Collection<SkillCard> findSkillCardsOfGameUser(Game game, User user){
+		Optional<Integer> heroeId = gameUserRepository.findHeroeOfGameUser(game.getId(), user.getId());
+		String color=heroeCardsService.findById(heroeId.get()).get().getColor();
+		return skillCardService.findByColor(color);
 	}
 	
 	

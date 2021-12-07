@@ -7,5 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface SkillCardsRepository extends CrudRepository<SkillCard, Integer>{
 	
 	Collection<SkillCard> findAll();
+	
+	Collection<SkillCard> findByColor(String color);
 
 }

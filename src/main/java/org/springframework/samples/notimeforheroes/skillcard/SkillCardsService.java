@@ -26,6 +26,11 @@ public class SkillCardsService {
 	}
 	
 	@Transactional
+	public Collection<SkillCard> findByColor(String color){
+		return SkillRepository.findByColor(color);
+	}
+	
+	@Transactional
 	public void saveSkillCard(@Valid SkillCard skill) {
 		SkillRepository.save(skill);
 	}
