@@ -25,4 +25,6 @@ public class SkillCard extends NamedEntity{
 	private String description;
 	
 	private Integer deckid;
+	
+	private String color;
 }
