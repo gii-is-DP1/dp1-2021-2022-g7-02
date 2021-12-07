@@ -75,9 +75,9 @@ INSERT INTO authorities(id,authority,username) VALUES (6,'admin','mario');
 INSERT INTO authorities(id,authority,username) VALUES (7,'admin','javier');
 
 
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code) VALUES (1,1,'2021-11-03',1000,FALSE,TRUE,'1e7be91755b7497080849ef0910c044d');
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70');
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code) VALUES (3,3,'2021-11-05',null,FALSE,TRUE,'99ae43ed18bf458e89576b2d313a6e70');
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (1,1,'2021-11-03',1000,FALSE,TRUE,'1e7be91755b7497080849ef0910c044d',null);
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70',null);
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (3,3,'2021-11-05',null,FALSE,TRUE,'99ae43ed18bf458e89576b2d313a6e70',null);
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,2);
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,3);

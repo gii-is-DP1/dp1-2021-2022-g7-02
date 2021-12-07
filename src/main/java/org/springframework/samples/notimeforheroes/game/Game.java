@@ -51,6 +51,9 @@ public class Game extends BaseEntity{
 	@Column()
 	private String joinCode = UUID.randomUUID().toString().replace("-", "");
 
+	@Column()
+	private String winner = "-";
+
 
 
 

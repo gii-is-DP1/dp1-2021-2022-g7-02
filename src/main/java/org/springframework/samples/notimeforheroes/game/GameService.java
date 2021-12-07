@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.game;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +39,10 @@ public class GameService {
 	public Collection<Game> findAllEnded(){
 		return gameRepository.findAllEnded();
 	}
+
+	public Collection<Game> findByWinner(User user){
+		return gameRepository.findByWinner(user);
+	}
 	
 	public Collection<Game> findAllByIsInProgress(){
 		return gameRepository.findAllByIsInProgress(true);
@@ -49,6 +54,16 @@ public class GameService {
 
 	public Optional<Game> findByJoinCode(String joinCode){
 		return gameRepository.findByJoinCode(joinCode.trim());
+	}
+
+	public Collection<Game> findByUser(User user){
+		Collection<Game> gamesByUser = new ArrayList<Game>();
+		for (Game game : gameRepository.findAll()) {
+			if(game.getUsers().contains(user)){
+				gamesByUser.add(game);
+			}
+		}
+		return gamesByUser;
 	}
 	
 	@Transactional

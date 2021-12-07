@@ -11,6 +11,7 @@
 
 
 <petclinic:layout pageName="games">
+    
     <h2>Unirse a partida privada </h2>
     <form:form name="join" action="games/join" method="POST">
         <div class="form-group has-feedback">

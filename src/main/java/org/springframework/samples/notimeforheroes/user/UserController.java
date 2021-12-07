@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.notimeforheroes.game.GameService;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,6 +29,9 @@ public class UserController {
 	public static final String USER_PROFILE =  "users/userProfile";
 	
 	@Autowired
+	GameService gameService;
+
+	@Autowired
 	UserService userService;
 	
 	@GetMapping
@@ -40,6 +44,7 @@ public class UserController {
 	public String PlayerProfile(ModelMap model) {
 		User user = userService.getLoggedUser();
 			model.addAttribute("user", user);
+			model.addAttribute("games", gameService.findByUser(user));
 			return USER_PROFILE;
 	}
 

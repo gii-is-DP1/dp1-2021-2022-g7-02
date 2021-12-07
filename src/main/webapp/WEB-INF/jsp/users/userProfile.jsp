@@ -59,4 +59,31 @@
             
                     </tbody>
     </table>
+
+    <h2>Your stats</h2>
+    <table id="statsTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Winner</th>
+                <th>Duration</th>
+                <th>Participants</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${games}" var="game">
+                    <tr>
+                        <td>
+                            <c:out value="${game.winner}"/>
+                        </td>
+                        <td>
+                            <c:out value="${game.duration}"/>
+                        </td>
+                        <td>    
+                            <c:out value="${game.users}"/>
+                        </td>
+                    </tr>
+            </c:forEach> 
+        </tbody>
+    </table>
+    
 </petclinic:layout>
