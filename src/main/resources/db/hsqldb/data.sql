@@ -111,9 +111,9 @@ INSERT INTO scenes(id,name,url,description) VALUES (3,'Lodazal de Kalern', 'http
 INSERT INTO scenes(id,name,url,description) VALUES (4,'Mercado de Lotharion', 'https:','Mientras este sea el escenario activo, todos los articulos del mercado cuestan una Moneda menos');
 
 
-INSERT INTO skills(id,name,url,description,deckid) VALUES (1,'Compañero Lobo', 'https:', 'Previene 2 puntos de daño', 2);
-INSERT INTO skills(id,name,url,description,deckid) VALUES (2,'Disparo certero', 'https:', 'Pierdes 1 carta - Finalizas el ataque', 2);
-INSERT INTO skills(id,name,url,description,deckid) VALUES (3,'En la diana', 'https:', 'Gana 1 ficha de Gloria - Pierdes 1 carta', 2);
+INSERT INTO skills(id,name,url,description,color,deckid) VALUES (1,'Compañero Lobo', 'https:', 'Previene 2 puntos de daño', 'Morado',2);
+INSERT INTO skills(id,name,url,description,color,deckid) VALUES (2,'Disparo certero', 'https:', 'Pierdes 1 carta - Finalizas el ataque','Azul',2);
+INSERT INTO skills(id,name,url,description,color,deckid) VALUES (3,'En la diana', 'https:', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo', 2);
 
 INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica', 'https:', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
 
