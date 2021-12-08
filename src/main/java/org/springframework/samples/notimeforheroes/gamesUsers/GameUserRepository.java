@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
 
 public interface GameUserRepository extends CrudRepository<GameUser, Integer> {
 
@@ -15,5 +16,6 @@ public interface GameUserRepository extends CrudRepository<GameUser, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT heroe_id FROM games_users gu WHERE gu.fk_game=?1 AND gu.fk_user=?2")
     Optional<Integer> findHeroeOfGameUser(Integer gameId, Integer userId);
-
+    @Query(nativeQuery = true, value = "SELECT heroe_id FROM games_users gu WHERE gu.fk_game=?1 AND heroe_id is not null")
+    Collection<Integer> findHeroesSelectedOfGameUser(Integer gameId);
 }

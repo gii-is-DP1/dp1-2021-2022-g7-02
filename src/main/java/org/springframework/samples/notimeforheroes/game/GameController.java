@@ -95,7 +95,19 @@ public class GameController {
 		if(!model.containsAttribute("hasSelected")){
 			model.addAttribute("hasSelected", false);
 		}
-		
+		List<Integer> heroesSelectedList=(List<Integer>) gameUserService.findHeroesSelectedOfGameUser(game);
+		for (Integer heroeCard : heroesSelectedList) {
+			String color=heroeCardsService.findById(heroeCard).get().getColor();
+			if(color.equals("Morado")){
+				model.addAttribute("purpleSelected",true);
+			}else if(color.equals("Verde")){
+				model.addAttribute("greenSelected",true);
+			}else if(color.equals("Azul")){
+				model.addAttribute("blueSelected",true);
+			}else if(color.equals("Rojo")){
+				model.addAttribute("redSelected",true);
+			}
+		}
 		model.addAttribute("game",game);
 		return GAMES_SELECT_HEROE;
 	}

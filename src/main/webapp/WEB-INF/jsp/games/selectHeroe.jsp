@@ -9,48 +9,64 @@
 <petclinic:layout pageName="users">
     <form:form name="heroe" action="" method="POST">
         <div class=row>
-            <div class=col-md-3>
-                <img src="\resources\images\Taheral.png">
-                <input type="radio" id="taheral" name="heroe" value="Taheral">
-                <label for="taheral">Taheral</label>   
-            </div>
-            <div class=col-md-3>
-                <img src="\resources\images\Idril.png">
-                <input type="radio" id="idril" name="heroe" value="Idril">
-                <label for="idril">Idril</label>   
-            </div>
-            <div class=col-md-3>
-                <img src="\resources\images\Feldon.png">
-                <input type="radio" id="feldon" name="heroe" value="Feldon">
-                <label for="feldon">Feldon</label>   
-            </div>
-            <div class=col-md-3>
-                <img src="\resources\images\Lisavette.png">
-                <input type="radio" id="lisavette" name="heroe" value="Lisavette">
-                <label for="lisavette">Lisavette</label>   
-            </div>
+            <c:if test="${!purpleSelected}">
+                <div class=col-md-3>
+                    <img src="\resources\images\Taheral.png">
+                    <input type="radio" id="taheral" name="heroe" value="Taheral">
+                    <label for="taheral">Taheral</label>   
+                </div>
+            </c:if>
+            <c:if test="${!greenSelected}">
+                <div class=col-md-3>
+                    <img src="\resources\images\Idril.png">
+                    <input type="radio" id="idril" name="heroe" value="Idril">
+                    <label for="idril">Idril</label>   
+                </div>
+            </c:if>
+            <c:if test="${!redSelected}">
+                <div class=col-md-3>
+                    <img src="\resources\images\Feldon.png">
+                    <input type="radio" id="feldon" name="heroe" value="Feldon">
+                    <label for="feldon">Feldon</label>   
+                </div>
+            </c:if>
+            <c:if test="${!blueSelected}">
+                <div class=col-md-3>
+                    <img src="\resources\images\Lisavette.png">
+                    <input type="radio" id="lisavette" name="heroe" value="Lisavette">
+                    <label for="lisavette">Lisavette</label>   
+                </div>
+            </c:if>
         </div>
         <div class=row>
-            <div class=col-md-3>
-                <img src="\resources\images\Aranel.png">
-                <input type="radio" id="aranel" name="heroe" value="Aranel">
-                <label for="aranel">Aranel</label>   
-            </div>
-            <div class=col-md-3>
-                <img src="\resources\images\Beleth.png">
-                <input type="radio" id="belethil" name="heroe" value="Beleth-Il">
-                <label for="belethil">Beleth-Il</label>   
-            </div>
-            <div class=col-md-3>
-                <img src="\resources\images\Neddia.png">
-                <input type="radio" id="neddia" name="heroe" value="Neddia">
-                <label for="neddia">Neddia</label>   
-            </div>
-            <div class=col-md-3>
-                <img src="\resources\images\Valerys.png">
-                <input type="radio" id="valerys" name="heroe" value="Valerys">
-                <label for="valerys">Valerys</label>   
-            </div>
+            <c:if test="${!purpleSelected}">
+                <div class=col-md-3>
+                    <img src="\resources\images\Aranel.png">
+                    <input type="radio" id="aranel" name="heroe" value="Aranel">
+                    <label for="aranel">Aranel</label>   
+                </div>
+            </c:if>
+            <c:if test="${!greenSelected}">
+                <div class=col-md-3>
+                    <img src="\resources\images\Beleth.png">
+                    <input type="radio" id="belethil" name="heroe" value="Beleth-Il">
+                    <label for="belethil">Beleth-Il</label>   
+                </div>
+            </c:if>
+            <c:if test="${!redSelected}">
+                <div class=col-md-3>
+                    <img src="\resources\images\Neddia.png">
+                    <input type="radio" id="neddia" name="heroe" value="Neddia">
+                    <label for="neddia">Neddia</label>   
+                </div>
+            </c:if>
+            <c:if test="${!blueSelected}">
+                <div class=col-md-3>
+                    <img src="\resources\images\Valerys.png">
+                    <input type="radio" id="valerys" name="heroe" value="Valerys">
+                    <label for="valerys">Valerys</label>   
+                </div>
+         </c:if>
         </div>
         <div class=row>
             <div class="col-md-12 text-center" style="margin-top: 5%;">

@@ -33,7 +33,7 @@
     <c:if test="${game.creator == loggedUser && users.size() != 1}">
         <a class="btn btn-success" href="/games/selectHeroe/${game.id}">Empezar partida</a>
     </c:if>
-    <c:if test="${game.creator != loggedUser && users.size() != 1 && game.isInProgress}">
+    <c:if test="${game.creator != loggedUser && users.size() != 1 && game.isInProgress && userWithHeroe != 1}">
         <a class="btn btn-success" href="/games/selectHeroe/${game.id}">Unirse a la partida</a>
     </c:if>
 </petclinic:layout>
