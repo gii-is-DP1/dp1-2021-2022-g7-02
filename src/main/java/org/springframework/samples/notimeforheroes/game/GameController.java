@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.h2.tools.Script;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUser;
@@ -55,6 +56,9 @@ public class GameController {
 
 	@Autowired 
 	HeroeCardsService heroeCardsService;
+
+	@Autowired
+	GameRepository gameRepository;
 
 	@GetMapping()
 	public String listGames(ModelMap model) {
@@ -132,28 +136,42 @@ public class GameController {
 	@GetMapping("/selectPlayerToStart/{gameId}")
 	public String selectPlayerToStart(ModelMap model, @PathVariable("gameId") int gameId, HttpServletResponse response) {
 		response.addHeader("Refresh", "5");
-		List<User> userswithheroe= new ArrayList<User>();
+		List<User> usersWithHeroe= new ArrayList<User>();
         List<User> users=(List<User>) userService.findAllInGame(gameService.findById(gameId).get());
         for(int i=0; i<users.size(); i++){
             Optional<HeroeCard> heroeCard = gameUserService.findHeroeOfGameUser(gameService.findById(gameId).get(), users.get(i));
             if(heroeCard.isPresent()){
-                userswithheroe.add(users.get(i));
+                usersWithHeroe.add(users.get(i));
             }
         }
         Game game = gameService.findById(gameId).get();
 		model.addAttribute("game", game);
-		model.addAttribute("users", userswithheroe);
+		model.addAttribute("users", usersWithHeroe);
+		model.addAttribute("loggedUser", userService.getLoggedUser());
 		return SELECT_PLAYER_TO_START;
 	}
 	
 	@PostMapping("/selectPlayerToStart/{gameId}")
-	public String selectPlayerToStart(ModelMap model, @PathVariable("gameId") int gameId, RedirectAttributes redirect) {
+	public String selectPlayerToStart(ModelMap model, @PathVariable("gameId") int gameId, RedirectAttributes redirect, HttpServletResponse response) {
+		response.addHeader("Refresh", "5");
+		List<User> usersWithHeroe= new ArrayList<User>();
 		List<User> users=(List<User>) userService.findAllInGame(gameService.findById(gameId).get());
+		for(int i=0; i<users.size(); i++){
+            Optional<HeroeCard> heroeCard = gameUserService.findHeroeOfGameUser(gameService.findById(gameId).get(), users.get(i));
+            if(heroeCard.isPresent()){
+                usersWithHeroe.add(users.get(i));
+            }
+        }
 		Random ran = new Random();
 		Integer PlayerSelected = ran.nextInt(users.size());
-		String nombre = users.get(PlayerSelected).getUsername();
-		redirect.addFlashAttribute("message", nombre + " starts the game");
-		return "redirect:/games/selectPlayerToStart/" + gameId;
+		User firstUser = users.get(PlayerSelected);
+		Game game = gameService.findById(gameId).get();
+		game.setFirstPlayer(firstUser);
+		gameService.updateGame(game);
+		model.addAttribute("users", usersWithHeroe);
+		model.addAttribute("game", game);
+		model.addAttribute("loggedUser", userService.getLoggedUser());
+		return SELECT_PLAYER_TO_START;
 	}
 
 	@GetMapping("/details/{gameId}")

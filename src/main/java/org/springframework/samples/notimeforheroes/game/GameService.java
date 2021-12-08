@@ -57,13 +57,7 @@ public class GameService {
 	}
 
 	public Collection<Game> findByUser(User user){
-		Collection<Game> gamesByUser = new ArrayList<Game>();
-		for (Game game : gameRepository.findAll()) {
-			if(game.getUsers().contains(user)){
-				gamesByUser.add(game);
-			}
-		}
-		return gamesByUser;
+		return gameRepository.findByUser(user);
 	}
 	
 	@Transactional
