@@ -19,13 +19,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<c:forEach items="${users}" var="user">
+			<c:forEach items="${users}" var="user">
+				<tr>
 					<td>
 						<c:out value="${user.username}" />
 					</td>
-				</c:forEach>
-			</tr>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 
