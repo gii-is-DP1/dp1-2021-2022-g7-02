@@ -27,4 +27,7 @@ public interface GameRepository extends CrudRepository<Game, Integer>{
 	
 	@Query("SELECT g FROM games g WHERE g.winner = user")
 	Collection<Game> findByWinner(User user);
+
+	@Query(nativeQuery = true, value = "SELECT * FROM Games g JOIN Games_Users gu WHERE g.id = gu.fk_game AND gu.fk_user = ?1")
+	Collection<Game> findByUser(User user);
 }
