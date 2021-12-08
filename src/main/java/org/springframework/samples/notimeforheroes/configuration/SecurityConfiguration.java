@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  * @author japarejo
  */
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -39,7 +40,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/users/login").permitAll()
 				.antMatchers("/users/new").permitAll()
 				.antMatchers("/users").hasAnyAuthority("admin")
+				.antMatchers("/cards/**").hasAnyAuthority("admin")
 				.antMatchers("/games/**").authenticated()
+				.antMatchers("/games/details").hasAnyAuthority("admin")
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/vets/**").authenticated()

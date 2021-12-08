@@ -63,6 +63,7 @@ INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (4,'Pablo','Espada','pabloespada2', 'pablo2@email.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (5,'Mario','Rodriguez','mario', 'mario@email.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (6,'Miguel Angel','Romalde','mromalde', 'mromalde@email.com','123',TRUE);
+INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (7,'Javier','Martínez','javier', 'javmarjae@email.com','123',TRUE);
 
 
 INSERT INTO authorities(id,authority,username) VALUES (1,'admin','pabloespada');
@@ -71,12 +72,21 @@ INSERT INTO authorities(id,authority,username) VALUES (3,'admin','juangar2');
 INSERT INTO authorities(id,authority,username) VALUES (4,'player','pabloespada2');
 INSERT INTO authorities(id,authority,username) VALUES (5,'admin','mromalde');
 INSERT INTO authorities(id,authority,username) VALUES (6,'admin','mario');
+INSERT INTO authorities(id,authority,username) VALUES (7,'admin','javier');
 
 
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code) VALUES (1,1,'2021-11-03',1000,TRUE,TRUE,'1e7be91755b7497080849ef0910c044d');
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70');
-INSERT INTO games_users(fk_user, fk_game) VALUES(1,1);
-INSERT INTO games_users(fk_user, fk_game) VALUES(2,2);
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (1,1,'2021-11-03',1000,FALSE,TRUE,'1e7be91755b7497080849ef0910c044d',null);
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70',null);
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (3,3,'2021-11-05',null,FALSE,TRUE,'99ae43ed18bf458e89576b2d313a6e70',null);
+INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
+INSERT INTO games_users(fk_game,fk_user) VALUES(1,2);
+INSERT INTO games_users(fk_game,fk_user) VALUES(1,3);
+
+INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);
+
+INSERT INTO games_users(fk_game,fk_user) VALUES(3,1);
+INSERT INTO games_users(fk_game,fk_user) VALUES(3,2);
+INSERT INTO games_users(fk_game,fk_user) VALUES(3,3);
 
 --INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,2);
 --INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,3);
@@ -101,10 +111,10 @@ INSERT INTO scenes(id,name,url,description) VALUES (3,'Lodazal de Kalern', 'http
 INSERT INTO scenes(id,name,url,description) VALUES (4,'Mercado de Lotharion', 'https:','Mientras este sea el escenario activo, todos los articulos del mercado cuestan una Moneda menos');
 
 
-INSERT INTO skills(id,name,url,description,deckid) VALUES (1,'Compañero Lobo', 'https:', 'Previene 2 puntos de daño', 2);
-INSERT INTO skills(id,name,url,description,deckid) VALUES (2,'Disparo certero', 'https:', 'Pierdes 1 carta - Finalizas el ataque', 2);
-INSERT INTO skills(id,name,url,description,deckid) VALUES (3,'En la diana', 'https:', 'Gana 1 ficha de Gloria - Pierdes 1 carta', 2);
+INSERT INTO skills(id,name,url,description,color,deckid) VALUES (1,'Compañero Lobo', 'https:', 'Previene 2 puntos de daño', 'Morado',2);
+INSERT INTO skills(id,name,url,description,color,deckid) VALUES (2,'Disparo certero', 'https:', 'Pierdes 1 carta - Finalizas el ataque','Azul',2);
+INSERT INTO skills(id,name,url,description,color,deckid) VALUES (3,'En la diana', 'https:', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo', 2);
 
 INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica', 'https:', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
 
-INSERT INTO enemies(id,name,url,life,glory,extraglory,extragold) VALUES (1,'Simple Enemy', 'https:', 2, 1, 0, 0);
+INSERT INTO enemies(id,name,url,life,glory,extra_glory,extra_gold) VALUES (1,'Simple Enemy', 'https:', 2, 1, 0, 0);

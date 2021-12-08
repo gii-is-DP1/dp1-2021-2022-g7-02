@@ -77,7 +77,7 @@ public class UsersServiceTests {
 
 		String newName = oldName + "X";
 		user.setName(newName);
-		userService.saveUser(user);
+		//userService.saveUser(user);
 
 		user = userService.findById(1).get();
 		assertThat(user.getName()).isEqualTo(newName);

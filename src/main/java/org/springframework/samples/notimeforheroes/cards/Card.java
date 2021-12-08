@@ -16,4 +16,8 @@ public class Card extends NamedEntity{
     @Column()
     public String url;
 
+    @Column(name = "cardState")
+    public CardState cardState = CardState.DISCARDED;
+
+
 }

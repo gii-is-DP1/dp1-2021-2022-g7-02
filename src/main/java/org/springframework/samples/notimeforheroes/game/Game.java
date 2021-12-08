@@ -26,8 +26,6 @@ import lombok.Setter;
 
 public class Game extends BaseEntity{
 	
-	
-	
 	@ManyToOne
 	@JoinColumn(name="creator")
 	private User creator;				
@@ -36,8 +34,7 @@ public class Game extends BaseEntity{
 	@JoinTable(name = "games_users",
 		joinColumns = {@JoinColumn(name = "fk_game")},
 		inverseJoinColumns = {@JoinColumn(name = "fk_user")})
-	private Collection<User> users;						
-	
+	private Collection<User> users;			
 
 	@Column(name="duration",columnDefinition = "INT")
 	private Integer duration = 0;	//En segundos
@@ -53,6 +50,14 @@ public class Game extends BaseEntity{
 
 	@Column()
 	private String joinCode = UUID.randomUUID().toString().replace("-", "");
+
+	@ManyToOne
+	@JoinColumn(name="winner")
+	private User winner;
+
+	@ManyToOne
+	@JoinColumn(name="firstPlayer")
+	private User firstPlayer;
 
 
 

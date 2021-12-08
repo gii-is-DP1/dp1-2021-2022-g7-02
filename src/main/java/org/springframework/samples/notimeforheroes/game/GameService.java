@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.game;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,10 @@ public class GameService {
 	@Autowired
 	UserService userService;
 	
+	public Collection<Game> findAvailableGames(){
+		return userService.isUserAdmin(userService.getLoggedUser()) ? gameRepository.findAll() : gameRepository.findPublicAndOwn(userService.getLoggedUser());
+	}
+
 	public Collection<Game> findAll(){
 		return gameRepository.findAll();
 	}
@@ -30,12 +35,13 @@ public class GameService {
 	public Optional<Game> findById(Integer id){
 		return gameRepository.findById(id);
 	}
-	public Collection<Game> findPublicAndOwn(User user){
-		return gameRepository.findPublicAndOwn(user);
-	}
 	
 	public Collection<Game> findAllEnded(){
 		return gameRepository.findAllEnded();
+	}
+
+	public Collection<Game> findByWinner(User user){
+		return gameRepository.findByWinner(user);
 	}
 	
 	public Collection<Game> findAllByIsInProgress(){
@@ -48,6 +54,10 @@ public class GameService {
 
 	public Optional<Game> findByJoinCode(String joinCode){
 		return gameRepository.findByJoinCode(joinCode.trim());
+	}
+
+	public Collection<Game> findByUser(User user){
+		return gameRepository.findByUser(user);
 	}
 	
 	@Transactional

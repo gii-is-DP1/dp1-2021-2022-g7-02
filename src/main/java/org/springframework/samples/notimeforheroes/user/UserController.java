@@ -8,9 +8,8 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.notimeforheroes.game.GameService;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -27,26 +26,48 @@ public class UserController {
 	public static final String USER_LISTING = "users/userListing";
 	public static final String USER_FORM =  "users/createOrUpdateUserForm";
 	public static final String USER_DETAILS =  "users/userDetails";
+	public static final String USER_PROFILE =  "users/userProfile";
 	
+	@Autowired
+	GameService gameService;
+
 	@Autowired
 	UserService userService;
 	
 	@GetMapping
 	public String listUsers(ModelMap model) {
-		model.addAttribute("users", userService.findAll());
+		model.addAttribute("user", userService.findAll());
 		return USER_LISTING;
 	}
 	
-	
-	@GetMapping("/{id}/details")
-	public String PlayerDetails(ModelMap model, @PathVariable("id") int id) {
-		Optional<User> user = userService.findById(id);
-		if(user.isPresent()) {
-			model.addAttribute("user", user.get());
-			return USER_DETAILS;
-		} else {
-			model.addAttribute("message", "This user doesn't exits");
-			return listUsers(model);
+	@GetMapping("/profile")
+	public String PlayerProfile(ModelMap model) {
+		User user = userService.getLoggedUser();
+			model.addAttribute("user", user);
+			model.addAttribute("games", gameService.findByUser(user));
+			return USER_PROFILE;
+	}
+
+	@GetMapping("/profile/edit")
+	public String profileEdit(ModelMap model) {
+		model.addAttribute("user", userService.getLoggedUser());
+		return USER_FORM;
+	}
+
+	@PostMapping("/profile/edit")
+	public String profileEdit(RedirectAttributes redirect,ModelMap model, @Valid User modifiedUser, BindingResult result){
+		
+		User loggedUser = userService.getLoggedUser();
+		
+		if(result.hasErrors()){
+			model.addAttribute("message", "The user has errors");
+			return USER_FORM;
+		}else{
+			BeanUtils.copyProperties(modifiedUser, loggedUser, "id");
+			model.addAttribute("user", loggedUser);
+			listUsers(model);
+			redirect.addFlashAttribute("message", "User modified");
+			return "redirect:/users/profile";
 		}
 	}
 	
@@ -54,8 +75,8 @@ public class UserController {
 	public String editUser(ModelMap model, @PathVariable("id") int id) {
 		Optional<User> user = userService.findById(id);
 		if(user.isPresent()) {
-			if(userService.getLoggedUser().getId().equals(id)){
-				model.addAttribute("users", user.get());
+			if(userService.getLoggedUser().getId().equals(id) || userService.getLoggedUser().isAdmin()){
+				model.addAttribute("user", user.get());
 				return USER_FORM;
 			}else {
 				model.addAttribute("message", "You can't edit this user");
@@ -79,10 +100,10 @@ public class UserController {
 
 			if(user.get().getId()==userId) {
 				BeanUtils.copyProperties(modifiedUser, user.get(), "id");
-				model.addAttribute("users", user.get());
+				model.addAttribute("user", user.get());
 				listUsers(model);
 				redirect.addFlashAttribute("message", "User modified");
-				return "redirect:/users";
+				return "redirect:/users/{id}/details";
 			}
 			else {
 				redirect.addFlashAttribute("message", "You cannot modify this user");
@@ -91,17 +112,30 @@ public class UserController {
 
 		}
 	}
+
+	
+	@GetMapping("/{id}/details")
+	public String PlayerDetails(ModelMap model, @PathVariable("id") int id) {
+		Optional<User> user = userService.findById(id);
+		if(user.isPresent()) {
+			model.addAttribute("user", user.get());
+			return USER_DETAILS;
+		} else {
+			model.addAttribute("message", "This user doesn't exits");
+			return listUsers(model);
+		}
+	}
 	
 	
 	@GetMapping("/new")
 	public String newUser(Map<String, Object> map) {
 		User user = new User();
-		map.put("users", user);
+		map.put("user", user);
 		return USER_FORM;
 	}
 	
 	@PostMapping("/new")
-	public String newUser(RedirectAttributes redirect, @Valid User user,BindingResult result, ModelMap model) throws DataAccessException, DuplicatedUserEmailException {
+	public String newUser(@Valid User user,BindingResult result, ModelMap model,RedirectAttributes redirect) throws DataAccessException, DuplicatedUserEmailException {
 		if(result.hasErrors()) {
 			return USER_FORM;
 		} else {

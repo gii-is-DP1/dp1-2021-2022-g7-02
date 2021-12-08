@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
-import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;
+import org.springframework.samples.notimeforheroes.skillcard.SkillCard;
+import org.springframework.samples.notimeforheroes.skillcard.SkillCardsService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
