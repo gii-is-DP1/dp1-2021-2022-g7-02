@@ -7,6 +7,11 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="users">
+
+    <c:if test="${hasSelected}">
+        <c:redirect url="/games/selectPlayerToStart/${game.id}"/>
+    </c:if>
+
     <form:form name="heroe" action="" method="POST">
         <div class=row>
             <div class=col-md-3>
@@ -57,15 +62,8 @@
                 <c:if test="${!hasSelected}">
                     <input class="btn btn-default" type="submit" value="Select heroe"/>
                 </c:if>
-                
             </div>
-            
-        </div>
-        
-        
-
-        
+        </div>   
     </form:form>
-    
-    
+
 </petclinic:layout> 

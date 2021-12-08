@@ -30,10 +30,10 @@
         </tbody>
     </table>
 
-    <c:if test="${game.creator == loggedUser && users.size() != 1}">
+    <c:if test="${game.creator == loggedUser && users.size() != 1 && !game.isInProgress}">
         <a class="btn btn-success" href="/games/selectHeroe/${game.id}">Empezar partida</a>
     </c:if>
-    <c:if test="${game.creator != loggedUser && users.size() != 1 && game.isInProgress}">
+    <c:if test="${game.isInProgress}">
         <a class="btn btn-success" href="/games/selectHeroe/${game.id}">Unirse a la partida</a>
     </c:if>
 </petclinic:layout>
