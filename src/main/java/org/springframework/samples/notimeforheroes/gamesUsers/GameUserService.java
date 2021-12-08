@@ -46,6 +46,10 @@ public class GameUserService {
 		Optional<Integer> heroeId = gameUserRepository.findHeroeOfGameUser(game.getId(), user.getId());
 		return heroeCardsService.findById(heroeId.orElse(-1));
 	}
+
+	public Collection<Integer> findHeroesSelectedOfGameUser(Game game){
+		return gameUserRepository.findHeroesSelectedOfGameUser(game.getId());
+	}
 	
 	public Collection<SkillCard> findSkillCardsOfGameUser(Game game, User user){
 		Optional<Integer> heroeId = gameUserRepository.findHeroeOfGameUser(game.getId(), user.getId());
