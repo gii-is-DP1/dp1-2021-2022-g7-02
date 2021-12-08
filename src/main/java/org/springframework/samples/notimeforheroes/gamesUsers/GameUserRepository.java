@@ -5,10 +5,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-<<<<<<< HEAD
-=======
-import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
->>>>>>> 50fdfb7fbdea434ec602d3f1ed29e82ef559c3a0
 
 public interface GameUserRepository extends CrudRepository<GameUser, Integer> {
 
