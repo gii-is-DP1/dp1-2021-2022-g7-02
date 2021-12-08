@@ -16,20 +16,16 @@
 		<thead>
 			<tr>
 				<th class="width50">Username</th>
-				<th class="width50">Heroe</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${users}" var="user">
-				<tr>
+			<tr>
+				<c:forEach items="${users}" var="user">
 					<td>
 						<c:out value="${user.username}" />
 					</td>
-					<td>
-						<c:out value="${userService.getLoggedUser()}"></c:out>
-					</td>
-				</tr>
-			</c:forEach>
+				</c:forEach>
+			</tr>
 		</tbody>
 	</table>
 

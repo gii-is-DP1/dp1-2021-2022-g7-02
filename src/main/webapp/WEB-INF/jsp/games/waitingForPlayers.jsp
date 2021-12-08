@@ -16,7 +16,7 @@
     <table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 100%;">Username</th>    
+            <th style="width: 100%;">Username</th>   
         </tr>
          </thead>
         <tbody>
@@ -24,7 +24,7 @@
             <tr>
                 <td>
                     <c:out value="${user.username}"/>
-                </td>                           
+                </td>                         
             </tr>
         </c:forEach>
         </tbody>
