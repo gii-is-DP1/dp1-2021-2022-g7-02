@@ -9,16 +9,21 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
 <petclinic:layout pageName="users">
+
+	<h2>Jugadores que han elegido heroe:</h2>
+
 	<table id="ownersTable" class="table table-striped">
 		<thead>
 			<tr>
-				<th style="width: 100%;">Username</th>
+				<th class="width50">Username</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${users}" var="user">
 				<tr>
-					<td><c:out value="${user.username}" /></td>
+					<td>
+						<c:out value="${user.username}" />
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

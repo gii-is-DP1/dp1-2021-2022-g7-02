@@ -16,7 +16,7 @@
     <table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 100%;">Username</th>    
+            <th style="width: 100%;">Username</th>   
         </tr>
          </thead>
         <tbody>
@@ -24,16 +24,16 @@
             <tr>
                 <td>
                     <c:out value="${user.username}"/>
-                </td>                           
+                </td>                         
             </tr>
         </c:forEach>
         </tbody>
     </table>
 
-    <c:if test="${game.creator == loggedUser && users.size() != 1}">
+    <c:if test="${game.creator == loggedUser && users.size() != 1 && !game.isInProgress}">
         <a class="btn btn-success" href="/games/selectHeroe/${game.id}">Empezar partida</a>
     </c:if>
-    <c:if test="${game.creator != loggedUser && users.size() != 1 && game.isInProgress && userWithHeroe != 1}">
+    <c:if test="${game.isInProgress}">
         <a class="btn btn-success" href="/games/selectHeroe/${game.id}">Unirse a la partida</a>
     </c:if>
 </petclinic:layout>
