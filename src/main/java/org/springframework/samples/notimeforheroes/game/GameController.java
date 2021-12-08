@@ -95,8 +95,10 @@ public class GameController {
 		if(!model.containsAttribute("hasSelected")){
 			model.addAttribute("hasSelected", false);
 		}
+		//aqui se coge los ids de los heroes que estan seleccionados de una partida
 		List<Integer> heroesSelectedList=(List<Integer>) gameUserService.findHeroesSelectedOfGameUser(game);
 		for (Integer heroeCard : heroesSelectedList) {
+			//en esta lina encuentro el heroe y cojo el color que tiene
 			String color=heroeCardsService.findById(heroeCard).get().getColor();
 			if(color.equals("Morado")){
 				model.addAttribute("purpleSelected",true);
