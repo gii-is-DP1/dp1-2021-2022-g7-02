@@ -1,7 +1,10 @@
 package org.springframework.samples.notimeforheroes.game;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,13 +45,12 @@ public class Game extends BaseEntity{
 	@Column(name = "date", columnDefinition = "DATE")
 	private LocalDate date = LocalDate.now();
 	
-	@Column()
 	private Boolean isInProgress = false;	
 
-	@Column()
-	private Boolean isPublic = true;					
+	private Boolean isPublic = true;	
+	
+	private GameState gameState = GameState.ATTACKING;
 
-	@Column()
 	private String joinCode = UUID.randomUUID().toString().replace("-", "");
 
 	@ManyToOne
@@ -59,13 +61,16 @@ public class Game extends BaseEntity{
 	@JoinColumn(name="firstPlayer")
 	private User firstPlayer;
 
+	@ManyToOne
+	@JoinColumn(name="userPlaying")
+	private User userPlaying;
+
 
 
 
 	public void addUser(User newUser){
 		this.users.add(newUser);
 	}
-
 
 	//METODOS EQUALS TOSTRING Y HASHCODE
 
@@ -122,6 +127,9 @@ public class Game extends BaseEntity{
 		return true;
 	}
 	
+	public Integer getPositionOfPlayer(User user){
+		return ((ArrayList<User>)this.users).indexOf(user);
+	}
 	
 	
 	
