@@ -65,7 +65,26 @@ public class GameService {
 	public Collection<Game> findByUser(User user){
 		return gameRepository.findByUser(user);
 	}
+
+	public Optional<Game> findGameInProgressByUser(User user){
+		return gameRepository.findGameInProgressByUser(user);
+	}
 	
+	public String getGameUrl(Game game) {
+		//Si no está en progreso o no se ha elegido heroe, devuelve waiting/{gameId}
+		if(!game.getIsInProgress() || !gameUserService.findHeroeOfGameUser(game, userService.getLoggedUser()).isPresent()){
+			return "waiting/"+game.getId();
+		}else{
+		//Si no se ha seleccionado el primer jugador, devuelve selectPlayerToStart/{gameId}
+			if(game.getFirstPlayer()==null) return "selectPlayerToStart/"+game.getId();
+		//Si la partida está en progreso, el jugador tiene héroe y se ha elegido primer jugador, devuelve /{gameId}
+			else{
+				return game.getId().toString();
+			}
+		}
+
+	}
+
 	@Transactional
 	public void createGame(@Valid Game game){	
 		

@@ -31,9 +31,9 @@ description="Name of the active menu: home, owners, vets or error"%>
 					<span>Find games</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/games/join" title="Join game">
+				<petclinic:menuItem active="${name eq 'vets'}" url="/games/current" title="Current game">
 					<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-					<span>Join game</span>
+					<span>Current game</span>
 				</petclinic:menuItem>
 
 				<sec:authorize access='hasAuthority("admin")'>

@@ -74,25 +74,6 @@ INSERT INTO authorities(id,authority,username) VALUES (5,'admin','mromalde');
 INSERT INTO authorities(id,authority,username) VALUES (6,'admin','mario');
 INSERT INTO authorities(id,authority,username) VALUES (7,'admin','javier');
 
-
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (1,1,'2021-11-03',1000,FALSE,TRUE,'1e7be91755b7497080849ef0910c044d',null);
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70',null);
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (3,3,'2021-11-05',null,FALSE,TRUE,'99ae43ed18bf458e89576b2d313a6e70',null);
-INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
-INSERT INTO games_users(fk_game,fk_user) VALUES(1,2);
-INSERT INTO games_users(fk_game,fk_user) VALUES(1,3);
-
-INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);
-
-INSERT INTO games_users(fk_game,fk_user) VALUES(3,1);
-INSERT INTO games_users(fk_game,fk_user) VALUES(3,2);
-INSERT INTO games_users(fk_game,fk_user) VALUES(3,3);
-
---INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,2);
---INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,3);
---INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,4);
-
-
 INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
 
 
@@ -118,3 +99,24 @@ INSERT INTO skills(id,name,url,description,color,deckid) VALUES (3,'En la diana'
 INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica', 'https:', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
 
 INSERT INTO enemies(id,name,url,life,glory,extra_glory,extra_gold) VALUES (1,'Simple Enemy', 'https:', 2, 1, 0, 0);
+
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (1,1,'2021-11-03',1000,FALSE,TRUE,'1e7be91755b7497080849ef0910c044d',null);
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70',null);
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (3,3,'2021-11-05',null,FALSE,TRUE,'99ae43ed18bf458e89576b2d313a6e70',null);
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (4,6,'2021-11-06',null,TRUE,TRUE,'99ae43ed18bf488e84576a2d313a6e71',null);
+
+INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
+INSERT INTO games_users(fk_game,fk_user) VALUES(1,2);
+INSERT INTO games_users(fk_game,fk_user) VALUES(1,3);
+INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);
+INSERT INTO games_users(fk_game,fk_user) VALUES(3,1);
+INSERT INTO games_users(fk_game,fk_user) VALUES(3,2);
+INSERT INTO games_users(fk_game,fk_user) VALUES(3,3);
+INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,6,0,0,TRUE,null,3);
+INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,3,0,0,TRUE,null,8);
+
+--INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,2);
+--INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,3);
+--INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,4);
+
+

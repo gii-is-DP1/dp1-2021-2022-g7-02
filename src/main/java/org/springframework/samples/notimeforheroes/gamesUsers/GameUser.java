@@ -33,11 +33,11 @@ public class GameUser extends BaseEntity{
     @ManyToMany
     private List<MarketCard> items;
 
-    private Boolean hasEscapeToken;
+    private Boolean hasEscapeToken = true;
 
-    private Integer gold;
+    private Integer gold = 0;
 
-    private Integer glory;
+    private Integer glory = 0;
 
     private Boolean winner;
     
