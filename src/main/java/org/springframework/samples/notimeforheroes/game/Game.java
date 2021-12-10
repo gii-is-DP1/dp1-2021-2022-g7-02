@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.samples.notimeforheroes.marketcard.MarketCard;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
@@ -31,7 +32,13 @@ public class Game extends BaseEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="creator")
-	private User creator;				
+	private User creator;
+	
+	@ManyToMany
+	@JoinTable(name = "games_markets",
+		joinColumns = {@JoinColumn(name = "fk_game")},
+		inverseJoinColumns = {@JoinColumn(name = "fk_market")})
+	private Collection<MarketCard> market;		
 	
 	@ManyToMany
 	@JoinTable(name = "games_users",
