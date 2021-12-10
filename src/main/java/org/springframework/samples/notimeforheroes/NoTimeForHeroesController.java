@@ -1,7 +1,6 @@
 
 package org.springframework.samples.notimeforheroes;
 
-import org.springframework.samples.petclinic.web.WelcomeController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;

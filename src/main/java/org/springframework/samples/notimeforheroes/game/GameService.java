@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
+import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
@@ -23,6 +26,9 @@ public class GameService {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	GameUserService gameUserService;
 	
 	public Collection<Game> findAvailableGames(){
 		return userService.isUserAdmin(userService.getLoggedUser()) ? gameRepository.findAll() : gameRepository.findPublicAndOwn(userService.getLoggedUser());
@@ -87,5 +93,23 @@ public class GameService {
 	@Transactional
 	public void deleteGame(Game game) {
 		gameRepository.deleteById(game.getId());
+	}
+
+	@Transactional	
+	public void selectFirstPlayer(Integer gameId){
+		List<User> usersWithHeroe= new ArrayList<User>();
+		List<User> users=(List<User>) userService.findAllInGame(this.findById(gameId).get());
+		for(int i=0; i<users.size(); i++){
+            Optional<HeroeCard> heroeCard = gameUserService.findHeroeOfGameUser(this.findById(gameId).get(), users.get(i));
+            if(heroeCard.isPresent()){
+                usersWithHeroe.add(users.get(i));
+            }
+        }
+		Random ran = new Random();
+		Integer index = ran.nextInt(users.size());
+		User firstUser = users.get(index);
+		Game game = this.findById(gameId).get();
+		game.setFirstPlayer(firstUser);
+		this.updateGame(game);
 	}
 }

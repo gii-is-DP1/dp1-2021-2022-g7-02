@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+pageEncoding="utf-8"%>
 <%@ page session="false" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -30,32 +30,28 @@
 	</table>
 
 	<c:if test="${!empty game.firstPlayer}">
-		<h2>El jugador elegido es:</h2>
-		<c:out value="${game.firstPlayer}"/>
+		<h2>El jugador elegido es: <c:out value="${game.firstPlayer}" /></h2>
 	</c:if>
 
 	<c:if test="${game.getCreator() == loggedUser && empty game.firstPlayer && game.users.size() == users.size()}">
-		<form:form action=""  modelAttribute="games/selectPlayerToStart/" method="POST" >
+		<form:form action="" modelAttribute="games/selectPlayerToStart/" method="POST">
 			<div class=row>
 				<div class="col-md-12 text-center" style="margin-top: 5%;">
-					<button class="btn btn-default" type="submit">Select Player</button> 
+					<button class="btn btn-default" type="submit">Sortear primer jugador</button>
 				</div>
 			</div>
 		</form:form>
 	</c:if>
 
-	<!-- A completar para el inicio de partida -->
-	<!--
-	<c:if test="${game.getCreator() == loggedUser && !empty game.firstPlayer}">
-		<form:form action=""  modelAttribute="games/PARTIDA/" method="POST" >
-			<div class=row>
-				<div class="col-md-12 text-center" style="margin-top: 5%;">
-					<button class="btn btn-default" type="submit">Start Game</button> 
-				</div>
-			</div>
-		</form:form>
+	<c:if test="${empty game.firstPlayer && game.getCreator() != loggedUser && game.users.size() == users.size()}">
+		<h2>Esperando a que se elija el primer jugador a jugar</h2>
 	</c:if>
-	-->
 
+	<c:if test="${!empty game.firstPlayer && game.users.size() == users.size()}">
+		<p>
+			<a class="btn btn-default" href="/games/${game.getId()}">Ir a la
+				partida</a>
+		</p>
+	</c:if>
 
 </petclinic:layout>
