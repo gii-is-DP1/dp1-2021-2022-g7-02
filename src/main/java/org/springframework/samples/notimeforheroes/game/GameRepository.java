@@ -30,4 +30,8 @@ public interface GameRepository extends CrudRepository<Game, Integer>{
 
 	@Query(nativeQuery = true, value = "SELECT * FROM Games g JOIN Games_Users gu WHERE g.id = gu.fk_game AND gu.fk_user = ?1")
 	Collection<Game> findByUser(User user);
+
+//Obtiene la partida en curso del usuario que se le pasa por parámetro
+	@Query(nativeQuery = true, value = "SELECT g.* FROM Games g JOIN Games_Users gu WHERE g.id = gu.fk_game AND g.is_in_progress = TRUE AND gu.fk_user = ?1")
+	Optional<Game> findGameInProgressByUser(User user);
 }

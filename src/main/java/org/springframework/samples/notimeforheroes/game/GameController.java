@@ -66,6 +66,24 @@ public class GameController {
 		return GAMES_LISTING;
 	}
 
+	@GetMapping("/{gameId}")
+	public String gamePlaying(ModelMap model, @PathVariable("gameId") int gameId){
+
+		return GAMES_PLAYING;
+	}
+
+	@GetMapping("/current")
+	public String gameCurrent(ModelMap modelMap){
+		Optional<Game> gameOpt = gameService.findGameInProgressByUser(userService.getLoggedUser());
+		if(!gameOpt.isPresent()){
+			modelMap.addAttribute("message", "No estás en ninguna partida en progreso");
+			return listGames(modelMap);
+		}else{
+			Game game = gameOpt.get();
+			return "redirect:/games/"+gameService.getGameUrl(game);
+		}
+	}
+
 	@GetMapping("/selectHeroe/{gameId}")
 	public String selectHeroe(ModelMap model, @PathVariable("gameId") int gameId){
 
