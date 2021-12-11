@@ -3,7 +3,6 @@ package org.springframework.samples.notimeforheroes.gamesMarket;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +26,13 @@ public class GameMarketService {
 		return gameMarketRepository.findAll();
 	}
 
-	public Collection<MarketCard> findByGame(Integer id){
-		Collection<MarketCard> cartasDelJuego = new ArrayList<MarketCard>();
-		Integer total = gameMarketRepository.findNumbreOfCardByGame(id).size();
-		for(int i = 0; i < total; i++) {
-			Integer idCarta = gameMarketRepository.findByGame(id).get().getId();
-			cartasDelJuego.add(marketService.findById(idCarta).get());
+	public Collection<MarketCard> findByGame(Integer gameId){
+		Collection<MarketCard> marktetGame = new ArrayList<MarketCard>();
+		List<Integer> ids=gameMarketRepository.findByGame(gameId).get();
+		for(int i = 0; i < ids.size(); i++) {
+			marktetGame.add(marketService.findById(ids.get(i)).get());
 		}
-		return cartasDelJuego;
+		return marktetGame;
 	}
 
 	

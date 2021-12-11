@@ -116,13 +116,13 @@ INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,wi
 
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,2);
-INSERT INTO games_users(fk_game,fk_user) VALUES(1,3);
 INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);
 INSERT INTO games_users(fk_game,fk_user) VALUES(3,1);
 INSERT INTO games_users(fk_game,fk_user) VALUES(3,2);
 INSERT INTO games_users(fk_game,fk_user) VALUES(3,3);
 INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,6,0,0,TRUE,null,3);
 INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,3,0,0,TRUE,null,8);
+INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(1,3,1,1,TRUE,null,2);
 
 --INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,2);
 --INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,3);
