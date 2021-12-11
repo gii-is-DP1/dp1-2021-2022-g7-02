@@ -96,7 +96,16 @@ INSERT INTO skills(id,name,url,description,color,deckid) VALUES (1,'Compañero L
 INSERT INTO skills(id,name,url,description,color,deckid) VALUES (2,'Disparo certero', 'https:', 'Pierdes 1 carta - Finalizas el ataque','Azul',2);
 INSERT INTO skills(id,name,url,description,color,deckid) VALUES (3,'En la diana', 'https:', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo', 2);
 
-INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica', 'https:', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
+INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica', '\resources\images\market\DagaEfica.png', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
+INSERT INTO market(id,name,url,cost,description) VALUES (2,'Alabarda Orca', '\resources\images\market\AlabardaOrca.png', 5,' ');
+INSERT INTO market(id,name,url,cost,description) VALUES (3,'Armadura de Placas', '\resources\images\market\ArmaduradePlacas.png', 4,'Recupera 4 cartas');
+INSERT INTO market(id,name,url,cost,description) VALUES (4,'Capa Elfica', '\resources\images\market\CapaElfica.png', 3,'El enemigo elegido no causa daño esta ronda');
+INSERT INTO market(id,name,url,cost,description) VALUES (5,'Elixir de Concentracion', '\resources\images\market\ElixirdeConcentracion.png', 3,'Roba 3 cartas');
+INSERT INTO market(id,name,url,cost,description) VALUES (6,'Piedra de Amolar', '\resources\images\market\PiedradeAmolar.png', 4,'+1 al daño de la carta');
+INSERT INTO market(id,name,url,cost,description) VALUES (7,'Pocion Curativa', '\resources\images\market\PocionCurativa.png', 8,'Retira una ficha de herida');
+INSERT INTO market(id,name,url,cost,description) VALUES (8,'Vialde de Conjuracion', '\resources\images\market\VialdeConjuracion.png', 5,'Busca una carta en tu pila');
+INSERT INTO market(id,name,url,cost,description) VALUES (9,'Arco Compuesto', '\resources\images\market\ArcoCompuesto.png', 5,' ');
+
 
 INSERT INTO enemies(id,name,url,life,glory,extra_glory,extra_gold) VALUES (1,'Simple Enemy', 'https:', 2, 1, 0, 0);
 
@@ -107,16 +116,19 @@ INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,wi
 
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,2);
-INSERT INTO games_users(fk_game,fk_user) VALUES(1,3);
 INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);
 INSERT INTO games_users(fk_game,fk_user) VALUES(3,1);
 INSERT INTO games_users(fk_game,fk_user) VALUES(3,2);
 INSERT INTO games_users(fk_game,fk_user) VALUES(3,3);
 INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,6,0,0,TRUE,null,3);
 INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,3,0,0,TRUE,null,8);
+INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(1,3,1,1,TRUE,null,2);
 
 --INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,2);
 --INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,3);
 --INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,4);
 
+INSERT INTO games_markets (id, fk_game, fk_market) VALUES (1,1,1);
+INSERT INTO games_markets (id, fk_game, fk_market) VALUES (2,1,2);
+--INSERT INTO games_markets (id, fk_game, fk_market) VALUES (2,1,3);
 
