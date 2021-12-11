@@ -1,6 +1,8 @@
 package org.springframework.samples.notimeforheroes.gamesUsers;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -10,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
+import org.springframework.samples.notimeforheroes.marketcard.MarketCard;
+import org.springframework.samples.notimeforheroes.marketcard.MarketCardsService;
 import org.springframework.samples.notimeforheroes.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.skillcard.SkillCardsService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class GameUserService {
@@ -29,6 +34,9 @@ public class GameUserService {
 	
 	@Autowired
 	SkillCardsService skillCardService;
+	
+	@Autowired
+	MarketCardsService marketCardService;
 
 	public Collection<GameUser> findAll(){
 		return gameUserRepository.findAll();
@@ -57,6 +65,14 @@ public class GameUserService {
 		return skillCardService.findByColor(color);
 	}
 	
+	public Collection<MarketCard> findItemsOfGameUser(Game game, User user){
+		Collection<MarketCard> cards= new ArrayList<MarketCard>();
+		Optional<List<Integer>> ids= gameUserRepository.findItemsOfGameUser(game.getId(), user.getId());
+		for(int i=0; i<ids.get().size(); i++) {
+			cards.add(marketCardService.findById(ids.get().get(i)).get());
+		}
+		return cards;
+	}
 	
 	@Transactional
 	public void deleteGameUser(GameUser gameUser) {

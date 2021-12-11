@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -43,6 +42,9 @@ public class GameController {
 	public static final String GAMES_PLAYING = "games/gamePlaying";
 	public static final Integer MAX_NUMBER_PLAYERS = 4;
 	public static final String SELECT_PLAYER_TO_START = "games/selectPlayerToStart";
+	public static final String ATTACK = "games/attackGame";
+	public static final String MARKET = "games/marketGame";
+
 
 	@Autowired
 	GameService gameService;
@@ -186,6 +188,16 @@ public class GameController {
 
 		gameService.selectFirstPlayer(gameId);
 		return selectPlayerToStart(model, gameId, response);
+	}
+	
+	@GetMapping("/attack")
+	public String attack(ModelMap model){
+		return ATTACK;
+	}
+	
+	@GetMapping("/market")
+	public String market(ModelMap model){
+		return MARKET;
 	}
 
 	@GetMapping("/details/{gameId}")
