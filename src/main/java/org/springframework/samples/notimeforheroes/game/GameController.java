@@ -10,10 +10,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
+import org.springframework.samples.notimeforheroes.gamesMarket.GameMarketService;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
+import org.springframework.samples.notimeforheroes.marketcard.MarketCardsService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
@@ -60,12 +62,24 @@ public class GameController {
 
 	@Autowired
 	GameRepository gameRepository;
+	
+	@Autowired
+	MarketCardsService marketService;
 
+	@Autowired
+	GameMarketService gameMarketService;
+	
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
 		model.addAttribute("user", userService.getLoggedUser());
 		return GAMES_LISTING;
+	}
+	
+	@GetMapping("/{gameId}/marketGame")
+	public String listMarketGame(ModelMap model, @PathVariable("gameId") int gameId) {
+		model.addAttribute("market", gameMarketService.findByGame(gameId));
+		return MARKET;
 	}
 
 	@GetMapping("/{gameId}")
