@@ -38,12 +38,12 @@ public class GameMarketService {
 		return marketGame;
 	}
 	
-	public Collection<MarketCard> findByGameOnDesck(Integer gameId){
+	public Collection<MarketCard> findByGameOnDeck(Integer gameId){
 		Collection<MarketCard> marketGame = new ArrayList<MarketCard>();
 		List<Integer> ids=gameMarketRepository.findByGame(gameId).get();
 		for(int i = 0; i < ids.size(); i++) {
 			MarketCard card=marketService.findById(ids.get(i)).get();
-			if(card.getMarketState()==MarketState.ONDESCK) {
+			if(card.getMarketState()==MarketState.ONDECK) {
 				marketGame.add(card);
 			}
 		}
@@ -51,8 +51,8 @@ public class GameMarketService {
 	}
 	
 	
-	public Collection<MarketCard> findByGameOnDesckOntable(Integer gameId){
-		Collection<MarketCard> marketGame = findByGameOnDesck(gameId);
+	public Collection<MarketCard> findByGameOnDeckOntable(Integer gameId){
+		Collection<MarketCard> marketGame = findByGameOnDeck(gameId);
 		Collection<MarketCard> res= new ArrayList<MarketCard>();
 		List<MarketCard> listaMarket=new ArrayList<MarketCard>(marketGame);
 		

@@ -19,7 +19,7 @@ public class MarketCard extends NamedEntity{
     public String url;
 
     @Column(name = "markedState")
-    public MarketState marketState = MarketState.ONDESCK;
+    public MarketState marketState = MarketState.ONDECK;
 
 	private Integer cost;
 	

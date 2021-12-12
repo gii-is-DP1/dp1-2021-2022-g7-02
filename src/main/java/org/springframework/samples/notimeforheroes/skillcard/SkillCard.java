@@ -19,7 +19,7 @@ public class SkillCard extends NamedEntity{
     public String url;
 
     @Column(name = "skillState")
-    public SkillState skillState = SkillState.ONDESCK;
+    public SkillState skillState = SkillState.ONDECK;
 
 	@Column(columnDefinition = "LONGTEXT")
 	private String description;

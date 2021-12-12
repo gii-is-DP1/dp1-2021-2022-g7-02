@@ -151,9 +151,11 @@ public class GameService {
 	}
 
 	@Transactional	
-	public void selectFirstPlayer(Integer gameId){
+	public void selectFirstPlayer(Integer gameId){		
+		//Elige el primer jugador a jugar y pone el estado de la partida en ATTACKING
+		Game game = this.findById(gameId).get();
 		List<User> usersWithHeroe= new ArrayList<User>();
-		List<User> users=(List<User>) userService.findAllInGame(this.findById(gameId).get());
+		List<User> users=(List<User>) userService.findAllInGame(game);
 		for(int i=0; i<users.size(); i++){
             Optional<HeroeCard> heroeCard = gameUserService.findHeroeOfGameUser(this.findById(gameId).get(), users.get(i));
             if(heroeCard.isPresent()){
@@ -163,8 +165,8 @@ public class GameService {
 		Random ran = new Random();
 		Integer index = ran.nextInt(users.size());
 		User firstUser = users.get(index);
-		Game game = this.findById(gameId).get();
 		game.setFirstPlayer(firstUser);
+		game.setGameState(GameState.ATTACKING);
 		this.updateGame(game);
 	}
 }

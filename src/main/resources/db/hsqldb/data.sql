@@ -96,6 +96,8 @@ INSERT INTO skills(id,name,url,description,color,deckid) VALUES (1,'Compañero L
 INSERT INTO skills(id,name,url,description,color,deckid) VALUES (2,'Disparo certero', 'https:', 'Pierdes 1 carta - Finalizas el ataque','Azul',2);
 INSERT INTO skills(id,name,url,description,color,deckid) VALUES (3,'En la diana', 'https:', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo', 2);
 
+
+
 INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica', '\resources\images\market\DagaEfica.png', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
 INSERT INTO market(id,name,url,cost,description) VALUES (2,'Alabarda Orca', '\resources\images\market\AlabardaOrca.png', 5,' ');
 INSERT INTO market(id,name,url,cost,description) VALUES (3,'Armadura de Placas', '\resources\images\market\ArmaduradePlacas.png', 4,'Recupera 4 cartas');
@@ -123,10 +125,6 @@ INSERT INTO games_users(fk_game,fk_user) VALUES(3,3);
 INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,6,0,0,TRUE,null,3);
 INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,3,0,0,TRUE,null,8);
 INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(1,3,1,1,TRUE,null,2);
-
---INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,2);
---INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,3);
---INSERT INTO GAMES_USERS (FK_GAME,FK_USER) VALUES (1,4);
 
 INSERT INTO games_markets (id, fk_game, fk_market) VALUES (1,1,1);
 INSERT INTO games_markets (id, fk_game, fk_market) VALUES (2,1,2);
