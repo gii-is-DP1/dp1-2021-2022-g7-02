@@ -2,9 +2,11 @@ package org.springframework.samples.notimeforheroes.game;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -12,6 +14,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
+import org.springframework.samples.notimeforheroes.marketcard.MarketCard;
+import org.springframework.samples.notimeforheroes.marketcard.MarketCardsService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
@@ -29,6 +33,9 @@ public class GameService {
 
 	@Autowired
 	GameUserService gameUserService;
+	
+	@Autowired
+	MarketCardsService marketCardService;
 	
 	public Collection<Game> findAvailableGames(){
 		return userService.isUserAdmin(userService.getLoggedUser()) ? gameRepository.findAll() : gameRepository.findPublicAndOwn(userService.getLoggedUser());
@@ -100,7 +107,11 @@ public class GameService {
 			game.setCreator(creator);
 
 			game.setUsers(List.of(creator));
-
+			
+			Collection<MarketCard> market=marketCardService.findAll();
+			Set<MarketCard> order = new HashSet<MarketCard>(market);
+			game.setMarket(order);
+			
 			gameRepository.save(game);
 	}
 
