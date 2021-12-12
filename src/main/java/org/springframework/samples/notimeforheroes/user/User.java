@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.model.NamedEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+@SuppressWarnings("serial")
 @Entity
 @Getter
 @Setter

@@ -2,9 +2,7 @@ package org.springframework.samples.notimeforheroes.game;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -72,12 +70,6 @@ public class Game extends BaseEntity{
 	@JoinColumn(name="userPlaying")
 	private User userPlaying;
 
-
-
-
-	public void addUser(User newUser){
-		this.users.add(newUser);
-	}
 
 	//METODOS EQUALS TOSTRING Y HASHCODE
 

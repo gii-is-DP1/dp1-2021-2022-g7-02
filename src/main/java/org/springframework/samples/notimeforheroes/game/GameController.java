@@ -78,7 +78,7 @@ public class GameController {
 	
 	@GetMapping("/{gameId}/marketGame")
 	public String listMarketGame(ModelMap model, @PathVariable("gameId") int gameId) {
-		model.addAttribute("market", gameMarketService.findByGame(gameId));
+		model.addAttribute("market", gameMarketService.findByGameOnDesckOntable(gameId));
 		model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 		return MARKET;
 	}
