@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.marketcard.MarketCard;
@@ -36,6 +37,8 @@ public class GameService {
 	
 	@Autowired
 	MarketCardsService marketCardService;
+
+	public static final Integer MAX_NUMBER_PLAYERS = 4;
 	
 	public Collection<Game> findAvailableGames(){
 		return userService.isUserAdmin(userService.getLoggedUser()) ? gameRepository.findAll() : gameRepository.findPublicAndOwn(userService.getLoggedUser());
@@ -113,6 +116,19 @@ public class GameService {
 			game.setMarket(order);
 			
 			gameRepository.save(game);
+	}
+
+	@Transactional
+	public void addPlayerToGame(@Valid Game game, User user) throws GameFullException{
+		
+		if(game.getUsers().size() < MAX_NUMBER_PLAYERS){
+			game.getUsers().add(user);
+			this.updateGame(game);
+		}else{
+			throw new GameFullException();
+		}
+
+		gameRepository.save(game);
 	}
 
 	@Transactional

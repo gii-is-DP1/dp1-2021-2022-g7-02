@@ -59,7 +59,7 @@
                     <c:out value="${game.joinCode}"/>
                 </td>
                 <td>
-                    <form:form name="join" action="games/join" method="POST" >
+                    <form:form name="join" action="games" method="POST" >
                         <div class="form-group has-feedback" style="margin-top: 1%;">
                             <input type="hidden" name="joinCode" value="${game.joinCode}"/>
                             <input style="height: 30px; width: 70px;" class="btn btn-default" type="submit" value="Join"/>

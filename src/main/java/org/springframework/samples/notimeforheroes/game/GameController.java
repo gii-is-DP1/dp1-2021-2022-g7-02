@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
 import org.springframework.samples.notimeforheroes.gamesMarket.GameMarketService;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUser;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -42,7 +45,6 @@ public class GameController {
 	public static final String GAMES_DETAILS = "games/gameDetails";
 	public static final String GAMES_SELECT_HEROE = "games/selectHeroe";
 	public static final String GAMES_PLAYING = "games/gamePlaying";
-	public static final Integer MAX_NUMBER_PLAYERS = 4;
 	public static final String SELECT_PLAYER_TO_START = "games/selectPlayerToStart";
 	public static final String ATTACK = "games/attackGame";
 	public static final String MARKET = "games/marketGame";
@@ -74,6 +76,25 @@ public class GameController {
 		model.addAttribute("games", gameService.findAvailableGames());
 		model.addAttribute("user", userService.getLoggedUser());
 		return GAMES_LISTING;
+	}
+
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public String joinGame(ModelMap model, @RequestParam("joinCode") String joinCode, HttpServletResponse response) throws IOException {
+		Game game = gameService.findByJoinCode(joinCode).orElse(null);
+		User loggedUser = userService.getLoggedUser();
+
+		if (game.getUsers().contains(loggedUser)) {
+			return "redirect:/games/waiting/" + game.getId();
+		} else {
+			try {
+				gameService.addPlayerToGame(game, loggedUser);
+				return "redirect:/games/waiting/" + game.getId();
+			} catch (GameFullException e) {
+				System.err.println("Excepción gameFull controlada");
+				model.addAttribute("message", "Game full!");
+				return listGames(model);
+			}
+		}
 	}
 	
 	@GetMapping("/{gameId}/marketGame")
@@ -275,27 +296,10 @@ public class GameController {
 	public String joinGame(ModelMap model) {
 		User loggedUser = userService.getLoggedUser();
 		model.addAttribute("user", loggedUser);
-		return GAMES_JOIN;
+		return GAMES_LISTING;
 	}
 
-	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public String joinGame(ModelMap model, @RequestParam("joinCode") String joinCode) {
-		Game game = gameService.findByJoinCode(joinCode).orElse(null);
-		User loggedUser = userService.getLoggedUser();
-
-		if (game.getUsers().contains(loggedUser)) {
-			return "redirect:/games/waiting/" + game.getId();
-		} else {
-			if (game.getUsers().size() < MAX_NUMBER_PLAYERS) {
-				game.getUsers().add(loggedUser);
-				gameService.updateGame(game);
-				return "redirect:/games/waiting/" + game.getId();
-			} else {
-				model.addAttribute("message", "Game full!");
-				return GAMES_JOIN;
-			}
-		}
-	}
+	
 
 	
 
