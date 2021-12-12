@@ -1,6 +1,5 @@
 package org.springframework.samples.notimeforheroes.game;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
 import org.springframework.samples.notimeforheroes.gamesMarket.GameMarketService;
@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -46,8 +45,8 @@ public class GameController {
 	public static final String GAMES_SELECT_HEROE = "games/selectHeroe";
 	public static final String GAMES_PLAYING = "games/gamePlaying";
 	public static final String SELECT_PLAYER_TO_START = "games/selectPlayerToStart";
-	public static final String ATTACK = "games/attackGame";
-	public static final String MARKET = "games/marketGame";
+	public static final String ATTACK_VIEW = "games/attackGame";
+	public static final String MARKET_VIEW = "games/marketGame";
 
 
 	@Autowired
@@ -79,7 +78,7 @@ public class GameController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public String joinGame(ModelMap model, @RequestParam("joinCode") String joinCode, HttpServletResponse response) throws IOException {
+	public String joinGame(ModelMap model, @RequestParam("joinCode") String joinCode, HttpServletResponse response) {
 		Game game = gameService.findByJoinCode(joinCode).orElse(null);
 		User loggedUser = userService.getLoggedUser();
 
@@ -91,7 +90,11 @@ public class GameController {
 				return "redirect:/games/waiting/" + game.getId();
 			} catch (GameFullException e) {
 				System.err.println("Excepción gameFull controlada");
-				model.addAttribute("message", "Game full!");
+				model.addAttribute("message", "Partida llena!");
+				return listGames(model);
+			} catch(GameCurrentNotUniqueException e){
+				System.err.println("Excepción GameCurrentNotUnique controlada");
+				model.addAttribute("message", "Ya estás jugando otra partida!");
 				return listGames(model);
 			}
 		}
@@ -101,13 +104,24 @@ public class GameController {
 	public String listMarketGame(ModelMap model, @PathVariable("gameId") int gameId) {
 		model.addAttribute("market", gameMarketService.findByGameOnDesckOntable(gameId));
 		model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
-		return MARKET;
+		return MARKET_VIEW;
 	}
 
 	@GetMapping("/{gameId}")
-	public String gamePlaying(ModelMap model, @PathVariable("gameId") int gameId){
+	public String gamePlaying(ModelMap model, @PathVariable("gameId") int gameId) throws Exception{
+		Game game = gameService.findById(gameId).get();
+		
 
-		return GAMES_PLAYING;
+		switch (game.getGameState()) {
+			case ATTACKING:
+				return ATTACK_VIEW;
+			case DEFENDING:
+				return null;		//CAMBIAR
+			case BUYING:
+				return MARKET_VIEW;
+			default:
+				throw new Exception();
+		}
 	}
 
 	@GetMapping("/current")
@@ -224,16 +238,6 @@ public class GameController {
 
 		gameService.selectFirstPlayer(gameId);
 		return selectPlayerToStart(model, gameId, response);
-	}
-	
-	@GetMapping("/attack")
-	public String attack(ModelMap model){
-		return ATTACK;
-	}
-	
-	@GetMapping("/market")
-	public String market(ModelMap model){
-		return MARKET;
 	}
 
 	@GetMapping("/details/{gameId}")

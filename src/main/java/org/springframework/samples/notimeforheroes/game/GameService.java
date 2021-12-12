@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
@@ -50,6 +51,7 @@ public class GameService {
 	
 	public Optional<Game> findById(Integer id){
 		return gameRepository.findById(id);
+		
 	}
 	
 	public Collection<Game> findAllEnded(){
@@ -119,13 +121,20 @@ public class GameService {
 	}
 
 	@Transactional
-	public void addPlayerToGame(@Valid Game game, User user) throws GameFullException{
+	public void addPlayerToGame(@Valid Game game, User user) throws GameFullException, GameCurrentNotUniqueException{
 		
 		if(game.getUsers().size() < MAX_NUMBER_PLAYERS){
-			game.getUsers().add(user);
-			this.updateGame(game);
+			if(!this.findGameInProgressByUser(user).isPresent()){
+				//Si el jugador no esta en otra partida en curso y la partida no está en curso, 
+				//lo añade	
+				game.getUsers().add(user);
+				this.updateGame(game);
+			}else{
+				throw new GameCurrentNotUniqueException();	//Lanza excepción si el jugador ya está en otra partida en curso
+			}
+			
 		}else{
-			throw new GameFullException();
+			throw new GameFullException();		//Lanza excepción si la partida está llena
 		}
 
 		gameRepository.save(game);
