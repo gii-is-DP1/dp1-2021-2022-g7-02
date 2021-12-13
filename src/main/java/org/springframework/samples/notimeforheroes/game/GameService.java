@@ -2,6 +2,7 @@ package org.springframework.samples.notimeforheroes.game;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -14,10 +15,18 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
+import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
+import org.springframework.samples.notimeforheroes.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
+import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.marketcard.MarketCard;
 import org.springframework.samples.notimeforheroes.marketcard.MarketCardsService;
+import org.springframework.samples.notimeforheroes.skillcard.SkillCard;
+import org.springframework.samples.notimeforheroes.skillcard.SkillCardsService;
+import org.springframework.samples.notimeforheroes.skillcard.gamesUsersSkillcards.GamesUsersSkillCards;
+import org.springframework.samples.notimeforheroes.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
+import org.springframework.samples.notimeforheroes.skillcard.gamesUsersSkillcards.SkillState;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
@@ -38,6 +47,15 @@ public class GameService {
 	
 	@Autowired
 	MarketCardsService marketCardService;
+
+	@Autowired
+	HeroeCardsService heroeCardsService;
+
+	@Autowired
+	GamesUsersSkillCardsService gamesUsersSkillCardsService;
+
+	@Autowired
+	SkillCardsService skillCardsService;
 
 	public static final Integer MAX_NUMBER_PLAYERS = 4;
 	
@@ -127,8 +145,14 @@ public class GameService {
 			if(!this.findGameInProgressByUser(user).isPresent()){
 				//Si el jugador no esta en otra partida en curso y la partida no está en curso, 
 				//lo añade	
+
 				game.getUsers().add(user);
-				this.updateGame(game);
+				try {
+					this.updateGame(game);
+				} catch (Exception e) {
+					System.err.println("SOPKSIODBJEOIRBJEIRUHJUEIRBN");
+				}
+				
 			}else{
 				throw new GameCurrentNotUniqueException();	//Lanza excepción si el jugador ya está en otra partida en curso
 			}
@@ -136,8 +160,34 @@ public class GameService {
 		}else{
 			throw new GameFullException();		//Lanza excepción si la partida está llena
 		}
-
 		gameRepository.save(game);
+
+	}
+
+	@Transactional
+	public void selectHeroe(@Valid Game game, User user, String heroe) throws HeroeNotAvailableException{
+		HeroeCard heroeCard = heroeCardsService.findByName(heroe);
+		Collection<HeroeCard> cardsOfSameColor = heroeCardsService.findByColorAndGame(heroeCard.getColor(), game);
+		if(cardsOfSameColor.size() == 0){
+			GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
+			List<SkillCard> skillCards = (List<SkillCard>)skillCardsService.findByColor(heroeCard.getColor());
+			gameUser.setHeroe(heroeCard);
+			gameUser.setSkillCards(skillCards);
+			gameUserService.createGameUser(gameUser);
+
+			Collections.shuffle(skillCards);
+			for(int i = 0; i<4;i++){
+				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, skillCards.get(i)).get();
+				card.setSkillState(SkillState.ONHAND);
+				gamesUsersSkillCardsService.createGameUserSkillCard(card);
+			}
+			for(int i = 4; i<skillCards.size(); i++){
+				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, skillCards.get(i)).get();
+				card.setSkillState(SkillState.ONDECK);
+			}
+		}else{
+			throw new HeroeNotAvailableException();
+		}
 	}
 
 	@Transactional

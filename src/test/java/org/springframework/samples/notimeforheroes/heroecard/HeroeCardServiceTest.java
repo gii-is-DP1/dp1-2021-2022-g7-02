@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
-
 import javax.validation.constraints.Min.List;
 
 import org.junit.jupiter.api.Test;
@@ -48,13 +47,11 @@ public class HeroeCardServiceTest {
 		heroeCard.setMaxHealth(2);
 		heroeCard.setSkill("skill");
 		heroeCard.setColor("blue");
-		heroeCard.setDeckid(5);
 		heroeCardsService.createHeroeCard(heroeCard);
 		assertThat(heroeCardsService.findAll().size()).isEqualTo(1);
 		assertThat(new ArrayList<>(heroeCardsService.findAll()).get(0).getName()).isEqualTo(heroeCard.getName());
 
 	}
-	
 	@Test
 	public void TestMoreThanOneHeroeCard() {
 		
@@ -69,7 +66,6 @@ public class HeroeCardServiceTest {
 		heroeCard.setMaxHealth(2);
 		heroeCard.setSkill("skill");
 		heroeCard.setColor("blue");
-		heroeCard.setDeckid(5);
 		heroeCardsService.createHeroeCard(heroeCard);
 		
 		HeroeCard heroeCard1 = new HeroeCard();
@@ -79,7 +75,6 @@ public class HeroeCardServiceTest {
 		heroeCard1.setMaxHealth(2);
 		heroeCard1.setSkill("skill");
 		heroeCard1.setColor("blue");
-		heroeCard1.setDeckid(5);
 		heroeCardsService.createHeroeCard(heroeCard1);
 		
 		assertThat(heroeCardsService.findAll().size()).isEqualTo(2);
@@ -109,7 +104,6 @@ public class HeroeCardServiceTest {
 		heroeCard.setMaxHealth(2);
 		heroeCard.setSkill("skill");
 		heroeCard.setColor("blue");
-		heroeCard.setDeckid(5);
 		heroeCardsService.createHeroeCard(heroeCard);
 		
 		HeroeCard heroe=heroeCardsService.findById(heroeCard.getId()).get();
@@ -132,7 +126,6 @@ public class HeroeCardServiceTest {
 		heroeCard.setMaxHealth(2);
 		heroeCard.setSkill("skill");
 		heroeCard.setColor("blue");
-		heroeCard.setDeckid(5);
 		heroeCardsService.createHeroeCard(heroeCard);
 		
 		Integer newHeroes = heroeCardsService.findAll().size();
