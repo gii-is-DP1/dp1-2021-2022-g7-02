@@ -40,7 +40,6 @@ public class SkillCardServiceTest {
 		skillCard.setName("Disparo certero");
 		skillCard.setUrl("https:");
 		skillCard.setDescription("description");
-		skillCard.setDeckid(2);
 		skillService.saveSkillCard(skillCard);
 		assertThat(skillService.findAll().size()).isEqualTo(1);
 
@@ -57,14 +56,12 @@ public class SkillCardServiceTest {
 		skillCard.setName("Disparo certero");
 		skillCard.setUrl("https:");
 		skillCard.setDescription("description");
-		skillCard.setDeckid(2);
 		skillService.saveSkillCard(skillCard);
 		
 		SkillCard skillCard2 = new SkillCard();
 		skillCard2.setName("Lobo");
 		skillCard2.setUrl("https:");
 		skillCard2.setDescription("description");
-		skillCard2.setDeckid(3);
 		skillService.saveSkillCard(skillCard2);
 		
 		assertThat(skillService.findAll().size()).isGreaterThan(1);
@@ -91,7 +88,6 @@ public class SkillCardServiceTest {
 		skillCard.setName("Disparo certero");
 		skillCard.setUrl("https:");
 		skillCard.setDescription("description");
-		skillCard.setDeckid(2);
 		skillService.saveSkillCard(skillCard);
 		
 		SkillCard skill = skillService.findById(skillCard.getId()).get();
@@ -111,7 +107,6 @@ public class SkillCardServiceTest {
 		skillCard.setName("Disparo certero");
 		skillCard.setUrl("https:");
 		skillCard.setDescription("description");
-		skillCard.setDeckid(2);
 		skillService.saveSkillCard(skillCard);
 		
 		Integer newSkill = skillService.findAll().size();

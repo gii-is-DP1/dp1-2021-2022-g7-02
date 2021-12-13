@@ -43,6 +43,10 @@ public class UserService {
 		return userRepository.findByUsername(username);
 	}
 
+	public Collection<User> findAllInGameWithHeroeSelected(Game game){
+		return userRepository.findAllInGameWithHeroeSelected(game);
+	}
+
 	public User getLoggedUser(){
 		org.springframework.security.core.userdetails.User user_aux = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User loggedUser = this.findByUsername(user_aux.getUsername()).get();

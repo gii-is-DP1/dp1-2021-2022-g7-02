@@ -77,18 +77,32 @@ INSERT INTO authorities(id,authority,username) VALUES (7,'admin','javier');
 INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
 
 
-INSERT INTO heroes(id,name,url,max_health,skill,color,deckid) VALUES (1,'Taheral','https:',2, 'Al realizar la maniobra de evasión, coge dos monedas por cada carta que descartes. Una vez por partida.','Morado',1);
-INSERT INTO heroes(id,name,url,max_health,skill,color,deckid) VALUES (2,'Idril','https:',3, 'En cualquier momento puedes mirar las tres cartas inferiores de la horda y devolverlas al mazo en el orden que prefieras. Dos veces por partida.','Verde',2);
-INSERT INTO heroes(id,name,url,max_health,skill,color,deckid) VALUES (3,'Feldon','https:',2, 'Al resolver el ataque de la horda, tan solo pierde la mitad de cartas de las indicadas por el daño. Una vez por partida.','Rojo',3);
-INSERT INTO heroes(id,name,url,max_health,skill,color,deckid) VALUES (4,'Lisavette','https:',3, 'Mientras un heroe se enfrenta a la horda, utiliza un escudo para prevenirle del daño del enemigo. Roba hasta dos monedas de ese heroe. Dos veces por partida.','Azul',4);
-INSERT INTO heroes(id,name,url,max_health,skill,color,deckid) VALUES (5,'Aranel','https:',2, 'En cualquier momento, busca una carta del mazo de Habilidad y sustituyela por una de tu mano. Acto seguido baraja el mazo. Una vez por partida.','Morado',1);
-INSERT INTO heroes(id,name,url,max_health,skill,color,deckid) VALUES (6,'Beleth-Il','https:',3, 'Cuando utilices la carta Disparo Rapido, la primera carta fallida que robes podrás recuperarla y robar otra. Dos veces por partida.','Verde',2);
-INSERT INTO heroes(id,name,url,max_health,skill,color,deckid) VALUES (7,'Neddia','https:',2, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.','Rojo',3);
-INSERT INTO heroes(id,name,url,max_health,skill,color,deckid) VALUES (8,'Valerys','https:',3, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.','Azul',4);
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (1,'Taheral','https:',2, 'Al realizar la maniobra de evasión, coge dos monedas por cada carta que descartes. Una vez por partida.','Morado');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (2,'Idril','https:',3, 'En cualquier momento puedes mirar las tres cartas inferiores de la horda y devolverlas al mazo en el orden que prefieras. Dos veces por partida.','Verde');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (3,'Feldon','https:',2, 'Al resolver el ataque de la horda, tan solo pierde la mitad de cartas de las indicadas por el daño. Una vez por partida.','Rojo');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (4,'Lisavette','https:',3, 'Mientras un heroe se enfrenta a la horda, utiliza un escudo para prevenirle del daño del enemigo. Roba hasta dos monedas de ese heroe. Dos veces por partida.','Azul');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (5,'Aranel','https:',2, 'En cualquier momento, busca una carta del mazo de Habilidad y sustituyela por una de tu mano. Acto seguido baraja el mazo. Una vez por partida.','Morado');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (6,'Beleth-Il','https:',3, 'Cuando utilices la carta Disparo Rapido, la primera carta fallida que robes podrás recuperarla y robar otra. Dos veces por partida.','Verde');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (7,'Neddia','https:',2, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.','Rojo');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (8,'Valerys','https:',3, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.','Azul');
 
-INSERT INTO skills(id,name,url,description,color,deckid) VALUES (1,'Compañero Lobo', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado',2);
-INSERT INTO skills(id,name,url,description,color,deckid) VALUES (2,'Disparo certero', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul',2);
-INSERT INTO skills(id,name,url,description,color,deckid) VALUES (3,'En la diana', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo', 2);
+INSERT INTO skills(id,name,url,description,color) VALUES (1,'Compañero Lobo', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (2,'Disparo certero', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (3,'En la diana', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
+
+INSERT INTO skills(id,name,url,description,color) VALUES (4,'Compañero Lobo1', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (5,'Compañero Lobo2', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (6,'Compañero Lobo3', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (7,'Compañero Lobo4', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (8,'Disparo certero1', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (9,'Disparo certero2', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (10,'Disparo certero3', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (11,'Disparo certero4', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (12,'En la diana1', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (13,'En la diana2', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (14,'En la diana3', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (15,'En la diana4', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
+
 
 --ASIGNAR SKILLS A HEROES
 INSERT INTO heroes_skills(fk_heroe, fk_skill) VALUES (1,1);
@@ -124,22 +138,19 @@ INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,wi
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (4,6,'2021-11-06',null,TRUE,TRUE,'99ae43ed18bf488e84576a2d313a6e71',null);
 
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
-INSERT INTO games_users(fk_game,fk_user) VALUES(1,2);
 INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);
-INSERT INTO games_users(fk_game,fk_user) VALUES(3,1);
-INSERT INTO games_users(fk_game,fk_user) VALUES(3,2);
-INSERT INTO games_users(fk_game,fk_user) VALUES(3,3);
-INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,6,0,0,TRUE,null,3);
-INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,3,0,0,TRUE,null,8);
-INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(1,3,1,1,TRUE,null,2);
+INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,3,0,0,TRUE,null,8);   --pabloespada
+INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,6,0,0,TRUE,null,3);   --mromalde
 
-INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (8,2,1); --Habilidad 2 añadida al jugador 6 (pabloespada) en la partida 4 (gamesUserId = 8)
-INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (7,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 (gamesUserId = 7)
-INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (7,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 (gamesUserId = 7)
-INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (7,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 (gamesUserId = 7)
-INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (7,3,2); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 (gamesUserId = 7)
-INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (7,2,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 (gamesUserId = 7)
+INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (3,2,1); --Habilidad 2 añadida al jugador 6 (pabloespada) en la partida 4 
 
+/*
+INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
+INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
+INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
+INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,2); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
+INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,2,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
+*/
 INSERT INTO games_markets (id, fk_game, fk_market) VALUES (1,1,1);
 INSERT INTO games_markets (id, fk_game, fk_market) VALUES (2,1,2);
 --INSERT INTO games_markets (id, fk_game, fk_market) VALUES (2,1,3);

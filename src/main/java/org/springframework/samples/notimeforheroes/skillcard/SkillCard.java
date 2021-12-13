@@ -21,7 +21,5 @@ public class SkillCard extends NamedEntity{
 	@Column(columnDefinition = "LONGTEXT")
 	private String description;
 	
-	private Integer deckid;
-	
 	private String color;
 }

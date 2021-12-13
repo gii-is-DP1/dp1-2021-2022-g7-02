@@ -1,6 +1,9 @@
 package org.springframework.samples.notimeforheroes.skillcard.gamesUsersSkillcards;
 
 import java.util.Collection;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.game.Game;
@@ -23,16 +26,16 @@ public class GamesUsersSkillCardsService {
         return gamesUsersSkillCardsRepository.findAll();
     }
 
-    public Collection<GamesUsersSkillCards> findByGameUserSkill(GameUser gameUser, SkillCard skillCard){
+    public Optional<GamesUsersSkillCards> findByGameUserSkill(GameUser gameUser, SkillCard skillCard){
         return gamesUsersSkillCardsRepository.findByGameUserSkill(gameUser, skillCard);
     }
 
-    public Collection<GamesUsersSkillCards> findByGameUserSkill(Game game, User user, SkillCard skillCard){
-        /*
-        Este método y el anterior devuelven Collection en vez de un Optional porque dos filas de GamesUsersSkillcards
-        pueden tener el mismo (gamesUsersId, skillCardId) si un jugador tiene la misma carta dos veces
-        */
+    public Optional<GamesUsersSkillCards> findByGameUserSkill(Game game, User user, SkillCard skillCard){
         return gamesUsersSkillCardsRepository.findByGameUserSkill(gamesUsersService.findByGameAndUser(game, user).get(), skillCard);
+    }
+
+    public void createGameUserSkillCard(@Valid GamesUsersSkillCards gameUserSkillCard){
+        gamesUsersSkillCardsRepository.save(gameUserSkillCard);
     }
 
 

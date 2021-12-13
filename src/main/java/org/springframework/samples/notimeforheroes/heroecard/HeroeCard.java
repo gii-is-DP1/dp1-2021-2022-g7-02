@@ -30,8 +30,6 @@ public class HeroeCard extends NamedEntity{
 	private String skill;
 	
 	private String color;
-	
-	private Integer deckid;
 
 	@ManyToMany
 	@JoinTable(name = "heroes_skills",

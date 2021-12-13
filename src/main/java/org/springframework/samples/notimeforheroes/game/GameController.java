@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
+import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
 import org.springframework.samples.notimeforheroes.gamesMarket.GameMarketService;
-import org.springframework.samples.notimeforheroes.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
@@ -102,6 +102,9 @@ public class GameController {
 				System.err.println("Excepción GameCurrentNotUnique controlada");
 				model.addAttribute("message", "Ya estás jugando otra partida!");
 				return listGames(model);
+			} catch(Exception e){
+				//e.printStackTrace();
+				return listGames(model);
 			}
 		}
 	}
@@ -159,9 +162,7 @@ public class GameController {
 		if(!userService.findAllInGame(game).contains(userService.getLoggedUser())){
 			model.addAttribute("message", "You don't belong to this game!");
 			return listGames(model);
-		}
-
-		if(!game.getCreator().equals(userService.getLoggedUser()) && !game.getIsInProgress()){
+		} else if(!game.getCreator().equals(userService.getLoggedUser()) && !game.getIsInProgress()){
 			return "redirect:/games/waiting/{gameId}";
 		}
 
@@ -178,10 +179,10 @@ public class GameController {
 			model.addAttribute("hasSelected", false);
 		}
 		//aqui se coge los ids de los heroes que estan seleccionados de una partida
-		List<Integer> heroesSelectedList=(List<Integer>) gameUserService.findHeroesSelectedOfGameUser(game);
-		for (Integer heroeCard : heroesSelectedList) {
-			//en esta lina encuentro el heroe y cojo el color que tiene
-			String color=heroeCardsService.findById(heroeCard).get().getColor();
+		List<HeroeCard> heroesSelectedList=(List<HeroeCard>) heroeCardsService.findHeroesOfGame(game);
+		for (HeroeCard heroe : heroesSelectedList) {
+			//en esta linea encuentro el heroe y cojo el color que tiene
+			String color=heroe.getColor();
 			if(color.equals("Morado")){
 				model.addAttribute("purpleSelected",true);
 			}else if(color.equals("Verde")){
@@ -198,49 +199,22 @@ public class GameController {
 
 	@RequestMapping(value = "/selectHeroe/{gameId}", method = RequestMethod.POST)
 	public String selectHeroe(@PathVariable("gameId") int gameId, ModelMap model, @RequestParam("heroe") String heroe, HttpServletResponse response){
-		GameUser gameUser = gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get();
-		List<User> users=(List<User>) userService.findAllInGame(gameService.findById(gameId).get());
-		List<HeroeCard> heroes=new ArrayList<HeroeCard>();
-		for(int i=0; i<users.size(); i++) {
-			Optional<HeroeCard> heroeCard = gameUserService.findHeroeOfGameUser(gameService.findById(gameId).get(), users.get(i));
-			if(heroeCard.isPresent()){
-			heroes.add(heroeCard.get());
-			}
-		}
-		List<String> colores = new ArrayList<String>();
-		for(int i=0; i<heroes.size(); i++){
-			String color = heroes.get(i).getColor();
-			colores.add(color);
 
-		}
-
-		if(heroes.contains(heroeCardsService.findByName(heroe))) {
-			model.addAttribute("message", "This heroe can`t be selected");
-		}
-		else if(colores.contains(heroeCardsService.findByName(heroe).getColor())){
-			model.addAttribute("message", "This color can`t be selected");
-		}
-		else {
-			gameUser.setHeroe(heroeCardsService.findByName(heroe));
-			gameUserService.createGameUser(gameUser);
-			model.addAttribute("hasSelected", true);
+		try {
+			gameService.selectHeroe(gameService.findById(gameId).get(), userService.getLoggedUser(), heroe);
 			return "redirect:/games/selectPlayerToStart/" + gameId;
+		} catch (HeroeNotAvailableException e) {
+			model.addAttribute("message", "This heroe can`t be selected");
+			return selectHeroe(model, gameId);
 		}
-		return selectHeroe(model, gameId);
 	}
 	
 	@GetMapping("/selectPlayerToStart/{gameId}")
 	public String selectPlayerToStart(ModelMap model, @PathVariable("gameId") int gameId, HttpServletResponse response) {
 		response.addHeader("Refresh", "1");
-		List<User> usersWithHeroe= new ArrayList<User>();
-        List<User> users=(List<User>) userService.findAllInGame(gameService.findById(gameId).get());
-        for(int i=0; i<users.size(); i++){
-            Optional<HeroeCard> heroeCard = gameUserService.findHeroeOfGameUser(gameService.findById(gameId).get(), users.get(i));
-            if(heroeCard.isPresent()){
-                usersWithHeroe.add(users.get(i));
-            }
-        }
-        Game game = gameService.findById(gameId).get();
+		Game game = gameService.findById(gameId).get();
+		List<User> usersWithHeroe= (List<User>) userService.findAllInGameWithHeroeSelected(game);
+        
 		model.addAttribute("game", game);
 		model.addAttribute("users", usersWithHeroe);
 		model.addAttribute("loggedUser", userService.getLoggedUser());
@@ -285,7 +259,6 @@ public class GameController {
 	@PostMapping("/new")
 	public String newGame(@Valid Game game, BindingResult result, ModelMap model) throws NotAuthenticatedError {
 		if (result.hasErrors()) {
-			System.out.println("ERRORES: " + result.getErrorCount());
 			result.getAllErrors().forEach(error -> System.out.println(error.toString()));
 			return GAMES_FORM;
 		} else {
