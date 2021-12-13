@@ -1,10 +1,8 @@
 package org.springframework.samples.notimeforheroes.scenecard;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,65 +19,22 @@ public class SceneCardServiceTest {
 	SceneCardsService sceneService;
 	
 	@Test
-	public void TestNoSceneCard() {
-		Collection<SceneCard> scenes = sceneService.findAll();
-		for(SceneCard c: scenes) {
-			sceneService.deleteSceneCard(c);
-		}	
-		assertThat(sceneService.findAll().isEmpty()).isTrue();
-	}
-	
-	@Test
-	public void TestOneSceneCard() {
-		Collection<SceneCard> SceneCards = sceneService.findAll();
-		for(SceneCard c : SceneCards) {
-			sceneService.deleteSceneCard(c);
-		}		
-		SceneCard sceneCard = new SceneCard();
-		sceneCard.setName("Battlefield");
-		sceneCard.setUrl("https:");
-		sceneCard.setDescription("description");
-		sceneService.saveSceneCard(sceneCard);
-		assertThat(sceneService.findAll().size()).isEqualTo(1);
-
-	}
-	
-	@Test
-	public void TestMoreThanOneSceneCard() {
+	public void TestFindAllSceneCard() {
+		Integer AllSceneCards = sceneService.findAll().size();
 		
-		Collection<SceneCard> SceneCards = sceneService.findAll();
-		for(SceneCard c : SceneCards) {
-			sceneService.deleteSceneCard(c);
-		}		
-		SceneCard sceneCard = new SceneCard();
-		sceneCard.setName("Battlefield");
-		sceneCard.setId(2);
-		sceneCard.setUrl("https:");
-		sceneCard.setDescription("description");
-		sceneService.saveSceneCard(sceneCard);
+		SceneCard scene = NewScene("Scena", "http", "Description", true);
+		sceneService.saveSceneCard(scene);
 		
-		SceneCard sceneCard2 = new SceneCard();
-		sceneCard2.setName("Battlefield2");
-		sceneCard.setId(3);
-		sceneCard2.setUrl("https:");
-		sceneCard2.setDescription("description2");
-		sceneService.saveSceneCard(sceneCard);
+		Integer NewAllSceneCards = sceneService.findAll().size();
 		
-		assertThat(sceneService.findAll().size()).isGreaterThan(1);
-
+		assertTrue(NewAllSceneCards == AllSceneCards+1);
 	}
 	
 	@Test 
-	public void TestEditSceneCard() {
-		SceneCard SceneCard = sceneService.findById(1).get();
-		String oldName = SceneCard.getName();
-		
-		String newName = oldName + " sky";
-		SceneCard.setName(newName);
-		sceneService.saveSceneCard(SceneCard);
-		
-		assertThat(SceneCard.getName()).isEqualTo(newName);
-
+	public void TestFindByIdSceneCard() {
+		SceneCard scene = NewScene("Scena", "http", "Description", true);
+		sceneService.saveSceneCard(scene);
+		assertTrue(sceneService.findById(scene.getId()).orElse(null).equals(scene));
 	}
 	
 	@Test
@@ -114,4 +69,13 @@ public class SceneCardServiceTest {
 		assertTrue(scene != newScene);
 	}
 
+	private SceneCard NewScene(String name, String url, String description, boolean inGame) {
+		SceneCard scene = new SceneCard();
+		scene.setDescription(description);
+		scene.setName(name);
+		scene.setUrl(url);
+		scene.setInGame(inGame);
+		return scene;
+	}
+	
 }
