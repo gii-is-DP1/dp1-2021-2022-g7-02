@@ -3,30 +3,31 @@ package org.springframework.samples.notimeforheroes.game;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
+import org.springframework.samples.notimeforheroes.cards.marketcard.ItemState;
+import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
+import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsService;
+import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarket;
+import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarketService;
+import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
+import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;
+import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCards;
+import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
+import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.SkillState;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
-import org.springframework.samples.notimeforheroes.gamesUsers.GameUser;
-import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
-import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
-import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
-import org.springframework.samples.notimeforheroes.marketcard.MarketCard;
-import org.springframework.samples.notimeforheroes.marketcard.MarketCardsService;
-import org.springframework.samples.notimeforheroes.skillcard.SkillCard;
-import org.springframework.samples.notimeforheroes.skillcard.SkillCardsService;
-import org.springframework.samples.notimeforheroes.skillcard.gamesUsersSkillcards.GamesUsersSkillCards;
-import org.springframework.samples.notimeforheroes.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
-import org.springframework.samples.notimeforheroes.skillcard.gamesUsersSkillcards.SkillState;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
@@ -56,6 +57,9 @@ public class GameService {
 
 	@Autowired
 	SkillCardsService skillCardsService;
+
+	@Autowired
+	GameMarketService gameMarketService;
 
 	public static final Integer MAX_NUMBER_PLAYERS = 4;
 	
@@ -127,15 +131,30 @@ public class GameService {
 				creator = userService.findByUsername(creatorUsername).get();
 			}
 			
+			//Determina el creador y lo añade a los jugadores
 			game.setCreator(creator);
-
 			game.setUsers(List.of(creator));
 			
-			Collection<MarketCard> market=marketCardService.findAll();
-			Set<MarketCard> order = new HashSet<MarketCard>(market);
-			game.setMarket(order);
-			
+			//Añade los objetos a la partida y los pone todos ONDECK menos 5 que pone ONHAND
+			Collection<MarketCard> items = marketCardService.findAll();
+			List<MarketCard> shuffledList = new ArrayList<MarketCard>(items);
+			Collections.shuffle(shuffledList);
+			game.setItems(shuffledList);
 			gameRepository.save(game);
+			List<GameMarket> itemsInGame = (List<GameMarket>)gameMarketService.findAllInGame(game);
+			Collections.shuffle(itemsInGame);
+			for(int i = 0; i<5; i++){
+				GameMarket itemInGame = itemsInGame.get(i);
+				itemInGame.setItemState(ItemState.ONTABLE);
+				System.out.println("The item " + itemInGame.getId() + " is now available");
+				gameMarketService.createMarketService(itemInGame);
+			}
+			for(int i = 5; i<itemsInGame.size(); i++){
+				GameMarket itemInGame = itemsInGame.get(i);
+				itemInGame.setItemState(ItemState.ONDECK);
+				gameMarketService.createMarketService(itemInGame);
+			}
+
 	}
 
 	@Transactional
@@ -169,12 +188,14 @@ public class GameService {
 		HeroeCard heroeCard = heroeCardsService.findByName(heroe);
 		Collection<HeroeCard> cardsOfSameColor = heroeCardsService.findByColorAndGame(heroeCard.getColor(), game);
 		if(cardsOfSameColor.size() == 0){
+			//Si no hay nadie que haya elegido una carta de su color, asigna el héroe y las habilidades al usuario en la partida (gameUser)
 			GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
 			List<SkillCard> skillCards = (List<SkillCard>)skillCardsService.findByColor(heroeCard.getColor());
 			gameUser.setHeroe(heroeCard);
 			gameUser.setSkillCards(skillCards);
 			gameUserService.createGameUser(gameUser);
 
+			//Baraja las cartas de skill y a cuatro al azar las pone como ONHAND (por defecto están ONDECK)
 			Collections.shuffle(skillCards);
 			for(int i = 0; i<4;i++){
 				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, skillCards.get(i)).get();

@@ -10,18 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.notimeforheroes.enemycard.EnemyCard;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
+import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsService;
+import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarketService;
+import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
+import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
-import org.springframework.samples.notimeforheroes.gamesMarket.GameMarketService;
-import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
-import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
-import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
-import org.springframework.samples.notimeforheroes.marketcard.MarketCardsService;
-import org.springframework.samples.notimeforheroes.skillcard.SkillCard;
-import org.springframework.samples.notimeforheroes.skillcard.SkillCardsService;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
@@ -111,7 +111,10 @@ public class GameController {
 	
 	@GetMapping("/{gameId}/marketGame")
 	public String listMarketGame(ModelMap model, @PathVariable("gameId") int gameId) {
-		model.addAttribute("market", gameMarketService.findByGameOnDeckOntable(gameId));
+
+		/*Todo esto debería ir en el case BUYING
+		del switch del GetMapping(/{gameId})*/
+		model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
 		model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 		return MARKET_VIEW;
 	}

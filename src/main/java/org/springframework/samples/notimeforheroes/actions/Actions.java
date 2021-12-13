@@ -20,5 +20,5 @@ public class Actions extends NamedEntity{
     public TypesActions type;
     
     @Column()
-    public Integer cantidas;
+    public Integer cantidad;
 }
