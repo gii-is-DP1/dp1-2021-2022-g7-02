@@ -45,7 +45,7 @@ public class HeroeCardServiceTest {
 		heroeCard.setId(2);
 		heroeCard.setName("Salomon");
 		heroeCard.setUrl("https:");
-		heroeCard.setLife(2);
+		heroeCard.setMaxHealth(2);
 		heroeCard.setSkill("skill");
 		heroeCard.setColor("blue");
 		heroeCard.setDeckid(5);
@@ -66,7 +66,7 @@ public class HeroeCardServiceTest {
 		heroeCard.setId(1);
 		heroeCard.setName("Salomon");
 		heroeCard.setUrl("https:");
-		heroeCard.setLife(2);
+		heroeCard.setMaxHealth(2);
 		heroeCard.setSkill("skill");
 		heroeCard.setColor("blue");
 		heroeCard.setDeckid(5);
@@ -76,7 +76,7 @@ public class HeroeCardServiceTest {
 		heroeCard1.setId(2);
 		heroeCard1.setName("Salomon");
 		heroeCard1.setUrl("https:");
-		heroeCard1.setLife(2);
+		heroeCard1.setMaxHealth(2);
 		heroeCard1.setSkill("skill");
 		heroeCard1.setColor("blue");
 		heroeCard1.setDeckid(5);
@@ -106,7 +106,7 @@ public class HeroeCardServiceTest {
 		heroeCard.setId(2);
 		heroeCard.setName("Salomon");
 		heroeCard.setUrl("https:");
-		heroeCard.setLife(2);
+		heroeCard.setMaxHealth(2);
 		heroeCard.setSkill("skill");
 		heroeCard.setColor("blue");
 		heroeCard.setDeckid(5);
@@ -129,7 +129,7 @@ public class HeroeCardServiceTest {
 		heroeCard.setId(2);
 		heroeCard.setName("Salomon");
 		heroeCard.setUrl("https:");
-		heroeCard.setLife(2);
+		heroeCard.setMaxHealth(2);
 		heroeCard.setSkill("skill");
 		heroeCard.setColor("blue");
 		heroeCard.setDeckid(5);

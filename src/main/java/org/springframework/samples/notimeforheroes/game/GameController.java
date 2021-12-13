@@ -1,6 +1,7 @@
 package org.springframework.samples.notimeforheroes.game;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
@@ -18,6 +20,8 @@ import org.springframework.samples.notimeforheroes.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.marketcard.MarketCardsService;
+import org.springframework.samples.notimeforheroes.skillcard.SkillCard;
+import org.springframework.samples.notimeforheroes.skillcard.SkillCardsService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
@@ -70,6 +74,8 @@ public class GameController {
 	@Autowired
 	GameMarketService gameMarketService;
 	
+	@Autowired
+	SkillCardsService skillCardsService;
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
@@ -110,7 +116,12 @@ public class GameController {
 	@GetMapping("/{gameId}")
 	public String gamePlaying(ModelMap model, @PathVariable("gameId") int gameId) throws Exception{
 		Game game = gameService.findById(gameId).get();
-		
+		User user = userService.getLoggedUser();
+		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
+		model.addAttribute("skills", skillsAvailable);
+		model.addAttribute("enemies", new ArrayList<EnemyCard>());
+		model.addAttribute("game",game);
+		model.addAttribute("user", user);
 
 		switch (game.getGameState()) {
 			case ATTACKING:{

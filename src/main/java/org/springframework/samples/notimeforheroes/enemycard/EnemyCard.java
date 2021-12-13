@@ -26,7 +26,7 @@ public class EnemyCard extends NamedEntity {
 	
 	private Boolean isboss; //false no es boss, true si es boss
 
-	private Integer life;
+	private Integer maxHealth;
 	
 	private Integer glory;
 	

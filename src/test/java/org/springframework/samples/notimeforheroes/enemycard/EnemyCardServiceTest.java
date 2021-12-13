@@ -45,7 +45,7 @@ public class EnemyCardServiceTest {
 		enemyCard.setExtraGlory(1);
 		enemyCard.setExtraGold(0);
 		enemyCard.setGlory(2);
-		enemyCard.setLife(4);
+		enemyCard.setMaxHealth(4);
 		enemyCard.setName("Enemigo");
 		enemyCard.setUrl(".");
 		
@@ -66,7 +66,7 @@ public class EnemyCardServiceTest {
 		enemyCard.setExtraGlory(1);
 		enemyCard.setExtraGold(0);
 		enemyCard.setGlory(2);
-		enemyCard.setLife(4);
+		enemyCard.setMaxHealth(4);
 		enemyCard.setName("Enemigo");
 		enemyCard.setUrl(".");
 		enemyCardService.createEnemyCard(enemyCard);
@@ -75,7 +75,7 @@ public class EnemyCardServiceTest {
 		enemyCard1.setExtraGlory(0);
 		enemyCard1.setExtraGold(2);
 		enemyCard1.setGlory(3);
-		enemyCard1.setLife(5);
+		enemyCard1.setMaxHealth(5);
 		enemyCard1.setName("Enemigo");
 		enemyCard1.setUrl(".");
 
@@ -105,7 +105,7 @@ public class EnemyCardServiceTest {
 		enemyCard.setExtraGlory(1);
 		enemyCard.setExtraGold(0);
 		enemyCard.setGlory(2);
-		enemyCard.setLife(4);
+		enemyCard.setMaxHealth(4);
 		enemyCard.setName("Enemigo");
 		enemyCard.setUrl(".");
 		enemyCardService.createEnemyCard(enemyCard);
@@ -127,7 +127,7 @@ public class EnemyCardServiceTest {
 		enemyCard.setExtraGlory(1);
 		enemyCard.setExtraGold(0);
 		enemyCard.setGlory(2);
-		enemyCard.setLife(4);
+		enemyCard.setMaxHealth(4);
 		enemyCard.setName("Enemigo");
 		enemyCard.setUrl(".");
 		enemyCardService.createEnemyCard(enemyCard);
