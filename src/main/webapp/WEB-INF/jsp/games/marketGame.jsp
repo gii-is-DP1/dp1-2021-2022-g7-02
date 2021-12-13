@@ -72,14 +72,12 @@
     
     		<tbody>
 			<c:forEach items="${market}" var="market">
-				<div class=col-md-4>
+				<div class=col-md-2 style="margin-left: 3%;">
                     <img src="${market.url}">
                     <input type="radio" id="item1" name="item" value="Item1">
                     <label for="item1"> <c:out value="${market.name}" /></label>
                     <h2>Precio: <c:out value="${market.cost}" /></h2>   
                 </div>
-
-
 			</c:forEach>
 		</tbody>
                 

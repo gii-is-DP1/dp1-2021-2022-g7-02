@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -12,7 +11,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.samples.notimeforheroes.marketcard.MarketCard;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
+import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
@@ -30,24 +30,10 @@ public class Game extends BaseEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="creator")
-	private User creator;
-	
-	@ManyToMany
-	@JoinTable(name = "games_markets",
-		joinColumns = {@JoinColumn(name = "fk_game")},
-		inverseJoinColumns = {@JoinColumn(name = "fk_market")})
-	private Collection<MarketCard> market;		
-	
-	@ManyToMany
-	@JoinTable(name = "games_users",
-		joinColumns = {@JoinColumn(name = "fk_game")},
-		inverseJoinColumns = {@JoinColumn(name = "fk_user")})
-	private Collection<User> users;			
+	private User creator;		
 
-	@Column(name="duration",columnDefinition = "INT")
 	private Integer duration = 0;	//En segundos
 
-	@Column(name = "date", columnDefinition = "DATE")
 	private LocalDate date = LocalDate.now();
 	
 	private Boolean isInProgress = false;	
@@ -70,8 +56,30 @@ public class Game extends BaseEntity{
 	@JoinColumn(name="userPlaying")
 	private User userPlaying;
 
+	
+	@ManyToMany
+	@JoinTable(name = "games_markets",
+		joinColumns = {@JoinColumn(name = "fk_game")},
+		inverseJoinColumns = {@JoinColumn(name = "fk_market")})
+	private Collection<MarketCard> items;		
+	
+	@ManyToMany
+	@JoinTable(name = "games_users",
+		joinColumns = {@JoinColumn(name = "fk_game")},
+		inverseJoinColumns = {@JoinColumn(name = "fk_user")})
+	private Collection<User> users;	
 
+	@ManyToMany
+	@JoinTable(name = "games_enemies",
+		joinColumns = {@JoinColumn(name = "fk_game")},
+		inverseJoinColumns = {@JoinColumn(name = "fk_enemy")})
+	private Collection<EnemyCard> enemies;	
+
+	
+
+//-----------------------------------------------------------------------------------------//
 	//METODOS EQUALS TOSTRING Y HASHCODE
+//-----------------------------------------------------------------------------------------//
 
 
 	@Override
