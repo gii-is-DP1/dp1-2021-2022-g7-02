@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
+import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -33,6 +34,26 @@ public class EnemyCardServiceTest {
 		}
 		assertThat(enemyCardService.findAll().isEmpty()).isTrue();
 
+	}
+
+	
+	@Test
+	public void TestFindAllEnemies() {
+		Integer AllEnemies = enemyCardService.findAll().size();
+		EnemyCard enemy = NewEnemyCard(1, 1, 1, 1, "name", "url");
+		enemyCardService.createEnemyCard(enemy);
+		
+		Integer NewAllEnemies = enemyCardService.findAll().size();
+		assertTrue(NewAllEnemies == AllEnemies + 1);
+	}
+
+	
+	@Test
+	public void TestFindByIdEnemyCard() {
+		EnemyCard enemy = NewEnemyCard(1, 1, 1, 1, "name", "url");
+		enemyCardService.createEnemyCard(enemy);
+		
+		assertTrue(enemyCardService.findById(enemy.getId()).orElse(null).equals(enemy));
 	}
 	
 	@Test
@@ -136,5 +157,23 @@ public class EnemyCardServiceTest {
 		assertTrue(Enemies != newEnemies);
 	}
 	
+	/*	private MarketCard NewMarketCard(String name, String url, Integer cost, String description) {
+		MarketCard marketCard = new MarketCard();
+		marketCard.setCost(cost);
+		marketCard.setDescription(description);
+		marketCard.setName(name);
+		marketCard.setUrl(url);
+		return marketCard;
+	}*/
 	
+	private EnemyCard NewEnemyCard(Integer ExtraGlory, Integer ExtraGold, Integer Glory, Integer Health, String name, String url) {
+		EnemyCard enemyCard = new EnemyCard();
+		enemyCard.setExtraGlory(ExtraGlory);
+		enemyCard.setExtraGold(ExtraGold);
+		enemyCard.setGlory(Glory);
+		enemyCard.setMaxHealth(Health);
+		enemyCard.setName(name);
+		enemyCard.setUrl(url);
+		return enemyCard;
+	}
 }
