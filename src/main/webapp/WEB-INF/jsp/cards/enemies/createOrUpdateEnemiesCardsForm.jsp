@@ -13,7 +13,9 @@
     <form:form method="POST" modelAttribute="enemies" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Type" name="name"/>
-            <petclinic:inputField label="Life" name="life"/>
+            <petclinic:inputField label="Url" name="url"/>
+            <petclinic:inputField label="IsBoss" name="isboss"/>
+            <petclinic:inputField label="MaxHealth" name="maxHealth"/>
             <petclinic:inputField label="Glory" name="glory"/>                        
             <petclinic:inputField label="Extraglory" name="extraGlory"/>                        
             <petclinic:inputField label="Extragold" name="extraGold"/>                        

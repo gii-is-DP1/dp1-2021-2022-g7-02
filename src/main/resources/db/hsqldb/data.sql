@@ -130,7 +130,22 @@ INSERT INTO market(id,name,url,cost,description) VALUES (8,'Vialde de Conjuracio
 INSERT INTO market(id,name,url,cost,description) VALUES (9,'Arco Compuesto', '\resources\images\market\ArcoCompuesto.png', 5,' ');
 
 
-INSERT INTO enemies(id,name,url,max_health,glory,extra_glory,extra_gold) VALUES (1,'Simple Enemy', 'https:', 2, 1, 0, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (1,'Simple Enemy', '\resources\images\enemies\simpleEnemy1.png', false, 2, 1, 0, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (2,'Simple Enemy', '\resources\images\enemies\simpleEnemy1.png', false, 2, 1, 0, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (3,'Simple Enemy', '\resources\images\enemies\simpleEnemy2.png', false, 3, 2, 2, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (4,'Simple Enemy', '\resources\images\enemies\simpleEnemy2.png', false, 3, 2, 2, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (5,'Simple Enemy', '\resources\images\enemies\simpleEnemy3.png', false, 3, 1, 0, 1);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (6,'Simple Enemy', '\resources\images\enemies\simpleEnemy3.png', false, 3, 1, 0, 1);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (7,'Simple Enemy', '\resources\images\enemies\simpleEnemy4.png', false, 4, 2, 1, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (8,'Simple Enemy', '\resources\images\enemies\simpleEnemy4.png', false, 4, 2, 1, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (9,'Simple Enemy', '\resources\images\enemies\simpleEnemy5.png', false, 3, 3, 0, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (10,'Simple Enemy', '\resources\images\enemies\simpleEnemy5.png', false, 3, 3, 0, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (11,'Simple Enemy', '\resources\images\enemies\simpleEnemy6.png', false, 6, 4, 3, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (12,'Simple Enemy', '\resources\images\enemies\simpleEnemy6.png', false, 6, 4, 3, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (13,'Boss 1', '\resources\images\enemies\boss1.png', true, 8, 4, 0, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (14,'Boss 2', '\resources\images\enemies\boss2.png', true, 9, 5, 0, 0);
+INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (15,'Boss 3', '\resources\images\enemies\boss3.png', true, 10, 6, 0, 0);
+
 
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (1,1,'2021-11-03',1000,FALSE,TRUE,'1e7be91755b7497080849ef0910c044d',null);
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70',null);
@@ -142,6 +157,7 @@ INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);
 INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,3,0,0,TRUE,null,8);   --pabloespada
 INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,6,0,0,TRUE,null,3);   --mromalde
 
+
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (3,2,1); --Habilidad 2 añadida al jugador 6 (pabloespada) en la partida 4 
 
 /*
@@ -151,7 +167,5 @@ INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) V
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,2); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,2,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
 */
-INSERT INTO games_markets (id, fk_game, fk_market) VALUES (1,1,1);
-INSERT INTO games_markets (id, fk_game, fk_market) VALUES (2,1,2);
---INSERT INTO games_markets (id, fk_game, fk_market) VALUES (2,1,3);
+
 
