@@ -18,11 +18,13 @@
 	<table id="CardsTable" class="table table-striped">
 		<thead>
 			<tr>
-				<th style="width: 80%;">Type</th>
+				<th style="width: 20%;">Type</th>
+				<th style="width: 20%;">Url</th>
+				<th style="width: 10%;">IsBoss</th>
 				<th style="width: 10%;">Life</th>
-				<th style="width: 25%;">Glory</th>
+				<th style="width: 10%;">Glory</th>
 				<th style="width: 10%;">Extraglory</th>
-				<th style="width: 80%;">Extragold</th>
+				<th style="width: 10%;">Extragold</th>
 				
 				<th style="width: 5%;"></th>
 				<th style="width: 5%;"></th>
@@ -34,7 +36,9 @@
 			<c:forEach items="${enemies}" var="enemy">
 				<tr>
 					<td><c:out value="${enemy.name}" /></td>
-					<td><c:out value="${enemy.life}" /></td>
+					<td><c:out value="${enemy.url}" /></td>
+					<td><c:out value="${enemy.isboss}" /></td>
+					<td><c:out value="${enemy.maxHealth}" /></td>
 					<td><c:out value="${enemy.glory}" /></td>
 					<td><c:out value="${enemy.extraGlory}" /></td>
 					<td><c:out value="${enemy.extraGold}" /></td>

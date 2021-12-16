@@ -35,10 +35,9 @@
 				<tr>
 					<td><c:out value="${heroe.name}" /></td>
 					<td><c:out value="${heroe.url}" /></td>
-					<td><c:out value="${heroe.life}" /></td>
+					<td><c:out value="${heroe.maxHealth}" /></td>
 					<td><c:out value="${heroe.skill}" /></td>
 					<td><c:out value="${heroe.color}" /></td>
-					<td><c:out value="${heroe.deckid}" /></td>
 					
 					<td><a href="/cards/heroes/${heroe.id}/edit"> <span
 							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>

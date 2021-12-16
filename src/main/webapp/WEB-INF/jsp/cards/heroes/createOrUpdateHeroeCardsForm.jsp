@@ -14,10 +14,9 @@
         <div class="form-group has-feedback">
             <petclinic:inputField label="Name" name="name"/>
             <petclinic:inputField label="Url" name="url"/>                        
-            <petclinic:inputField label="Life" name="life"/>                        
+            <petclinic:inputField label="MaxHealth" name="maxHealth"/>                        
             <petclinic:inputField label="Skill" name="skill"/>                        
             <petclinic:inputField label="Color" name="color"/>                        
-            <petclinic:inputField label="DeckId" name="deckid"/>                        
                                              
                                                
                                              
