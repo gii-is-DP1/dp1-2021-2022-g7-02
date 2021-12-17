@@ -77,14 +77,14 @@ INSERT INTO authorities(id,authority,username) VALUES (7,'admin','javier');
 INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
 
 
-INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (1,'Taheral','https:',2, 'Al realizar la maniobra de evasión, coge dos monedas por cada carta que descartes. Una vez por partida.','Morado');
-INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (2,'Idril','https:',3, 'En cualquier momento puedes mirar las tres cartas inferiores de la horda y devolverlas al mazo en el orden que prefieras. Dos veces por partida.','Verde');
-INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (3,'Feldon','https:',2, 'Al resolver el ataque de la horda, tan solo pierde la mitad de cartas de las indicadas por el daño. Una vez por partida.','Rojo');
-INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (4,'Lisavette','https:',3, 'Mientras un heroe se enfrenta a la horda, utiliza un escudo para prevenirle del daño del enemigo. Roba hasta dos monedas de ese heroe. Dos veces por partida.','Azul');
-INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (5,'Aranel','https:',2, 'En cualquier momento, busca una carta del mazo de Habilidad y sustituyela por una de tu mano. Acto seguido baraja el mazo. Una vez por partida.','Morado');
-INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (6,'Beleth-Il','https:',3, 'Cuando utilices la carta Disparo Rapido, la primera carta fallida que robes podrás recuperarla y robar otra. Dos veces por partida.','Verde');
-INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (7,'Neddia','https:',2, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.','Rojo');
-INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (8,'Valerys','https:',3, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.','Azul');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (1,'Taheral','\resources\images\Taheral.png',2, 'Al realizar la maniobra de evasión, coge dos monedas por cada carta que descartes. Una vez por partida.','Morado');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (2,'Idril','\resources\images\Idril.png',3, 'En cualquier momento puedes mirar las tres cartas inferiores de la horda y devolverlas al mazo en el orden que prefieras. Dos veces por partida.','Verde');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (3,'Feldon','\resources\images\Feldon.png',2, 'Al resolver el ataque de la horda, tan solo pierde la mitad de cartas de las indicadas por el daño. Una vez por partida.','Rojo');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (4,'Lisavette','\resources\images\Lisavette.png',3, 'Mientras un heroe se enfrenta a la horda, utiliza un escudo para prevenirle del daño del enemigo. Roba hasta dos monedas de ese heroe. Dos veces por partida.','Azul');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (5,'Aranel','\resources\images\Aranel.png',2, 'En cualquier momento, busca una carta del mazo de Habilidad y sustituyela por una de tu mano. Acto seguido baraja el mazo. Una vez por partida.','Morado');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (6,'Beleth-Il','\resources\images\Beleth.png',3, 'Cuando utilices la carta Disparo Rapido, la primera carta fallida que robes podrás recuperarla y robar otra. Dos veces por partida.','Verde');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (7,'Neddia','\resources\images\Neddia.png',2, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.','Rojo');
+INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (8,'Valerys','\resources\images\Valerys.png',3, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.','Azul');
 
 INSERT INTO skills(id,name,url,description,color) VALUES (1,'Compañero Lobo', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
 INSERT INTO skills(id,name,url,description,color) VALUES (2,'Disparo certero', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');

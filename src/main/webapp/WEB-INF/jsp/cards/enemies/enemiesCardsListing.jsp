@@ -19,7 +19,7 @@
 		<thead>
 			<tr>
 				<th style="width: 20%;">Type</th>
-				<th style="width: 20%;">Url</th>
+				<th style="width: 10%;">Image</th>
 				<th style="width: 10%;">IsBoss</th>
 				<th style="width: 10%;">Life</th>
 				<th style="width: 10%;">Glory</th>
@@ -36,7 +36,7 @@
 			<c:forEach items="${enemies}" var="enemy">
 				<tr>
 					<td><c:out value="${enemy.name}" /></td>
-					<td><c:out value="${enemy.url}" /></td>
+					<td><img src="${enemy.url}" style="height: 4cm; width: auto;"></td>
 					<td><c:out value="${enemy.isboss}" /></td>
 					<td><c:out value="${enemy.maxHealth}" /></td>
 					<td><c:out value="${enemy.glory}" /></td>

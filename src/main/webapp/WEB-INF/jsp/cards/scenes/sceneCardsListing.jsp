@@ -19,7 +19,7 @@
 		<thead>
 			<tr>
 				<th style="width: 10%;">Name</th>
-				<th style="width: 25%;">Url</th>
+				<th style="width: 10%;">Image</th>
 				<th style="width: 70%;">Description</th>
 				<th style="width: 5%;"></th>
 				<th style="width: 5%;"></th>
@@ -31,7 +31,7 @@
 			<c:forEach items="${scenes}" var="scene">
 				<tr>
 					<td><c:out value="${scene.name}" /></td>
-					<td><c:out value="${scene.url}" /></td>
+					<td><img src="${scene.url}" style="height: 4cm; width: auto;"></td>
 					<td><c:out value="${scene.description}" /></td>
 					
 					<td><a href="/cards/scenes/${scene.id}/edit"> <span
