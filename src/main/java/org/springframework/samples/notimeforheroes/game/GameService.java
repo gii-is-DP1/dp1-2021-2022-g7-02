@@ -11,6 +11,11 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyState;
+import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
+import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemiesService;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.cards.marketcard.ItemState;
@@ -60,6 +65,12 @@ public class GameService {
 
 	@Autowired
 	GameMarketService gameMarketService;
+
+	@Autowired
+	EnemyCardService enemyCardService;
+
+	@Autowired
+	GamesEnemiesService gamesEnemiesService;
 
 	public static final Integer MAX_NUMBER_PLAYERS = 4;
 	
@@ -133,27 +144,45 @@ public class GameService {
 			
 			//Determina el creador y lo añade a los jugadores
 			game.setCreator(creator);
-			game.setUsers(List.of(creator));
+			List<User> users = new ArrayList<>();
+			users.add(creator);
+			game.setUsers(users);
+
+
+			//Añade los enemigos a la partida y los pone todos ONDECK menos 3 que pone ONTABLE
+			Collection<EnemyCard> enemies = enemyCardService.findAll();
+			List<EnemyCard> shuffledEnemies = new ArrayList<EnemyCard>(enemies);
+			Collections.shuffle(shuffledEnemies);
+			game.setEnemies(shuffledEnemies);
+			gameRepository.save(game);
+			
+			List<GamesEnemies> enemiesInGame = (List<GamesEnemies>)gamesEnemiesService.findAllInGame(game);
+
+			for(int i = 0; i<enemiesInGame.size(); i++){
+				GamesEnemies enemyInGame = enemiesInGame.get(i);
+				EnemyState newState = i >= 3 ? EnemyState.ONDECK : EnemyState.ONTABLE;
+				enemyInGame.setEnemyState(newState);
+				gamesEnemiesService.createGamesEnemies(enemyInGame);
+			}
 			
 			//Añade los objetos a la partida y los pone todos ONDECK menos 5 que pone ONHAND
 			Collection<MarketCard> items = marketCardService.findAll();
-			List<MarketCard> shuffledList = new ArrayList<MarketCard>(items);
-			Collections.shuffle(shuffledList);
-			game.setItems(shuffledList);
+			List<MarketCard> shuffledItems = new ArrayList<MarketCard>(items);
+			Collections.shuffle(shuffledItems);
+			game.setItems(shuffledItems);
 			gameRepository.save(game);
 			List<GameMarket> itemsInGame = (List<GameMarket>)gameMarketService.findAllInGame(game);
 			Collections.shuffle(itemsInGame);
-			for(int i = 0; i<5; i++){
+
+			for(int i = 0; i<itemsInGame.size(); i++){
 				GameMarket itemInGame = itemsInGame.get(i);
-				itemInGame.setItemState(ItemState.ONTABLE);
-				System.out.println("The item " + itemInGame.getId() + " is now available");
-				gameMarketService.createMarketService(itemInGame);
+				ItemState newState = i >= 5 ? ItemState.ONDECK : ItemState.ONTABLE;
+				itemInGame.setItemState(newState);
+				gameMarketService.createGameMarket(itemInGame);
 			}
-			for(int i = 5; i<itemsInGame.size(); i++){
-				GameMarket itemInGame = itemsInGame.get(i);
-				itemInGame.setItemState(ItemState.ONDECK);
-				gameMarketService.createMarketService(itemInGame);
-			}
+
+			
+		
 
 	}
 

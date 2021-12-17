@@ -32,7 +32,7 @@ public class GameMarketService {
 	}
 	
 	@Transactional
-	public void createMarketService(@Valid GameMarket gameMarket) {
+	public void createGameMarket(@Valid GameMarket gameMarket) {
 		gameMarketRepository.save(gameMarket);
 	}
 }

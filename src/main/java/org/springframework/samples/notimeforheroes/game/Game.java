@@ -2,6 +2,7 @@ package org.springframework.samples.notimeforheroes.game;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -61,7 +62,7 @@ public class Game extends BaseEntity{
 	@JoinTable(name = "games_markets",
 		joinColumns = {@JoinColumn(name = "fk_game")},
 		inverseJoinColumns = {@JoinColumn(name = "fk_market")})
-	private Collection<MarketCard> items;		
+	private List<MarketCard> items;		
 	
 	@ManyToMany
 	@JoinTable(name = "games_users",
@@ -73,7 +74,7 @@ public class Game extends BaseEntity{
 	@JoinTable(name = "games_enemies",
 		joinColumns = {@JoinColumn(name = "fk_game")},
 		inverseJoinColumns = {@JoinColumn(name = "fk_enemy")})
-	private Collection<EnemyCard> enemies;	
+	private List<EnemyCard> enemies;	
 
 	
 
