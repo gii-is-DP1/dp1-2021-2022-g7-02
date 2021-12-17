@@ -19,7 +19,7 @@
 		<thead>
 			<tr>
 				<th style="width: 10%;">Name</th>
-				<th style="width: 25%;">Url</th>
+				<th style="width: 10%;">Image</th>
 				<th style="width: 10%;">Life</th>
 				<th style="width: 80%;">Skill</th>
 				<th style="width: 10%;">Color</th>
@@ -34,7 +34,7 @@
 			<c:forEach items="${heroes}" var="heroe">
 				<tr>
 					<td><c:out value="${heroe.name}" /></td>
-					<td><c:out value="${heroe.url}" /></td>
+					<td><img src="${heroe.url}" style="height: 4cm; width: auto;"></td>
 					<td><c:out value="${heroe.maxHealth}" /></td>
 					<td><c:out value="${heroe.skill}" /></td>
 					<td><c:out value="${heroe.color}" /></td>

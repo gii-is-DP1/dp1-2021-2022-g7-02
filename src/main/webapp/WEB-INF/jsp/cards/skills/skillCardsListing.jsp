@@ -19,7 +19,7 @@
 		<thead>
 			<tr>
 				<th style="width: 10%;">Name</th>
-				<th style="width: 25%;">Url</th>
+				<th style="width: 10%;">Image</th>
 				<th style="width: 70%;">Description</th>
 				<th style="width: 10%;">DeckId</th>
 				<th style="width: 5%;"></th>
@@ -32,7 +32,7 @@
 			<c:forEach items="${skills}" var="skill">
 				<tr>
 					<td><c:out value="${skill.name}" /></td>
-					<td><c:out value="${skill.url}" /></td>
+					<td><img src="${skill.url}" style="height: 4cm; width: auto;"></td>
 					<td><c:out value="${skill.description}" /></td>
 					<td><c:out value="${skill.deckid}" /></td>
 					

@@ -19,7 +19,7 @@
 		<thead>
 			<tr>
 				<th style="width: 10%;">Name</th>
-				<th style="width: 25%;">Url</th>
+				<th style="width: 10%;">Image</th>
 				<th style="width: 25%;">Cost</th>
 				<th style="width: 70%;">Description</th>
 				<th style="width: 5%;"></th>
@@ -32,7 +32,7 @@
 			<c:forEach items="${market}" var="market">
 				<tr>
 					<td><c:out value="${market.name}" /></td>
-					<td><c:out value="${market.url}" /></td>
+					<td><img src="${market.url}" style="height: 4cm; width: auto;"></td>
 					<td><c:out value="${market.cost}" /></td>
 					<td><c:out value="${market.description}" /></td>
 					

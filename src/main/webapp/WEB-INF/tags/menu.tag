@@ -88,7 +88,7 @@ description="Name of the active menu: home, owners, vets or error"%>
 							<li>
 								<div class="row">
 									<div class="text-center">
-										<a href="<c:url value=" /tokens" />">Tokens</a>
+										<a href="<c:url value=" /cards/tokens/tokensCardsListing.jsp" />">Tokens</a>
 									</div>
 								</div>
 							</li>
