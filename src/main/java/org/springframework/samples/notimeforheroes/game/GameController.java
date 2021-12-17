@@ -220,7 +220,11 @@ public class GameController {
 			gameService.selectHeroe(gameService.findById(gameId).get(), userService.getLoggedUser(), heroe);
 			return "redirect:/games/selectPlayerToStart/" + gameId;
 		} catch (HeroeNotAvailableException e) {
-			model.addAttribute("message", "This heroe can`t be selected");
+			model.addAttribute("message", "Este héroe no está disponible");
+			return selectHeroe(model, gameId);
+		}catch(Exception e){
+			model.addAttribute("message", "Error al seleccionar héroe");
+			e.printStackTrace();
 			return selectHeroe(model, gameId);
 		}
 	}
