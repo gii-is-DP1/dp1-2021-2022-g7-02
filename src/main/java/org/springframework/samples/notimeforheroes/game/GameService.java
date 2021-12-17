@@ -122,7 +122,7 @@ public class GameService {
 			return "waiting/"+game.getId();
 		}else{
 		//Si no se ha seleccionado el primer jugador, devuelve selectPlayerToStart/{gameId}
-			if(game.getFirstPlayer()==null) return "selectPlayerToStart/"+game.getId();
+			if(game.getUserPlaying()==null) return "selectPlayerToStart/"+game.getId();
 		//Si la partida está en progreso, el jugador tiene héroe y se ha elegido primer jugador, devuelve /{gameId}
 			else{
 				return game.getId().toString();
@@ -148,7 +148,7 @@ public class GameService {
 			List<User> users = new ArrayList<>();
 			users.add(creator);
 			game.setUsers(users);
-
+			gameRepository.save(game);
 
 			//Añade los enemigos a la partida y los pone todos ONDECK menos 3 que pone ONTABLE
 			List<EnemyCard> enemies = (ArrayList<EnemyCard>) enemyCardService.findAllByIsBoss(false);
@@ -226,6 +226,9 @@ public class GameService {
 			List<SkillCard> skillCards = (List<SkillCard>)skillCardsService.findByColor(heroeCard.getColor());
 			gameUser.setHeroe(heroeCard);
 			gameUser.setSkillCards(skillCards);
+			gameUser.setGlory(0);
+			gameUser.setGold(0);
+			gameUser.setHasEscapeToken(true);
 			gameUserService.createGameUser(gameUser);
 
 			//Baraja las cartas de skill y a cuatro al azar las pone como ONHAND (por defecto están ONDECK)
@@ -269,8 +272,18 @@ public class GameService {
 		Random ran = new Random();
 		Integer index = ran.nextInt(users.size());
 		User firstUser = users.get(index);
-		game.setFirstPlayer(firstUser);
+		game.setUserPlaying(firstUser);
 		game.setGameState(GameState.ATTACKING);
 		this.updateGame(game);
 	}
+
+	@Transactional	
+    public void endTurn(Game game) {
+		List<User> users = new ArrayList<>(game.getUsers());
+		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
+		User newUser = users.get(newIndex);
+		game.setUserPlaying(newUser);
+		game.setGameState(GameState.ATTACKING);
+
+    }
 }

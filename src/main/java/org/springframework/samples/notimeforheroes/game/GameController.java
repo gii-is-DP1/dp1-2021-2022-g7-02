@@ -23,6 +23,7 @@ import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNo
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -135,8 +137,6 @@ public class GameController {
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
 		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
 		enemiesOnTable.stream().forEach(enemy -> enemy.setHealthInGame(gamesEnemiesService.findByGameAndEnemy(game, enemy).get().getHealth()));
-		enemiesOnTable.stream().forEach(enemy -> System.out.println(enemy.getHealthInGame()));
-
 		model.addAttribute("skills", skillsAvailable);
 		model.addAttribute("enemies", enemiesOnTable);
 		model.addAttribute("game",game);
@@ -144,7 +144,7 @@ public class GameController {
 
 		switch (game.getGameState()) {
 			case ATTACKING:{
-
+				model.addAttribute("hasEscapeToken", gameUserService.findByGameAndUser(game, user).get().getHasEscapeToken());
 				return ATTACK_VIEW;
 			}
 				
@@ -155,6 +155,16 @@ public class GameController {
 			default:
 				throw new Exception();
 		}
+	}
+
+	@GetMapping("/{gameId}/escape")
+	public String escape(ModelMap model, @PathVariable("gameId") int gameId) throws Exception{
+		Game game = gameService.findById(gameId).get();
+		gameService.endTurn(game);
+		GameUser gu = gameUserService.findByGameAndUser(game, userService.getLoggedUser()).get();
+		gu.setHasEscapeToken(false);
+		gameUserService.createGameUser(gu);
+		return gamePlaying(model, gameId);
 	}
 
 	@GetMapping("/current")

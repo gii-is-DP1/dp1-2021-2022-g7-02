@@ -16,9 +16,9 @@
             </div>
         </c:forEach>
     </div>
-    <c:if test="${game.getFirstPlayer() == user}">
+    <c:if test="${game.getUserPlaying() == user}">
         <h2>HABILIDADES</h2>
-        <form:form name="skills" action="" method="POST">
+        <form:form action="attack" method="POST">
             <div class=row>
                 <c:forEach items="${skills}" var="skillCard">
                     <div class=col-md-3>
@@ -32,14 +32,22 @@
             </div>
 
             <div class=row>
-                <div class="col-md-12 text-center" style="margin-top: 5%;">
-                    <input class="btn btn-default" type="submit" value="Use" />
+                <div class="col-md-10 text-center" style="margin-top: 5%;">
+                    <input class="btn btn-default" name="use" type="submit" value="Usar" />
+                </div>
+                <div class=col-md-2>
+                    <c:if test="${hasEscapeToken}">
+                        <a class="btn btn-danger"  href="/games/${game.id}/escape">Usar ficha de escape</a>
+                    </c:if>
+                    
                 </div>
             </div>
         </form:form>
+        
+
     </c:if>
-    <c:if test="${game.getFirstPlayer() != user}">
-        <a class="btn btn-default" href="/games/${game.id}">Es el turno de <c:out value="${game.getFirstPlayer()}"/>, pulsa para recargar</a>
+    <c:if test="${game.getUserPlaying() != user}">
+        <a class="btn btn-default" href="/games/${game.id}">Es el turno de <c:out value="${game.getUserPlaying()}"/>, pulsa para recargar</a>
     </c:if>
         
 
