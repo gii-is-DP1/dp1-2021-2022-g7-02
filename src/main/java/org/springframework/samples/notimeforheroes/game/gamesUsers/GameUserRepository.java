@@ -6,10 +6,14 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.samples.notimeforheroes.game.Game;
 
 public interface GameUserRepository extends CrudRepository<GameUser, Integer> {
 
     Collection<GameUser> findAll();
+    
+    @Query(nativeQuery = true, value = "SELECT * FROM games_users gu WHERE gu.fk_game=?1")
+    Collection<GameUser> findAllByGame(Game game);
 
     @Query(nativeQuery = true, value = "SELECT * FROM games_users gu WHERE gu.fk_game=?1 AND gu.fk_user=?2")
     Optional<GameUser> findByGameAndUser(Integer gameId, Integer userId);

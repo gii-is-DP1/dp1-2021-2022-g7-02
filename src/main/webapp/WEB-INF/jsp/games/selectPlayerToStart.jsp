@@ -29,11 +29,11 @@ pageEncoding="utf-8"%>
 		</tbody>
 	</table>
 
-	<c:if test="${!empty game.firstPlayer}">
-		<h2>El jugador elegido es: <c:out value="${game.firstPlayer}" /></h2>
+	<c:if test="${!empty game.userPlaying}">
+		<h2>El jugador elegido es: <c:out value="${game.userPlaying}" /></h2>
 	</c:if>
 
-	<c:if test="${game.getCreator() == loggedUser && empty game.firstPlayer && game.users.size() == users.size()}">
+	<c:if test="${game.getCreator() == loggedUser && empty game.userPlaying && game.users.size() == users.size()}">
 		<form:form action="" modelAttribute="games/selectPlayerToStart/" method="POST">
 			<div class=row>
 				<div class="col-md-12 text-center" style="margin-top: 5%;">
@@ -43,11 +43,11 @@ pageEncoding="utf-8"%>
 		</form:form>
 	</c:if>
 
-	<c:if test="${empty game.firstPlayer && game.getCreator() != loggedUser && game.users.size() == users.size()}">
+	<c:if test="${empty game.userPlaying && game.getCreator() != loggedUser && game.users.size() == users.size()}">
 		<h2>Esperando a que se elija el primer jugador a jugar</h2>
 	</c:if>
 
-	<c:if test="${!empty game.firstPlayer && game.users.size() == users.size()}">
+	<c:if test="${!empty game.userPlaying && game.users.size() == users.size()}">
 		<p>
 			<a class="btn btn-default" href="/games/${game.getId()}">Ir a la
 				partida</a>

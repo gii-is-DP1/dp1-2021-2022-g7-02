@@ -50,10 +50,6 @@ public class Game extends BaseEntity{
 	private User winner;
 
 	@ManyToOne
-	@JoinColumn(name="firstPlayer")
-	private User firstPlayer;
-
-	@ManyToOne
 	@JoinColumn(name="userPlaying")
 	private User userPlaying;
 
