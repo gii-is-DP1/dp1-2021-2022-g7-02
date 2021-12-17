@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
+import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemiesService;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsService;
@@ -81,6 +82,9 @@ public class GameController {
 	@Autowired
 	EnemyCardService enemyCardService;
 
+	@Autowired
+	GamesEnemiesService gamesEnemiesService;
+
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
@@ -130,6 +134,9 @@ public class GameController {
 		User user = userService.getLoggedUser();
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
 		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
+		enemiesOnTable.stream().forEach(enemy -> enemy.setHealthInGame(gamesEnemiesService.findByGameAndEnemy(game, enemy).get().getHealth()));
+		enemiesOnTable.stream().forEach(enemy -> System.out.println(enemy.getHealthInGame()));
+
 		model.addAttribute("skills", skillsAvailable);
 		model.addAttribute("enemies", enemiesOnTable);
 		model.addAttribute("game",game);

@@ -162,6 +162,8 @@ public class GameService {
 				GamesEnemies enemyInGame = enemiesInGame.get(i);
 				EnemyState newState = i >= 3 ? EnemyState.ONDECK : EnemyState.ONTABLE;
 				enemyInGame.setEnemyState(newState);
+				EnemyCard enemyCard = enemyCardService.findEnemyOfGamesEnemies(enemyInGame).get();
+				enemyInGame.setHealth(enemyCard.getMaxHealth());
 				gamesEnemiesService.createGamesEnemies(enemyInGame);
 			}
 			
