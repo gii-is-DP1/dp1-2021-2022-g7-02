@@ -37,6 +37,9 @@ public class EnemyCardService {
 		return enemyCardRepo.findEnemyOfGamesEnemies(ge);
 	}
 	
+	public Collection<EnemyCard> findAllByIsBoss(Boolean isBoss){
+		return enemyCardRepo.findAllByIsBoss(isBoss);
+	}
 	
 	@Transactional
 	public void deleteEnemyCard(EnemyCard card) {

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -150,10 +151,11 @@ public class GameService {
 
 
 			//Añade los enemigos a la partida y los pone todos ONDECK menos 3 que pone ONTABLE
-			Collection<EnemyCard> enemies = enemyCardService.findAll();
-			List<EnemyCard> shuffledEnemies = new ArrayList<EnemyCard>(enemies);
-			Collections.shuffle(shuffledEnemies);
-			game.setEnemies(shuffledEnemies);
+			List<EnemyCard> enemies = (ArrayList<EnemyCard>) enemyCardService.findAllByIsBoss(false);
+			List<EnemyCard> bosses = (ArrayList<EnemyCard>) enemyCardService.findAllByIsBoss(true);
+			Collections.shuffle(enemies);
+			enemies.add(bosses.get(new Random().nextInt(bosses.size())));
+			game.setEnemies(enemies);
 			gameRepository.save(game);
 			
 			List<GamesEnemies> enemiesInGame = (List<GamesEnemies>)gamesEnemiesService.findAllInGame(game);
