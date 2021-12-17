@@ -34,7 +34,7 @@ public class EnemyCardService {
 	}
 
 	public Optional<EnemyCard> findEnemyOfGamesEnemies(GamesEnemies ge){
-		return findEnemyOfGamesEnemies(ge);
+		return enemyCardRepo.findEnemyOfGamesEnemies(ge);
 	}
 	
 	

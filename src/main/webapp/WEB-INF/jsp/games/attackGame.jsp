@@ -12,7 +12,7 @@
         <c:forEach items="${enemies}" var="enemyCard">
             <div class=col-md-4>
                 <img src="${enemyCard.url}">
-                <h2> Vida :</h2>
+                <h2> Vida : <c:out value="${enemyCard.healthInGame}" /></h2>
             </div>
         </c:forEach>
     </div>
