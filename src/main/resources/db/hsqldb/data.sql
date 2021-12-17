@@ -89,7 +89,6 @@ INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (8,'Valerys','\res
 INSERT INTO skills(id,name,url,description,color) VALUES (1,'Compañero Lobo', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
 INSERT INTO skills(id,name,url,description,color) VALUES (2,'Disparo certero', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
 INSERT INTO skills(id,name,url,description,color) VALUES (3,'En la diana', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
-
 INSERT INTO skills(id,name,url,description,color) VALUES (4,'Compañero Lobo1', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
 INSERT INTO skills(id,name,url,description,color) VALUES (5,'Compañero Lobo2', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
 INSERT INTO skills(id,name,url,description,color) VALUES (6,'Compañero Lobo3', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
@@ -103,6 +102,14 @@ INSERT INTO skills(id,name,url,description,color) VALUES (13,'En la diana2', '\r
 INSERT INTO skills(id,name,url,description,color) VALUES (14,'En la diana3', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
 INSERT INTO skills(id,name,url,description,color) VALUES (15,'En la diana4', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
 
+INSERT INTO skills(id,name,url,description,color) VALUES (16,'En la diana verde1', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (17,'En la diana verde2', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (18,'En la diana verde3', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (19,'En la diana verde4', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (20,'En la diana verde5', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (21,'En la diana verde6', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (22,'En la diana verde7', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (23,'En la diana verde8', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Verde');
 
 --ASIGNAR SKILLS A HEROES
 INSERT INTO heroes_skills(fk_heroe, fk_skill) VALUES (1,1);
