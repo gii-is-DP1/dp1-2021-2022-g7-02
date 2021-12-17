@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsService;
@@ -76,6 +77,10 @@ public class GameController {
 	
 	@Autowired
 	SkillCardsService skillCardsService;
+
+	@Autowired
+	EnemyCardService enemyCardService;
+
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
@@ -124,8 +129,9 @@ public class GameController {
 		Game game = gameService.findById(gameId).get();
 		User user = userService.getLoggedUser();
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
+		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
 		model.addAttribute("skills", skillsAvailable);
-		model.addAttribute("enemies", new ArrayList<EnemyCard>());
+		model.addAttribute("enemies", enemiesOnTable);
 		model.addAttribute("game",game);
 		model.addAttribute("user", user);
 

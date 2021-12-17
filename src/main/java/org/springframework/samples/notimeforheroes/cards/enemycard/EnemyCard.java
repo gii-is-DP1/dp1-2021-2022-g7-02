@@ -20,9 +20,6 @@ public class EnemyCard extends NamedEntity {
 	
     @Column()
     public String url;
-
-    @Column(name = "enemyState")
-    public EnemyState enemyState = EnemyState.ONDESCK;
 	
 	private Boolean isboss; //false no es boss, true si es boss
 
