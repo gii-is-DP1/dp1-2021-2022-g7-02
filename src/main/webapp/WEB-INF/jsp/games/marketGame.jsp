@@ -7,14 +7,14 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="marketGame">
-    <form:form name="market" action="" method="POST">
+    <form:form name="itemSelected" action="" method="POST">
     	<table id="CardsTable" class="table table-striped">
     
     		<tbody>
 			<c:forEach items="${market}" var="market">
 				<div class=col-md-2 style="margin-left: 3%;">
                     <img src="${market.url}">
-                    <input type="radio" id="item1" name="item" value="Item1">
+                    <input type="radio" id="item1" name="itemSelected" value="${market.id}">
                     <label for="item1"> <c:out value="${market.name}" /></label>
                     <h2>Precio: <c:out value="${market.cost}" /></h2>   
                 </div>

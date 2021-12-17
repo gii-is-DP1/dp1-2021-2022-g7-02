@@ -17,5 +17,5 @@ import lombok.Setter;
 public class GameMarket extends BaseEntity{
 
     private ItemState itemState = ItemState.ONDECK;
-    
+
 }

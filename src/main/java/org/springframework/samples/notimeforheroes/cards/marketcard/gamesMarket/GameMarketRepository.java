@@ -12,4 +12,7 @@ public interface GameMarketRepository extends CrudRepository<GameMarket, Integer
 
     @Query(nativeQuery = true, value = "SELECT * FROM games_markets gm WHERE gm.fk_game = ?1")
     Collection<GameMarket> findAllInGame(Game game);
+    
+    @Query(nativeQuery = true, value = "SELECT * FROM games_markets gm WHERE gm.fk_game = ?1 AND gm.fk_market = ?2")
+    GameMarket findOneItemInGame(Game game, int id);
 }

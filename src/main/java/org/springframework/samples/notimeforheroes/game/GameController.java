@@ -1,6 +1,6 @@
 package org.springframework.samples.notimeforheroes.game;
 
-import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +19,7 @@ import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsS
 import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarketService;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;
+import org.springframework.samples.notimeforheroes.game.exceptions.DontHaveEnoughGoldToBuyException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
@@ -248,6 +249,18 @@ public class GameController {
 		return selectPlayerToStart(model, gameId, response);
 	}
 
+	@RequestMapping(value = "/{gameId}/marketGame", method = RequestMethod.POST)
+	public String buyMarketItem(@PathVariable("gameId") int gameId, ModelMap model, @RequestParam("itemSelected") int id, HttpServletResponse response){
+
+		try {
+			gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
+			return "redirect:/games/{gameId}/marketGame/" ;
+		} catch (DontHaveEnoughGoldToBuyException e) {
+			model.addAttribute("message", "You don´t have enough money to buy this item");
+			return listMarketGame(model, gameId);
+		}
+	}
+	
 	@GetMapping("/details/{gameId}")
 	public String gameDetails(ModelMap model, @PathVariable("gameId") int gameId) {
 		Game game = gameService.findById(gameId).get();
