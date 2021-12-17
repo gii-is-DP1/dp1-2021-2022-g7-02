@@ -28,6 +28,7 @@ import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsSer
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCards;
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.SkillState;
+import org.springframework.samples.notimeforheroes.game.exceptions.DontHaveEnoughGoldToBuyException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
@@ -237,6 +238,28 @@ public class GameService {
 			}
 		}else{
 			throw new HeroeNotAvailableException();
+		}
+	}
+	
+	@Transactional
+	public void buyMarketItem(@Valid Game game, User user, int itemId) throws DontHaveEnoughGoldToBuyException{
+		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
+		MarketCard item=marketCardService.findById(itemId).get();
+		GameMarket itemInGame =gameMarketService.findOneItemInGame(game, itemId);
+		
+		int actualGold=gameuser.getGold();
+		int costItem=item.getCost();
+		
+		if(actualGold>=costItem) {
+			gameuser.setGold(actualGold-costItem);
+			gameuser.getItems().add(item);
+			gameUserService.createGameUser(gameuser);
+			
+			itemInGame.setItemState(ItemState.SOLD);
+			gameMarketService.createGameMarket(itemInGame);
+		}
+		else {
+			throw new DontHaveEnoughGoldToBuyException();
 		}
 	}
 
