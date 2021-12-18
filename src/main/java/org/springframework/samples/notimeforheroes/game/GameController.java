@@ -160,10 +160,21 @@ public class GameController {
 	@GetMapping("/{gameId}/escape")
 	public String escape(ModelMap model, @PathVariable("gameId") int gameId) throws Exception{
 		Game game = gameService.findById(gameId).get();
-		gameService.endTurn(game);
-		GameUser gu = gameUserService.findByGameAndUser(game, userService.getLoggedUser()).get();
-		gu.setHasEscapeToken(false);
-		gameUserService.createGameUser(gu);
+		if(game.getUserPlaying().equals(userService.getLoggedUser()) && game.getIsInProgress()){
+			GameUser gu = gameUserService.findByGameAndUser(game, userService.getLoggedUser()).get();
+			if(gu.getHasEscapeToken()){
+				gameService.endTurn(game);
+				gu.setHasEscapeToken(false);
+				gameUserService.createGameUser(gu);
+				return "redirect:/games/"+gameId;
+			}else{
+				model.addAttribute("message", "Ya has usado tu ficha de escape");
+			}
+			
+		}else{
+			model.addAttribute("message", "No puedes usar tu ficha de escape en este momento");
+		}
+		
 		return gamePlaying(model, gameId);
 	}
 
