@@ -40,6 +40,8 @@ public class SkillCardsService {
 		return skillRepository.findAllAvailableSkillsByGameAndUser(game, user);
 	}
 	
+	
+
 	@Transactional
 	public void saveSkillCard(@Valid SkillCard skill) {
 		skillRepository.save(skill);

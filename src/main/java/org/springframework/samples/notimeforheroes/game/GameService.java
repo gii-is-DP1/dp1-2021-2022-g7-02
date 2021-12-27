@@ -271,6 +271,35 @@ public class GameService {
 	}
 
 	@Transactional
+	public void defendHeroe(@Valid Game game, User user){
+		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
+		Collection<GamesUsersSkillCards> skillcardsavaibles = gamesUsersSkillCardsService.findAllAvailableSkillsandOnTableByGameAndUser(game, user);
+		Collection<EnemyCard> enemycardsontable = enemyCardService.findOnTableEnemiesByGame(game);
+		int lifetorest = 0;
+		for(EnemyCard enemy : enemycardsontable){
+			lifetorest += enemy.getHealthInGame();
+		}
+
+		if(lifetorest>skillcardsavaibles.size()){
+			gameuser.getHeroe().setMaxHealth(gameuser.getHeroe().getMaxHealth()-1);
+		}else{
+
+			for(GamesUsersSkillCards skillcard : skillcardsavaibles){
+				skillcard.setSkillState(SkillState.DISCARD);
+				
+	
+				lifetorest --;
+				if(lifetorest == 0){
+					break;
+				}
+			}
+		}
+
+
+	}
+
+
+	@Transactional
 	public void updateGame(@Valid Game game){
 		gameRepository.save(game);
 	}

@@ -23,4 +23,6 @@ public interface SkillCardsRepository extends CrudRepository<SkillCard, Integer>
 
 	@Query(nativeQuery = true, value = "SELECT s.* FROM GAMES_USERS gu JOIN GAMES_USERS_SKILL_CARDS gus JOIN SKILLS s WHERE gu.FK_GAME = ?1 AND gu.FK_USER = ?2 AND gu.ID = gus.GAME_USER_ID AND gus.SKILL_CARDS_ID  = s.ID AND gus.skill_state = 1")
 	Collection<SkillCard> findAllAvailableSkillsByGameAndUser(Game game, User user);
+
+	
 }
