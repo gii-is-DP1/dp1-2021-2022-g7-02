@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.user;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Controller;
@@ -45,6 +47,22 @@ public class UserController {
 		User user = userService.getLoggedUser();
 			model.addAttribute("user", user);
 			model.addAttribute("games", gameService.findByUser(user));
+			Map<User, Integer> players = new HashMap<User, Integer>();
+			
+			for (Game game : gameService.findByUser(user)) {
+				for (User player : game.getUsers()) {
+					if(player != user){
+						if(!players.containsKey(player)){
+							players.put(player, 1);
+						}
+						else{
+							players.replace(player, players.get(player), players.get(player)+1);
+						}
+					}
+				}
+			}
+			
+			model.addAttribute("players", players);
 			return USER_PROFILE;
 	}
 
