@@ -86,22 +86,75 @@ INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (6,'Beleth-Il','\r
 INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (7,'Neddia','\resources\images\Neddia.png',2, 'En cualquier momento, busca en el mazo de mercado hasta 2 cartas y sustituyelas por cartas que ya estivieron disponibles. Acto seguido baraja el mazo. Una vez por partida.','Rojo');
 INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (8,'Valerys','\resources\images\Valerys.png',3, 'Al resolver el ataque de la horda sobre otro heroe, tu recibes el daño y ganas 1 ficha de gloria. Dos veces por partida.','Azul');
 
-INSERT INTO skills(id,name,url,description,color) VALUES (1,'Compañero Lobo', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (2,'Disparo certero', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (3,'En la diana', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
 
-INSERT INTO skills(id,name,url,description,color) VALUES (4,'Compañero Lobo1', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (5,'Compañero Lobo2', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (6,'Compañero Lobo3', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (7,'Compañero Lobo4', '\resources\images\market\DagaEfica.png', 'Previene 2 puntos de daño', 'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (8,'Disparo certero1', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (9,'Disparo certero2', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (10,'Disparo certero3', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (11,'Disparo certero4', '\resources\images\market\DagaEfica.png', 'Pierdes 1 carta - Finalizas el ataque','Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (12,'En la diana1', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (13,'En la diana2', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (14,'En la diana3', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (15,'En la diana4', '\resources\images\market\DagaEfica.png', 'Gana 1 ficha de Gloria - Pierdes 1 carta','Rojo');
+--GREEN SKILLS
+INSERT INTO skills(id,name,url,description,color) VALUES (1,'Compañero Lobo', '\resources\images\GreenSkills\CompañeroLobo.png', 'Previene 2 puntos de daño', 'Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (2,'Disparo certero', '\resources\images\GreenSkills\DisparoCertero.png', 'Pierdes 1 carta - Finalizas el ataque','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (3,'Disparo certero 2', '\resources\images\GreenSkills\DisparoCertero.png', 'Pierdes 1 carta - Finalizas el ataque','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (4,'Disparo Rapido', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (5,'Disparo Rapido 2', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (6,'Disparo Rapido 3', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (7,'Disparo Rapido 4', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (8,'Disparo Rapido 5', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (9,'Disparo Rapido 6', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (10,'En la diana', '\resources\images\GreenSkills\EnLaDiana.png', 'Gana una ficha de Gloria - Pierdes 1 carta','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (11,'Lluvia de Flechas', '\resources\images\GreenSkills\LluviaDeFlechas.png', 'Dañas a 2 enemigos y al heroe con menos Heridas','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (12,'Lluvia de Flechas 2', '\resources\images\GreenSkills\LluviaDeFlechas.png', 'Dañas a 2 enemigos y al heroe con menos Heridas','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (13,'Recoger Flechas', '\resources\images\GreenSkills\RecogerFlechas.png', 'Recupera una carta de Disparo Rapido de tu pila de Desgastes y baraja el mazo de nuevo','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (14,'Recoger Flechas 2', '\resources\images\GreenSkills\RecogerFlechas.png', 'Recupera una carta de Disparo Rapido de tu pila de Desgastes y baraja el mazo de nuevo','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (15,'Supervivencia', '\resources\images\GreenSkills\Supervivencia.png', 'Cambia uno de los enemigos en el campo de batalla por la carta inferior','Verde');
+
+--BLUE SKILLS
+INSERT INTO skills(id,name,url,description,color) VALUES (16,'Ataque Brutal', '\resources\images\BlueSkills\AtaqueBrutal.png', 'Pierdes 1 carta', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (17,'Ataque Brutal 2', '\resources\images\BlueSkills\AtaqueBrutal.png', 'Pierdes 1 carta', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (18,'Carga con Escudo', '\resources\images\BlueSkills\CargaConEscudo.png', 'Previenes 2 de daño', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (19,'Doble Espadazo', '\resources\images\BlueSkills\DobleEspadazo.png', 'Pierdes 1 carta', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (20,'Doble Espadazo', '\resources\images\BlueSkills\DobleEspadazo.png', 'Pierdes 1 carta', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (21,'Escudo', '\resources\images\BlueSkills\Escudo.png', 'Previenes el daño de un unico enemigo - Finalizas el ataque', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (22,'Escudo 2', '\resources\images\BlueSkills\Escudo.png', 'Previenes el daño de un unico enemigo - Finalizas el ataque', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (23,'Espadazo', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (24,'Espadazo 2', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (25,'Espadazo 3', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (26,'Espadazo 4', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (27,'Paso Atras', '\resources\images\BlueSkills\PasoAtras.png', 'Roba 2 cartas', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (28,'Paso Atras 2', '\resources\images\BlueSkills\PasoAtras.png', 'Roba 2 cartas', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (29,'Todo o Nada', '\resources\images\BlueSkills\TodoONada.png', 'Roba 1 carta y agrega su daño al de esta carta, recupera la carta robada', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (30,'Voz de Aliento', '\resources\images\BlueSkills\VozDeAliento.png', 'Todos recuperan 2 cartas - Roba 1 carta y ganas 1 ficha de Gloria', 'Azul');
+
+--PURPLE SKILLS
+INSERT INTO skills(id,name,url,description,color) VALUES (31,'Aura Protectora', '\resources\images\PurpleSkills\AuraProtectora.png', 'Cancela todo el daño sufrido durante el proximo ataque de la Horda - Pierdes 1 carta por cada enemigo', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (32,'Bola de Fuego', '\resources\images\PurpleSkills\BolaDeFuego.png', 'Daña a todos los enemigos - El resto de heroes sufre 1 de Daño', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (33,'Disparo Gelido', '\resources\images\PurpleSkills\DisparoGelido.png','El enemigo afectado no causa daño este turno - Roba 1 carta' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (34,'Disparo Gelido 2', '\resources\images\PurpleSkills\DisparoGelido.png','El enemigo afectado no causa daño este turno - Roba 1 carta' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (35,'Flecha Corrosiva', '\resources\images\PurpleSkills\FlechaCorrosiva.png', 'Aumenta en 1 el daño de las siguientes cartas que causen daño a este enemigo - Pierdes 1 carta', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (36,'Golpe de baston', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (37,'Golpe de baston 2', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (38,'Golpe de baston 3', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (39,'Golpe de baston 4', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (40,'Orbe Curativo', '\resources\images\PurpleSkills\OrbeCurativo.png','Todos los Heroes recuperan 2 cartas - Eliminas 1 herida de tu Heroe' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (41,'Proyectil Igneo', '\resources\images\PurpleSkills\ProyectilIgneo.png','Ganas 1 ficha de Gloria' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (42,'Proyectil Igneo 2', '\resources\images\PurpleSkills\ProyectilIgneo.png','Ganas 1 ficha de Gloria' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (43,'Proyectil Igneo 3', '\resources\images\PurpleSkills\ProyectilIgneo.png','Ganas 1 ficha de Gloria' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (44,'Reconstitucion', '\resources\images\PurpleSkills\Reconstitucion.png','Roba 1 carta - Recuperas 2 cartas' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (45,'Torrente de Luz', '\resources\images\PurpleSkills\TorrenteDeLuz.png','El resto de Heroes recuperan 2 cartas - Ganas 1 ficha de Gloria' ,'Morado');
+
+--RED SKILLS
+INSERT INTO skills(id,name,url,description,color) VALUES (46,'Al Corazon', '\resources\images\RedSkills\AlCorazon.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Al Corazon este turno - Pierdes 1 carta' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (47,'Al Corazon 2', '\resources\images\RedSkills\AlCorazon.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Al Corazon este turno - Pierdes 1 carta' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (48,'Ataque Furtivo', '\resources\images\RedSkills\AtaqueFurtivo.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Ataque Furtivo este turno' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (49,'Ataque Furtivo 2', '\resources\images\RedSkills\AtaqueFurtivo.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Ataque Furtivo este turno' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (50,'Ataque Furtivo 3', '\resources\images\RedSkills\AtaqueFurtivo.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Ataque Furtivo este turno' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (51,'Ballesta Precisa', '\resources\images\RedSkills\BallestaPrecisa.png','Si ya utilizaste Ballesta Precisa contra el mismo enemigo, el daño de esta carta es 3' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (52,'Ballesta Precisa 2', '\resources\images\RedSkills\BallestaPrecisa.png','Si ya utilizaste Ballesta Precisa contra el mismo enemigo, el daño de esta carta es 3' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (53,'Ballesta Precisa 3', '\resources\images\RedSkills\BallestaPrecisa.png','Si ya utilizaste Ballesta Precisa contra el mismo enemigo, el daño de esta carta es 3' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (54,'En las Sombras', '\resources\images\RedSkills\EnLasSombras.png','Previenes 2 puntos de daño' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (55,'En las Sombras 2', '\resources\images\RedSkills\EnLasSombras.png','Previenes 2 puntos de daño' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (56,'Engañar', '\resources\images\RedSkills\Engañar.png','El enemigo elegido no causa daño este turno. Debes gastar 2 Monedas para hacer uso de esta carta' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (57,'Robar Bolsillos', '\resources\images\RedSkills\RobarBolsillos.png','Roba 1 Moneda a cada Heroe' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (58,'Saqueo', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (59,'Saqueo 2', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (60,'Trampa', '\resources\images\RedSkills\Trampa.png','Situa esta carta frente a ti. Al resolver el ataque de la Horda derrotas al enemigo mas fuerte. El botin de ese enemigo se pierde' ,'Rojo');
+
 
 
 --ASIGNAR SKILLS A HEROES
@@ -130,27 +183,27 @@ INSERT INTO market(id,name,url,cost,description) VALUES (8,'Vialde de Conjuracio
 INSERT INTO market(id,name,url,cost,description) VALUES (9,'Arco Compuesto', '\resources\images\market\ArcoCompuesto.png', 5,' ');
 
 
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (1,'Simple Enemy', '\resources\images\enemies\simpleEnemy1.png', false, 2, 1, 0, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (2,'Simple Enemy', '\resources\images\enemies\simpleEnemy1.png', false, 2, 1, 0, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (3,'Simple Enemy', '\resources\images\enemies\simpleEnemy2.png', false, 3, 2, 2, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (4,'Simple Enemy', '\resources\images\enemies\simpleEnemy2.png', false, 3, 2, 2, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (5,'Simple Enemy', '\resources\images\enemies\simpleEnemy3.png', false, 3, 1, 0, 1);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (6,'Simple Enemy', '\resources\images\enemies\simpleEnemy3.png', false, 3, 1, 0, 1);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (7,'Simple Enemy', '\resources\images\enemies\simpleEnemy4.png', false, 4, 2, 1, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (8,'Simple Enemy', '\resources\images\enemies\simpleEnemy4.png', false, 4, 2, 1, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (9,'Simple Enemy', '\resources\images\enemies\simpleEnemy5.png', false, 3, 3, 0, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (10,'Simple Enemy', '\resources\images\enemies\simpleEnemy5.png', false, 3, 3, 0, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (11,'Simple Enemy', '\resources\images\enemies\simpleEnemy6.png', false, 6, 4, 3, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (12,'Simple Enemy', '\resources\images\enemies\simpleEnemy6.png', false, 6, 4, 3, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (13,'Boss 1', '\resources\images\enemies\boss1.png', true, 8, 4, 0, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (14,'Boss 2', '\resources\images\enemies\boss2.png', true, 9, 5, 0, 0);
-INSERT INTO enemies(id,name,url,isboss, max_health,glory,extra_glory,extra_gold) VALUES (15,'Boss 3', '\resources\images\enemies\boss3.png', true, 10, 6, 0, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (1,'Simple Enemy', '\resources\images\enemies\simpleEnemy1.png', false, 2, 1, 0, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (2,'Simple Enemy', '\resources\images\enemies\simpleEnemy1.png', false, 2, 1, 0, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (3,'Simple Enemy', '\resources\images\enemies\simpleEnemy2.png', false, 3, 2, 2, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (4,'Simple Enemy', '\resources\images\enemies\simpleEnemy2.png', false, 3, 2, 2, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (5,'Simple Enemy', '\resources\images\enemies\simpleEnemy3.png', false, 3, 1, 0, 1);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (6,'Simple Enemy', '\resources\images\enemies\simpleEnemy3.png', false, 3, 1, 0, 1);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (7,'Simple Enemy', '\resources\images\enemies\simpleEnemy4.png', false, 4, 2, 1, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (8,'Simple Enemy', '\resources\images\enemies\simpleEnemy4.png', false, 4, 2, 1, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (9,'Simple Enemy', '\resources\images\enemies\simpleEnemy5.png', false, 3, 3, 0, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (10,'Simple Enemy', '\resources\images\enemies\simpleEnemy5.png', false, 3, 3, 0, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (11,'Simple Enemy', '\resources\images\enemies\simpleEnemy6.png', false, 6, 4, 3, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (12,'Simple Enemy', '\resources\images\enemies\simpleEnemy6.png', false, 6, 4, 3, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (13,'Boss 1', '\resources\images\enemies\boss1.png', true, 8, 4, 0, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (14,'Boss 2', '\resources\images\enemies\boss2.png', true, 9, 5, 0, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (15,'Boss 3', '\resources\images\enemies\boss3.png', true, 10, 6, 0, 0);
 
 
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (1,1,'2021-11-03',1000,FALSE,TRUE,'1e7be91755b7497080849ef0910c044d',null);
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70',null);
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (3,3,'2021-11-05',null,FALSE,TRUE,'99ae43ed18bf458e89576b2d313a6e70',null);
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (4,6,'2021-11-06',null,TRUE,TRUE,'99ae43ed18bf488e84576a2d313a6e71',null);
+INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner, user_playing, game_state) VALUES (4,6,'2021-11-06',null,TRUE,TRUE,'99ae43ed18bf488e84576a2d313a6e71',null,3, 0);
 
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
 INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);

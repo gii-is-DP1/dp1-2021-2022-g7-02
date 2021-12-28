@@ -1,6 +1,6 @@
 package org.springframework.samples.notimeforheroes.game;
 
-import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +21,7 @@ import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsS
 import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarketService;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;
+import org.springframework.samples.notimeforheroes.game.exceptions.DontHaveEnoughGoldToBuyException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
@@ -35,6 +36,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -156,8 +158,6 @@ public class GameController {
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
 		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
 		enemiesOnTable.stream().forEach(enemy -> enemy.setHealthInGame(gamesEnemiesService.findByGameAndEnemy(game, enemy).get().getHealth()));
-		enemiesOnTable.stream().forEach(enemy -> System.out.println(enemy.getHealthInGame()));
-
 		model.addAttribute("skills", skillsAvailable);
 		model.addAttribute("enemies", enemiesOnTable);
 		model.addAttribute("game",game);
@@ -165,7 +165,7 @@ public class GameController {
 
 		switch (game.getGameState()) {
 			case ATTACKING:{
-
+				model.addAttribute("hasEscapeToken", gameUserService.findByGameAndUser(game, user).get().getHasEscapeToken());
 				return ATTACK_VIEW;
 			}
 				
@@ -176,6 +176,27 @@ public class GameController {
 			default:
 				throw new Exception();
 		}
+	}
+
+	@GetMapping("/{gameId}/escape")
+	public String escape(ModelMap model, @PathVariable("gameId") int gameId) throws Exception{
+		Game game = gameService.findById(gameId).get();
+		if(game.getUserPlaying().equals(userService.getLoggedUser()) && game.getIsInProgress()){
+			GameUser gu = gameUserService.findByGameAndUser(game, userService.getLoggedUser()).get();
+			if(gu.getHasEscapeToken()){
+				gameService.endTurn(game);
+				gu.setHasEscapeToken(false);
+				gameUserService.createGameUser(gu);
+				return "redirect:/games/"+gameId;
+			}else{
+				model.addAttribute("message", "Ya has usado tu ficha de escape");
+			}
+			
+		}else{
+			model.addAttribute("message", "No puedes usar tu ficha de escape en este momento");
+		}
+		
+		return gamePlaying(model, gameId);
 	}
 
 	@GetMapping("/current")
@@ -241,7 +262,11 @@ public class GameController {
 			gameService.selectHeroe(gameService.findById(gameId).get(), userService.getLoggedUser(), heroe);
 			return "redirect:/games/selectPlayerToStart/" + gameId;
 		} catch (HeroeNotAvailableException e) {
-			model.addAttribute("message", "This heroe can`t be selected");
+			model.addAttribute("message", "Este héroe no está disponible");
+			return selectHeroe(model, gameId);
+		}catch(Exception e){
+			model.addAttribute("message", "Error al seleccionar héroe");
+			e.printStackTrace();
 			return selectHeroe(model, gameId);
 		}
 	}
@@ -265,6 +290,18 @@ public class GameController {
 		return selectPlayerToStart(model, gameId, response);
 	}
 
+	@RequestMapping(value = "/{gameId}/marketGame", method = RequestMethod.POST)
+	public String buyMarketItem(@PathVariable("gameId") int gameId, ModelMap model, @RequestParam("itemSelected") int id, HttpServletResponse response){
+
+		try {
+			gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
+			return "redirect:/games/{gameId}/marketGame/" ;
+		} catch (DontHaveEnoughGoldToBuyException e) {
+			model.addAttribute("message", "You don´t have enough money to buy this item");
+			return listMarketGame(model, gameId);
+		}
+	}
+	
 	@GetMapping("/details/{gameId}")
 	public String gameDetails(ModelMap model, @PathVariable("gameId") int gameId) {
 		Game game = gameService.findById(gameId).get();

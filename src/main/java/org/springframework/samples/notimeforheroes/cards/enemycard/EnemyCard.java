@@ -26,7 +26,7 @@ public class EnemyCard extends NamedEntity {
     @Column()
     public String url;
 	
-	private Boolean isboss; //false no es boss, true si es boss
+	private Boolean isBoss; //false no es boss, true si es boss
 
 	private Integer maxHealth;
 

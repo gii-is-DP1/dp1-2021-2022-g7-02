@@ -19,7 +19,7 @@ public class MarketCard extends NamedEntity{
     public String url;
 
 	private Integer cost;
-	
+		
 	@Column(columnDefinition = "LONGTEXT")
 	private String description;
 

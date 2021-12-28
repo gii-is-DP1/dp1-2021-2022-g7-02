@@ -6,7 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+
 import java.util.TreeMap;
+
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -29,6 +31,7 @@ import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsSer
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCards;
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.SkillState;
+import org.springframework.samples.notimeforheroes.game.exceptions.DontHaveEnoughGoldToBuyException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
@@ -135,7 +138,7 @@ public class GameService {
 			return "waiting/"+game.getId();
 		}else{
 		//Si no se ha seleccionado el primer jugador, devuelve selectPlayerToStart/{gameId}
-			if(game.getFirstPlayer()==null) return "selectPlayerToStart/"+game.getId();
+			if(game.getUserPlaying()==null) return "selectPlayerToStart/"+game.getId();
 		//Si la partida está en progreso, el jugador tiene héroe y se ha elegido primer jugador, devuelve /{gameId}
 			else{
 				return game.getId().toString();
@@ -161,13 +164,14 @@ public class GameService {
 			List<User> users = new ArrayList<>();
 			users.add(creator);
 			game.setUsers(users);
-
+			gameRepository.save(game);
 
 			//Añade los enemigos a la partida y los pone todos ONDECK menos 3 que pone ONTABLE
-			Collection<EnemyCard> enemies = enemyCardService.findAll();
-			List<EnemyCard> shuffledEnemies = new ArrayList<EnemyCard>(enemies);
-			Collections.shuffle(shuffledEnemies);
-			game.setEnemies(shuffledEnemies);
+			List<EnemyCard> enemies = (ArrayList<EnemyCard>) enemyCardService.findAllByIsBoss(false);
+			List<EnemyCard> bosses = (ArrayList<EnemyCard>) enemyCardService.findAllByIsBoss(true);
+			Collections.shuffle(enemies);
+			enemies.add(bosses.get(new Random().nextInt(bosses.size())));
+			game.setEnemies(enemies);
 			gameRepository.save(game);
 			
 			List<GamesEnemies> enemiesInGame = (List<GamesEnemies>)gamesEnemiesService.findAllInGame(game);
@@ -238,6 +242,9 @@ public class GameService {
 			List<SkillCard> skillCards = (List<SkillCard>)skillCardsService.findByColor(heroeCard.getColor());
 			gameUser.setHeroe(heroeCard);
 			gameUser.setSkillCards(skillCards);
+			gameUser.setGlory(0);
+			gameUser.setGold(0);
+			gameUser.setHasEscapeToken(true);
 			gameUserService.createGameUser(gameUser);
 
 			//Baraja las cartas de skill y a cuatro al azar las pone como ONHAND (por defecto están ONDECK)
@@ -255,6 +262,57 @@ public class GameService {
 			throw new HeroeNotAvailableException();
 		}
 	}
+	
+	@Transactional
+	public void buyMarketItem(@Valid Game game, User user, int itemId) throws DontHaveEnoughGoldToBuyException{
+		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
+		MarketCard item=marketCardService.findById(itemId).get();
+		GameMarket itemInGame =gameMarketService.findOneItemInGame(game, itemId);
+		
+		int actualGold=gameuser.getGold();
+		int costItem=item.getCost();
+		
+		if(actualGold>=costItem) {
+			gameuser.setGold(actualGold-costItem);
+			gameuser.getItems().add(item);
+			gameUserService.createGameUser(gameuser);
+			
+			itemInGame.setItemState(ItemState.SOLD);
+			gameMarketService.createGameMarket(itemInGame);
+		}
+		else {
+			throw new DontHaveEnoughGoldToBuyException();
+		}
+	}
+
+	@Transactional
+	public void defendHeroe(@Valid Game game, User user){
+		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
+		Collection<GamesUsersSkillCards> skillcardsavaibles = gamesUsersSkillCardsService.findAllAvailableSkillsandOnTableByGameAndUser(game, user);
+		Collection<EnemyCard> enemycardsontable = enemyCardService.findOnTableEnemiesByGame(game);
+		int lifetorest = 0;
+		for(EnemyCard enemy : enemycardsontable){
+			lifetorest += enemy.getHealthInGame();
+		}
+
+		if(lifetorest>skillcardsavaibles.size()){
+			gameuser.getHeroe().setMaxHealth(gameuser.getHeroe().getMaxHealth()-1);
+		}else{
+
+			for(GamesUsersSkillCards skillcard : skillcardsavaibles){
+				skillcard.setSkillState(SkillState.DISCARD);
+				
+	
+				lifetorest --;
+				if(lifetorest == 0){
+					break;
+				}
+			}
+		}
+
+
+	}
+
 
 	@Transactional
 	public void updateGame(@Valid Game game){
@@ -281,8 +339,18 @@ public class GameService {
 		Random ran = new Random();
 		Integer index = ran.nextInt(users.size());
 		User firstUser = users.get(index);
-		game.setFirstPlayer(firstUser);
+		game.setUserPlaying(firstUser);
 		game.setGameState(GameState.ATTACKING);
 		this.updateGame(game);
 	}
+
+	@Transactional	
+    public void endTurn(Game game) {
+		List<User> users = new ArrayList<>(game.getUsers());
+		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
+		User newUser = users.get(newIndex);
+		game.setUserPlaying(newUser);
+		game.setGameState(GameState.ATTACKING);
+
+    }
 }
