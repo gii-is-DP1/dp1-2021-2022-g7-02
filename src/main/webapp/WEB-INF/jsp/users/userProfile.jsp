@@ -12,7 +12,7 @@
 <div th:if="${message}" th:text="${message}"/>
 
 
-    <h2>Your User</h2>
+    <h2>User details</h2>
 
     <table id="userTable" class="table table-striped">
         <thead>
@@ -92,5 +92,32 @@
         </table>
     </c:if>  
     
+    <h2>Users you have played against</h2>
+
+    <c:if test="${empty games}">  
+        <p>The user has not played any game yet.</p> 
+    </c:if>
+    <c:if test="${!empty games}">
+        <table id="statsTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Number of games</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${players}" var="player">
+                    <tr>
+                        <td>
+                            <c:out value="${player.key}"/>
+                        </td>
+                        <td>
+                            <c:out value="${player.value}"/>
+                        </td>
+                    </tr>
+                </c:forEach> 
+            </tbody>
+        </table>
+    </c:if>  
     
 </petclinic:layout>
