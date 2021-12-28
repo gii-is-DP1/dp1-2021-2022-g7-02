@@ -2,7 +2,9 @@ package org.springframework.samples.notimeforheroes.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -67,7 +69,25 @@ public class UserService {
 		});
 		return res;
  	}
-	
+
+	public Map<User, Integer> getListOfOpponents(User user){
+		Map<User, Integer> players = new HashMap<User, Integer>();
+
+		for (Game game : gameService.findByUser(user)) {
+			for (User player : game.getUsers()) {
+				if(player != user){
+					if(!players.containsKey(player)){
+						players.put(player, 1);
+					}
+					else{
+						players.replace(player, players.get(player)+1);
+					}
+				}
+			}
+		}
+
+		return players;
+	}	
 	@Transactional
 	public void deleteUser(User user) {
 		Collection<Game> gamesOfUser = gameService.findAllByCreator(user);

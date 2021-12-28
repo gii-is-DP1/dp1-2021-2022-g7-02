@@ -2,9 +2,11 @@ package org.springframework.samples.notimeforheroes.game;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -23,6 +25,7 @@ import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNo
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
@@ -39,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 @Controller
 @RequestMapping("/games")
 public class GameController {
@@ -53,6 +57,7 @@ public class GameController {
 	public static final String SELECT_PLAYER_TO_START = "games/selectPlayerToStart";
 	public static final String ATTACK_VIEW = "games/attackGame";
 	public static final String MARKET_VIEW = "games/marketGame";
+	public static final String GAMES_WINNER = "games/endGame";
 
 
 	@Autowired
@@ -118,6 +123,22 @@ public class GameController {
 		}
 	}
 	
+	@GetMapping("/endGame/{gameId}")
+	public String selectWinner(ModelMap model, @PathVariable("gameId") int gameId){
+		Game game = gameService.findById(gameId).orElse(null);
+		TreeMap<Integer,User> players = gameService.getClassification(game);
+
+		User winner = players.get(players.firstKey());
+		players.remove(players.firstKey());
+
+		game.setWinner(winner);
+		gameService.updateGame(game);
+
+		model.addAttribute("winner", winner);
+		model.addAttribute("players", players);
+		return GAMES_WINNER;
+	}
+
 	@GetMapping("/{gameId}/marketGame")
 	public String listMarketGame(ModelMap model, @PathVariable("gameId") int gameId) {
 

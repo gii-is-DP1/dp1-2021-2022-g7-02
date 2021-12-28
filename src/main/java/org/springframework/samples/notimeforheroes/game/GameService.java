@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.TreeMap;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -113,6 +114,19 @@ public class GameService {
 
 	public Optional<Game> findGameInProgressByUser(User user){
 		return gameRepository.findGameInProgressByUser(user);
+	}
+
+	public TreeMap<Integer,User> getClassification(Game game){
+		TreeMap<Integer,User> players = new TreeMap<Integer,User>(Collections.reverseOrder());
+		for (User user : game.getUsers()) {
+			GameUser gameUser = gameUserService.findByGameAndUser(game, user).orElse(null); 
+			gameUser.setGold(gameUser.getGold()/3);
+			gameUser.setGlory(gameUser.getGlory()+gameUser.getGold()/3);
+			players.put(gameUser.getGlory(),user);	
+			gameUserService.createGameUser(gameUser);		
+		}
+		
+		return players;
 	}
 	
 	public String getGameUrl(Game game) {
