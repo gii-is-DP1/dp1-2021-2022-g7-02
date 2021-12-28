@@ -47,21 +47,7 @@ public class UserController {
 		User user = userService.getLoggedUser();
 			model.addAttribute("user", user);
 			model.addAttribute("games", gameService.findByUser(user));
-			Map<User, Integer> players = new HashMap<User, Integer>();
-			
-			for (Game game : gameService.findByUser(user)) {
-				for (User player : game.getUsers()) {
-					if(player != user){
-						if(!players.containsKey(player)){
-							players.put(player, 1);
-						}
-						else{
-							players.replace(player, players.get(player), players.get(player)+1);
-						}
-					}
-				}
-			}
-			
+			Map<User, Integer> players = userService.getListOfOpponents(user);
 			model.addAttribute("players", players);
 			return USER_PROFILE;
 	}
