@@ -61,6 +61,7 @@ public class UserController {
 					}
 				}
 			}
+			
 			model.addAttribute("players", players);
 			return USER_PROFILE;
 	}
