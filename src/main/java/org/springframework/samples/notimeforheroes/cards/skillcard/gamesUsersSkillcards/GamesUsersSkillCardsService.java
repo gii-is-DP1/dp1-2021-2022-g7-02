@@ -40,7 +40,7 @@ public class GamesUsersSkillCardsService {
 
 
     public Collection<GamesUsersSkillCards> findAllAvailableSkillsandOnTableByGameAndUser(Game game, User user){
-		return gamesUsersSkillCardsRepository.findAllAvailableSkillsandOnTableByGameAndUser(game, user);
+		return gamesUsersSkillCardsRepository.findAllAvailableSkillsAndOnTableByGameAndUser(game, user);
 	}
 
 }

@@ -37,7 +37,7 @@
 				<tr>
 					<td><c:out value="${enemy.name}" /></td>
 					<td><img src="${enemy.url}" style="height: 4cm; width: auto;"></td>
-					<td><c:out value="${enemy.isboss}" /></td>
+					<td><c:out value="${enemy.isBoss}" /></td>
 					<td><c:out value="${enemy.maxHealth}" /></td>
 					<td><c:out value="${enemy.glory}" /></td>
 					<td><c:out value="${enemy.extraGlory}" /></td>

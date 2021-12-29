@@ -21,7 +21,6 @@
 				<th style="width: 10%;">Name</th>
 				<th style="width: 10%;">Image</th>
 				<th style="width: 70%;">Description</th>
-				<th style="width: 10%;">DeckId</th>
 				<th style="width: 5%;"></th>
 				<th style="width: 5%;"></th>
 
@@ -34,7 +33,6 @@
 					<td><c:out value="${skill.name}" /></td>
 					<td><img src="${skill.url}" style="height: 4cm; width: auto;"></td>
 					<td><c:out value="${skill.description}" /></td>
-					<td><c:out value="${skill.deckid}" /></td>
 					
 					<td><a href="/cards/skills/${skill.id}/edit"> <span
 							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>

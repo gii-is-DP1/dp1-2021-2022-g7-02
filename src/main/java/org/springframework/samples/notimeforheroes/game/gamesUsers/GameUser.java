@@ -23,6 +23,9 @@ import lombok.Setter;
 public class GameUser extends BaseEntity{
     @ManyToOne
     private HeroeCard heroe;
+    
+    
+    private Integer heroeHealth;
 
     @ManyToMany
     @JoinTable(name="games_users_skill_cards")
