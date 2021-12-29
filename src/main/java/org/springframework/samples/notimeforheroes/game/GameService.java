@@ -75,6 +75,7 @@ public class GameService {
 
 	@Autowired
 	GamesEnemiesService gamesEnemiesService;
+	
 
 	public static final Integer MAX_NUMBER_PLAYERS = 4;
 	
@@ -245,6 +246,7 @@ public class GameService {
 			gameUser.setGlory(0);
 			gameUser.setGold(0);
 			gameUser.setHasEscapeToken(true);
+			gameUser.setHeroeHealth(heroeCard.getMaxHealth());
 			gameUserService.createGameUser(gameUser);
 
 			//Baraja las cartas de skill y a cuatro al azar las pone como ONHAND (por defecto están ONDECK)
@@ -268,7 +270,6 @@ public class GameService {
 		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
 		MarketCard item=marketCardService.findById(itemId).get();
 		GameMarket itemInGame =gameMarketService.findOneItemInGame(game, itemId);
-		
 		int actualGold=gameuser.getGold();
 		int costItem=item.getCost();
 		
@@ -287,24 +288,30 @@ public class GameService {
 
 	@Transactional
 	public void defendHeroe(@Valid Game game, User user){
-		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
+		GameUser gameUser =gameUserService.findByGameAndUser(game, user).get();
 		Collection<GamesUsersSkillCards> skillcardsavaibles = gamesUsersSkillCardsService.findAllAvailableSkillsandOnTableByGameAndUser(game, user);
 		Collection<EnemyCard> enemycardsontable = enemyCardService.findOnTableEnemiesByGame(game);
-		int lifetorest = 0;
-		for(EnemyCard enemy : enemycardsontable){
-			lifetorest += enemy.getHealthInGame();
+		Integer HeroeLife = gameUser.getHeroeHealth();
+		int lifeToRest = 0;
+		for(EnemyCard enemy : enemycardsontable){//Almacena la vida de los enemigos restantes
+			lifeToRest += enemy.getHealthInGame();
 		}
 
-		if(lifetorest>skillcardsavaibles.size()){
-			gameuser.getHeroe().setMaxHealth(gameuser.getHeroe().getMaxHealth()-1);
+		if(lifeToRest>skillcardsavaibles.size()){//Si la vida de los enemigos > que las cartas de tu mazo + las de la mano te quita una vida directamente
+			gameUser.setHeroeHealth(HeroeLife-1);
+			if(gameUser.getHeroeHealth() == 0) {
+					
+				//Aqui iria cuando el heroe no tenga vida y el jugador este eliminado
+				
+				
+			}
 		}else{
-
 			for(GamesUsersSkillCards skillcard : skillcardsavaibles){
-				skillcard.setSkillState(SkillState.DISCARD);
+				skillcard.setSkillState(SkillState.DISCARD);//va descartando cartas de tu mazo hasta que la vida de los enemigos sea 0
 				
 	
-				lifetorest --;
-				if(lifetorest == 0){
+				lifeToRest --;
+				if(lifeToRest == 0){
 					break;
 				}
 			}
