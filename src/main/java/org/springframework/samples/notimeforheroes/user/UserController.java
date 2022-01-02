@@ -1,8 +1,12 @@
 package org.springframework.samples.notimeforheroes.user;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 import javax.validation.Valid;
 
@@ -29,6 +33,8 @@ public class UserController {
 	public static final String USER_FORM =  "users/createOrUpdateUserForm";
 	public static final String USER_DETAILS =  "users/userDetails";
 	public static final String USER_PROFILE =  "users/userProfile";
+	public static final String USER_GAME_STATS_DURATION =  "users/userGameStatsDuration";
+
 	
 	@Autowired
 	GameService gameService;
@@ -40,6 +46,29 @@ public class UserController {
 	public String listUsers(ModelMap model) {
 		model.addAttribute("user", userService.findAll());
 		return USER_LISTING;
+	}
+	
+	@GetMapping("/profile/gameStats")
+	public String GameStatsDuration(ModelMap model) {
+		Collection<Game> games = gameService.findAllEnded();
+
+		Collection<Integer> durations = new ArrayList<Integer>();
+		for(Game g : games) {
+			if(g.getDuration() == null) {
+				
+			} else {
+				durations.add(g.getDuration());
+			}
+		}
+		Integer MinDurations = Collections.min(durations);
+		Integer MaxDurations = Collections.max(durations);
+		Double averageDuration = durations.stream().mapToDouble(a -> a).average().getAsDouble();
+		model.addAttribute("minDuration", MinDurations);
+		model.addAttribute("maxDuration", MaxDurations);
+		model.addAttribute("averageDuration", Math.round(averageDuration));
+		model.addAttribute("games", gameService.findAllEnded());
+
+		return USER_GAME_STATS_DURATION;
 	}
 	
 	@GetMapping("/profile")
