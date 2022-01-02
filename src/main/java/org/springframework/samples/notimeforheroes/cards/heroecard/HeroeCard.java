@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.samples.notimeforheroes.actions.Actions;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.petclinic.model.NamedEntity;
 
@@ -37,8 +38,13 @@ public class HeroeCard extends NamedEntity{
 		joinColumns = {@JoinColumn(name = "fk_heroe")},
 		inverseJoinColumns = {@JoinColumn(name = "fk_skill")})
 	private Collection<SkillCard> skills;
-	
 
+	@ManyToMany
+	@JoinTable(name = "actions_card",
+		joinColumns = {@JoinColumn(name = "fk_skillcard")},
+		inverseJoinColumns = {@JoinColumn(name = "fk_actions")})
+	private Collection<Actions> actions;
+	
 	
 	
 }
