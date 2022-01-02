@@ -33,6 +33,10 @@ public class EnemyCardService {
 		return enemyCardRepo.findOnTableEnemiesByGame(game);
 	}
 
+	public Collection<EnemyCard> findOnDeckEnemiesByGame(Game game){
+		return enemyCardRepo.findOnDeckEnemiesByGame(game);
+	}
+	
 	public Optional<EnemyCard> findEnemyOfGamesEnemies(GamesEnemies ge){
 		return enemyCardRepo.findEnemyOfGamesEnemies(ge);
 	}
