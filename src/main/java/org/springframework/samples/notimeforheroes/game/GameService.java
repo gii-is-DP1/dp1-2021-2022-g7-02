@@ -309,15 +309,13 @@ public class GameService {
 			for(GamesUsersSkillCards skillcard : skillcardsavaibles){
 				skillcard.setSkillState(SkillState.DISCARD);//va descartando cartas de tu mazo hasta que la vida de los enemigos sea 0
 				
-	
 				lifeToRest --;
 				if(lifeToRest == 0){
 					break;
 				}
 			}
 		}
-
-
+		game.setGameState(GameState.BUYING);
 	}
 
 
@@ -353,10 +351,27 @@ public class GameService {
 
 	@Transactional	
     public void endTurn(Game game) {
+		//Nuevo jugador
 		List<User> users = new ArrayList<>(game.getUsers());
 		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
 		User newUser = users.get(newIndex);
 		game.setUserPlaying(newUser);
+		//Rellena la tienda con 5 objetos si alguno fue comprado
+		List<MarketCard> onTableMarket=(List<MarketCard>) marketCardService.findAllByGameAndOnTable(game);
+		List<MarketCard> onDeckMarket=(List<MarketCard>) marketCardService.findByGameOnDeck(game);
+		if(onTableMarket.size()<5) {
+			for(int i=0; onTableMarket.size()<5; i++) {
+				gameMarketService.findOneItemInGame(game, onDeckMarket.get(i).getId()).setItemState(ItemState.ONTABLE);
+			}
+		}
+		//Rellena la arena con 3 enemigos si alguno fue eliminado
+		List<EnemyCard> onTableEnemies=(List<EnemyCard>) enemyCardService.findOnTableEnemiesByGame(game);
+		List<EnemyCard> onDeckEnemies=(List<EnemyCard>) enemyCardService.findOnDeckEnemiesByGame(game);
+		if(onTableEnemies.size()<3) {
+			for(int t=0; onTableMarket.size()<3; t++) {
+				gamesEnemiesService.findByGameAndEnemy(game, onDeckEnemies.get(t)).get().setEnemyState(EnemyState.ONTABLE);
+			}
+		}
 		game.setGameState(GameState.ATTACKING);
 
     }

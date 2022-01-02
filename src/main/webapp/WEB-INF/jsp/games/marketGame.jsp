@@ -32,11 +32,18 @@
                 </div>
             </div>
         </div>
+    <c:if test="${game.getUserPlaying() == user}">
         <div class=row>
             <div class="col-md-12 text-center" style="margin-top: 5%;">
                     <input class="btn btn-default" type="submit" value="Buy Items"/>
             </div>
         </div>  
+        <div class=row>
+            <div class="col-md-12 text-center" style="margin-top: 5%;">
+            		<a class="btn btn-default" href="/games/${game.id}/endTurn">Siguiente Turno</a>           
+            </div>
+        </div>  
+    </c:if>
 
 	</form:form>
 
