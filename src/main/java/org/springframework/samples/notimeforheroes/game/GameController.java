@@ -2,7 +2,6 @@ package org.springframework.samples.notimeforheroes.game;
 
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,11 +33,9 @@ import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -181,6 +178,19 @@ public class GameController {
 		model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 		return MARKET_VIEW;
 	}
+	
+	@GetMapping("/{gameId}/endTurn")
+	public String endTurn(ModelMap model, @PathVariable("gameId") int gameId) throws Exception{
+		Game game = gameService.findById(gameId).get();
+		if(game.getUserPlaying().equals(userService.getLoggedUser()) && game.getIsInProgress()){
+			gameService.endTurn(game);
+			return "redirect:/games/"+gameId;
+		}else{
+			model.addAttribute("message", "No puedes cambiar de turno en este momento");
+		}
+		
+		return gamePlaying(model, gameId);
+	}
 
 	@GetMapping("/{gameId}")
 	public String gamePlaying(ModelMap model, @PathVariable("gameId") int gameId) throws Exception{
@@ -203,6 +213,8 @@ public class GameController {
 			case DEFENDING:
 				return DEFEND_VIEW;		
 			case BUYING:
+				model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
+				model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 				return MARKET_VIEW;
 			default:
 				throw new Exception();
