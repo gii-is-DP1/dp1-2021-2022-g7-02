@@ -1,9 +1,15 @@
 package org.springframework.samples.notimeforheroes.cards.enemycard;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.springframework.samples.notimeforheroes.actions.Actions;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
@@ -38,6 +44,10 @@ public class EnemyCard extends NamedEntity {
 	
 	private Integer extraGold;
 
-
+	@ManyToMany
+	@JoinTable(name = "actions_card",
+		joinColumns = {@JoinColumn(name = "fk_skillcard")},
+		inverseJoinColumns = {@JoinColumn(name = "fk_actions")})
+	private Collection<Actions> actions;
 
 }
