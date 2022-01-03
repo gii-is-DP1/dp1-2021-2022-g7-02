@@ -174,8 +174,11 @@ public class GameController {
 
 		/*Todo esto debería ir en el case BUYING
 		del switch del GetMapping(/{gameId})*/
-		model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
-		model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
+		Game game = gameService.findById(gameId).get();
+		model.addAttribute("game",game);
+		model.addAttribute("market", marketService.findAllByGameAndOnTable(gameService.findById(gameId).get()));
+		model.addAttribute("user", userService.getLoggedUser());
+		model.addAttribute("gameUser", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 		return MARKET_VIEW;
 	}
 	

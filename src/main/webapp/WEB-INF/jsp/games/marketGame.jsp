@@ -28,7 +28,7 @@
             <div class="col-md-12 text-center" style="margin-top: 5%;">
                 <div class=col-md-3>
                     	<h2>Oro:</h2> 
-                    	<h2><c:out value="${user.gold}" /></h2>
+                    	<h2><c:out value="${gameUser.gold}" /></h2>
                 </div>
             </div>
         </div>
