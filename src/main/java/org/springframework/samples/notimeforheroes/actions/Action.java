@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Table(name="actions")
 
-public class Actions extends NamedEntity{
+public class Action extends NamedEntity{
 	
     @Column()
     public TypesActions type;
