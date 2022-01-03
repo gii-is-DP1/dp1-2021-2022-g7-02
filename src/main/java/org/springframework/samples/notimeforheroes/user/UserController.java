@@ -7,14 +7,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,6 +40,7 @@ public class UserController {
 	public static final String USER_DETAILS =  "users/userDetails";
 	public static final String USER_PROFILE =  "users/userProfile";
 	public static final String USER_GAME_STATS_DURATION =  "users/userGameStatsDuration";
+	public static final String USER_GAME_STATS =  "users/userGameStats";
 
 	
 	@Autowired
@@ -42,13 +49,39 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	GameUserService gameUserService;
+	
+	@Autowired
+	HeroeCardsService heroeCardService;
+	
 	@GetMapping
 	public String listUsers(ModelMap model) {
 		model.addAttribute("user", userService.findAll());
 		return USER_LISTING;
 	}
 	
+
 	@GetMapping("/profile/gameStats")
+	public String GameStats(ModelMap model) {
+		User user = userService.getLoggedUser();
+		Integer heroeFav = gameUserService.getHeroeFav(user);
+		if(heroeFav == null) {
+			model.addAttribute("heroe",null );
+		} else {
+			Optional<HeroeCard> heroe = heroeCardService.findById(heroeFav);
+			model.addAttribute("heroe", heroe.get());
+
+		}
+		model.addAttribute("AllGold", gameUserService.getAllGoldByUser(user));
+		model.addAttribute("AllGlory", gameUserService.getAllGoldByUser(user));
+
+		return USER_GAME_STATS;
+		
+		
+	}
+	
+	@GetMapping("/profile/gameDuration")
 	public String GameStatsDuration(ModelMap model) {
 		Collection<Game> games = gameService.findAllEnded();
 
