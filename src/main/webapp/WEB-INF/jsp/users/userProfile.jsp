@@ -124,7 +124,8 @@
     </c:if>  
  
      <p>
-    	<a href="/users/profile/gameStats" class="btn  btn-success"><span class="glyphicon glyphicon" aria-hidden="true"></span>Game durations</a>
+    	<a href="/users/profile/gameDuration" class="btn  btn-success"><span class="glyphicon glyphicon" aria-hidden="true"></span>Game durations</a>
+   		<a href="/users/profile/gameStats" class="btn  btn-success"><span class="glyphicon glyphicon" aria-hidden="true"></span>Game Stats</a>
     </p>
-    
+
 </petclinic:layout>
