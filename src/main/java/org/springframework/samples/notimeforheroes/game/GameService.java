@@ -119,6 +119,8 @@ public class GameService {
 	public Optional<Game> findGameInProgressByUser(User user){
 		return gameRepository.findGameInProgressByUser(user);
 	}
+	
+	
 
 	public TreeMap<Integer,User> getClassification(Game game){
 		TreeMap<Integer,User> players = new TreeMap<Integer,User>(Collections.reverseOrder());

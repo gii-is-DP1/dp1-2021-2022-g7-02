@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.notimeforheroes.game.Game;
@@ -23,4 +24,7 @@ public interface GameUserRepository extends CrudRepository<GameUser, Integer> {
     
     @Query(nativeQuery = true, value = "SELECT items_id FROM GAMES_USERS_ITEMS gui JOIN GAMES_USERS gu WHERE gui.game_user_id = gu.id AND gu.fk_game=?1 AND gu.fk_user=?2")
     Optional<List<Integer>> findItemsOfGameUser(Integer gameId, Integer userId);
+
+    @Query(nativeQuery = true, value = "SELECT gu.* FROM Games_Users gu WHERE gu.fk_user = ?1")
+	Collection<GameUser> findAllGamesbyUser(Integer userId);
 }
