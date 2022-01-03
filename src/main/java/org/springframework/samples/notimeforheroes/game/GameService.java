@@ -351,6 +351,8 @@ public class GameService {
 
 	@Transactional	
     public void endTurn(Game game) {
+		/*
+		NO FUNCIONA
 		//Nuevo jugador
 		List<User> users = new ArrayList<>(game.getUsers());
 		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
@@ -358,10 +360,13 @@ public class GameService {
 		game.setUserPlaying(newUser);
 		//Rellena la tienda con 5 objetos si alguno fue comprado
 		List<MarketCard> onTableMarket=(List<MarketCard>) marketCardService.findAllByGameAndOnTable(game);
-		List<MarketCard> onDeckMarket=(List<MarketCard>) marketCardService.findByGameOnDeck(game);
+		List<MarketCard> onDeckMarket=(List<MarketCard>) marketCardService.findByGameOnDeck(game)
+
+		
 		if(onTableMarket.size()<5) {
 			for(int i=0; onTableMarket.size()<5; i++) {
 				gameMarketService.findOneItemInGame(game, onDeckMarket.get(i).getId()).setItemState(ItemState.ONTABLE);
+				onTableMarket=(List<MarketCard>) marketCardService.findAllByGameAndOnTable(game);
 			}
 		}
 		//Rellena la arena con 3 enemigos si alguno fue eliminado
@@ -370,8 +375,13 @@ public class GameService {
 		if(onTableEnemies.size()<3) {
 			for(int t=0; onTableMarket.size()<3; t++) {
 				gamesEnemiesService.findByGameAndEnemy(game, onDeckEnemies.get(t)).get().setEnemyState(EnemyState.ONTABLE);
+				onTableEnemies=(List<EnemyCard>) enemyCardService.findOnTableEnemiesByGame(game);
 			}
-		}
+		}*/ 
+		List<User> users = new ArrayList<>(game.getUsers());
+        Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
+        User newUser = users.get(newIndex);
+        game.setUserPlaying(newUser);
 		game.setGameState(GameState.ATTACKING);
 
     }

@@ -9,7 +9,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.springframework.samples.notimeforheroes.actions.Actions;
+import org.springframework.samples.notimeforheroes.actions.Action;
 
 import org.springframework.samples.petclinic.model.NamedEntity;
 
@@ -31,9 +31,9 @@ public class MarketCard extends NamedEntity{
 	private String description;
 
 	@ManyToMany
-	@JoinTable(name = "actions_card",
+	@JoinTable(name = "actions_marketCard",
 		joinColumns = {@JoinColumn(name = "fk_skillcard")},
 		inverseJoinColumns = {@JoinColumn(name = "fk_actions")})
-	private Collection<Actions> actions;
+	private Collection<Action> actions;
 	
 }

@@ -9,7 +9,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.springframework.samples.notimeforheroes.actions.Actions;
+import org.springframework.samples.notimeforheroes.actions.Action;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
@@ -45,9 +45,9 @@ public class EnemyCard extends NamedEntity {
 	private Integer extraGold;
 
 	@ManyToMany
-	@JoinTable(name = "actions_card",
+	@JoinTable(name = "actions_enemyCard",
 		joinColumns = {@JoinColumn(name = "fk_skillcard")},
 		inverseJoinColumns = {@JoinColumn(name = "fk_actions")})
-	private Collection<Actions> actions;
+	private Collection<Action> actions;
 
 }
