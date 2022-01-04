@@ -22,6 +22,9 @@ public interface EnemyCardRepository extends CrudRepository<EnemyCard, Integer>{
 
 		@Query(nativeQuery = true, value = "SELECT e.* FROM Enemies e JOIN Games_Enemies ge WHERE e.id = ge.fk_enemy AND ge.fk_game = ?1 AND ge.enemy_state = 0;")
 		Collection<EnemyCard> findOnTableEnemiesByGame(Game game);
+
+		@Query(nativeQuery = true, value = "SELECT COUNT(e.*) FROM Enemies e JOIN Games_Enemies ge WHERE e.id = ge.fk_enemy AND ge.fk_game = ?1 AND ge.enemy_state = 0;")
+		Integer countOnTableEnemiesByGame(Game game);
 		
 		@Query(nativeQuery = true, value = "SELECT e.* FROM Enemies e JOIN Games_Enemies ge WHERE e.id = ge.fk_enemy AND ge.fk_game = ?1 AND ge.enemy_state = 1;")
 		Collection<EnemyCard> findOnDeckEnemiesByGame(Game game);

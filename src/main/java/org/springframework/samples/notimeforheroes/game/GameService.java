@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.actions.Action;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyState;
@@ -31,10 +32,12 @@ import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsSer
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCards;
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.SkillState;
+import org.springframework.samples.notimeforheroes.game.exceptions.CardNotSelectedException;
 import org.springframework.samples.notimeforheroes.game.exceptions.DontHaveEnoughGoldToBuyException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
+import org.springframework.samples.notimeforheroes.game.exceptions.IncorrectNumberOfEnemiesException;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
@@ -350,6 +353,64 @@ public class GameService {
 		game.setUserPlaying(firstUser);
 		game.setGameState(GameState.ATTACKING);
 		this.updateGame(game);
+	}
+
+	@Transactional
+	public void useCard(Integer skillCardId, Game game, User user, List<Integer> listEnemyCardsSelectedId) throws CardNotSelectedException, IncorrectNumberOfEnemiesException, Exception{
+		//si el usuario que esta jugando no es el usuario correspondiente
+		if(!game.getUserPlaying().equals(user)){
+			throw new Exception();
+		}
+		Optional<SkillCard> skillcardOpt = skillCardsService.findById(skillCardId);
+		if(skillcardOpt.isPresent()){
+			SkillCard skillCard = skillcardOpt.get();
+			Integer numberOfEnemiesRequired = skillCardsService.numberOfEnemiesOfSkillCard(skillCard);
+			//comprobamos que se han elegido bien los enemigos, dependiendo de la carta que utilicemos
+			checkIfNumberOfEnemiesIsOK(numberOfEnemiesRequired,listEnemyCardsSelectedId,game);
+			Collection<Action> actionsSkillcard = skillCard.getActions();
+
+			if(listEnemyCardsSelectedId.size()>0){
+				for (int i = 0; i < listEnemyCardsSelectedId.size(); i++) {
+					Optional<EnemyCard> enemy=enemyCardService.findById(listEnemyCardsSelectedId.get(i));
+					
+				}
+
+			}else{
+
+			}
+			
+		}else{
+			throw new CardNotSelectedException();
+		}
+		
+
+
+		
+		
+		
+	}
+
+	private void checkIfNumberOfEnemiesIsOK(Integer numberOfEnemiesRequired,List<Integer> listEnemyCardsSelectedId, Game game) throws IncorrectNumberOfEnemiesException,Exception {
+		switch (numberOfEnemiesRequired) {
+			case 0:	//si la carta no requiere enemigo, da igual el enemigo que selecciones
+				break;
+			case 1://si la carta requiere 1 enemigo, si tiene mas de uno da un error
+				if(listEnemyCardsSelectedId.size()!=1) throw new IncorrectNumberOfEnemiesException();
+				break;
+			case 2:	//si la carta requiere mas de un enemigo y no seleccionas los requeridos, da un error
+				if(enemyCardService.countOnTableEnemiesByGame(game)>=2 && listEnemyCardsSelectedId.size()!=2) throw new IncorrectNumberOfEnemiesException();
+				else if(listEnemyCardsSelectedId.size()==0) throw new IncorrectNumberOfEnemiesException();					
+				break;
+			case 3:
+			if(enemyCardService.countOnTableEnemiesByGame(game)==3 && listEnemyCardsSelectedId.size()!=3) throw new IncorrectNumberOfEnemiesException();
+			if(enemyCardService.countOnTableEnemiesByGame(game)==2 && listEnemyCardsSelectedId.size()!=2) throw new IncorrectNumberOfEnemiesException();
+			else if(listEnemyCardsSelectedId.size()==0) throw new IncorrectNumberOfEnemiesException();	
+				break;
+		
+			default:
+				throw new Exception();
+				
+		}
 	}
 
 	@Transactional	
