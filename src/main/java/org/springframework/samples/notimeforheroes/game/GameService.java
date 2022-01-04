@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import java.util.TreeMap;
-
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -361,22 +361,32 @@ public class GameService {
 		if(!game.getUserPlaying().equals(user)){
 			throw new Exception();
 		}
+
 		Optional<SkillCard> skillcardOpt = skillCardsService.findById(skillCardId);
+		List<EnemyCard> enemiesTargetedList = listEnemyCardsSelectedId.stream().map(id -> enemyCardService.findById(id).get()).collect(Collectors.toList());
+
+
 		if(skillcardOpt.isPresent()){
 			SkillCard skillCard = skillcardOpt.get();
 			Integer numberOfEnemiesRequired = skillCardsService.numberOfEnemiesOfSkillCard(skillCard);
 			//comprobamos que se han elegido bien los enemigos, dependiendo de la carta que utilicemos
-			checkIfNumberOfEnemiesIsOK(numberOfEnemiesRequired,listEnemyCardsSelectedId,game);
-			Collection<Action> actionsSkillcard = skillCard.getActions();
-
-			if(listEnemyCardsSelectedId.size()>0){
-				for (int i = 0; i < listEnemyCardsSelectedId.size(); i++) {
-					Optional<EnemyCard> enemy=enemyCardService.findById(listEnemyCardsSelectedId.get(i));
+			checkIfNumberOfEnemiesIsOK(numberOfEnemiesRequired, enemiesTargetedList, game);
+			
+			//Comprobamos si la carta requiere lógica adicional
+			switch (skillCard.getId()) {
+				case 4:	//Disparo rápido
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+				case 9:
+					skillCardsService.useDisparoRápido(enemiesTargetedList, game, user, skillCard);
+					break;	
 					
-				}
-
-			}else{
-
+			
+				default:	//Si no requiere lógica adicional
+					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);
+					break;
 			}
 			
 		}else{
@@ -390,7 +400,7 @@ public class GameService {
 		
 	}
 
-	private void checkIfNumberOfEnemiesIsOK(Integer numberOfEnemiesRequired,List<Integer> listEnemyCardsSelectedId, Game game) throws IncorrectNumberOfEnemiesException,Exception {
+	private void checkIfNumberOfEnemiesIsOK(Integer numberOfEnemiesRequired, List<EnemyCard> listEnemyCardsSelectedId, Game game) throws IncorrectNumberOfEnemiesException,Exception {
 		switch (numberOfEnemiesRequired) {
 			case 0:	//si la carta no requiere enemigo, da igual el enemigo que selecciones
 				break;
@@ -411,6 +421,48 @@ public class GameService {
 				throw new Exception();
 				
 		}
+	}
+
+	@Transactional
+	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies){
+
+		for(Action action : actions){
+			switch (action.getType()) {
+				case DAMAGE:
+					enemies.stream().forEach(enemy -> {
+						try {
+							gamesEnemiesService.damageEnemy(game, enemy, user, action.getCantidad());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					});
+					break;
+				case DRAW:
+					gamesUsersSkillCardsService.drawCards(game, user, action.getCantidad());
+					break;
+				case RECOVER:
+					break;
+				case GAINGLORY:
+					break;
+				case GAINGOLD:
+					break;
+				case LOSEGOLD:
+					break;
+				case GAINLIFE:
+					break;
+				case DEFENSE:
+					break;
+				case DISCARD:
+					break;
+				case ENDATTACKPHASE:
+					break;
+					
+				default:
+					break;
+			}
+		}
+
+		
 	}
 
 	@Transactional	

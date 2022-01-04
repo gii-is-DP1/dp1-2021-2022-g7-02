@@ -26,6 +26,7 @@ import org.springframework.samples.notimeforheroes.game.exceptions.DontHaveEnoug
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
+import org.springframework.samples.notimeforheroes.game.exceptions.IncorrectNumberOfEnemiesException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
@@ -225,19 +226,22 @@ public class GameController {
 		}
 	}
 
-	//ModelMap model,@RequestParam("supplier") Integer supplierId, HttpServletResponse response, @PathVariable("materialId") Integer id)
 
 
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
 	public String attackPhase(ModelMap model, @RequestParam("skillUsed") Integer skillCardId, @RequestParam("enemySelected") List<Integer> listEnemyCardsSelectedId, HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception{
 		try {
 				gameService.useCard(skillCardId, gameService.findById(gameId).get(), userService.getLoggedUser(),listEnemyCardsSelectedId);
-				return "";
+				return "redirect:"+gameId;
 			
 		} catch (CardNotSelectedException e) {
 			model.addAttribute("message", "Por favor, seleccione una carta, acabe su turno o use su ficha de escape");
 			return gamePlaying(model, gameId);
-		} catch(Exception e){
+		} catch (IncorrectNumberOfEnemiesException e) {
+			model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
+			return gamePlaying(model, gameId);
+		}
+		catch(Exception e){
 			e.printStackTrace();
 			model.addAttribute("message", "Error desconocido al usar carta");
 			return gamePlaying(model, gameId);

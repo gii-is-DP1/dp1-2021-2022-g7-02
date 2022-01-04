@@ -294,6 +294,7 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 1);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 2);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 2);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 2);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 3);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 3);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 3);
@@ -301,14 +302,19 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 3);
     --disparo rápido
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 4);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 4);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 5);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 5);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 6);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 6);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 7);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 7);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 8);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 8);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 9);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 9);
 
@@ -319,10 +325,8 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 10);
 
     --luvia de flechas
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 11);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 11);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 11);
 
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 12);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 12);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 12);
 
@@ -330,6 +334,7 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 12);
 
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (13, 13);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 13);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (13, 14);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 14);
 
@@ -338,6 +343,7 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 14);
     --ataque brutal
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 15);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 15);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 16);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 16);
 
@@ -348,6 +354,7 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 17);
     --doble espadazo
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 18);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 18);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 19);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 19);
 
@@ -363,6 +370,7 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (43, 20);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (44, 20);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 20);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 20);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 21);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 21);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (38, 21);
@@ -378,10 +386,13 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 21);
     --espadazo
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 22);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 22);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 23);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 23);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 24);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 24);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 25);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 25);
 
@@ -390,12 +401,8 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (9, 26);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (9, 27);
 
     --todo o nada
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 28);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (1, 28);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 28);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 28);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 28);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (13, 28);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 28);   
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (13, 28);  --añade el daño de la carta robada arriba
 
     --voz de aliento
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 29);
@@ -414,38 +421,29 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 30);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (49, 30);
 
     --bola de fuego
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 31);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 31);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 31);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 31);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 31);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 31);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 31);   --el resto de jugadores recibe 1 de daño
 
     --disparo gélido
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 32);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 32);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 32);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 33);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 33);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 33);
 
     --flecha corrosiva
-v 
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 34);   --estos 3 daños de 1 son para las cartas que se
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 34);   --usen posteriormente a flecha 
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 34);   --corrosiva
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 34);   
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 34);      --añade 1 de daño a las 3 cartas siguientes
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 34);
 
     --golpe de bastón
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 35);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 35);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 35);   --si este enemigo ya recibió golpe de bastón, el daño es 2 en vez de 1
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 36);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 36);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 37);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 37);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 38);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 38);
 
     --orbe curativo
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 39);
@@ -454,8 +452,10 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (34, 39);
     --proyectil ígneo
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 40);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 40);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 41);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 41);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 42);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 42);
 
@@ -465,10 +465,7 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 43);
 
     --torrente de luz
 
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 44);
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 44);  --el resto
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 44);  --recupera
-INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 44);  --2 cartas
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 44);  -- el resto recupera 2 cartas
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 44);
 
 
@@ -478,6 +475,7 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 44);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (5, 45);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 45);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 45);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (5, 46);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 46);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 46);
@@ -485,22 +483,27 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 46);
     --ataque furtivo
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 47);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 47);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 48);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 48);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 49);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 49);
 
     --bayesta precisa
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 50);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 50);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 51);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 51);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 52);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 52);
 
     --en las sombras
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 53);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 53);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 54);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 54);
 
@@ -521,6 +524,7 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 57);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 57);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 57);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 57);
+
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
