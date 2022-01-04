@@ -430,7 +430,7 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 33);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 33);
 
     --flecha corrosiva
-
+v 
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 34);   --estos 3 daños de 1 son para las cartas que se
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 34);   --usen posteriormente a flecha 
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 34);   --corrosiva
