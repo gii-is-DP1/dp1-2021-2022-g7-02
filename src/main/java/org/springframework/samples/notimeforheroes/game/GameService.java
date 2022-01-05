@@ -133,7 +133,7 @@ public class GameService {
 			gameUser.setGold(gameUser.getGold()/3);
 			gameUser.setGlory(gameUser.getGlory()+gameUser.getGold()/3);
 			players.put(gameUser.getGlory(),user);	
-			gameUserService.createGameUser(gameUser);		
+			gameUserService.saveGameUser(gameUser);		
 		}
 		
 		return players;
@@ -189,7 +189,7 @@ public class GameService {
 				enemyInGame.setEnemyState(newState);
 				EnemyCard enemyCard = enemyCardService.findEnemyOfGamesEnemies(enemyInGame).get();
 				enemyInGame.setHealth(enemyCard.getMaxHealth());
-				gamesEnemiesService.createGamesEnemies(enemyInGame);
+				gamesEnemiesService.saveGamesEnemies(enemyInGame);
 			}
 			
 			//Añade los objetos a la partida y los pone todos ONDECK menos 5 que pone ONHAND
@@ -253,14 +253,14 @@ public class GameService {
 			gameUser.setGold(0);
 			gameUser.setHasEscapeToken(true);
 			gameUser.setHeroeHealth(heroeCard.getMaxHealth());
-			gameUserService.createGameUser(gameUser);
+			gameUserService.saveGameUser(gameUser);
 
 			//Baraja las cartas de skill y a cuatro al azar las pone como ONHAND (por defecto están ONDECK)
 			Collections.shuffle(skillCards);
 			for(int i = 0; i<4;i++){
 				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, skillCards.get(i)).get();
 				card.setSkillState(SkillState.ONHAND);
-				gamesUsersSkillCardsService.createGameUserSkillCard(card);
+				gamesUsersSkillCardsService.saveGameUserSkillCard(card);
 			}
 			for(int i = 4; i<skillCards.size(); i++){
 				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, skillCards.get(i)).get();
@@ -282,7 +282,7 @@ public class GameService {
 		if(actualGold>=costItem) {
 			gameuser.setGold(actualGold-costItem);
 			gameuser.getItems().add(item);
-			gameUserService.createGameUser(gameuser);
+			gameUserService.saveGameUser(gameuser);
 			
 			itemInGame.setItemState(ItemState.SOLD);
 			gameMarketService.createGameMarket(itemInGame);
@@ -294,33 +294,13 @@ public class GameService {
 
 	@Transactional
 	public void defendHeroe(@Valid Game game, User user){
-		GameUser gameUser =gameUserService.findByGameAndUser(game, user).get();
-		Collection<GamesUsersSkillCards> skillcardsavaibles = gamesUsersSkillCardsService.findAllAvailableSkillsandOnTableByGameAndUser(game, user);
 		Collection<EnemyCard> enemycardsontable = enemyCardService.findOnTableEnemiesByGame(game);
-		Integer HeroeLife = gameUser.getHeroeHealth();
 		int lifeToRest = 0;
 		for(EnemyCard enemy : enemycardsontable){//Almacena la vida de los enemigos restantes
 			lifeToRest += enemy.getHealthInGame();
 		}
+		gamesUsersSkillCardsService.discardCards(game, user, lifeToRest);
 
-		if(lifeToRest>skillcardsavaibles.size()){//Si la vida de los enemigos > que las cartas de tu mazo + las de la mano te quita una vida directamente
-			gameUser.setHeroeHealth(HeroeLife-1);
-			if(gameUser.getHeroeHealth() == 0) {
-					
-				//Aqui iria cuando el heroe no tenga vida y el jugador este eliminado
-				
-				
-			}
-		}else{
-			for(GamesUsersSkillCards skillcard : skillcardsavaibles){
-				skillcard.setSkillState(SkillState.DISCARD);//va descartando cartas de tu mazo hasta que la vida de los enemigos sea 0
-				
-				lifeToRest --;
-				if(lifeToRest == 0){
-					break;
-				}
-			}
-		}
 		game.setGameState(GameState.BUYING);
 	}
 
@@ -374,29 +354,24 @@ public class GameService {
 			
 			//Comprobamos si la carta requiere lógica adicional
 			switch (skillCard.getId()) {
-				case 4:	//Disparo rápido
-				case 5:
-				case 6:
-				case 7:
-				case 8:
-				case 9:
+				//Disparo rápido
+				case 4:case 5:case 6:case 7:case 8:case 9:
 					skillCardsService.useDisparoRápido(enemiesTargetedList, game, user, skillCard);
+					//pone la skill para ponerlo en el mazo de descarte
+					gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
 					break;	
 					
 			
-				default:	//Si no requiere lógica adicional
+				default://Si no requiere lógica adicional
 					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);
+					//pone la skill para ponerlo en el mazo de descarte
+					gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
 					break;
 			}
 			
 		}else{
 			throw new CardNotSelectedException();
-		}
-		
-
-
-		
-		
+		}	
 		
 	}
 
@@ -429,8 +404,10 @@ public class GameService {
 		for(Action action : actions){
 			switch (action.getType()) {
 				case DAMAGE:
+					//por cada enemigo
 					enemies.stream().forEach(enemy -> {
 						try {
+							//le hace el daño correspondiente
 							gamesEnemiesService.damageEnemy(game, enemy, user, action.getCantidad());
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -441,18 +418,40 @@ public class GameService {
 					gamesUsersSkillCardsService.drawCards(game, user, action.getCantidad());
 					break;
 				case RECOVER:
+					gamesUsersSkillCardsService.recoverCards(game,user,action.getCantidad());
 					break;
 				case GAINGLORY:
+					try {
+						gamesUsersSkillCardsService.gainGlory(game,user,action.getCantidad());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					break;
 				case GAINGOLD:
+					try {
+						gamesUsersSkillCardsService.gainGold(game,user,action.getCantidad());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					break;
 				case LOSEGOLD:
+					try {
+						gamesUsersSkillCardsService.loseGold(game,user,action.getCantidad());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					break;
 				case GAINLIFE:
+					try {
+						gamesUsersSkillCardsService.gainLife(game,user,action.getCantidad());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					break;
 				case DEFENSE:
 					break;
 				case DISCARD:
+					gamesUsersSkillCardsService.discardCards(game,user,action.getCantidad());
 					break;
 				case ENDATTACKPHASE:
 					break;

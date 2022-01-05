@@ -535,15 +535,10 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 58);
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (1,1,'2021-11-03',1000,FALSE,TRUE,'1e7be91755b7497080849ef0910c044d',null);
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70',null);
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (3,3,'2021-11-05',null,FALSE,TRUE,'99ae43ed18bf458e89576b2d313a6e70',null);
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner, user_playing, game_state) VALUES (4,6,'2021-11-06',null,TRUE,TRUE,'99ae43ed18bf488e84576a2d313a6e71',null,3, 0);
 
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
 INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);
-INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,3,0,0,TRUE,null,8);   --pabloespada
-INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,6,0,0,TRUE,null,3);   --mromalde
 
-
-INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (3,2,1); --Habilidad 2 añadida al jugador 6 (pabloespada) en la partida 4 
 /*
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 

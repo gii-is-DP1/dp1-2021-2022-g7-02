@@ -90,18 +90,17 @@ public class SkillCardsService {
 	public void useDisparoRápido(List<EnemyCard> enemiesTargetedList, Game game, User user, SkillCard skillCard){
 		enemiesTargetedList.forEach(enemy -> {
 			try {
-				gamesEnemiesService.damageEnemy(game, enemy, user, 3);
+				gamesEnemiesService.damageEnemy(game, enemy, user, 1);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		});
-		gamesUsersSkillCardsService.useSkill(game, user, skillCard);
 		List<SkillCard> skillCards = findAllOnDeckSkillsByGameAndUser(game, user);
 		SkillCard newSkill = skillCards.get(0);
 		GamesUsersSkillCards newSkillGame = gamesUsersSkillCardsService.findByGameUserSkill(game, user, newSkill).get();
 		if(newSkill.getName().equals(skillCard.getName())){	//Si la carta robada es un disparo rápido
 			newSkillGame.setSkillState(SkillState.ONHAND);
-			gamesUsersSkillCardsService.createGameUserSkillCard(newSkillGame);
+			gamesUsersSkillCardsService.saveGameUserSkillCard(newSkillGame);
 			System.out.println("[DEBUG]: SE HA ROBADO UNA CARTA Disparo Rápido");
 		}
 
