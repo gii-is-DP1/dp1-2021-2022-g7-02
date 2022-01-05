@@ -258,7 +258,7 @@ public class GameController {
 			if(gu.getHasEscapeToken()){
 				gameService.endTurn(game);
 				gu.setHasEscapeToken(false);
-				gameUserService.createGameUser(gu);
+				gameUserService.saveGameUser(gu);
 				return "redirect:/games/"+gameId;
 			}else{
 				model.addAttribute("message", "Ya has usado tu ficha de escape");

@@ -83,7 +83,7 @@ public class GameUserService {
 		}
 	
 	@Transactional
-	public void createGameUser(@Valid GameUser gameUser) {
+	public void saveGameUser(@Valid GameUser gameUser) {
 		gameUserRepository.save(gameUser);
 	}
 	

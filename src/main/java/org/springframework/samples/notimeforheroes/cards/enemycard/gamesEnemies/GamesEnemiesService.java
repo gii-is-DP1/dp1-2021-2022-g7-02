@@ -46,8 +46,8 @@ public class GamesEnemiesService {
         return gamesEnemiesRepository.findByGameAndEnemy(game, enemyCard);
     }
 
-    public void damageEnemy(Game game, EnemyCard card, User user, Integer damage) throws Exception{
-        Optional<GamesEnemies> gamesEnemiesOpt = gamesEnemiesRepository.findByGameAndEnemy(game, card);
+    public void damageEnemy(Game game, EnemyCard enemyCard, User user, Integer damage) throws Exception{
+        Optional<GamesEnemies> gamesEnemiesOpt = gamesEnemiesRepository.findByGameAndEnemy(game, enemyCard);
         Optional<GameUser> gameUserOpt = gameUserService.findByGameAndUser(game, user);
 
         if(gamesEnemiesOpt.isPresent()){
@@ -59,14 +59,14 @@ public class GamesEnemiesService {
 
                     //Se aplica el daño
                     gamesEnemies.setHealth(gamesEnemies.getHealth() - damage);
-                    System.out.println("[DEBUG]: ENEMIGO DAÑADO CON " + damage + " DE DAÑO");
+                    System.out.println("[DEBUG]: ENEMIGO DAÑADO CON " + damage + " DE DAÑO Y TIENE " + gamesEnemies.getHealth() + " DE VIDA RESTANTE");
                     if(gamesEnemies.getHealth() < 1){   //Si el enemigo muere
 
                         //El jugador mata al enemigo y recibe la recompensa
                         gamesEnemies.setEnemyState(EnemyState.DEAD);
-                        gameUser.setGold(gameUser.getGold() + card.getExtraGold());
-                        gameUser.setGlory(gameUser.getGlory() + card.getGlory() + card.getExtraGlory());
-                        gameUserService.createGameUser(gameUser);
+                        gameUser.setGold(gameUser.getGold() + enemyCard.getExtraGold());
+                        gameUser.setGlory(gameUser.getGlory() + enemyCard.getGlory() + enemyCard.getExtraGlory());
+                        gameUserService.saveGameUser(gameUser);
                         System.out.println("[DEBUG]: ENEMIGO ELIMINADO. EL JUGADOR "+ user.getUsername() + " AHORA TIENE " + gameUser.getGold() + " DE ORO Y " + gameUser.getGlory() + " DE GLORIA");
 
                         List<GamesEnemies> enemiesOnDeck = gamesEnemiesRepository.findAllInGameOnDeck(game);
@@ -75,19 +75,14 @@ public class GamesEnemiesService {
                             game.setIsInProgress(false);
                             gameService.updateGame(game);
                         }else{
-                            //------------Borrar esto----------
-                            if(enemyCardService.findEnemyOfGamesEnemies(enemiesOnDeck.get(enemiesOnDeck.size() - 1)).get().getIsBoss())
-                            System.out.println("[DEBUG] EL ÚLTIMO DE LA LISTA ES EL BOSS");
-                            else
-                            System.err.println("[DEBUG] EL ÚLTIMO DE LA LISTA NO ES EL BOSS");
-                            //----------------------------------
-
+                            /*//esto no va aqui, porque esto se hace al terminar el turno
                             GamesEnemies nextEnemy = enemiesOnDeck.get(0);
                             nextEnemy.setEnemyState(EnemyState.ONTABLE);
                             createGamesEnemies(nextEnemy);
+                            */
                         }
                     }
-                    this.createGamesEnemies(gamesEnemies);
+                    this.saveGamesEnemies(gamesEnemies);
                 }else{  //SI EL ENEMIGO NO ESTÁ ONTABLE
                     throw new Exception("Enemy at table not found");
                 }
@@ -97,20 +92,9 @@ public class GamesEnemiesService {
         }else{  //SI EL ENEMY NO ESTÁ EN GAME
             throw new Exception("Enemy at game not found");
         }
-    }
+    }    
 
-        
-            
-                
-            
-            
-               
-            
-           
-        
-    
-
-    public void createGamesEnemies(GamesEnemies ge){
+    public void saveGamesEnemies(GamesEnemies ge){
         gamesEnemiesRepository.save(ge);
     }
     
