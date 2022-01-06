@@ -56,6 +56,30 @@
 
 		</div>
 	</div>
+		<br>
+	<br>
+
+	<div class=row>
+		<div class=col-md-12>
+			<h2>
+				Games This Week:
+				<c:out value="${Week}" />
+			</h2>
+
+		</div>
+	</div>
+		<br>
+	<br>
+
+	<div class=row>
+		<div class=col-md-12>
+			<h2>
+				Games This Month:
+				<c:out value="${Month}" />
+			</h2>
+
+		</div>
+	</div>
 
 
 

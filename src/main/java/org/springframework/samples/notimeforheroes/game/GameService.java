@@ -1,5 +1,7 @@
 package org.springframework.samples.notimeforheroes.game;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -121,6 +123,13 @@ public class GameService {
 	public Collection<Game> findByUser(User user){
 		return gameRepository.findByUser(user);
 	}
+	
+	public Integer findBetweenDates(User user, LocalDate LocalDate1, LocalDate LocalDate2){
+		Date date1=Date.valueOf(LocalDate1);
+		Date date2=Date.valueOf(LocalDate2);
+		return gameRepository.findBetweenDates(user, date1, date2);
+	}
+
 
 	public Optional<Game> findGameInProgressByUser(User user){
 		return gameRepository.findGameInProgressByUser(user);

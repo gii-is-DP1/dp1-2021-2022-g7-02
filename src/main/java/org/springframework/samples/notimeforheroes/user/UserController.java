@@ -1,17 +1,12 @@
 package org.springframework.samples.notimeforheroes.user;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -19,7 +14,6 @@ import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
-import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Controller;
@@ -66,6 +60,8 @@ public class UserController {
 	public String GameStats(ModelMap model) {
 		User user = userService.getLoggedUser();
 		Integer heroeFav = gameUserService.getHeroeFav(user);
+		Integer playsInWeek=gameService.findBetweenDates(user, LocalDate.now().minusDays(7), LocalDate.now());
+		Integer playsInMonth=gameService.findBetweenDates(user, LocalDate.now().minusDays(30), LocalDate.now());
 		if(heroeFav == null) {
 			model.addAttribute("heroe",null );
 		} else {
@@ -74,7 +70,9 @@ public class UserController {
 
 		}
 		model.addAttribute("AllGold", gameUserService.getAllGoldByUser(user));
-		model.addAttribute("AllGlory", gameUserService.getAllGoldByUser(user));
+		model.addAttribute("AllGlory", gameUserService.getAllGloryByUser(user));
+		model.addAttribute("Week", playsInWeek);
+		model.addAttribute("Month",playsInMonth);
 
 		return USER_GAME_STATS;
 		
