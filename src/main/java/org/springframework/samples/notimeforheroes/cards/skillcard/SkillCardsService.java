@@ -8,6 +8,12 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
+import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemiesService;
+import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCards;
+import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
+import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.SkillState;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.stereotype.Service;
@@ -17,6 +23,15 @@ public class SkillCardsService {
 	
 	@Autowired
 	SkillCardsRepository skillRepository;
+
+	@Autowired
+	GamesUsersSkillCardsService gamesUsersSkillCardsService;
+
+	@Autowired
+	EnemyCardService enemyCardService;
+
+	@Autowired
+	GamesEnemiesService gamesEnemiesService;
 	
 	@Transactional
 	public Collection<SkillCard> findAll(){
@@ -37,9 +52,18 @@ public class SkillCardsService {
 		return skillRepository.findAllSkillsByGameAndUser(game, user);
 	}
 
-	public Collection<SkillCard> findAllAvailableSkillsByGameAndUser(Game game, User user){
+	public List<SkillCard> findAllAvailableSkillsByGameAndUser(Game game, User user){
 		return skillRepository.findAllAvailableSkillsByGameAndUser(game, user);
 	}
+
+	public List<SkillCard> findAllOnDeckSkillsByGameAndUser(Game game, User user){
+		return skillRepository.findAllOnDeckSkillsByGameAndUser(game, user);
+	}
+
+	public List<SkillCard> findAllOnDiscardedSkillsByGameAndUser(Game game, User user){
+		return skillRepository.findAllOnDiscardedSkillsByGameAndUser(game, user);
+	}
+	
 	
 	public Integer numberOfEnemiesOfSkillCard(SkillCard skillCard) throws Exception{
 		Integer skillCardId = skillCard.getId();
@@ -62,7 +86,25 @@ public class SkillCardsService {
 		}
 	}
 	
+	@Transactional
+	public void useDisparoRápido(List<EnemyCard> enemiesTargetedList, Game game, User user, SkillCard skillCard){
+		enemiesTargetedList.forEach(enemy -> {
+			try {
+				gamesEnemiesService.damageEnemy(game, enemy, user, 1);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		List<SkillCard> skillCards = findAllOnDeckSkillsByGameAndUser(game, user);
+		SkillCard newSkill = skillCards.get(0);
+		GamesUsersSkillCards newSkillGame = gamesUsersSkillCardsService.findByGameUserSkill(game, user, newSkill).get();
+		if(newSkill.getName().equals(skillCard.getName())){	//Si la carta robada es un disparo rápido
+			newSkillGame.setSkillState(SkillState.ONHAND);
+			gamesUsersSkillCardsService.saveGameUserSkillCard(newSkillGame);
+			System.out.println("[DEBUG]: SE HA ROBADO UNA CARTA Disparo Rápido");
+		}
 
+	}
 	@Transactional
 	public void saveSkillCard(@Valid SkillCard skill) {
 		skillRepository.save(skill);

@@ -197,26 +197,348 @@ INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold
 INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (15,'Boss 3', '\resources\images\enemies\boss3.png', true, 10, 6, 0, 0);
 
 
+--Actions
+
+--damage
+INSERT INTO Actions (id, type, cantidad) VALUES (1, 0, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (2, 0, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (3, 0, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (4, 0, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (5, 0, 4);
+INSERT INTO Actions (id, type, cantidad) VALUES (6, 0, 5);
+--draw
+INSERT INTO Actions (id, type, cantidad) VALUES (7, 1, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (8, 1, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (9, 1, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (10, 1, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (11, 1, 4);
+--recover
+INSERT INTO Actions (id, type, cantidad) VALUES (12, 2, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (13, 2, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (14, 2, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (15, 2, 3);
+--gainglory
+INSERT INTO Actions (id, type, cantidad) VALUES (16, 3, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (17, 3, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (18, 3, 2);
+--gainGold
+INSERT INTO Actions (id, type, cantidad) VALUES (19, 4, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (20, 4, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (21, 4, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (22, 4, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (23, 4, 4);
+INSERT INTO Actions (id, type, cantidad) VALUES (24, 4, 5);
+INSERT INTO Actions (id, type, cantidad) VALUES (25, 4, 6);
+INSERT INTO Actions (id, type, cantidad) VALUES (26, 4, 7);
+INSERT INTO Actions (id, type, cantidad) VALUES (27, 4, 8);
+--loseGold
+INSERT INTO Actions (id, type, cantidad) VALUES (28, 5, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (29, 5, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (30, 5, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (31, 5, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (32, 5, 4);
+--gainLife
+INSERT INTO Actions (id, type, cantidad) VALUES (33, 6, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (34, 6, 1);
+--Defense
+INSERT INTO Actions (id, type, cantidad) VALUES (35, 7, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (36, 7, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (37, 7, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (38, 7, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (39, 7, 4);
+INSERT INTO Actions (id, type, cantidad) VALUES (40, 7, 5);
+INSERT INTO Actions (id, type, cantidad) VALUES (41, 7, 6);
+INSERT INTO Actions (id, type, cantidad) VALUES (42, 7, 7);
+INSERT INTO Actions (id, type, cantidad) VALUES (43, 7, 8);
+INSERT INTO Actions (id, type, cantidad) VALUES (44, 7, 9);
+INSERT INTO Actions (id, type, cantidad) VALUES (45, 7, 10);
+--Discard
+INSERT INTO Actions (id, type, cantidad) VALUES (46, 8, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (47, 8, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (48, 8, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (49, 8, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (50, 8, 4);
+INSERT INTO Actions (id, type, cantidad) VALUES (51, 8, 5);
+INSERT INTO Actions (id, type, cantidad) VALUES (52, 8, 6);
+INSERT INTO Actions (id, type, cantidad) VALUES (53, 8, 7);
+INSERT INTO Actions (id, type, cantidad) VALUES (54, 8, 8);
+INSERT INTO Actions (id, type, cantidad) VALUES (55, 8, 9);
+INSERT INTO Actions (id, type, cantidad) VALUES (56, 8, 10);
+INSERT INTO Actions (id, type, cantidad) VALUES (57, 8, 11);
+INSERT INTO Actions (id, type, cantidad) VALUES (58, 8, 12);
+INSERT INTO Actions (id, type, cantidad) VALUES (59, 8, 13);
+INSERT INTO Actions (id, type, cantidad) VALUES (60, 8, 14);
+INSERT INTO Actions (id, type, cantidad) VALUES (61, 8, 15);
+INSERT INTO Actions (id, type, cantidad) VALUES (62, 8, 16);
+INSERT INTO Actions (id, type, cantidad) VALUES (63, 8, 17);
+INSERT INTO Actions (id, type, cantidad) VALUES (64, 8, 18);
+INSERT INTO Actions (id, type, cantidad) VALUES (65, 8, 19);
+INSERT INTO Actions (id, type, cantidad) VALUES (66, 8, 20);
+INSERT INTO Actions (id, type, cantidad) VALUES (67, 8, 21);
+INSERT INTO Actions (id, type, cantidad) VALUES (68, 8, 22);
+--endAttackPhase
+INSERT INTO Actions (id, type, cantidad) VALUES (69, 9, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (70, 9, 1);
+
 
 
 --ACTION_CARDS
 
 --Actions Green SkillCards
 
+    --compañero lobo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 1);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 1);
+
+    --disparo certero
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 2);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 2);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 2);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 3);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 3);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 3);
+
+    --disparo rápido
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 4);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 4);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 5);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 5);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 6);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 6);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 7);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 7);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 8);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 8);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 9);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 9);
+
+    --en la diana
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (5, 10);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 10);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 10);
+
+    --luvia de flechas
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 11);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 11);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 12);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 12);
+
+    --recoger flechas
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (13, 13);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 13);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (13, 14);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 14);
+
+--Actions Blue SkillCards
+
+    --ataque brutal
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 15);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 15);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 16);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 16);
+
+    --carga con escudo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 17);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 17);
+
+    --doble espadazo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 18);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 18);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 19);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 19);
+
+    --escudo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (38, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (39, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (40, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (41, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (42, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (43, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (44, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 20);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (38, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (39, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (40, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (41, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (42, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (43, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (44, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 21);
+
+    --espadazo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 22);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 22);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 23);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 23);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 24);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 24);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 25);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 25);
+
+    --paso atrás
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (9, 26);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (9, 27);
+
+    --todo o nada
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 28);   
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (13, 28);  --añade el daño de la carta robada arriba
+
+    --voz de aliento
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 29);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 29);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 29);
+
+--Actions Purple SkillCards
+
+    --aura protectora
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (49, 30);
+
+    --bola de fuego
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 31);   --el resto de jugadores recibe 1 de daño
+
+    --disparo gélido
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 32);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 32);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 32);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 33);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 33);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 33);
+
+    --flecha corrosiva
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 34);      --añade 1 de daño a las 3 cartas siguientes
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 34);
+
+    --golpe de bastón
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 35);   --si este enemigo ya recibió golpe de bastón, el daño es 2 en vez de 1
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 36);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 37);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 38);
+
+    --orbe curativo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 39);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (34, 39);
+
+    --proyectil ígneo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 40);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 40);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 41);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 41);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 42);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 42);
+
+    --resconstitución
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 43);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 43);
+
+    --torrente de luz
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 44);  -- el resto recupera 2 cartas
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 44);
+
+
+--Actions Red SkillCards
+
+    --al corazón
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (5, 45);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 45);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 45);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (5, 46);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 46);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 46);
+
+    --ataque furtivo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 47);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 47);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 48);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 48);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 49);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 49);
+
+    --bayesta precisa
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 50);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 50);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 51);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 51);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 52);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 52);
+
+    --en las sombras
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 53);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 53);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 54);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 54);
+
+    --engañar
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 55);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (30, 55);
+
+    --robar bolsillos
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 56);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 56);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 56);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (29, 56); --a
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (29, 56); --los
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (29, 56);  --otros
+
+    --saqueo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 57);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 57);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 57);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 57);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 58);
+
 --Games
 
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (1,1,'2021-11-03',1000,FALSE,TRUE,'1e7be91755b7497080849ef0910c044d',null);
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70',null);
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (3,3,'2021-11-05',null,FALSE,TRUE,'99ae43ed18bf458e89576b2d313a6e70',null);
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner, user_playing, game_state) VALUES (4,6,'2021-11-06',null,TRUE,TRUE,'99ae43ed18bf488e84576a2d313a6e71',null,3, 0);
 
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
 INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);
-INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,3,0,0,TRUE,null,8);   --pabloespada
-INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,6,0,0,TRUE,null,3);   --mromalde
 
-
-INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (3,2,1); --Habilidad 2 añadida al jugador 6 (pabloespada) en la partida 4 
 /*
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
@@ -224,6 +546,3 @@ INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) V
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,2); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,2,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
 */
-
-
-
