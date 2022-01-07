@@ -60,6 +60,7 @@ public class GameController {
 	public static final String ATTACK_VIEW = "games/attackGame";
 	public static final String MARKET_VIEW = "games/marketGame";
 	public static final String GAMES_WINNER = "games/endGame";
+	public static final String RANKING = "games/playersRanking";
 
 
 	@Autowired
@@ -97,6 +98,12 @@ public class GameController {
 		model.addAttribute("games", gameService.findAvailableGames());
 		model.addAttribute("user", userService.getLoggedUser());
 		return GAMES_LISTING;
+	}
+
+	@GetMapping("/playersRanking")
+	public String listRanking(ModelMap model) {
+		model.addAttribute("ranking", gameService.findRanking());
+		return RANKING;
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
