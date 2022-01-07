@@ -3,7 +3,10 @@ package org.springframework.samples.notimeforheroes.game.gamesUsers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -84,10 +87,35 @@ public class GameUserService {
 		}
 	
 	@Transactional
-	public void createGameUser(@Valid GameUser gameUser) {
+	public void saveGameUser(@Valid GameUser gameUser) {
 		gameUserRepository.save(gameUser);
 	}
 	
+	public Integer getAllGoldByUser(User user){
+		Collection<Integer> gold = gameUserRepository.findAllGoldByUser(user);
+		Integer AllGold = gold.stream().reduce(0, Integer::sum);
+		return AllGold;
+	}
+	
+	public Integer getAllGloryByUser(User user){
+		Collection<Integer> glory = gameUserRepository.findAllGloryByUser(user);
+		Integer AllGlory = glory.stream().reduce(0, Integer::sum);
+		return AllGlory;
+	}
+	
+	public Integer getHeroeFav(User user){
+		Collection<Integer> heroeFav = gameUserRepository.getHeroeFav(user);
+		if(heroeFav.size() == 0) {
+			return null;
+		} else {
+			Integer heroeMostRepeat = heroeFav.stream()
+	                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+	                .entrySet().stream().max((o1, o2) -> o1.getValue().compareTo(o2.getValue()))
+	                .map(Map.Entry::getKey).orElse(null);
+			return heroeMostRepeat;
+		}
+
+	}
 }
 
 

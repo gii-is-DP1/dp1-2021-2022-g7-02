@@ -27,7 +27,7 @@ public class User extends NamedEntity implements Serializable{
     @NotEmpty
 	private String lastname;
 	
-	@Column(name="username",columnDefinition = "LONGTEXT")
+	@Column(name="username")
     @NotEmpty
 	private String username;
 
