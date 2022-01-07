@@ -1,16 +1,20 @@
 package org.springframework.samples.notimeforheroes.user;
 
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,6 +33,9 @@ public class UserController {
 	public static final String USER_FORM =  "users/createOrUpdateUserForm";
 	public static final String USER_DETAILS =  "users/userDetails";
 	public static final String USER_PROFILE =  "users/userProfile";
+	public static final String USER_GAME_STATS_DURATION =  "users/userGameStatsDuration";
+	public static final String USER_GAME_STATS =  "users/userGameStats";
+
 	
 	@Autowired
 	GameService gameService;
@@ -36,10 +43,63 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	GameUserService gameUserService;
+	
+	@Autowired
+	HeroeCardsService heroeCardService;
+	
 	@GetMapping
 	public String listUsers(ModelMap model) {
 		model.addAttribute("user", userService.findAll());
 		return USER_LISTING;
+	}
+	
+
+	@GetMapping("/profile/gameStats")
+	public String GameStats(ModelMap model) {
+		User user = userService.getLoggedUser();
+		Integer heroeFav = gameUserService.getHeroeFav(user);
+		Integer playsInWeek=gameService.findBetweenDates(user, LocalDate.now().minusDays(7), LocalDate.now());
+		Integer playsInMonth=gameService.findBetweenDates(user, LocalDate.now().minusDays(30), LocalDate.now());
+		if(heroeFav == null) {
+			model.addAttribute("heroe",null );
+		} else {
+			Optional<HeroeCard> heroe = heroeCardService.findById(heroeFav);
+			model.addAttribute("heroe", heroe.get());
+
+		}
+		model.addAttribute("AllGold", gameUserService.getAllGoldByUser(user));
+		model.addAttribute("AllGlory", gameUserService.getAllGloryByUser(user));
+		model.addAttribute("Week", playsInWeek);
+		model.addAttribute("Month",playsInMonth);
+
+		return USER_GAME_STATS;
+		
+		
+	}
+	
+	@GetMapping("/profile/gameDuration")
+	public String GameStatsDuration(ModelMap model) {
+		Collection<Game> games = gameService.findAllEnded();
+
+		Collection<Integer> durations = new ArrayList<Integer>();
+		for(Game g : games) {
+			if(g.getDuration() == null) {
+				
+			} else {
+				durations.add(g.getDuration());
+			}
+		}
+		Integer MinDurations = Collections.min(durations);
+		Integer MaxDurations = Collections.max(durations);
+		Double averageDuration = durations.stream().mapToDouble(a -> a).average().getAsDouble();
+		model.addAttribute("minDuration", MinDurations);
+		model.addAttribute("maxDuration", MaxDurations);
+		model.addAttribute("averageDuration", Math.round(averageDuration));
+		model.addAttribute("games", gameService.findAllEnded());
+
+		return USER_GAME_STATS_DURATION;
 	}
 	
 	@GetMapping("/profile")

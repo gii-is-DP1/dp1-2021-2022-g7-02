@@ -84,14 +84,6 @@ description="Name of the active menu: home, owners, vets or error"%>
 									</div>
 								</div>
 							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="row">
-									<div class="text-center">
-										<a href="<c:url value=" /cards/tokens/tokensCardsListing.jsp" />">Tokens</a>
-									</div>
-								</div>
-							</li>
 						</ul>
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						<span>Cards</span>

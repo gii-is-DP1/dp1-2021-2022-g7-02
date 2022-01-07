@@ -28,15 +28,22 @@
             <div class="col-md-12 text-center" style="margin-top: 5%;">
                 <div class=col-md-3>
                     	<h2>Oro:</h2> 
-                    	<h2><c:out value="${user.gold}" /></h2>
+                    	<h2><c:out value="${gameUser.gold}" /></h2>
                 </div>
             </div>
         </div>
+    <c:if test="${game.getUserPlaying() == user}">
         <div class=row>
             <div class="col-md-12 text-center" style="margin-top: 5%;">
                     <input class="btn btn-default" type="submit" value="Buy Items"/>
             </div>
         </div>  
+        <div class=row>
+            <div class="col-md-12 text-center" style="margin-top: 5%;">
+            		<a class="btn btn-default" href="/games/${game.id}/endTurn">Siguiente Turno</a>           
+            </div>
+        </div>  
+    </c:if>
 
 	</form:form>
 

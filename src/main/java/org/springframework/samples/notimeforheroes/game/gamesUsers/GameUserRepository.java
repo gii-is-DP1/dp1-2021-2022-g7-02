@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.notimeforheroes.game.Game;
+import org.springframework.samples.notimeforheroes.user.User;
 
 public interface GameUserRepository extends CrudRepository<GameUser, Integer> {
 
@@ -23,4 +24,14 @@ public interface GameUserRepository extends CrudRepository<GameUser, Integer> {
     
     @Query(nativeQuery = true, value = "SELECT items_id FROM GAMES_USERS_ITEMS gui JOIN GAMES_USERS gu WHERE gui.game_user_id = gu.id AND gu.fk_game=?1 AND gu.fk_user=?2")
     Optional<List<Integer>> findItemsOfGameUser(Integer gameId, Integer userId);
+
+
+    @Query(nativeQuery = true, value = "SELECT DISTINCT gu.gold FROM games_users gu JOIN games g WHERE g.is_in_progress=FALSE AND gu.fk_user = ?1")
+    Collection<Integer> findAllGoldByUser(User user);
+    
+    @Query(nativeQuery = true, value = "SELECT DISTINCT gu.glory FROM games_users gu JOIN games g WHERE g.is_in_progress=FALSE AND gu.fk_user = ?1")
+    Collection<Integer> findAllGloryByUser(User user);
+    
+    @Query(nativeQuery = true, value = "SELECT DISTINCT gu.heroe_id FROM games_users gu JOIN games g WHERE g.is_in_progress=FALSE AND gu.fk_user = ?1")
+    Collection<Integer> getHeroeFav(User user);
 }

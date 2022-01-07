@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.game;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,9 @@ public interface GameRepository extends CrudRepository<Game, Integer>{
 	
 	@Query("SELECT g FROM games g WHERE g.winner = user")
 	Collection<Game> findByWinner(User user);
+
+	@Query(nativeQuery=true, value="SELECT COUNT(g.*) FROM Games g JOIN Games_Users gu WHERE g.id = gu.fk_game AND gu.fk_user = ?1 AND g.date BETWEEN ?2 AND ?3")
+	Integer findBetweenDates(User user, Date date1, Date date2);
 
 	@Query(nativeQuery = true, value = "SELECT * FROM Games g JOIN Games_Users gu WHERE g.id = gu.fk_game AND gu.fk_user = ?1")
 	Collection<Game> findByUser(User user);

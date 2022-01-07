@@ -32,7 +32,15 @@ public class EnemyCardService {
 	public Collection<EnemyCard> findOnTableEnemiesByGame(Game game){
 		return enemyCardRepo.findOnTableEnemiesByGame(game);
 	}
+	public Integer countOnTableEnemiesByGame(Game game){
+		return enemyCardRepo.countOnTableEnemiesByGame(game);
+	}
 
+
+	public Collection<EnemyCard> findOnDeckEnemiesByGame(Game game){
+		return enemyCardRepo.findOnDeckEnemiesByGame(game);
+	}
+	
 	public Optional<EnemyCard> findEnemyOfGamesEnemies(GamesEnemies ge){
 		return enemyCardRepo.findEnemyOfGamesEnemies(ge);
 	}

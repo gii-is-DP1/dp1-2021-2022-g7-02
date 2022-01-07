@@ -15,7 +15,6 @@
             <petclinic:inputField label="Name" name="name"/>
             <petclinic:inputField label="Url" name="url"/>                        
             <petclinic:inputField label="Description" name="description"/>    
-            <petclinic:inputField label="DeckId" name="deckid"/>                                            
                        
                                              
                                                

@@ -2,7 +2,6 @@ package org.springframework.samples.notimeforheroes.game;
 
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,10 +20,13 @@ import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsS
 import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarketService;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;
+import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
+import org.springframework.samples.notimeforheroes.game.exceptions.CardNotSelectedException;
 import org.springframework.samples.notimeforheroes.game.exceptions.DontHaveEnoughGoldToBuyException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
+import org.springframework.samples.notimeforheroes.game.exceptions.IncorrectNumberOfEnemiesException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
@@ -36,7 +38,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,6 +62,7 @@ public class GameController {
 	public static final String MARKET_VIEW = "games/marketGame";
 	public static final String GAMES_WINNER = "games/endGame";
 	public static final String RANKING = "games/playersRanking";
+	public static final String DEFEND_VIEW = "games/defendGame";
 
 
 	@Autowired
@@ -92,6 +94,9 @@ public class GameController {
 
 	@Autowired
 	GamesEnemiesService gamesEnemiesService;
+	
+	@Autowired
+	GamesUsersSkillCardsService gameUserSkillCards;
 
 	@GetMapping()
 	public String listGames(ModelMap model) {
@@ -148,14 +153,55 @@ public class GameController {
 		return GAMES_WINNER;
 	}
 
+	
+	@GetMapping("/{gameId}/defendGame")
+	public String listDefendGame(ModelMap model, @PathVariable("gameId") int gameId) {
+		Game game = gameService.findById(gameId).get();
+		User user = userService.getLoggedUser();
+		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
+		enemiesOnTable.stream().forEach(enemy -> enemy.setHealthInGame(gamesEnemiesService.findByGameAndEnemy(game, enemy).get().getHealth()));
+		//Coge los enemigos que queden restante
+		
+		Optional<HeroeCard> heroe = gameUserService.findHeroeOfGameUser(game, user);
+		GameUser gameUser =gameUserService.findByGameAndUser(game, user).get();
+		heroe.get().setMaxHealth(gameUser.getHeroeHealth());
+		//Coge el tu heroe y le pone la vida que le queda en esa partida
+		Integer numberOfSkillCards = gameUserSkillCards.findAllAvailableSkillsandOnTableByGameAndUser(game,user).size();
+		//numero de cartas que tienes en tu mazo y en la mano para que lo puedas saber
+		model.addAttribute("heroes", heroe.get());
+		model.addAttribute("enemies", enemiesOnTable);
+		model.addAttribute("numberOfSkillCards", numberOfSkillCards);
+		model.addAttribute("game",game);
+		model.addAttribute("user", user);
+		
+		
+		return DEFEND_VIEW;
+	}
+	
 	@GetMapping("/{gameId}/marketGame")
 	public String listMarketGame(ModelMap model, @PathVariable("gameId") int gameId) {
 
 		/*Todo esto debería ir en el case BUYING
 		del switch del GetMapping(/{gameId})*/
-		model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
-		model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
+		Game game = gameService.findById(gameId).get();
+		model.addAttribute("game",game);
+		model.addAttribute("market", marketService.findAllByGameAndOnTable(gameService.findById(gameId).get()));
+		model.addAttribute("user", userService.getLoggedUser());
+		model.addAttribute("gameUser", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 		return MARKET_VIEW;
+	}
+	
+	@GetMapping("/{gameId}/endTurn")
+	public String endTurn(ModelMap model, @PathVariable("gameId") int gameId) throws Exception{
+		Game game = gameService.findById(gameId).get();
+		if(game.getUserPlaying().equals(userService.getLoggedUser()) && game.getIsInProgress()){
+			gameService.endTurn(game);
+			return "redirect:/games/"+gameId;
+		}else{
+			model.addAttribute("message", "No puedes cambiar de turno en este momento");
+		}
+		
+		return gamePlaying(model, gameId);
 	}
 
 	@GetMapping("/{gameId}")
@@ -165,7 +211,7 @@ public class GameController {
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
 		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
 		enemiesOnTable.stream().forEach(enemy -> enemy.setHealthInGame(gamesEnemiesService.findByGameAndEnemy(game, enemy).get().getHealth()));
-		model.addAttribute("skills", skillsAvailable);
+		model.addAttribute("skillCardsOnHand", skillsAvailable);
 		model.addAttribute("enemies", enemiesOnTable);
 		model.addAttribute("game",game);
 		model.addAttribute("user", user);
@@ -177,23 +223,49 @@ public class GameController {
 			}
 				
 			case DEFENDING:
-				return null;		//CAMBIAR
+				return DEFEND_VIEW;		
 			case BUYING:
+				model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
+				model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 				return MARKET_VIEW;
 			default:
 				throw new Exception();
 		}
 	}
 
+
+
+	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
+	public String attackPhase(ModelMap model, @RequestParam("skillUsed") Integer skillCardId, @RequestParam("enemySelected") List<Integer> listEnemyCardsSelectedId, HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception{
+		try {
+				gameService.useCard(skillCardId, gameService.findById(gameId).get(), userService.getLoggedUser(),listEnemyCardsSelectedId);
+				return "redirect:"+gameId;
+			
+		} catch (CardNotSelectedException e) {
+			model.addAttribute("message", "Por favor, seleccione una carta, acabe su turno o use su ficha de escape");
+			return gamePlaying(model, gameId);
+		} catch (IncorrectNumberOfEnemiesException e) {
+			model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
+			return gamePlaying(model, gameId);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			model.addAttribute("message", "Error desconocido al usar carta");
+			return gamePlaying(model, gameId);
+		}
+		
+	}
+
 	@GetMapping("/{gameId}/escape")
 	public String escape(ModelMap model, @PathVariable("gameId") int gameId) throws Exception{
-		Game game = gameService.findById(gameId).get();
-		if(game.getUserPlaying().equals(userService.getLoggedUser()) && game.getIsInProgress()){
+		try {
+			Game game = gameService.findById(gameId).get();
+			if(game.getUserPlaying().equals(userService.getLoggedUser()) && game.getIsInProgress()){
 			GameUser gu = gameUserService.findByGameAndUser(game, userService.getLoggedUser()).get();
 			if(gu.getHasEscapeToken()){
 				gameService.endTurn(game);
 				gu.setHasEscapeToken(false);
-				gameUserService.createGameUser(gu);
+				gameUserService.saveGameUser(gu);
 				return "redirect:/games/"+gameId;
 			}else{
 				model.addAttribute("message", "Ya has usado tu ficha de escape");
@@ -201,6 +273,9 @@ public class GameController {
 			
 		}else{
 			model.addAttribute("message", "No puedes usar tu ficha de escape en este momento");
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return gamePlaying(model, gameId);

@@ -5,6 +5,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 
 
 <petclinic:layout pageName="userProfile">
@@ -59,7 +62,7 @@
             
                     </tbody>
     </table>
-
+    
     <h2>Your stats</h2>
 
     <c:if test="${empty games}">  
@@ -119,5 +122,10 @@
             </tbody>
         </table>
     </c:if>  
-    
+ 
+     <p>
+    	<a href="/users/profile/gameDuration" class="btn  btn-success"><span class="glyphicon glyphicon" aria-hidden="true"></span>Game durations</a>
+   		<a href="/users/profile/gameStats" class="btn  btn-success"><span class="glyphicon glyphicon" aria-hidden="true"></span>Game Stats</a>
+    </p>
+
 </petclinic:layout>

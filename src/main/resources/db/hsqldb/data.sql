@@ -90,71 +90,68 @@ INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (8,'Valerys','\res
 --GREEN SKILLS
 INSERT INTO skills(id,name,url,description,color) VALUES (1,'Compañero Lobo', '\resources\images\GreenSkills\CompañeroLobo.png', 'Previene 2 puntos de daño', 'Verde');
 INSERT INTO skills(id,name,url,description,color) VALUES (2,'Disparo certero', '\resources\images\GreenSkills\DisparoCertero.png', 'Pierdes 1 carta - Finalizas el ataque','Verde');
-INSERT INTO skills(id,name,url,description,color) VALUES (3,'Disparo certero 2', '\resources\images\GreenSkills\DisparoCertero.png', 'Pierdes 1 carta - Finalizas el ataque','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (3,'Disparo certero', '\resources\images\GreenSkills\DisparoCertero.png', 'Pierdes 1 carta - Finalizas el ataque','Verde');
 INSERT INTO skills(id,name,url,description,color) VALUES (4,'Disparo Rapido', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
-INSERT INTO skills(id,name,url,description,color) VALUES (5,'Disparo Rapido 2', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
-INSERT INTO skills(id,name,url,description,color) VALUES (6,'Disparo Rapido 3', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
-INSERT INTO skills(id,name,url,description,color) VALUES (7,'Disparo Rapido 4', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
-INSERT INTO skills(id,name,url,description,color) VALUES (8,'Disparo Rapido 5', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
-INSERT INTO skills(id,name,url,description,color) VALUES (9,'Disparo Rapido 6', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (5,'Disparo Rapido', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (6,'Disparo Rapido', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (7,'Disparo Rapido', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (8,'Disparo Rapido', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (9,'Disparo Rapido', '\resources\images\GreenSkills\DisparoRapido.png', 'Roba una carta, si es Disparo Rapido usala. Sino, ponla en el fondo de tu mazo de habilidades','Verde');
 INSERT INTO skills(id,name,url,description,color) VALUES (10,'En la diana', '\resources\images\GreenSkills\EnLaDiana.png', 'Gana una ficha de Gloria - Pierdes 1 carta','Verde');
 INSERT INTO skills(id,name,url,description,color) VALUES (11,'Lluvia de Flechas', '\resources\images\GreenSkills\LluviaDeFlechas.png', 'Dañas a 2 enemigos y al heroe con menos Heridas','Verde');
-INSERT INTO skills(id,name,url,description,color) VALUES (12,'Lluvia de Flechas 2', '\resources\images\GreenSkills\LluviaDeFlechas.png', 'Dañas a 2 enemigos y al heroe con menos Heridas','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (12,'Lluvia de Flechas', '\resources\images\GreenSkills\LluviaDeFlechas.png', 'Dañas a 2 enemigos y al heroe con menos Heridas','Verde');
 INSERT INTO skills(id,name,url,description,color) VALUES (13,'Recoger Flechas', '\resources\images\GreenSkills\RecogerFlechas.png', 'Recupera una carta de Disparo Rapido de tu pila de Desgastes y baraja el mazo de nuevo','Verde');
-INSERT INTO skills(id,name,url,description,color) VALUES (14,'Recoger Flechas 2', '\resources\images\GreenSkills\RecogerFlechas.png', 'Recupera una carta de Disparo Rapido de tu pila de Desgastes y baraja el mazo de nuevo','Verde');
-INSERT INTO skills(id,name,url,description,color) VALUES (15,'Supervivencia', '\resources\images\GreenSkills\Supervivencia.png', 'Cambia uno de los enemigos en el campo de batalla por la carta inferior','Verde');
+INSERT INTO skills(id,name,url,description,color) VALUES (14,'Recoger Flechas', '\resources\images\GreenSkills\RecogerFlechas.png', 'Recupera una carta de Disparo Rapido de tu pila de Desgastes y baraja el mazo de nuevo','Verde');
 
 --BLUE SKILLS
+INSERT INTO skills(id,name,url,description,color) VALUES (15,'Ataque Brutal', '\resources\images\BlueSkills\AtaqueBrutal.png', 'Pierdes 1 carta', 'Azul');
 INSERT INTO skills(id,name,url,description,color) VALUES (16,'Ataque Brutal', '\resources\images\BlueSkills\AtaqueBrutal.png', 'Pierdes 1 carta', 'Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (17,'Ataque Brutal 2', '\resources\images\BlueSkills\AtaqueBrutal.png', 'Pierdes 1 carta', 'Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (18,'Carga con Escudo', '\resources\images\BlueSkills\CargaConEscudo.png', 'Previenes 2 de daño', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (17,'Carga con Escudo', '\resources\images\BlueSkills\CargaConEscudo.png', 'Previenes 2 de daño', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (18,'Doble Espadazo', '\resources\images\BlueSkills\DobleEspadazo.png', 'Pierdes 1 carta', 'Azul');
 INSERT INTO skills(id,name,url,description,color) VALUES (19,'Doble Espadazo', '\resources\images\BlueSkills\DobleEspadazo.png', 'Pierdes 1 carta', 'Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (20,'Doble Espadazo', '\resources\images\BlueSkills\DobleEspadazo.png', 'Pierdes 1 carta', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (20,'Escudo', '\resources\images\BlueSkills\Escudo.png', 'Previenes el daño de un unico enemigo - Finalizas el ataque', 'Azul');
 INSERT INTO skills(id,name,url,description,color) VALUES (21,'Escudo', '\resources\images\BlueSkills\Escudo.png', 'Previenes el daño de un unico enemigo - Finalizas el ataque', 'Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (22,'Escudo 2', '\resources\images\BlueSkills\Escudo.png', 'Previenes el daño de un unico enemigo - Finalizas el ataque', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (22,'Espadazo', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
 INSERT INTO skills(id,name,url,description,color) VALUES (23,'Espadazo', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (24,'Espadazo 2', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (25,'Espadazo 3', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (26,'Espadazo 4', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (24,'Espadazo', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (25,'Espadazo', '\resources\images\BlueSkills\Espadazo.png', 'Roba 1 carta si es el primer Espadazo que juegas en este turno', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (26,'Paso Atras', '\resources\images\BlueSkills\PasoAtras.png', 'Roba 2 cartas', 'Azul');
 INSERT INTO skills(id,name,url,description,color) VALUES (27,'Paso Atras', '\resources\images\BlueSkills\PasoAtras.png', 'Roba 2 cartas', 'Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (28,'Paso Atras 2', '\resources\images\BlueSkills\PasoAtras.png', 'Roba 2 cartas', 'Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (29,'Todo o Nada', '\resources\images\BlueSkills\TodoONada.png', 'Roba 1 carta y agrega su daño al de esta carta, recupera la carta robada', 'Azul');
-INSERT INTO skills(id,name,url,description,color) VALUES (30,'Voz de Aliento', '\resources\images\BlueSkills\VozDeAliento.png', 'Todos recuperan 2 cartas - Roba 1 carta y ganas 1 ficha de Gloria', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (28,'Todo o Nada', '\resources\images\BlueSkills\TodoONada.png', 'Roba 1 carta y agrega su daño al de esta carta, recupera la carta robada', 'Azul');
+INSERT INTO skills(id,name,url,description,color) VALUES (29,'Voz de Aliento', '\resources\images\BlueSkills\VozDeAliento.png', 'Todos recuperan 2 cartas - Roba 1 carta y ganas 1 ficha de Gloria', 'Azul');
 
 --PURPLE SKILLS
-INSERT INTO skills(id,name,url,description,color) VALUES (31,'Aura Protectora', '\resources\images\PurpleSkills\AuraProtectora.png', 'Cancela todo el daño sufrido durante el proximo ataque de la Horda - Pierdes 1 carta por cada enemigo', 'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (32,'Bola de Fuego', '\resources\images\PurpleSkills\BolaDeFuego.png', 'Daña a todos los enemigos - El resto de heroes sufre 1 de Daño', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (30,'Aura Protectora', '\resources\images\PurpleSkills\AuraProtectora.png', 'Cancela todo el daño sufrido durante el proximo ataque de la Horda - Pierdes 1 carta por cada enemigo', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (31,'Bola de Fuego', '\resources\images\PurpleSkills\BolaDeFuego.png', 'Daña a todos los enemigos - El resto de heroes sufre 1 de Daño', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (32,'Disparo Gelido', '\resources\images\PurpleSkills\DisparoGelido.png','El enemigo afectado no causa daño este turno - Roba 1 carta' ,'Morado');
 INSERT INTO skills(id,name,url,description,color) VALUES (33,'Disparo Gelido', '\resources\images\PurpleSkills\DisparoGelido.png','El enemigo afectado no causa daño este turno - Roba 1 carta' ,'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (34,'Disparo Gelido 2', '\resources\images\PurpleSkills\DisparoGelido.png','El enemigo afectado no causa daño este turno - Roba 1 carta' ,'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (35,'Flecha Corrosiva', '\resources\images\PurpleSkills\FlechaCorrosiva.png', 'Aumenta en 1 el daño de las siguientes cartas que causen daño a este enemigo - Pierdes 1 carta', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (34,'Flecha Corrosiva', '\resources\images\PurpleSkills\FlechaCorrosiva.png', 'Aumenta en 1 el daño de las siguientes cartas que causen daño a este enemigo - Pierdes 1 carta', 'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (35,'Golpe de baston', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
 INSERT INTO skills(id,name,url,description,color) VALUES (36,'Golpe de baston', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (37,'Golpe de baston 2', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (38,'Golpe de baston 3', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (39,'Golpe de baston 4', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (40,'Orbe Curativo', '\resources\images\PurpleSkills\OrbeCurativo.png','Todos los Heroes recuperan 2 cartas - Eliminas 1 herida de tu Heroe' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (37,'Golpe de baston', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (38,'Golpe de baston', '\resources\images\PurpleSkills\GolpeDeBaston.png','Si ya utilizaste Golpe de Baston contra el mismo enemigo, el daño de esta carta es 2' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (39,'Orbe Curativo', '\resources\images\PurpleSkills\OrbeCurativo.png','Todos los Heroes recuperan 2 cartas - Eliminas 1 herida de tu Heroe' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (40,'Proyectil Igneo', '\resources\images\PurpleSkills\ProyectilIgneo.png','Ganas 1 ficha de Gloria' ,'Morado');
 INSERT INTO skills(id,name,url,description,color) VALUES (41,'Proyectil Igneo', '\resources\images\PurpleSkills\ProyectilIgneo.png','Ganas 1 ficha de Gloria' ,'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (42,'Proyectil Igneo 2', '\resources\images\PurpleSkills\ProyectilIgneo.png','Ganas 1 ficha de Gloria' ,'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (43,'Proyectil Igneo 3', '\resources\images\PurpleSkills\ProyectilIgneo.png','Ganas 1 ficha de Gloria' ,'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (44,'Reconstitucion', '\resources\images\PurpleSkills\Reconstitucion.png','Roba 1 carta - Recuperas 2 cartas' ,'Morado');
-INSERT INTO skills(id,name,url,description,color) VALUES (45,'Torrente de Luz', '\resources\images\PurpleSkills\TorrenteDeLuz.png','El resto de Heroes recuperan 2 cartas - Ganas 1 ficha de Gloria' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (42,'Proyectil Igneo', '\resources\images\PurpleSkills\ProyectilIgneo.png','Ganas 1 ficha de Gloria' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (43,'Reconstitucion', '\resources\images\PurpleSkills\Reconstitucion.png','Roba 1 carta - Recuperas 2 cartas' ,'Morado');
+INSERT INTO skills(id,name,url,description,color) VALUES (44,'Torrente de Luz', '\resources\images\PurpleSkills\TorrenteDeLuz.png','El resto de Heroes recuperan 2 cartas - Ganas 1 ficha de Gloria' ,'Morado');
 
 --RED SKILLS
+INSERT INTO skills(id,name,url,description,color) VALUES (45,'Al Corazon', '\resources\images\RedSkills\AlCorazon.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Al Corazon este turno - Pierdes 1 carta' ,'Rojo');
 INSERT INTO skills(id,name,url,description,color) VALUES (46,'Al Corazon', '\resources\images\RedSkills\AlCorazon.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Al Corazon este turno - Pierdes 1 carta' ,'Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (47,'Al Corazon 2', '\resources\images\RedSkills\AlCorazon.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Al Corazon este turno - Pierdes 1 carta' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (47,'Ataque Furtivo', '\resources\images\RedSkills\AtaqueFurtivo.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Ataque Furtivo este turno' ,'Rojo');
 INSERT INTO skills(id,name,url,description,color) VALUES (48,'Ataque Furtivo', '\resources\images\RedSkills\AtaqueFurtivo.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Ataque Furtivo este turno' ,'Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (49,'Ataque Furtivo 2', '\resources\images\RedSkills\AtaqueFurtivo.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Ataque Furtivo este turno' ,'Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (50,'Ataque Furtivo 3', '\resources\images\RedSkills\AtaqueFurtivo.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Ataque Furtivo este turno' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (49,'Ataque Furtivo', '\resources\images\RedSkills\AtaqueFurtivo.png','Si derrotas un enemigo con este ataque, ganas 1 Moneda si no has jugado otro Ataque Furtivo este turno' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (50,'Ballesta Precisa', '\resources\images\RedSkills\BallestaPrecisa.png','Si ya utilizaste Ballesta Precisa contra el mismo enemigo, el daño de esta carta es 3' ,'Rojo');
 INSERT INTO skills(id,name,url,description,color) VALUES (51,'Ballesta Precisa', '\resources\images\RedSkills\BallestaPrecisa.png','Si ya utilizaste Ballesta Precisa contra el mismo enemigo, el daño de esta carta es 3' ,'Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (52,'Ballesta Precisa 2', '\resources\images\RedSkills\BallestaPrecisa.png','Si ya utilizaste Ballesta Precisa contra el mismo enemigo, el daño de esta carta es 3' ,'Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (53,'Ballesta Precisa 3', '\resources\images\RedSkills\BallestaPrecisa.png','Si ya utilizaste Ballesta Precisa contra el mismo enemigo, el daño de esta carta es 3' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (52,'Ballesta Precisa', '\resources\images\RedSkills\BallestaPrecisa.png','Si ya utilizaste Ballesta Precisa contra el mismo enemigo, el daño de esta carta es 3' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (53,'En las Sombras', '\resources\images\RedSkills\EnLasSombras.png','Previenes 2 puntos de daño' ,'Rojo');
 INSERT INTO skills(id,name,url,description,color) VALUES (54,'En las Sombras', '\resources\images\RedSkills\EnLasSombras.png','Previenes 2 puntos de daño' ,'Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (55,'En las Sombras 2', '\resources\images\RedSkills\EnLasSombras.png','Previenes 2 puntos de daño' ,'Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (56,'Engañar', '\resources\images\RedSkills\Engañar.png','El enemigo elegido no causa daño este turno. Debes gastar 2 Monedas para hacer uso de esta carta' ,'Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (57,'Robar Bolsillos', '\resources\images\RedSkills\RobarBolsillos.png','Roba 1 Moneda a cada Heroe' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (55,'Engañar', '\resources\images\RedSkills\Engañar.png','El enemigo elegido no causa daño este turno. Debes gastar 2 Monedas para hacer uso de esta carta' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (56,'Robar Bolsillos', '\resources\images\RedSkills\RobarBolsillos.png','Roba 1 Moneda a cada Heroe' ,'Rojo');
+INSERT INTO skills(id,name,url,description,color) VALUES (57,'Saqueo', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
 INSERT INTO skills(id,name,url,description,color) VALUES (58,'Saqueo', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (59,'Saqueo 2', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
-INSERT INTO skills(id,name,url,description,color) VALUES (60,'Trampa', '\resources\images\RedSkills\Trampa.png','Situa esta carta frente a ti. Al resolver el ataque de la Horda derrotas al enemigo mas fuerte. El botin de ese enemigo se pierde' ,'Rojo');
-
 
 
 --ASIGNAR SKILLS A HEROES
@@ -200,18 +197,347 @@ INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold
 INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (15,'Boss 3', '\resources\images\enemies\boss3.png', true, 10, 6, 0, 0);
 
 
+--Actions
+
+--damage
+INSERT INTO Actions (id, type, cantidad) VALUES (1, 0, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (2, 0, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (3, 0, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (4, 0, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (5, 0, 4);
+INSERT INTO Actions (id, type, cantidad) VALUES (6, 0, 5);
+--draw
+INSERT INTO Actions (id, type, cantidad) VALUES (7, 1, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (8, 1, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (9, 1, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (10, 1, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (11, 1, 4);
+--recover
+INSERT INTO Actions (id, type, cantidad) VALUES (12, 2, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (13, 2, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (14, 2, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (15, 2, 3);
+--gainglory
+INSERT INTO Actions (id, type, cantidad) VALUES (16, 3, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (17, 3, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (18, 3, 2);
+--gainGold
+INSERT INTO Actions (id, type, cantidad) VALUES (19, 4, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (20, 4, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (21, 4, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (22, 4, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (23, 4, 4);
+INSERT INTO Actions (id, type, cantidad) VALUES (24, 4, 5);
+INSERT INTO Actions (id, type, cantidad) VALUES (25, 4, 6);
+INSERT INTO Actions (id, type, cantidad) VALUES (26, 4, 7);
+INSERT INTO Actions (id, type, cantidad) VALUES (27, 4, 8);
+--loseGold
+INSERT INTO Actions (id, type, cantidad) VALUES (28, 5, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (29, 5, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (30, 5, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (31, 5, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (32, 5, 4);
+--gainLife
+INSERT INTO Actions (id, type, cantidad) VALUES (33, 6, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (34, 6, 1);
+--Defense
+INSERT INTO Actions (id, type, cantidad) VALUES (35, 7, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (36, 7, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (37, 7, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (38, 7, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (39, 7, 4);
+INSERT INTO Actions (id, type, cantidad) VALUES (40, 7, 5);
+INSERT INTO Actions (id, type, cantidad) VALUES (41, 7, 6);
+INSERT INTO Actions (id, type, cantidad) VALUES (42, 7, 7);
+INSERT INTO Actions (id, type, cantidad) VALUES (43, 7, 8);
+INSERT INTO Actions (id, type, cantidad) VALUES (44, 7, 9);
+INSERT INTO Actions (id, type, cantidad) VALUES (45, 7, 10);
+--Discard
+INSERT INTO Actions (id, type, cantidad) VALUES (46, 8, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (47, 8, 1);
+INSERT INTO Actions (id, type, cantidad) VALUES (48, 8, 2);
+INSERT INTO Actions (id, type, cantidad) VALUES (49, 8, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (50, 8, 4);
+INSERT INTO Actions (id, type, cantidad) VALUES (51, 8, 5);
+INSERT INTO Actions (id, type, cantidad) VALUES (52, 8, 6);
+INSERT INTO Actions (id, type, cantidad) VALUES (53, 8, 7);
+INSERT INTO Actions (id, type, cantidad) VALUES (54, 8, 8);
+INSERT INTO Actions (id, type, cantidad) VALUES (55, 8, 9);
+INSERT INTO Actions (id, type, cantidad) VALUES (56, 8, 10);
+INSERT INTO Actions (id, type, cantidad) VALUES (57, 8, 11);
+INSERT INTO Actions (id, type, cantidad) VALUES (58, 8, 12);
+INSERT INTO Actions (id, type, cantidad) VALUES (59, 8, 13);
+INSERT INTO Actions (id, type, cantidad) VALUES (60, 8, 14);
+INSERT INTO Actions (id, type, cantidad) VALUES (61, 8, 15);
+INSERT INTO Actions (id, type, cantidad) VALUES (62, 8, 16);
+INSERT INTO Actions (id, type, cantidad) VALUES (63, 8, 17);
+INSERT INTO Actions (id, type, cantidad) VALUES (64, 8, 18);
+INSERT INTO Actions (id, type, cantidad) VALUES (65, 8, 19);
+INSERT INTO Actions (id, type, cantidad) VALUES (66, 8, 20);
+INSERT INTO Actions (id, type, cantidad) VALUES (67, 8, 21);
+INSERT INTO Actions (id, type, cantidad) VALUES (68, 8, 22);
+--endAttackPhase
+INSERT INTO Actions (id, type, cantidad) VALUES (69, 9, 0);
+INSERT INTO Actions (id, type, cantidad) VALUES (70, 9, 1);
+
+
+
+--ACTION_CARDS
+
+--Actions Green SkillCards
+
+    --compañero lobo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 1);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 1);
+
+    --disparo certero
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 2);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 2);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 2);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 3);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 3);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 3);
+
+    --disparo rápido
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 4);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 4);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 5);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 5);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 6);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 6);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 7);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 7);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 8);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 8);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 9);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 9);
+
+    --en la diana
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (5, 10);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 10);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 10);
+
+    --luvia de flechas
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 11);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 11);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 12);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 12);
+
+    --recoger flechas
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (13, 13);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 13);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (13, 14);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 14);
+
+--Actions Blue SkillCards
+
+    --ataque brutal
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 15);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 15);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 16);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 16);
+
+    --carga con escudo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 17);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 17);
+
+    --doble espadazo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 18);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 18);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 19);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 19);
+
+    --escudo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (38, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (39, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (40, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (41, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (42, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (43, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (44, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 20);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 20);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (38, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (39, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (40, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (41, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (42, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (43, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (44, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 21);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (70, 21);
+
+    --espadazo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 22);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 22);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 23);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 23);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 24);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 24);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 25);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 25);
+
+    --paso atrás
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (9, 26);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (9, 27);
+
+    --todo o nada
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 28);   
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (13, 28);  --añade el daño de la carta robada arriba
+
+    --voz de aliento
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 29);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 29);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 29);
+
+--Actions Purple SkillCards
+
+    --aura protectora
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (48, 30);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (49, 30);
+
+    --bola de fuego
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 31);   --el resto de jugadores recibe 1 de daño
+
+    --disparo gélido
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 32);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 32);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 32);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 33);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 33);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 33);
+
+    --flecha corrosiva
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 34);      --añade 1 de daño a las 3 cartas siguientes
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 34);
+
+    --golpe de bastón
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 35);   --si este enemigo ya recibió golpe de bastón, el daño es 2 en vez de 1
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 36);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 37);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 38);
+
+    --orbe curativo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 39);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (34, 39);
+
+    --proyectil ígneo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 40);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 40);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 41);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 41);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 42);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 42);
+
+    --resconstitución
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (8, 43);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (14, 43);
+
+    --torrente de luz
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 44);  -- el resto recupera 2 cartas
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 44);
+
+
+--Actions Red SkillCards
+
+    --al corazón
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (5, 45);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 45);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 45);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (5, 46);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 46);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (47, 46);
+
+    --ataque furtivo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 47);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 47);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 48);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 48);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 49);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 49);
+
+    --bayesta precisa
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 50);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 50);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 51);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 51);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (3, 52);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (4, 52);
+
+    --en las sombras
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 53);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 53);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (2, 54);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 54);
+
+    --engañar
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 55);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (30, 55);
+
+    --robar bolsillos
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 56);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 56);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 56);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (29, 56); --a
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (29, 56); --los
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (29, 56);  --otros
+
+    --saqueo
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 57);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 57);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 57);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 57);
+
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 58);
+
+--Games
+
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (1,1,'2021-11-03',1000,FALSE,TRUE,'1e7be91755b7497080849ef0910c044d',null);
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (2,2,'2021-11-05',3600,FALSE,FALSE,'99ae49ed18bf458e89576a2d313a6e70',null);
 INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner) VALUES (3,3,'2021-11-05',null,FALSE,TRUE,'99ae43ed18bf458e89576b2d313a6e70',null);
-INSERT INTO games(id,creator,date,duration,is_in_progress,is_public,join_code,winner, user_playing, game_state) VALUES (4,6,'2021-11-06',null,TRUE,TRUE,'99ae43ed18bf488e84576a2d313a6e71',null,3, 0);
 
 INSERT INTO games_users(fk_game,fk_user) VALUES(1,1);
 INSERT INTO games_users(fk_game,fk_user) VALUES(2,2);
-INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,3,0,0,TRUE,null,8);   --pabloespada
-INSERT INTO games_users(fk_game,fk_user,glory,gold,has_escape_token,winner,heroe_id) VALUES(4,6,0,0,TRUE,null,3);   --mromalde
-
-
-INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (3,2,1); --Habilidad 2 añadida al jugador 6 (pabloespada) en la partida 4 
 
 /*
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
@@ -220,5 +546,3 @@ INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) V
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,3,2); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
 INSERT INTO GAMES_USERS_SKILL_CARDS(GAME_USER_ID, SKILL_CARDS_ID, SKILL_STATE) VALUES (4,2,1); --Habilidad 3 añadida al jugador 3 (mromalde) en la partida 4 
 */
-
-
