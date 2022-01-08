@@ -23,10 +23,10 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${ranking}" var="ranking1">
+            <c:forEach items="${ranking}" var="ranking1" varStatus="status">
                 <tr>
                     <td>
-                        <c:out value=""></c:out>
+                        <c:out value="${status.count}"></c:out>
                     </td>
                     <td>
                         <c:out value="${ranking1[0]}"/>
