@@ -12,5 +12,5 @@ public interface achievementsUsersRepository extends CrudRepository<achievements
 	
 	
 
-	Collection<achievementsUsers> findAllByUser(User user);
+	//Collection<achievementsUsers> findAllByUser(User user);
 }

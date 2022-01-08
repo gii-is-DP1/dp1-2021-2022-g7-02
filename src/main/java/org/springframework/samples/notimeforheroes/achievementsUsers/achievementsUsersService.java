@@ -16,7 +16,7 @@ public class achievementsUsersService {
 		return achievementsUsersRepository.findAll();
 	}
 	
-	public Collection<achievementsUsers> findAllbyUser(User user){
+	/*public Collection<achievementsUsers> findAllbyUser(User user){
 		return achievementsUsersRepository.findAllByUser(user);
-	}
+	}*/
 }
