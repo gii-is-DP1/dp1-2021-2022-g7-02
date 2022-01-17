@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.game.Game;
@@ -48,6 +49,14 @@ public class UserController {
 	
 	@Autowired
 	HeroeCardsService heroeCardService;
+	
+	@GetMapping("/{pageNo}")
+	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Collection<User> lista = userService.findAllPage(pageNo, 5);
+		model.addAttribute("user", lista);
+		model.addAttribute("pag", pageNo);
+		return USER_LISTING;
+	}
 	
 	@GetMapping
 	public String listUsers(ModelMap model) {

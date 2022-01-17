@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.cards.enemycard;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -7,6 +8,9 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,17 @@ public class EnemyCardService {
 	@Autowired
 	EnemyCardRepository enemyCardRepo;
 	
+	
+	@Transactional
+	public Collection<EnemyCard> findAllPage(Integer pageNo, Integer pageSize){
+		Pageable pagin = PageRequest.of(pageNo, pageSize);
+		Page<EnemyCard> pageResult = enemyCardRepo.findAll(pagin);
+		if(pageResult.hasContent()) {
+			return pageResult.getContent();
+		} else {
+			return new ArrayList<EnemyCard>();
+		}
+	}
 	
 	@Transactional
 	public Collection<EnemyCard> findAll(){

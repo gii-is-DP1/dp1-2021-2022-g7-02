@@ -2,12 +2,16 @@ package org.springframework.samples.notimeforheroes.cards.marketcard;
 
 import java.util.Collection;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.notimeforheroes.game.Game;
 
 public interface MarketCardsRepository extends CrudRepository<MarketCard, Integer>{
 
+	Page<MarketCard> findAll(Pageable page);
+	
 	Collection<MarketCard> findAll();
 
 	@Query(nativeQuery = true, value = "SELECT gm.fk_market FROM games_markets gm WHERE gm.fk_game=?1")

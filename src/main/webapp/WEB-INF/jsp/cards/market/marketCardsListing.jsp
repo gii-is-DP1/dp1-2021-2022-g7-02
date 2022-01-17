@@ -22,8 +22,7 @@
 				<th style="width: 10%;">Image</th>
 				<th style="width: 25%;">Cost</th>
 				<th style="width: 70%;">Description</th>
-				<th style="width: 5%;"></th>
-				<th style="width: 5%;"></th>
+
 
 
 			</tr>
@@ -35,21 +34,20 @@
 					<td><img src="${market.url}" style="height: 4cm; width: auto;"></td>
 					<td><c:out value="${market.cost}" /></td>
 					<td><c:out value="${market.description}" /></td>
-					
-					<td><a href="/cards/market/${market.id}/edit"> <span
-							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-					</a></td>
-					<td><a href="/cards/market/${market.id}/delete"> <span
-							class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-					</a></td>
+
 				</tr>
 
 
 			</c:forEach>
 		</tbody>
 	</table>
-	<p>
-		<a href="/cards/market/new" class="btn btn-success"><span
-			class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Market Card</a>
-	</p>
+     <c:if test="${pag != 0}">      
+	<td>
+		<a href="/cards/market/${pag-1}"> <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Previous page</a>
+	</td>
+	</c:if>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<td>
+		<a href="/cards/market/${pag+1}"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>Next Page</a>
+	</td>
 </petclinic:layout>

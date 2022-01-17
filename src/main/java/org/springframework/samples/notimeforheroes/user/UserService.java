@@ -13,6 +13,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
@@ -30,6 +34,18 @@ public class UserService {
 
 	@Autowired
 	GameService gameService;
+	
+	
+	@Transactional
+	public Collection<User> findAllPage(Integer pageNo, Integer pageSize){
+		Pageable pagin = PageRequest.of(pageNo, pageSize);
+		Page<User> pageResult = userRepository.findAll(pagin);
+		if(pageResult.hasContent()) {
+			return pageResult.getContent();
+		} else {
+			return new ArrayList<User>();
+		}
+	}
 	
 	@Transactional
 	public Collection<User> findAll(){
