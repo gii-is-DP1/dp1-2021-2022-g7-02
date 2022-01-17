@@ -31,16 +31,19 @@ public class UserService {
 	@Autowired
 	GameService gameService;
 	
+	//
 	@Transactional
 	public Collection<User> findAll(){
 		return userRepository.findAll();
 	}
 	
+	//
 	@Transactional
 	public Optional<User> findById(Integer id){
 		return userRepository.findById(id);
 	}
 
+	//
 	public Optional<User> findByUsername(String username){
 		return userRepository.findByUsername(username);
 	}
@@ -55,6 +58,7 @@ public class UserService {
 		return loggedUser;
 	}
 
+	//
 	public Boolean isUserAdmin(User user){
 		Set<Authorities> authorities = user.getAuthorities();
 		return authorities.stream().anyMatch(auth -> auth.getAuthority().equals("admin"));

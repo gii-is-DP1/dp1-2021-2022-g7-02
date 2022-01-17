@@ -128,6 +128,7 @@ public class GameService {
 		return gameRepository.findByUser(user);
 	}
 	
+	//
 	public Integer findBetweenDates(User user, LocalDate LocalDate1, LocalDate LocalDate2){
 		Date date1=Date.valueOf(LocalDate1);
 		Date date2=Date.valueOf(LocalDate2);
@@ -138,6 +139,7 @@ public class GameService {
 		return gameRepository.findGameInProgressByUser(user);
 	}
 
+	//HAY QUE HACERLO
 	public TreeMap<Integer,User> getClassification(Game game){
 		TreeMap<Integer,User> players = new TreeMap<Integer,User>(Collections.reverseOrder());
 		for (User user : game.getUsers()) {
@@ -225,6 +227,7 @@ public class GameService {
 
 	}
 
+	//
 	@Transactional
 	public void addPlayerToGame(@Valid Game game, User user) throws GameFullException, GameCurrentNotUniqueException{
 		
@@ -316,11 +319,12 @@ public class GameService {
 		game.setGameState(GameState.BUYING);
 	}
 
-
+	//
 	@Transactional
 	public void updateGame(@Valid Game game){
 		gameRepository.save(game);
 	}
+	
 	//
 	@Transactional
 	public void deleteGame(Game game) {
