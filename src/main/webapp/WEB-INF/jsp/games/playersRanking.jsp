@@ -29,10 +29,10 @@
                         <c:out value="${status.count}"></c:out>
                     </td>
                     <td>
-                        <c:out value="${ranking1[0]}"/>
+                        <c:out value="${ranking1.get(0)}"/>
                     </td>
                     <td>
-                        <c:out value="${ranking1[1]}"/>
+                        <c:out value="${ranking1.get(1)}"/>
                     </td>
                 </tr>
             </c:forEach>

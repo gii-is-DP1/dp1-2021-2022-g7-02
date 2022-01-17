@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import javax.persistence.Tuple;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -94,40 +95,39 @@ public class GameService {
 	public Collection<Game> findAvailableGames(){
 		return userService.isUserAdmin(userService.getLoggedUser()) ? gameRepository.findAll() : gameRepository.findPublicAndOwn(userService.getLoggedUser());
 	}
-
+	//
 	public Collection<Game> findAll(){
 		return gameRepository.findAll();
 	}
-	
-	public List<Object> findRanking(){
+	//
+	public List<Tuple> findRanking(){
 		return gameRepository.findRanking();
 	}
-
+	//
 	public Optional<Game> findById(Integer id){
 		return gameRepository.findById(id);
-		
 	}
-	
+	//
 	public Collection<Game> findAllEnded(){
 		return gameRepository.findAllEnded();
 	}
-
+	//
 	public Collection<Game> findByWinner(User user){
 		return gameRepository.findByWinner(user);
 	}
-	
+	//
 	public Collection<Game> findAllByIsInProgress(){
 		return gameRepository.findAllByIsInProgress(true);
 	}
-
+	//
 	public Collection<Game> findAllByCreator(User user){
 		return gameRepository.findAllByCreator(user);
 	}
-
+	//
 	public Optional<Game> findByJoinCode(String joinCode){
 		return gameRepository.findByJoinCode(joinCode.trim());
 	}
-
+	//
 	public Collection<Game> findByUser(User user){
 		return gameRepository.findByUser(user);
 	}
@@ -137,8 +137,7 @@ public class GameService {
 		Date date2=Date.valueOf(LocalDate2);
 		return gameRepository.findBetweenDates(user, date1, date2);
 	}
-
-
+	//
 	public Optional<Game> findGameInProgressByUser(User user){
 		return gameRepository.findGameInProgressByUser(user);
 	}
@@ -170,7 +169,7 @@ public class GameService {
 		}
 
 	}
-
+	//
 	@Transactional
 	public void createGame(@Valid Game game){	
 		
@@ -326,7 +325,7 @@ public class GameService {
 	public void updateGame(@Valid Game game){
 		gameRepository.save(game);
 	}
-	
+	//
 	@Transactional
 	public void deleteGame(Game game) {
 		gameRepository.deleteById(game.getId());
