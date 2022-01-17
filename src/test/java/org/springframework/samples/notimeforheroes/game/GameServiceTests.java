@@ -9,16 +9,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import javax.persistence.Tuple;
 import javax.persistence.TupleElement;
 import javax.validation.constraints.Null;
 
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
@@ -71,6 +74,9 @@ public class GameServiceTests{
 
 		//		
 		assertTrue(gameService.findById(g1.getId()).orElse(null).equals(g1));
+
+		//
+		assertFalse(gameService.findById(g1.getId()).orElse(null).equals(g2));
 	}
 	
 	@Test
@@ -85,6 +91,16 @@ public class GameServiceTests{
 		
 		//		
 		assertTrue(gamesInDatabase.contains(game));
+
+		Game game2 = new Game();
+		game2.setCreator(userService.findById(1).orElse(null));
+		game2.setDate(LocalDate.now());
+		game2.setDuration(4000);
+		game2.setIsInProgress(false);
+		Collection<Game> gamesInDatabase2 = gameService.findAll();
+
+		//
+		assertFalse(gamesInDatabase2.contains(game2));
 	}
 	
 	@Test
@@ -105,6 +121,20 @@ public class GameServiceTests{
 
 		//
 		assertFalse(gamesInDatabase.contains(game));
+	}
+
+	@Test
+	void testUpdateGame(){
+		Game game = gameConstructor(1, LocalDate.now(), 100, false);
+		gameService.createGame(game);
+		game.setCreator(userService.findById(2).orElse(null));
+		gameService.updateGame(game);
+
+		//
+		assertFalse(game.getCreator().equals(userService.findById(1).orElse(null)));
+
+		//
+		assertTrue(game.getCreator().equals(userService.findById(2).orElse(null)));
 	}
 
 	@Test
@@ -266,12 +296,14 @@ public class GameServiceTests{
 
 		User gamer3 = userService.findById(1).orElse(null);
 
+		//
 		assertFalse(!g1.getUsers().contains(gamer3));
 
 		users.add(gamer3);
 
 		gameService.updateGame(g1);
 
+		//
 		assertTrue(g1.getUsers().contains(gamer3));
 	}
 
@@ -300,9 +332,75 @@ public class GameServiceTests{
 				res = tuple.get(0).equals(userService.findById(2).orElse(null).getUsername()) && tuple.get(1).toString().equals("1");
 			}
 		}
+
+		//
 		assertTrue(res);
+
+		for (Tuple tuple : ranking) {
+			if(cont == 1){
+				res = !tuple.get(0).equals(userService.findById(1).orElse(null).getUsername()) && tuple.get(1).toString().equals("2");
+				cont++;
+			}
+			if(cont == 0){
+				res = !tuple.get(0).equals(userService.findById(2).orElse(null).getUsername()) && tuple.get(1).toString().equals("1");
+			}
+		}
+
+		//
+		assertFalse(res);
+	}
+
+	@Test
+	void testFindBetweenDates(){
+		Game g1 = gameConstructor(1, LocalDate.of(2022, 1, 13), 100, false);
+		Game g2 = gameConstructor(1, LocalDate.of(2022, 1, 14), 100, false);
+		User gamer1 = userService.findById(1).orElse(null);
+		User gamer2 = userService.findById(2).orElse(null);
+		List<User> lista = new ArrayList<User>() {{add(gamer1); add(gamer2);}};
+		g1.setUsers(lista);
+		g2.setUsers(lista);
+		gameService.createGame(g1); gameService.createGame(g2);
+
+		Integer findBetweenDates = gameService.findBetweenDates(gamer1, LocalDate.of(2022, 1, 12), LocalDate.of(2022, 1, 15));
+
+		//
+		assertTrue(findBetweenDates == 2);
+
+		Integer findBetweenDates2 = gameService.findBetweenDates(gamer1, LocalDate.of(2022, 1, 14), LocalDate.of(2022, 1, 15));
+
+		//
+		assertFalse(findBetweenDates2 == 2);
 	}
 	
+	@Test
+	void testGetClassification(){
+
+		Game g1 = gameConstructor(1, LocalDate.now(), 1000, false);
+
+		User gamer1 = userService.findById(1).orElse(null);
+		User gamer2 = userService.findById(2).orElse(null);
+		List<User> lista = new ArrayList<User>() {{add(gamer1); add(gamer2);}};
+		g1.setUsers(lista);
+		gameService.createGame(g1);
+
+		for (User user : g1.getUsers()) {
+			int plus = 0;
+			GameUser gamer = gameUserService.findByGameAndUser(g1, user).orElse(null);
+			gamer.setGlory(130+plus);
+			gamer.setGold(18);
+			gameUserService.saveGameUser(gamer);
+			plus = 30;
+		}
+
+		TreeMap<Integer,User> resEsperado = new TreeMap<Integer,User>();
+		resEsperado.put(166, gamer2);
+		resEsperado.put(136, gamer1);
+
+		TreeMap<Integer,User> clasi = gameService.getClassification(g1);
+
+		System.out.println(resEsperado);
+	}
+
 	@Test
 	void testFindAllByCreator(){
 		Game g1 = gameConstructor(1, LocalDate.now(), 10, false);
