@@ -74,7 +74,12 @@ INSERT INTO authorities(id,authority,username) VALUES (5,'admin','mromalde');
 INSERT INTO authorities(id,authority,username) VALUES (6,'admin','mario');
 INSERT INTO authorities(id,authority,username) VALUES (7,'admin','javier');
 
-INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
+INSERT INTO achievement(id,name,description) VALUES (1,'Rookie', 'Play the first game');
+INSERT INTO achievement(id,name,description) VALUES (2,'Experienced', 'Play five games');
+INSERT INTO achievement(id,name,description) VALUES (3,'First win', 'Win a game');
+INSERT INTO achievement(id,name,description) VALUES (4,'Some level', 'Win five games');
+INSERT INTO achievement(id,name,description) VALUES (5,'Pro', 'Win ten games');
+INSERT INTO achievement(id,name,description) VALUES (6,'Expert', 'Win twenty games');
 
 
 INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (1,'Taheral','\resources\images\Taheral.png',2, 'Al realizar la maniobra de evasión, coge dos monedas por cada carta que descartes. Una vez por partida.','Morado');

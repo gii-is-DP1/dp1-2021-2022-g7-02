@@ -53,6 +53,10 @@ public class GameUserService {
 		return gameUserRepository.findAllByGame(game);
 	}
 
+	public Collection<GameUser> findAllGamesbyUser(User user){
+		return gameUserRepository.findAllGamesbyUser(user.getId());
+	}
+
 	public Optional<GameUser> findByGameAndUser(Game game, User user){
 		return gameUserRepository.findByGameAndUser(game.getId(), user.getId());
 	}

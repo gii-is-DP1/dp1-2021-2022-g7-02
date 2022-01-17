@@ -42,3 +42,4 @@ public interface GameRepository extends CrudRepository<Game, Integer>{
 	@Query(nativeQuery = true, value = "SELECT  u.username as username, count(winner) as count  FROM GAMES g join users u where u.id=winner group by winner order by count(winner) desc, u.username asc LIMIT 10")
 	List<Object> findRanking();
 }
+

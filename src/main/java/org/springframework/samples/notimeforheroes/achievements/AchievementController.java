@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/achievements")
-public class AchievementControler {
+public class AchievementController {
 
 
 	public static final String ACHIEVEMENTS_LISTING = "achievements/achievementsListing";
@@ -33,6 +33,8 @@ public class AchievementControler {
 		return ACHIEVEMENTS_LISTING;
 		
 	}
+
+	
 	
 	@GetMapping("/{id}/edit")
 	public String editAchievement(ModelMap model, @PathVariable("id") int id) {
