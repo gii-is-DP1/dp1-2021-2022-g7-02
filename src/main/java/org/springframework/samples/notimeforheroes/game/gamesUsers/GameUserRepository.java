@@ -26,12 +26,12 @@ public interface GameUserRepository extends CrudRepository<GameUser, Integer> {
     Optional<List<Integer>> findItemsOfGameUser(Integer gameId, Integer userId);
 
 
-    @Query(nativeQuery = true, value = "SELECT DISTINCT gu.gold FROM games_users gu JOIN games g WHERE g.is_in_progress=FALSE AND gu.fk_user = ?1")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT gu.gold FROM games_users gu JOIN games g WHERE g.is_in_progress=FALSE AND gu.fk_user = ?1 AND gu.gold IS NOT NULL")
     Collection<Integer> findAllGoldByUser(User user);
     
-    @Query(nativeQuery = true, value = "SELECT DISTINCT gu.glory FROM games_users gu JOIN games g WHERE g.is_in_progress=FALSE AND gu.fk_user = ?1")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT gu.glory FROM games_users gu JOIN games g WHERE g.is_in_progress=FALSE AND gu.fk_user = ?1 AND gu.glory IS NOT NULL")
     Collection<Integer> findAllGloryByUser(User user);
-    
-    @Query(nativeQuery = true, value = "SELECT DISTINCT gu.heroe_id FROM games_users gu JOIN games g WHERE g.is_in_progress=FALSE AND gu.fk_user = ?1")
-    Collection<Integer> getHeroeFav(User user);
+
+    @Query(nativeQuery = true, value = "SELECT gu.heroe_id FROM games_users gu WHERE gu.fk_user = ?1 AND gu.heroe_id IS NOT NULL")
+    Collection<Integer> getAllHeroesByUser(User user);
 }

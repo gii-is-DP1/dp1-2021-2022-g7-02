@@ -26,7 +26,7 @@ public interface GameRepository extends CrudRepository<Game, Integer>{
 	@Query(nativeQuery = true, value = "SELECT DISTINCT g.* FROM GAMES g JOIN GAMES_USERS gu WHERE g.id= gu.fk_game AND (g.is_public=true or (g.is_public=false and gu.fk_user=?1))")
 	Collection<Game> findPublicAndOwn(User user);
 	
-	@Query("SELECT g FROM games g WHERE g.winner = user")
+	@Query("SELECT g FROM games g WHERE g.winner = ?1 AND g.winner IS NOT NULL")
 	Collection<Game> findByWinner(User user);
 
 	@Query(nativeQuery=true, value="SELECT COUNT(g.*) FROM Games g JOIN Games_Users gu WHERE g.id = gu.fk_game AND gu.fk_user = ?1 AND g.date BETWEEN ?2 AND ?3")

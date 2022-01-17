@@ -2,6 +2,7 @@ package org.springframework.samples.notimeforheroes.game.gamesUsers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -100,7 +101,7 @@ public class GameUserService {
 	}
 	
 	public Integer getHeroeFav(User user){
-		Collection<Integer> heroeFav = gameUserRepository.getHeroeFav(user);
+		Collection<Integer> heroeFav = gameUserRepository.getAllHeroesByUser(user);
 		if(heroeFav.size() == 0) {
 			return null;
 		} else {
@@ -110,7 +111,15 @@ public class GameUserService {
 	                .map(Map.Entry::getKey).orElse(null);
 			return heroeMostRepeat;
 		}
-
+	}
+	public Integer getAllUsesOfaHeroeByUser(User user, int heroeNumber){
+		Collection<Integer> heroesUses = gameUserRepository.getAllHeroesByUser(user);
+		if(heroesUses.size() == 0) {
+			return 0;
+		} else {
+			Integer heroeUses = Collections.frequency(heroesUses, heroeNumber);
+			return heroeUses;
+		}
 	}
 }
 

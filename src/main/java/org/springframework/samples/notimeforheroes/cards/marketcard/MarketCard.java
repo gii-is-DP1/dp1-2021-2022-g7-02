@@ -10,7 +10,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.springframework.samples.notimeforheroes.actions.Action;
-
 import org.springframework.samples.petclinic.model.NamedEntity;
 
 import lombok.Getter;

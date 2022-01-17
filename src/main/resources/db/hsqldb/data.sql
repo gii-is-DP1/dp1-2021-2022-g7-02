@@ -73,9 +73,54 @@ INSERT INTO authorities(id,authority,username) VALUES (4,'player','pabloespada2'
 INSERT INTO authorities(id,authority,username) VALUES (5,'admin','mromalde');
 INSERT INTO authorities(id,authority,username) VALUES (6,'admin','mario');
 INSERT INTO authorities(id,authority,username) VALUES (7,'admin','javier');
-
-INSERT INTO achievement(id,name,description) VALUES (1,'Sherif', 'Play two games');
-
+--Play games
+INSERT INTO achievement(id,name,description, number, type) VALUES (1,'Beginner', 'Play one game', 1, 0);
+INSERT INTO achievement(id,name,description, number, type) VALUES (2,'Student', 'Play two games', 2, 0);
+INSERT INTO achievement(id,name,description, number, type) VALUES (3,'Experienced', 'Play five games', 5, 0);
+--Win games
+INSERT INTO achievement(id,name,description, number, type) VALUES (4,'Cool', 'Win one game', 1, 1);
+INSERT INTO achievement(id,name,description, number, type) VALUES (5,'Not Bad', 'Win two games', 2, 1);
+INSERT INTO achievement(id,name,description, number, type) VALUES (6,'Pro', 'Win five games', 5, 1);
+--Play with Heroe1
+INSERT INTO achievement(id,name,description, number, type) VALUES (7,'Quack', 'Play one game with Taheral', 1, 2);
+INSERT INTO achievement(id,name,description, number, type) VALUES (8,'Wizard', 'Play two games with Taheral', 2, 2);
+INSERT INTO achievement(id,name,description, number, type) VALUES (9,'Witcher', 'Play Five games with Taheral', 5, 2);
+--Play with Heroe2
+INSERT INTO achievement(id,name,description, number, type) VALUES (10,'Archer', 'Play one game with Idril', 1, 3);
+INSERT INTO achievement(id,name,description, number, type) VALUES (11,'Hunter', 'Play two games with Idril', 2, 3);
+INSERT INTO achievement(id,name,description, number, type) VALUES (12,'Revenant', 'Play Five games with Idril', 5, 3);
+--Play with Heroe3
+INSERT INTO achievement(id,name,description, number, type) VALUES (13,'Thief', 'Play one game with Feldon', 1, 4);
+INSERT INTO achievement(id,name,description, number, type) VALUES (14,'Ninja', 'Play two games with Feldon', 2, 4);
+INSERT INTO achievement(id,name,description, number, type) VALUES (15,'Assasin', 'Play Five games with Feldon', 5, 4);
+--Play with Heroe4
+INSERT INTO achievement(id,name,description, number, type) VALUES (16,'Killer', 'Play one game with Lisavette', 1, 5);
+INSERT INTO achievement(id,name,description, number, type) VALUES (17,'Warrior', 'Play two games with Lisavette', 2, 5);
+INSERT INTO achievement(id,name,description, number, type) VALUES (18,'Boss', 'Play Five games with Lisavette', 5, 5);
+--Play with Heroe5
+INSERT INTO achievement(id,name,description, number, type) VALUES (19,'Quack', 'Play one game with Aranel', 1, 6);
+INSERT INTO achievement(id,name,description, number, type) VALUES (20,'Wizard', 'Play two games with Aranel', 2, 6);
+INSERT INTO achievement(id,name,description, number, type) VALUES (21,'Witcher', 'Play Five games with Aranel', 5, 6);
+--Play with Heroe6
+INSERT INTO achievement(id,name,description, number, type) VALUES (22,'Archer', 'Play one game with Beleth-Il', 1, 7);
+INSERT INTO achievement(id,name,description, number, type) VALUES (23,'Hunter', 'Play two games with Beleth-Il', 2, 7);
+INSERT INTO achievement(id,name,description, number, type) VALUES (24,'Revenant', 'Play Five games with Beleth-Il', 5, 7);
+--Play with Heroe7
+INSERT INTO achievement(id,name,description, number, type) VALUES (25,'Thief', 'Play one game with Neddia', 1, 8);
+INSERT INTO achievement(id,name,description, number, type) VALUES (26,'Ninja', 'Play two games with Neddia', 2, 8);
+INSERT INTO achievement(id,name,description, number, type) VALUES (27,'Assasin', 'Play Five games with Neddia', 5, 8);
+--Play with Heroe8
+INSERT INTO achievement(id,name,description, number, type) VALUES (28,'Killer', 'Play one game with Valerys', 1, 9);
+INSERT INTO achievement(id,name,description, number, type) VALUES (29,'Warrior', 'Play two games with Valerys', 2, 9);
+INSERT INTO achievement(id,name,description, number, type) VALUES (30,'Boss', 'Play Five games with Valerys', 5, 9);
+--Gold
+INSERT INTO achievement(id,name,description, number, type) VALUES (31,'Goblin', 'Obtain 10 gold coins', 10, 10);
+INSERT INTO achievement(id,name,description, number, type) VALUES (32,'Leprechaun', 'Obtain 20 gold coins', 20, 10);
+INSERT INTO achievement(id,name,description, number, type) VALUES (33,'Gollum', 'Obtain 50 gold coins', 50, 10);
+--Glory
+INSERT INTO achievement(id,name,description, number, type) VALUES (34,'Magno', 'Obtain 10 glory points', 10, 11);
+INSERT INTO achievement(id,name,description, number, type) VALUES (35,'Atila', 'Obtain 20 glory points', 20, 11);
+INSERT INTO achievement(id,name,description, number, type) VALUES (36,'Cesar', 'Obtain 50 glory points', 50, 11);
 
 INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (1,'Taheral','\resources\images\Taheral.png',2, 'Al realizar la maniobra de evasión, coge dos monedas por cada carta que descartes. Una vez por partida.','Morado');
 INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (2,'Idril','\resources\images\Idril.png',3, 'En cualquier momento puedes mirar las tres cartas inferiores de la horda y devolverlas al mazo en el orden que prefieras. Dos veces por partida.','Verde');
