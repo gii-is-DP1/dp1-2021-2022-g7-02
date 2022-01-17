@@ -33,7 +33,7 @@ description="Name of the active menu: home, owners, vets or error"%>
 
 				<petclinic:menuItem active="${name eq 'vets'}" url="/games/current" title="Current game">
 					<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-					<span>Current game</span>
+					<span>Playing</span>
 				</petclinic:menuItem>
 
 				<sec:authorize access='hasAuthority("admin")'>
@@ -97,9 +97,14 @@ description="Name of the active menu: home, owners, vets or error"%>
 					</petclinic:menuItem>
 				</sec:authorize>
 				
-				<petclinic:menuItem active="${name eq 'vets'}" url="/achievements" title="Achievements">
+				<petclinic:menuItem active="${name eq 'ranking'}" url="/games/playersRanking" title="Ranking">
+					<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+					<span>Ranking</span>
+				</petclinic:menuItem>
+
+				<petclinic:menuItem active="${name eq 'achievements'}" url="/achievements" title="Achievements">
 					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>
-					<span></span>
+					<span>Achievements</span>
 				</petclinic:menuItem>
 			</ul>
 

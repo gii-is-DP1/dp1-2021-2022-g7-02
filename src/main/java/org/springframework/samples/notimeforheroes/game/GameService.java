@@ -95,6 +95,10 @@ public class GameService {
 		return gameRepository.findAll();
 	}
 	
+	public List<Object> findRanking(){
+		return gameRepository.findRanking();
+	}
+
 	public Optional<Game> findById(Integer id){
 		return gameRepository.findById(id);
 		
