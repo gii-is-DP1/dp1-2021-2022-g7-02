@@ -21,8 +21,6 @@
 				<th style="width: 10%;">Name</th>
 				<th style="width: 10%;">Image</th>
 				<th style="width: 70%;">Description</th>
-				<th style="width: 5%;"></th>
-				<th style="width: 5%;"></th>
 
 
 			</tr>
@@ -33,21 +31,20 @@
 					<td><c:out value="${skill.name}" /></td>
 					<td><img src="${skill.url}" style="height: 4cm; width: auto;"></td>
 					<td><c:out value="${skill.description}" /></td>
-					
-					<td><a href="/cards/skills/${skill.id}/edit"> <span
-							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-					</a></td>
-					<td><a href="/cards/skills/${skill.id}/delete"> <span
-							class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-					</a></td>
 				</tr>
 
 
 			</c:forEach>
 		</tbody>
 	</table>
-	<p>
-		<a href="/cards/skills/new" class="btn  btn-success"><span
-			class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Skill</a>
-	</p>
+	     <c:if test="${pag != 0}">      
+	<td>
+		<a href="/cards/skills/${pag-1}"> <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Previous page</a>
+	</td>
+	</c:if>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<td>
+		<a href="/cards/skills/${pag+1}"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>Next Page</a>
+	</td>
+
 </petclinic:layout>

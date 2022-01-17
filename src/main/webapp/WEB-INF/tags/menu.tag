@@ -37,7 +37,7 @@ description="Name of the active menu: home, owners, vets or error"%>
 				</petclinic:menuItem>
 
 				<sec:authorize access='hasAuthority("admin")'>
-					<petclinic:menuItem active="${name eq 'vets'}" url="/users" title="Users">
+					<petclinic:menuItem active="${name eq 'vets'}" url="/users/0" title="Users">
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						<span>Users</span>
 					</petclinic:menuItem>
@@ -48,7 +48,7 @@ description="Name of the active menu: home, owners, vets or error"%>
 							<li>
 								<div class="row">
 									<div class="text-center">
-										<a href="<c:url value=" /cards/heroes" />">Heroes</a>
+										<a href="<c:url value=" /cards/heroes/0" />">Heroes</a>
 									</div>
 								</div>
 							</li>
@@ -56,7 +56,7 @@ description="Name of the active menu: home, owners, vets or error"%>
 							<li>
 								<div class="row">
 									<div class="text-center">
-										<a href="<c:url value=" /cards/scenes" />">Scenes</a>
+										<a href="<c:url value=" /cards/skills/0" />">Hero Skill</a>
 									</div>
 								</div>
 							</li>
@@ -64,7 +64,7 @@ description="Name of the active menu: home, owners, vets or error"%>
 							<li>
 								<div class="row">
 									<div class="text-center">
-										<a href="<c:url value=" /cards/skills" />">Hero Skill</a>
+										<a href="<c:url value=" /cards/enemies/0" />">Enemies</a>
 									</div>
 								</div>
 							</li>
@@ -72,15 +72,7 @@ description="Name of the active menu: home, owners, vets or error"%>
 							<li>
 								<div class="row">
 									<div class="text-center">
-										<a href="<c:url value=" /cards/enemies" />">Enemies</a>
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="row">
-									<div class="text-center">
-										<a href="<c:url value=" /cards/market" />">Market cards</a>
+										<a href="<c:url value=" /cards/market/0" />">Market cards</a>
 									</div>
 								</div>
 							</li>

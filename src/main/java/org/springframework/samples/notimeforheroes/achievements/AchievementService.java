@@ -19,7 +19,6 @@ public class AchievementService {
 	@Autowired
 	AchievementRepository achievementsRepo;
 	
-	
 	@Transactional
 	public Collection<Achievement> findAll(){
 		return achievementsRepo.findAll();
@@ -55,5 +54,6 @@ public class AchievementService {
             }else
                 achievementsRepo.save(achievement);                
 	}
+	
 	
 }
