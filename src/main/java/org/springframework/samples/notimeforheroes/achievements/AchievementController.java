@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/achievements")
-public class AchievementControler {
+public class AchievementController {
 
 
 	public static final String ACHIEVEMENTS_LISTING = "achievements/achievementsListing";
