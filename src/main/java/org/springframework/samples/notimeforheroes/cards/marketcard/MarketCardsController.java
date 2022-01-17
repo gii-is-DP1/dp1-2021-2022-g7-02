@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.cards.marketcard;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -25,6 +27,15 @@ public class MarketCardsController {
 	
 	@Autowired
 	MarketCardsService MarketService;
+	
+	@GetMapping("/{pageNo}")
+	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Collection<MarketCard> lista = MarketService.findAllPage(pageNo, 5);
+		model.addAttribute("market", lista);
+		model.addAttribute("pag", pageNo);
+
+		return MARKET_CARD_LISTING;
+	}
 	
 	@GetMapping
 	public String listMarketCard(ModelMap model) {

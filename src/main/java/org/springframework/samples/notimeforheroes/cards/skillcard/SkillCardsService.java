@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.cards.skillcard;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
@@ -8,6 +9,10 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
 import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemiesService;
@@ -34,8 +39,21 @@ public class SkillCardsService {
 	GamesEnemiesService gamesEnemiesService;
 	
 	@Transactional
+	public Collection<SkillCard> findAllPage(Integer pageNo, Integer pageSize){
+		Pageable pagin = PageRequest.of(pageNo, pageSize);
+		Page<SkillCard> pageResult = skillRepository.findAll(pagin);
+		if(pageResult.hasContent()) {
+			return pageResult.getContent();
+		} else {
+			return new ArrayList<SkillCard>();
+		}
+	}
+	
+	
+	@Transactional
 	public Collection<SkillCard> findAll(){
 		return skillRepository.findAll();
+
 	}
 	
 	@Transactional

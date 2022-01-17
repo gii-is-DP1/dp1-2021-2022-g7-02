@@ -63,6 +63,30 @@
                     </tbody>
     </table>
     
+    <h2>Number of games</h2>
+    <table id="statsTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>This Week</th>
+                    <th>This Month</th>
+                    <th>Media by day</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td>
+                            <c:out value="${Week}"/>
+                        </td>
+                        <td>
+                            <c:out value="${Month}"/>
+                        </td>
+                        <td>
+                            <c:out value="${Week/7}"/>
+                        </td>
+                    </tr>
+            </tbody>
+    </table> 
+        
     <h2>Your stats</h2>
 
     <c:if test="${empty games}">  
@@ -121,7 +145,7 @@
                 </c:forEach> 
             </tbody>
         </table>
-    </c:if>  
+    </c:if> 
  
      <p>
     	<a href="/users/profile/gameDuration" class="btn  btn-success"><span class="glyphicon glyphicon" aria-hidden="true"></span>Game durations</a>

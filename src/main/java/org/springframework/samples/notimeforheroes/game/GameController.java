@@ -97,7 +97,7 @@ public class GameController {
 	
 	@Autowired
 	GamesUsersSkillCardsService gameUserSkillCards;
-
+	
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
