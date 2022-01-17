@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.game.Game;
@@ -49,6 +50,14 @@ public class UserController {
 	@Autowired
 	HeroeCardsService heroeCardService;
 	
+	@GetMapping("/{pageNo}")
+	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Collection<User> lista = userService.findAllPage(pageNo, 5);
+		model.addAttribute("user", lista);
+		model.addAttribute("pag", pageNo);
+		return USER_LISTING;
+	}
+	
 	@GetMapping
 	public String listUsers(ModelMap model) {
 		model.addAttribute("user", userService.findAll());
@@ -60,8 +69,6 @@ public class UserController {
 	public String GameStats(ModelMap model) {
 		User user = userService.getLoggedUser();
 		Integer heroeFav = gameUserService.getHeroeFav(user);
-		Integer playsInWeek=gameService.findBetweenDates(user, LocalDate.now().minusDays(7), LocalDate.now());
-		Integer playsInMonth=gameService.findBetweenDates(user, LocalDate.now().minusDays(30), LocalDate.now());
 		if(heroeFav == null) {
 			model.addAttribute("heroe",null );
 		} else {
@@ -71,8 +78,6 @@ public class UserController {
 		}
 		model.addAttribute("AllGold", gameUserService.getAllGoldByUser(user));
 		model.addAttribute("AllGlory", gameUserService.getAllGloryByUser(user));
-		model.addAttribute("Week", playsInWeek);
-		model.addAttribute("Month",playsInMonth);
 
 		return USER_GAME_STATS;
 		
@@ -105,11 +110,15 @@ public class UserController {
 	@GetMapping("/profile")
 	public String PlayerProfile(ModelMap model) {
 		User user = userService.getLoggedUser();
-			model.addAttribute("user", user);
-			model.addAttribute("games", gameService.findByUser(user));
-			Map<User, Integer> players = userService.getListOfOpponents(user);
-			model.addAttribute("players", players);
-			return USER_PROFILE;
+		model.addAttribute("user", user);
+		model.addAttribute("games", gameService.findByUser(user));
+		Map<User, Integer> players = userService.getListOfOpponents(user);
+		model.addAttribute("players", players);
+		Integer playsInWeek=gameService.findBetweenDates(user, LocalDate.now().minusDays(7), LocalDate.now());
+		Integer playsInMonth=gameService.findBetweenDates(user, LocalDate.now().minusDays(30), LocalDate.now());
+		model.addAttribute("Week", playsInWeek);
+		model.addAttribute("Month",playsInMonth);
+		return USER_PROFILE;
 	}
 
 	@GetMapping("/profile/edit")

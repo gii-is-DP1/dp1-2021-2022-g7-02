@@ -100,7 +100,7 @@ public class GameUserService {
 	}
 	
 	public Integer getHeroeFav(User user){
-		Collection<Integer> heroeFav = gameUserRepository.getHeroeFav(user);
+		Collection<Integer> heroeFav = gameUserRepository.getAllHeroesByUser(user);
 		if(heroeFav.size() == 0) {
 			return null;
 		} else {
