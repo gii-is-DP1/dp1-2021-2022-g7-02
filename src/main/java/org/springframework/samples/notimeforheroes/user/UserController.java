@@ -52,7 +52,9 @@ public class UserController {
 	
 	@GetMapping("/{pageNo}")
 	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
-		Collection<User> lista = userService.findAllPage(pageNo, 5);
+		Integer lastPage = userService.findAll().size()/4;
+		model.addAttribute("lastPag", lastPage);
+		Collection<User> lista = userService.findAllPage(pageNo, 4);
 		model.addAttribute("user", lista);
 		model.addAttribute("pag", pageNo);
 		return USER_LISTING;
@@ -180,7 +182,7 @@ public class UserController {
 			}
 			else {
 				redirect.addFlashAttribute("message", "You cannot modify this user");
-				return "redirect:/users";
+				return "redirect:/users/0";
 			}
 
 		}
@@ -214,7 +216,7 @@ public class UserController {
 		} else {
 			userService.saveUser(user);
 			redirect.addFlashAttribute("message", "User created");
-			return "redirect:/users";
+			return "redirect:/users/0";
 		}
 	}
 	
@@ -224,7 +226,7 @@ public class UserController {
 		userService.deleteUser(user.get());
 		listUsers(model);
 		redirect.addFlashAttribute("message", "User deleted");
-		return "redirect:/users";
+		return "redirect:/users/0";
 
 	}
 	

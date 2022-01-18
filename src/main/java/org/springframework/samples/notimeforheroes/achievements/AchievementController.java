@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.achievements;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -26,6 +28,19 @@ public class AchievementController {
 	
 	@Autowired
 	AchievementService achievementService;
+	
+	
+	@GetMapping("/{pageNo}")
+	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Collection<Achievement> lista = achievementService.findAllPage(pageNo, 3);
+		Integer lastPage = achievementService.findAll().size()/3;
+		model.addAttribute("achievement", lista);
+		model.addAttribute("pag", pageNo);
+		model.addAttribute("lastPag", lastPage);
+		model.addAttribute("results", achievementService.achievedAchievement());
+		return ACHIEVEMENTS_LISTING;
+	}
+	
 	
 	@GetMapping
 	public String listAchievements(ModelMap model) {

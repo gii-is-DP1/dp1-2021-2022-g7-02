@@ -75,9 +75,11 @@
 		</td>
 	</c:if>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<c:if test="${pag != lastPag}">      
 	<td>
 		<a href="/users/${pag+1}"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>Next Page</a>
 	</td>
+	</c:if>
 	<br><br><br>
     <p>
     	<a href="/users/new" class="btn  btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add User</a>

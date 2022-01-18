@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.notimeforheroes.achievements.exceptions.DuplicatedAchievementNameException;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.game.GameService;
@@ -33,7 +36,18 @@ public class AchievementService {
 	@Autowired
 	GameUserService gameUserService;
 	
-
+	
+	@Transactional
+	public Collection<Achievement> findAllPage(Integer pageNo, Integer pageSize) {
+		Pageable pagin = PageRequest.of(pageNo, pageSize);
+		Page<Achievement> pageResult = achievementsRepo.findAll(pagin);
+		if (pageResult.hasContent()) {
+			return pageResult.getContent();
+		} else {
+			return new ArrayList<Achievement>();
+		}
+	}
+	
 	@Transactional
 	public Collection<Achievement> findAll() {
 		return achievementsRepo.findAll();
