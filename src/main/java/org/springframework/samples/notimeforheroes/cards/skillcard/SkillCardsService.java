@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.List;
 
@@ -14,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.samples.notimeforheroes.actions.Action;
+import org.springframework.samples.notimeforheroes.actions.TypesActions;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
-import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
 import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemiesService;
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCards;
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
@@ -207,5 +208,59 @@ public class SkillCardsService {
 			gamesUsersSkillCardsService.saveGameUserSkillCard(gusc);
 		}
 	}
+
+
+    public void useEscudo(EnemyCard enemyTargeted, Game game, User user, SkillCard skillCard) {
+		Integer dañoDeEnemigoSeleccionado = gamesEnemiesService.findByGameAndEnemy(game, enemyTargeted).get().getHealth();
+		gamesUsersSkillCardsService.defendDamage(game, user, dañoDeEnemigoSeleccionado);
+		gamesUsersSkillCardsService.endAttackTurn(game);
+    }
+
+
+    public void useEspadazo(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
+		gamesEnemiesService.damageEnemy(game, enemyCard, user, 1);
+		Integer numeroRandom = new Random().nextInt(4);
+		if(numeroRandom == 0)
+			gamesUsersSkillCardsService.drawCards(game, user, 1);
+    }
+
+
+	public void useTodoONada(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
+		Integer daño = 1;
+		List<SkillCard> mazo = findAllOnDeckSkillsByGameAndUser(game, user);
+		for(SkillCard card : mazo){	//Comprueba cual es la siguiente carta del mazo que tiene una única acción de daño, y le añade el valor de dicho daño al ataque
+			List<Action> attackActions = card.getActions().stream().filter(action -> action.getType().equals(TypesActions.DAMAGE)).collect(Collectors.toList());
+			if(attackActions.size() == 1){
+				daño += attackActions.get(0).getCantidad();
+				break;
+			}		
+		}
+		gamesEnemiesService.damageEnemy(game, enemyCard, user, daño);
+	}
+
+
+    public void useVozDeAliento(Game game, User user, SkillCard skillCard) throws Exception {
+
+		//Devuelve dos cartas del mazo de descarte a todos los jugadores vivos
+		for(User userInGame : game.getUsers()){
+			List<SkillCard> cartasDescartadas = findAllOnDiscardedSkillsByGameAndUser(game, userInGame);
+			if(cartasDescartadas.size() == 1 && gameUserService.findByGameAndUser(game, userInGame).get().getHeroeHealth() > 0){
+				GamesUsersSkillCards gusc = gamesUsersSkillCardsService.findByGameUserSkill(game, userInGame, cartasDescartadas.get(0)).orElse(null);
+				gusc.setSkillState(SkillState.ONDECK);
+				gamesUsersSkillCardsService.saveGameUserSkillCard(gusc);
+			}else if(cartasDescartadas.size() >= 2 && gameUserService.findByGameAndUser(game, userInGame).get().getHeroeHealth() > 0){
+				for(int i = 0; i<2 ; i++){
+					GamesUsersSkillCards gusc = gamesUsersSkillCardsService.findByGameUserSkill(game, userInGame, cartasDescartadas.get(i)).orElse(null);
+					gusc.setSkillState(SkillState.ONDECK);
+					gamesUsersSkillCardsService.saveGameUserSkillCard(gusc);
+				}
+			}
+		}
+
+		gamesUsersSkillCardsService.drawCards(game, user, 1);
+		gamesUsersSkillCardsService.gainGlory(game, user, 1);
+
+
+    }
 
 }

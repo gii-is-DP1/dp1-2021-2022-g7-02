@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,6 +30,8 @@ public class HeroeCardsController {
 	
 	@GetMapping("/{pageNo}")
 	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Integer lastPage = HeroeCardService.findAll().size()/4;
+		model.addAttribute("lastPag", lastPage);
 		Collection<HeroeCard> lista = HeroeCardService.findAllPage(pageNo, 4);
 		model.addAttribute("heroes", lista);
 		model.addAttribute("pag", pageNo);

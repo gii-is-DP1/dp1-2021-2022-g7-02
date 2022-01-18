@@ -51,8 +51,10 @@
 	</td>
 	</c:if>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<c:if test="${pag != lastPag-1}">      
 	<td>
 		<a href="/cards/enemies/${pag+1}"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>Next Page</a>
 	</td>
+	</c:if>
 
 </petclinic:layout>

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +20,7 @@ public class HeroeCardsService {
 	@Autowired
 	HeroeCardsRepository heroeCardsRepo;
 
+	//
 	@Transactional
 	public Collection<HeroeCard> findAllPage(Integer pageNo, Integer pageSize) {
 		Pageable pagin = PageRequest.of(pageNo, pageSize);
@@ -44,11 +44,13 @@ public class HeroeCardsService {
 		return heroeCardsRepo.findById(id);
 	}
 
+	//
 	@Transactional
 	public void deleteHeroeCard(HeroeCard card) {
 		heroeCardsRepo.deleteById(card.getId());
 	}
 
+	//
 	@Transactional
 	public void createHeroeCard(@Valid HeroeCard card) {
 		heroeCardsRepo.save(card);
@@ -64,11 +66,12 @@ public class HeroeCardsService {
 		return heroeCardsRepo.findByColor(color);
 	}
 
+	//
 	public Collection<HeroeCard> findByColorAndGame(String color, Game game) {
 		return heroeCardsRepo.findByColorAndGame(color, game);
 	}
 
-	
+	//
 	public Collection<HeroeCard> findHeroesOfGame(Game game) {
 		return heroeCardsRepo.findHeroesOfGame(game);
 	}

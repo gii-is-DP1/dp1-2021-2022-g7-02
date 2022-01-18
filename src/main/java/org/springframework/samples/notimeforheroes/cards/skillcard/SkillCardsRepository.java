@@ -3,7 +3,6 @@ package org.springframework.samples.notimeforheroes.cards.skillcard;
 import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.annotations.CollectionId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
