@@ -18,42 +18,45 @@ public class AchievementService {
 
 	@Autowired
 	AchievementRepository achievementsRepo;
-	
+
 	@Transactional
-	public Collection<Achievement> findAll(){
+	public Collection<Achievement> findAll() {
 		return achievementsRepo.findAll();
 	}
-	
+
+	//
 	@Transactional
-	public Optional<Achievement> findById(Integer id){
+	public Optional<Achievement> findById(Integer id) {
 		return achievementsRepo.findById(id);
 	}
-	
+
+	//
 	@Transactional
 	public void deleteAchievement(Achievement achievement) {
 		achievementsRepo.deleteById(achievement.getId());
 	}
-	
+
+	//
 	@Transactional
 	public void createAchievement(@Valid Achievement achievement) {
 		achievementsRepo.save(achievement);
 	}
-	
-	
+
+	//
 	@Transactional(rollbackOn = DuplicatedAchievementNameException.class)
-	public void saveAchievement(Achievement achievement) throws DataAccessException,DuplicatedAchievementNameException { 
-			List<String> names=new ArrayList<String>();
-			List<Achievement> achievements= (List<Achievement>) this.findAll();
-			for (int i=0; i<achievements.size(); i++) {
+	public void saveAchievement(Achievement achievement)
+			throws DataAccessException, DuplicatedAchievementNameException {
+		List<String> names = new ArrayList<String>();
+		List<Achievement> achievements = (List<Achievement>) this.findAll();
+		for (int i = 0; i < achievements.size(); i++) {
+			names.add(achievements.get(i).getName());
+			if (!achievements.get(i).getId().equals(achievement.getId()))
 				names.add(achievements.get(i).getName());
-				if(!achievements.get(i).getId().equals(achievement.getId()))
-					names.add(achievements.get(i).getName());
-			}
-            if (names.contains(achievement.getName())) {            	
-            	throw new DuplicatedAchievementNameException();
-            }else
-                achievementsRepo.save(achievement);                
+		}
+		if (names.contains(achievement.getName())) {
+			throw new DuplicatedAchievementNameException();
+		} else
+			achievementsRepo.save(achievement);
 	}
-	
-	
+
 }
