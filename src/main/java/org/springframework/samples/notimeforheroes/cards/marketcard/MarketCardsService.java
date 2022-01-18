@@ -23,51 +23,56 @@ public class MarketCardsService {
 
 	@Autowired
 	GameMarketService gameMarketService;
-	
+
+	//
 	@Transactional
-	public Collection<MarketCard> findAllPage(Integer pageNo, Integer pageSize){
+	public Collection<MarketCard> findAllPage(Integer pageNo, Integer pageSize) {
 		Pageable pagin = PageRequest.of(pageNo, pageSize);
 		Page<MarketCard> pageResult = marketRepository.findAll(pagin);
-		if(pageResult.hasContent()) {
+		if (pageResult.hasContent()) {
 			return pageResult.getContent();
 		} else {
 			return new ArrayList<MarketCard>();
 		}
 	}
-	
+
+	//
 	@Transactional
-	public Collection<MarketCard> findAll(){
+	public Collection<MarketCard> findAll() {
 		return marketRepository.findAll();
 	}
-	
+
+	//
 	@Transactional
-	public Optional<MarketCard> findById(Integer id){
+	public Optional<MarketCard> findById(Integer id) {
 		return marketRepository.findById(id);
 	}
 
-	public Collection<MarketCard> findByGame(Game game){
+	//
+	public Collection<MarketCard> findByGame(Game game) {
 		return marketRepository.findAllByGame(game);
 	}
-	
-	public Collection<MarketCard> findByGameOnDeck(Game game){
-		
+
+	//
+	public Collection<MarketCard> findByGameOnDeck(Game game) {
 		return marketRepository.findAllByGameAndOnDeck(game);
 	}
 
-	public Collection<MarketCard> findAllByGameAndOnTable(Game game){
-		
+	//
+	public Collection<MarketCard> findAllByGameAndOnTable(Game game) {
 		return marketRepository.findAllByGameAndOnTable(game);
 	}
-	
-	
+
+	//
 	@Transactional
 	public void saveMarketCard(@Valid MarketCard market) {
 		marketRepository.save(market);
 	}
-	
+
+	//
 	@Transactional
 	public void deleteMarketCard(MarketCard market) {
 		marketRepository.delete(market);
 	}
-	
+
 }

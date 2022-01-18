@@ -5,15 +5,34 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+<<<<<<< HEAD
+=======
+import java.util.List;
+>>>>>>> b434d1c5d6e855688f18cf59f59fe2a8d4cb66b7
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
+<<<<<<< HEAD
+=======
+import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
+import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemiesService;
+import org.springframework.samples.notimeforheroes.game.Game;
+import org.springframework.samples.notimeforheroes.game.GameService;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
+import org.springframework.samples.notimeforheroes.user.User;
+import org.springframework.samples.notimeforheroes.user.UserService;
+import org.springframework.samples.notimeforheroes.user.UsersServiceTests;
+import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
+>>>>>>> b434d1c5d6e855688f18cf59f59fe2a8d4cb66b7
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -21,43 +40,103 @@ public class EnemyCardServiceTest {
 
 	@Autowired
 	EnemyCardService enemyCardService;
+
+	@Autowired
+	GameService gameService;
+
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	GameUserService gameUserService;
 	
+	@Autowired
+	GamesEnemiesService gamesEnemie;
+
 	@Test
-	public void TestNoEnemyCard() {
+	void testFindAllEnemiesPagination() {
+		Integer enemies = enemyCardService.findAllPage(0, 2).size();
+		assertTrue(enemies == 2);
+	}
+
+	@Test
+	void TestNoEnemyCard() {
 		Collection<EnemyCard> enemyCard = enemyCardService.findAll();
-		for(EnemyCard c : enemyCard) {
+		for (EnemyCard c : enemyCard) {
 			enemyCardService.deleteEnemyCard(c);
 		}
 		assertThat(enemyCardService.findAll().isEmpty()).isTrue();
 
 	}
 
+	@Test
+	void testCountOnTableEnemiesByGame() {
+		Game game = gameConstructor(1, LocalDate.now(), 10, false);
+		gameService.createGame(game);
+
+		Integer enemies = enemyCardService.countOnTableEnemiesByGame(game);
+
+		assertTrue(enemies == 3);
+
+	}
 	
 	@Test
-	public void TestFindAllEnemies() {
+	void testFindOnDeckEnemiesByGame() {
+		Game game = gameConstructor(1, LocalDate.now(), 10, false);
+		gameService.createGame(game);
+		
+		Integer enemiesOnTable = enemyCardService.countOnTableEnemiesByGame(game);
+		Integer enemiesOnDeck = enemyCardService.findOnDeckEnemiesByGame(game).size();
+		Integer enemies = enemyCardService.findAll().size() - 2;
+		
+		assertTrue(enemies - enemiesOnTable == enemiesOnDeck  );
+				
+	}
+	
+	@Test
+	void testFindEnemyOfGamesEnemies() {
+		EnemyCard enemy = NewEnemyCard(0, 0, 0, 0, "easdasds", "uasdasdrl");
+		enemyCardService.createEnemyCard(enemy);
+		
+		Game game = gameConstructor(1, LocalDate.now(), 10, false);
+		gameService.createGame(game);
+
+		assertTrue(enemyCardService.findOnTableEnemiesByGame(game).size() == 3);
+	}
+
+	@Test
+	void testFindAllByIsBoss() {
+		Collection<EnemyCard> enemyCard = enemyCardService.findAll();
+
+		Collection<EnemyCard> enemyCardIsBoos = enemyCardService.findAllByIsBoss(true);
+
+		assertTrue(enemyCard.containsAll(enemyCardIsBoos));
+	}
+
+	@Test
+	void TestFindAllEnemies() {
 		Integer AllEnemies = enemyCardService.findAll().size();
 		EnemyCard enemy = NewEnemyCard(1, 1, 1, 1, "name", "url");
 		enemyCardService.createEnemyCard(enemy);
-		
+
 		Integer NewAllEnemies = enemyCardService.findAll().size();
 		assertTrue(NewAllEnemies == AllEnemies + 1);
 	}
 
-	
 	@Test
-	public void TestFindByIdEnemyCard() {
+	void TestFindByIdEnemyCard() {
 		EnemyCard enemy = NewEnemyCard(1, 1, 1, 1, "name", "url");
 		enemyCardService.createEnemyCard(enemy);
-		
+
 		assertTrue(enemyCardService.findById(enemy.getId()).orElse(null).equals(enemy));
 	}
-	
+
 	@Test
-	public void testOneEnemyCard() {
-		Collection<EnemyCard> enemyCards= enemyCardService.findAll();
-		for(EnemyCard c : enemyCards) {
+	void testOneEnemyCard() {
+		Collection<EnemyCard> enemyCards = enemyCardService.findAll();
+		for (EnemyCard c : enemyCards) {
 			enemyCardService.deleteEnemyCard(c);
-		}		
+		}
 		EnemyCard enemyCard = new EnemyCard();
 		enemyCard.setExtraGlory(1);
 		enemyCard.setExtraGold(0);
@@ -65,20 +144,20 @@ public class EnemyCardServiceTest {
 		enemyCard.setMaxHealth(4);
 		enemyCard.setName("Enemigo");
 		enemyCard.setUrl(".");
-		
+
 		enemyCardService.createEnemyCard(enemyCard);
 		assertThat(enemyCardService.findAll().size()).isEqualTo(1);
 		assertThat(new ArrayList<>(enemyCardService.findAll()).get(0).getName()).isEqualTo(enemyCard.getName());
 
 	}
-	
+
 	@Test
-	public void TestMoreThanOneEnemyCard() {
-		
-		Collection<EnemyCard> enemyCards= enemyCardService.findAll();
-		for(EnemyCard c : enemyCards) {
+	void TestMoreThanOneEnemyCard() {
+
+		Collection<EnemyCard> enemyCards = enemyCardService.findAll();
+		for (EnemyCard c : enemyCards) {
 			enemyCardService.deleteEnemyCard(c);
-		}		
+		}
 		EnemyCard enemyCard = new EnemyCard();
 		enemyCard.setExtraGlory(1);
 		enemyCard.setExtraGold(0);
@@ -87,7 +166,7 @@ public class EnemyCardServiceTest {
 		enemyCard.setName("Enemigo");
 		enemyCard.setUrl(".");
 		enemyCardService.createEnemyCard(enemyCard);
-		
+
 		EnemyCard enemyCard1 = new EnemyCard();
 		enemyCard1.setExtraGlory(0);
 		enemyCard1.setExtraGold(2);
@@ -97,27 +176,27 @@ public class EnemyCardServiceTest {
 		enemyCard1.setUrl(".");
 
 		enemyCardService.createEnemyCard(enemyCard1);
-		
+
 		assertThat(enemyCardService.findAll().size()).isEqualTo(2);
 
 	}
-	
-	@Test 
-	public void TestEditEnemyCard() {
+
+	@Test
+	void TestEditEnemyCard() {
 		EnemyCard enemycard = enemyCardService.findById(1).get();
 		Integer oldExtraglory = enemycard.getExtraGlory();
-		
+
 		Integer newExtraglory = oldExtraglory + 1;
 		enemycard.setExtraGlory(newExtraglory);
 		enemyCardService.createEnemyCard(enemycard);
-		
+
 		assertThat(enemyCardService.findById(enemycard.getId()).get().getExtraGlory()).isEqualTo(newExtraglory);
 
 	}
-	
+
 	@Test
-	public void TestDeleteEnemyCard() {	
-		
+	void TestDeleteEnemyCard() {
+
 		EnemyCard enemyCard = new EnemyCard();
 		enemyCard.setExtraGlory(1);
 		enemyCard.setExtraGold(0);
@@ -126,20 +205,20 @@ public class EnemyCardServiceTest {
 		enemyCard.setName("Enemigo");
 		enemyCard.setUrl(".");
 		enemyCardService.createEnemyCard(enemyCard);
-		
-		EnemyCard enemy=enemyCardService.findById(enemyCard.getId()).get();
-		
+
+		EnemyCard enemy = enemyCardService.findById(enemyCard.getId()).get();
+
 		assertTrue(enemyCardService.findAll().contains(enemy));
-		
+
 		enemyCardService.deleteEnemyCard(enemyCard);
 		assertFalse(enemyCardService.findAll().contains(enemy));
 
 	}
-	
+
 	@Test
-	public void TestNewEnemyCard() {	
+	void TestNewEnemyCard() {
 		Integer Enemies = enemyCardService.findAll().size();
-		
+
 		EnemyCard enemyCard = new EnemyCard();
 		enemyCard.setExtraGlory(1);
 		enemyCard.setExtraGold(0);
@@ -148,21 +227,13 @@ public class EnemyCardServiceTest {
 		enemyCard.setName("Enemigo");
 		enemyCard.setUrl(".");
 		enemyCardService.createEnemyCard(enemyCard);
-		
+
 		Integer newEnemies = enemyCardService.findAll().size();
 		assertTrue(Enemies != newEnemies);
 	}
-	
-	/*	private MarketCard NewMarketCard(String name, String url, Integer cost, String description) {
-		MarketCard marketCard = new MarketCard();
-		marketCard.setCost(cost);
-		marketCard.setDescription(description);
-		marketCard.setName(name);
-		marketCard.setUrl(url);
-		return marketCard;
-	}*/
-	
-	private EnemyCard NewEnemyCard(Integer ExtraGlory, Integer ExtraGold, Integer Glory, Integer Health, String name, String url) {
+
+	private EnemyCard NewEnemyCard(Integer ExtraGlory, Integer ExtraGold, Integer Glory, Integer Health, String name,
+			String url) {
 		EnemyCard enemyCard = new EnemyCard();
 		enemyCard.setExtraGlory(ExtraGlory);
 		enemyCard.setExtraGold(ExtraGold);
@@ -171,5 +242,15 @@ public class EnemyCardServiceTest {
 		enemyCard.setName(name);
 		enemyCard.setUrl(url);
 		return enemyCard;
+	}
+
+	public Game gameConstructor(int creatorId, LocalDate date, int duration, boolean isInProgress) {
+		Game g = new Game();
+		g.setCreator(userService.findById(creatorId).get());
+		g.setDate(date);
+		g.setDuration(duration);
+		g.setIsInProgress(isInProgress);
+
+		return g;
 	}
 }

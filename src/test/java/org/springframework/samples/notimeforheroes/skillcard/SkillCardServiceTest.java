@@ -4,114 +4,115 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
-
+import org.springframework.samples.notimeforheroes.actions.Action;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;
+import org.springframework.samples.notimeforheroes.game.Game;
+import org.springframework.samples.notimeforheroes.user.User;
+import org.springframework.samples.notimeforheroes.user.UsersServiceTests;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class SkillCardServiceTest {
 
-	
-	@Autowired 
+	@Autowired
 	SkillCardsService skillService;
-	
+
 	@Test
-	public void TestNoSkillCard() {
-		Collection<SkillCard> skill = skillService.findAll();
-		for(SkillCard c: skill) {
-			skillService.deleteSkillCard(c);
-		}	
-		assertThat(skillService.findAll().isEmpty()).isTrue();
-	}
-	
-	@Test
-	public void TestOneSkillCard() {
-		Collection<SkillCard> SkillCards = skillService.findAll();
-		for(SkillCard c : SkillCards) {
-			skillService.deleteSkillCard(c);
-		}		
-		SkillCard skillCard = new SkillCard();
-		skillCard.setName("Disparo certero");
-		skillCard.setUrl("https:");
-		skillCard.setDescription("description");
+	void testFindAll() {
+		Integer allSkillCard = skillService.findAll().size();
+		Collection<Action> actions = new ArrayList<>();
+		SkillCard skillCard = newSkillCard("name", "rl", "description", "color", actions);
 		skillService.saveSkillCard(skillCard);
-		assertThat(skillService.findAll().size()).isEqualTo(1);
+
+		Integer allSkillCard2 = skillService.findAll().size();
+
+		//
+		assertTrue(allSkillCard + 1 == allSkillCard2);
 
 	}
-	
+
 	@Test
-	public void TestMoreThanOneSkillCard() {
-		
-		Collection<SkillCard> SkillCards = skillService.findAll();
-		for(SkillCard c : SkillCards) {
-			skillService.deleteSkillCard(c);
-		}		
-		SkillCard skillCard = new SkillCard();
-		skillCard.setName("Disparo certero");
-		skillCard.setUrl("https:");
-		skillCard.setDescription("description");
+	void testFindById() {
+		Collection<Action> actions = new ArrayList<>();
+		SkillCard skillCard = newSkillCard("name", "rl", "description", "color", actions);
 		skillService.saveSkillCard(skillCard);
-		
-		SkillCard skillCard2 = new SkillCard();
-		skillCard2.setName("Lobo");
-		skillCard2.setUrl("https:");
-		skillCard2.setDescription("description");
-		skillService.saveSkillCard(skillCard2);
-		
-		assertThat(skillService.findAll().size()).isGreaterThan(1);
+
+		//
+		assertTrue(skillService.findById(skillCard.getId()).orElse(null).equals(skillCard));
 
 	}
-	
-	@Test 
-	public void TestEditSkillCard() {
+
+	@Test
+	void testFindByColor() {
+		Collection<Action> actions = new ArrayList<>();
+		SkillCard skillCard = newSkillCard("name", "rl", "description", "color", actions);
+		skillService.saveSkillCard(skillCard);
+
+		Collection<SkillCard> SkillCardsByColor = skillService.findByColor("color");
+		assertTrue(SkillCardsByColor.contains(skillCard));
+	}
+
+	@Test
+	void testEditSkillCard() {
 		SkillCard SkillCard = skillService.findById(1).get();
 		String oldName = SkillCard.getName();
-		
+
 		String newName = oldName + " sky";
 		SkillCard.setName(newName);
 		skillService.saveSkillCard(SkillCard);
-		
+
 		assertThat(SkillCard.getName()).isEqualTo(newName);
 
 	}
-	
+
 	@Test
-	public void TestDeleteSkillCard() {	
-		
+	void testDeleteSkillCard() {
+
 		SkillCard skillCard = new SkillCard();
 		skillCard.setName("Disparo certero");
 		skillCard.setUrl("https:");
 		skillCard.setDescription("description");
 		skillService.saveSkillCard(skillCard);
-		
+
 		SkillCard skill = skillService.findById(skillCard.getId()).get();
 		assertTrue(skillService.findAll().contains(skill));
-		
+
 		skillService.deleteSkillCard(skillCard);
 		assertFalse(skillService.findAll().contains(skill));
 
 	}
-	
-	
+
 	@Test
-	public void TestNewSkillCard() {	
+	void testNewSkillCard() {
 		Integer skill = skillService.findAll().size();
-		
+
 		SkillCard skillCard = new SkillCard();
 		skillCard.setName("Disparo certero");
 		skillCard.setUrl("https:");
 		skillCard.setDescription("description");
 		skillService.saveSkillCard(skillCard);
-		
+
 		Integer newSkill = skillService.findAll().size();
 		assertTrue(skill != newSkill);
 	}
-	
-	
+
+	public SkillCard newSkillCard(String name, String url, String description, String color,
+			Collection<Action> actions) {
+
+		SkillCard skillCard = new SkillCard();
+		skillCard.setName(name);
+		skillCard.setUrl(url);
+		skillCard.setDescription(description);
+		skillCard.setColor(color);
+		skillCard.setActions(actions);
+		return skillCard;
+
+	}
 }

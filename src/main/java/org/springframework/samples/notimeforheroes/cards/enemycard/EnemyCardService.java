@@ -20,55 +20,63 @@ public class EnemyCardService {
 
 	@Autowired
 	EnemyCardRepository enemyCardRepo;
-	
-	
+
+	//
 	@Transactional
-	public Collection<EnemyCard> findAllPage(Integer pageNo, Integer pageSize){
+	public Collection<EnemyCard> findAllPage(Integer pageNo, Integer pageSize) {
 		Pageable pagin = PageRequest.of(pageNo, pageSize);
 		Page<EnemyCard> pageResult = enemyCardRepo.findAll(pagin);
-		if(pageResult.hasContent()) {
+		if (pageResult.hasContent()) {
 			return pageResult.getContent();
 		} else {
 			return new ArrayList<EnemyCard>();
 		}
 	}
-	
+
+	//
 	@Transactional
-	public Collection<EnemyCard> findAll(){
+	public Collection<EnemyCard> findAll() {
 		return enemyCardRepo.findAll();
 	}
-	
-	
+
+	//
 	@Transactional
-	public Optional<EnemyCard> findById(Integer id){
+	public Optional<EnemyCard> findById(Integer id) {
 		return enemyCardRepo.findById(id);
 	}
 
-	public Collection<EnemyCard> findOnTableEnemiesByGame(Game game){
+	//
+	public Collection<EnemyCard> findOnTableEnemiesByGame(Game game) {
 		return enemyCardRepo.findOnTableEnemiesByGame(game);
 	}
-	public Integer countOnTableEnemiesByGame(Game game){
+
+	//
+	public Integer countOnTableEnemiesByGame(Game game) {
 		return enemyCardRepo.countOnTableEnemiesByGame(game);
 	}
 
-
-	public Collection<EnemyCard> findOnDeckEnemiesByGame(Game game){
+	//
+	public Collection<EnemyCard> findOnDeckEnemiesByGame(Game game) {
 		return enemyCardRepo.findOnDeckEnemiesByGame(game);
 	}
-	
-	public Optional<EnemyCard> findEnemyOfGamesEnemies(GamesEnemies ge){
+
+	//
+	public Optional<EnemyCard> findEnemyOfGamesEnemies(GamesEnemies ge) {
 		return enemyCardRepo.findEnemyOfGamesEnemies(ge);
 	}
-	
-	public Collection<EnemyCard> findAllByIsBoss(Boolean isBoss){
+
+	//
+	public Collection<EnemyCard> findAllByIsBoss(Boolean isBoss) {
 		return enemyCardRepo.findAllByIsBoss(isBoss);
 	}
-	
+
+	//
 	@Transactional
 	public void deleteEnemyCard(EnemyCard card) {
 		enemyCardRepo.deleteById(card.getId());
-		}
-	
+	}
+
+	//
 	@Transactional
 	public void createEnemyCard(@Valid EnemyCard card) {
 		enemyCardRepo.save(card);

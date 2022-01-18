@@ -30,6 +30,8 @@ public class EnemyCardController {
 	
 	@GetMapping("/{pageNo}")
 	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Integer lastPage = EnemyCardService.findAll().size()/5;
+		model.addAttribute("lastPag", lastPage);
 		Collection<EnemyCard> lista = EnemyCardService.findAllPage(pageNo, 5);
 		model.addAttribute("enemies", lista);
 		model.addAttribute("pag", pageNo);

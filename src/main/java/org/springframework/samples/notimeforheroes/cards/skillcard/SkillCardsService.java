@@ -38,7 +38,7 @@ public class SkillCardsService {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	SkillCardsRepository skillRepository;
 
@@ -50,91 +50,94 @@ public class SkillCardsService {
 
 	@Autowired
 	GamesEnemiesService gamesEnemiesService;
-	
+
 	@Transactional
-	public Collection<SkillCard> findAllPage(Integer pageNo, Integer pageSize){
+	public Collection<SkillCard> findAllPage(Integer pageNo, Integer pageSize) {
 		Pageable pagin = PageRequest.of(pageNo, pageSize);
 		Page<SkillCard> pageResult = skillRepository.findAll(pagin);
-		if(pageResult.hasContent()) {
+		if (pageResult.hasContent()) {
 			return pageResult.getContent();
 		} else {
 			return new ArrayList<SkillCard>();
 		}
 	}
-	
-	
+
+	//
 	@Transactional
-	public Collection<SkillCard> findAll(){
+	public Collection<SkillCard> findAll() {
 		return skillRepository.findAll();
 
 	}
-	
+
+	//
 	@Transactional
-	public Optional<SkillCard> findById(Integer id){
+	public Optional<SkillCard> findById(Integer id) {
 		return skillRepository.findById(id);
 	}
-	
+
+	//
 	@Transactional
-	public Collection<SkillCard> findByColor(String color){
+	public Collection<SkillCard> findByColor(String color) {
 		return skillRepository.findByColor(color);
 	}
 
-	public Collection<SkillCard> findByGameAndUser(Game game, User user){
+	public Collection<SkillCard> findByGameAndUser(Game game, User user) {
 		return skillRepository.findAllSkillsByGameAndUser(game, user);
 	}
 
-	public List<SkillCard> findAllAvailableSkillsByGameAndUser(Game game, User user){
+	public List<SkillCard> findAllAvailableSkillsByGameAndUser(Game game, User user) {
 		return skillRepository.findAllAvailableSkillsByGameAndUser(game, user);
 	}
 
-	public List<SkillCard> findAllOnDeckSkillsByGameAndUser(Game game, User user){
+	public List<SkillCard> findAllOnDeckSkillsByGameAndUser(Game game, User user) {
 		return skillRepository.findAllOnDeckSkillsByGameAndUser(game, user);
 	}
 
-	public List<SkillCard> findAllOnDiscardedSkillsByGameAndUser(Game game, User user){
+	public List<SkillCard> findAllOnDiscardedSkillsByGameAndUser(Game game, User user) {
 		return skillRepository.findAllOnDiscardedSkillsByGameAndUser(game, user);
 	}
-	
-	
-	public Integer numberOfEnemiesOfSkillCard(SkillCard skillCard) throws Exception{
+
+	public Integer numberOfEnemiesOfSkillCard(SkillCard skillCard) throws Exception {
 		Integer skillCardId = skillCard.getId();
-		List<Integer> noEnemyRequiredIdList = List.of(1,13,14,20,21,26,27,29,30,39,43,56,57,58);
-		List<Integer> oneEnemyRequiredIdList = List.of(2,3,4,5,6,7,8,9,10,15,16,17,
-										18,19,22,23,24,25,28,32,33,34,35,36,37,38,40,41,42,44,45,46,47,48,49,50,51,52,53,54,55);
-		List<Integer> twoEnemiesRequiredIdList = List.of(11,12);
+		List<Integer> noEnemyRequiredIdList = List.of(1, 13, 14, 20, 21, 26, 27, 29, 30, 39, 43, 56, 57, 58);
+		List<Integer> oneEnemyRequiredIdList = List.of(2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 16, 17,
+				18, 19, 22, 23, 24, 25, 28, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52,
+				53, 54, 55);
+		List<Integer> twoEnemiesRequiredIdList = List.of(11, 12);
 		List<Integer> threeEnemiesRequiredIdList = List.of(31);
 
-		if(noEnemyRequiredIdList.contains(skillCardId))
+		if (noEnemyRequiredIdList.contains(skillCardId))
 			return 0;
-		else if(oneEnemyRequiredIdList.contains(skillCardId)){
+		else if (oneEnemyRequiredIdList.contains(skillCardId)) {
 			return 1;
-		}else if(twoEnemiesRequiredIdList.contains(skillCardId)){
+		} else if (twoEnemiesRequiredIdList.contains(skillCardId)) {
 			return 2;
-		}else if(threeEnemiesRequiredIdList.contains(skillCardId)){
+		} else if (threeEnemiesRequiredIdList.contains(skillCardId)) {
 			return 3;
-		}else{
+		} else {
 			throw new Exception("No se pudieron procesar los enemigos necesarios de la carta");
 		}
 	}
-	
+
 	@Transactional
 	public void saveSkillCard(@Valid SkillCard skill) {
 		skillRepository.save(skill);
 	}
-	
+
 	@Transactional
 	public void deleteSkillCard(SkillCard skill) {
 		skillRepository.delete(skill);
-	}	
+	}
 
-	//----------------------------------------------------------------------------------------//
-	//----------------------------------------------------------------------------------------//
-	//-------------------------LOGICA DE CARTAS-----------------------------------------------//
-	//----------------------------------------------------------------------------------------//
-	//----------------------------------------------------------------------------------------//
+	// ----------------------------------------------------------------------------------------//
+	// ----------------------------------------------------------------------------------------//
+	// -------------------------LOGICA DE
+	// CARTAS-----------------------------------------------//
+	// ----------------------------------------------------------------------------------------//
+	// ----------------------------------------------------------------------------------------//
 
-    @Transactional
-	public void useDisparoRápido(List<EnemyCard> enemiesTargetedList, Game game, User user, SkillCard skillCard){
+	@Transactional
+	public void useDisparoRápido(List<EnemyCard> enemiesTargetedList, Game game, User user, SkillCard skillCard) {
 		enemiesTargetedList.forEach(enemy -> {
 			try {
 				gamesEnemiesService.damageEnemy(game, enemy, user, 1);
@@ -145,7 +148,7 @@ public class SkillCardsService {
 		List<SkillCard> skillCards = findAllOnDeckSkillsByGameAndUser(game, user);
 		SkillCard newSkill = skillCards.get(0);
 		GamesUsersSkillCards newSkillGame = gamesUsersSkillCardsService.findByGameUserSkill(game, user, newSkill).get();
-		if(newSkill.getName().equals(skillCard.getName())){	//Si la carta robada es un disparo rápido
+		if (newSkill.getName().equals(skillCard.getName())) { // Si la carta robada es un disparo rápido
 			newSkillGame.setSkillState(SkillState.ONHAND);
 			gamesUsersSkillCardsService.saveGameUserSkillCard(newSkillGame);
 			System.out.println("[DEBUG]: SE HA ROBADO UNA CARTA Disparo Rápido");
@@ -154,7 +157,7 @@ public class SkillCardsService {
 
 	@Transactional
 	public void useLluviaDeFlechas(List<EnemyCard> enemiesTargetedList, Game game, User user, SkillCard skillCard) {
-		for(EnemyCard enemyCard : enemiesTargetedList){
+		for (EnemyCard enemyCard : enemiesTargetedList) {
 			try {
 				gamesEnemiesService.damageEnemy(game, enemyCard, user, 2);
 			} catch (Exception e) {
@@ -173,20 +176,29 @@ public class SkillCardsService {
 			}
 		}).collect(Collectors.toList()).get(0);
 
-		System.out.println("Cartas en el mazo del jugador " + userService.findByGameUser(playerWithLessWounds).getUsername() + ": " + findAllOnDeckSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
-		System.out.println("Cartas descartadas del jugador " + userService.findByGameUser(playerWithLessWounds).getUsername() + ": " + findAllOnDiscardedSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
+		System.out.println("Cartas en el mazo del jugador "
+				+ userService.findByGameUser(playerWithLessWounds).getUsername() + ": "
+				+ findAllOnDeckSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
+		System.out.println("Cartas descartadas del jugador "
+				+ userService.findByGameUser(playerWithLessWounds).getUsername() + ": "
+				+ findAllOnDiscardedSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
 
 		gamesUsersSkillCardsService.discardCards(game, userService.findByGameUser(playerWithLessWounds), 2);
-		
-		System.out.println("Cartas en el mazo del jugador " + userService.findByGameUser(playerWithLessWounds).getUsername() + ": " + findAllOnDeckSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
-		System.out.println("Cartas descartadas del jugador " + userService.findByGameUser(playerWithLessWounds).getUsername() + ": " + findAllOnDiscardedSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
-    }
 
+		System.out.println("Cartas en el mazo del jugador "
+				+ userService.findByGameUser(playerWithLessWounds).getUsername() + ": "
+				+ findAllOnDeckSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
+		System.out.println("Cartas descartadas del jugador "
+				+ userService.findByGameUser(playerWithLessWounds).getUsername() + ": "
+				+ findAllOnDiscardedSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
+	}
 
-	public void useRecogerFlechas(Game game, User user, SkillCard skillCard){
-		List<SkillCard> disparoRapidoCards = this.findAllOnDiscardedSkillsByGameAndUser(game, user).stream().filter(card -> card.getName().equals("Disparo Rapido")).collect(Collectors.toList());
-		if(disparoRapidoCards.size() != 0){
-			GamesUsersSkillCards gusc = gamesUsersSkillCardsService.findByGameUserSkill(game, user, disparoRapidoCards.get(0)).get();
+	public void useRecogerFlechas(Game game, User user, SkillCard skillCard) {
+		List<SkillCard> disparoRapidoCards = this.findAllOnDiscardedSkillsByGameAndUser(game, user).stream()
+				.filter(card -> card.getName().equals("Disparo Rapido")).collect(Collectors.toList());
+		if (disparoRapidoCards.size() != 0) {
+			GamesUsersSkillCards gusc = gamesUsersSkillCardsService
+					.findByGameUserSkill(game, user, disparoRapidoCards.get(0)).get();
 			gusc.setSkillState(SkillState.ONDECK);
 			gamesUsersSkillCardsService.saveGameUserSkillCard(gusc);
 		}

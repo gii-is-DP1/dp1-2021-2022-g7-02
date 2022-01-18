@@ -94,7 +94,7 @@ description="Name of the active menu: home, owners, vets or error"%>
 					<span>Ranking</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'achievements'}" url="/achievements" title="Achievements">
+				<petclinic:menuItem active="${name eq 'achievements'}" url="/achievements/0" title="Achievements">
 					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>
 					<span>Achievements</span>
 				</petclinic:menuItem>
