@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.annotations.CollectionId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
@@ -11,6 +13,9 @@ import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.user.User;
 
 public interface SkillCardsRepository extends CrudRepository<SkillCard, Integer>{
+	
+	Page<SkillCard> findAll(Pageable page);
+
 	
 	Collection<SkillCard> findAll();
 	

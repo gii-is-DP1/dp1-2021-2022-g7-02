@@ -23,9 +23,7 @@
 				<th style="width: 10%;">Life</th>
 				<th style="width: 80%;">Skill</th>
 				<th style="width: 10%;">Color</th>
-				<th style="width: 10%;">DeckId</th>
-				<th style="width: 5%;"></th>
-				<th style="width: 5%;"></th>
+
 
 
 			</tr>
@@ -38,21 +36,19 @@
 					<td><c:out value="${heroe.maxHealth}" /></td>
 					<td><c:out value="${heroe.skill}" /></td>
 					<td><c:out value="${heroe.color}" /></td>
-					
-					<td><a href="/cards/heroes/${heroe.id}/edit"> <span
-							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-					</a></td>
-					<td><a href="/cards/heroes/${heroe.id}/delete"> <span
-							class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-					</a></td>
 				</tr>
 
 
 			</c:forEach>
 		</tbody>
 	</table>
-	<p>
-		<a href="/cards/heroes/new" class="btn  btn-success"><span
-			class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Heroe</a>
-	</p>
+	     <c:if test="${pag != 0}">      
+	<td>
+		<a href="/cards/heroes/${pag-1}"> <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Previous page</a>
+	</td>
+	</c:if>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<td>
+		<a href="/cards/heroes/${pag+1}"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>Next Page</a>
+	</td>
 </petclinic:layout>

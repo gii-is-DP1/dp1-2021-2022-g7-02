@@ -3,12 +3,15 @@ package org.springframework.samples.notimeforheroes.cards.heroecard;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.notimeforheroes.game.Game;
 
 public interface HeroeCardsRepository extends CrudRepository<HeroeCard, Integer>{
 
+		Page<HeroeCard> findAll(Pageable page);
 		
 		Collection<HeroeCard> findAll();
 

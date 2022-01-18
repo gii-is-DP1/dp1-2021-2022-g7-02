@@ -13,8 +13,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -32,17 +37,35 @@ public class UserService {
 	GameService gameService;
 	
 	@Transactional
+	public Collection<User> findAllPage(Integer pageNo, Integer pageSize){
+		Pageable pagin = PageRequest.of(pageNo, pageSize);
+		Page<User> pageResult = userRepository.findAll(pagin);
+		if(pageResult.hasContent()) {
+			return pageResult.getContent();
+		} else {
+			return new ArrayList<User>();
+		}
+	}
+	
+	//
+	@Transactional
 	public Collection<User> findAll(){
 		return userRepository.findAll();
 	}
 	
+	//
 	@Transactional
 	public Optional<User> findById(Integer id){
 		return userRepository.findById(id);
 	}
 
+	//
 	public Optional<User> findByUsername(String username){
 		return userRepository.findByUsername(username);
+	}
+
+	public User findByGameUser(GameUser gameUser){
+		return userRepository.findByGameUser(gameUser).get();
 	}
 
 	public Collection<User> findAllInGameWithHeroeSelected(Game game){
@@ -55,6 +78,7 @@ public class UserService {
 		return loggedUser;
 	}
 
+	//
 	public Boolean isUserAdmin(User user){
 		Set<Authorities> authorities = user.getAuthorities();
 		return authorities.stream().anyMatch(auth -> auth.getAuthority().equals("admin"));
@@ -87,20 +111,21 @@ public class UserService {
 		}
 
 		return players;
-	}	
+	}
+
 	@Transactional
 	public void deleteUser(User user) {
 		Collection<Game> gamesOfUser = gameService.findAllByCreator(user);
+		Collection<Game> gamesWhereUser = gameService.findByUser(user);
 		for(Game game : gamesOfUser){
 			gameService.deleteGame(game);
 		}
-		for(Game game : user.getGames()){
+		for(Game game : gamesWhereUser){
 			game.getUsers().remove(user);
 		}
 
 		userRepository.deleteById(user.getId());
-		}
-	
+	}
 	
 	@Transactional(rollbackOn = DuplicatedUserEmailException.class)
 	public void saveUser(@Valid User user) throws DataAccessException,DuplicatedUserEmailException { 

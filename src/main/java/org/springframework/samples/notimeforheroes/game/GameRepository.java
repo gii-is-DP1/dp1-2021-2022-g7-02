@@ -5,19 +5,26 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.Tuple;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.notimeforheroes.user.User;
 
 public interface GameRepository extends CrudRepository<Game, Integer>{
+
 	
 	Collection<Game> findAll();
 	
-	@Query("SELECT g FROM games g WHERE g.isInProgress = FALSE")
+	@Query("SELECT g FROM games g WHERE g.isInProgress = FALSE AND g.duration > 0")
 	Collection<Game> findAllEnded();
 
+	@Query("SELECT g FROM games g WHERE g.isInProgress = TRUE")
 	Collection<Game> findAllByIsInProgress(Boolean isInProgress);
 
+	@Query("SELECT g FROM games g WHERE g.creator = ?1")
 	Collection<Game> findAllByCreator(User user);
 
 	@Query("SELECT g FROM games g WHERE g.joinCode = ?1")
@@ -40,5 +47,5 @@ public interface GameRepository extends CrudRepository<Game, Integer>{
 	Optional<Game> findGameInProgressByUser(User user);
 
 	@Query(nativeQuery = true, value = "SELECT  u.username as username, count(winner) as count  FROM GAMES g join users u where u.id=winner group by winner order by count(winner) desc, u.username asc LIMIT 10")
-	List<Object> findRanking();
+	List<Tuple> findRanking();
 }

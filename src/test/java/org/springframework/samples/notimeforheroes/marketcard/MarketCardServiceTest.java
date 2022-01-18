@@ -15,70 +15,106 @@ import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsService;
 import org.springframework.samples.notimeforheroes.cards.scenecard.SceneCard;
 import org.springframework.samples.notimeforheroes.game.Game;
+
+import org.springframework.samples.notimeforheroes.game.GameService;
+import org.springframework.samples.notimeforheroes.game.GameServiceTests;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class MarketCardServiceTest {
 
-	@Autowired 
-	MarketCardsService MarketService;
+	@Autowired
+	MarketCardsService marketService;
 	@Autowired
 	UserService userService;
-	
+	@Autowired
+	GameService gameService;
+
 	@Test
-	public void TestFindAllMarketCard() {
-		Integer AllMarketCards = MarketService.findAll().size();
+	void TestFindAllMarketCard() {
+		Integer AllMarketCards = marketService.findAll().size();
 		MarketCard marketCard = NewMarketCard("Name", "url", 1, "description");
-		MarketService.saveMarketCard(marketCard);
-		
-		Integer NewAllMarketCard = MarketService.findAll().size();
-		
+		marketService.saveMarketCard(marketCard);
+
+		Integer NewAllMarketCard = marketService.findAll().size();
+
+		//
 		assertTrue(NewAllMarketCard == AllMarketCards + 1);
 	}
-	
+
 	@Test
-	public void TestFindByIdMarketCard() {
+	void TestFindByIdMarketCard() {
 		MarketCard marketCard = NewMarketCard("Name", "url", 1, "description");
-		MarketService.saveMarketCard(marketCard);
-		assertTrue(MarketService.findById(marketCard.getId()).orElse(null).equals(marketCard));
+		marketService.saveMarketCard(marketCard);
+
+		//
+		assertTrue(marketService.findById(marketCard.getId()).orElse(null).equals(marketCard));
 	}
-	
-	
+
 	@Test
-	public void TestDeleteMarketCard() {	
-		
+	void TestDeleteMarketCard() {
+
 		MarketCard MarketCard = new MarketCard();
 		MarketCard.setName("Pocion curativa");
 		MarketCard.setUrl("https:");
 		MarketCard.setCost(8);
 		MarketCard.setDescription("description");
-		MarketService.saveMarketCard(MarketCard);
-		
-		MarketCard market = MarketService.findById(MarketCard.getId()).get();
-		assertTrue(MarketService.findAll().contains(market));
-		
-		MarketService.deleteMarketCard(MarketCard);
-		assertFalse(MarketService.findAll().contains(market));
+		marketService.saveMarketCard(MarketCard);
+
+		MarketCard market = marketService.findById(MarketCard.getId()).get();
+
+		//
+		assertTrue(marketService.findAll().contains(market));
+
+		marketService.deleteMarketCard(MarketCard);
+
+		//
+		assertFalse(marketService.findAll().contains(market));
 
 	}
-	
-	
+
 	@Test
-	public void TestNewMarketCard() {	
-		Integer market = MarketService.findAll().size();
-		
+	void TestNewMarketCard() {
+		Integer market = marketService.findAll().size();
+
 		MarketCard MarketCard = new MarketCard();
 		MarketCard.setName("Pocion curativa");
 		MarketCard.setUrl("https:");
 		MarketCard.setCost(8);
 		MarketCard.setDescription("description");
-		MarketService.saveMarketCard(MarketCard);
-		
-		Integer newMarket = MarketService.findAll().size();
+		marketService.saveMarketCard(MarketCard);
+
+		Integer newMarket = marketService.findAll().size();
+
+		//
 		assertTrue(market != newMarket);
 	}
-	
+
+	@Test
+	void TestFindByGame() {
+		Game g1 = new Game();
+		gameService.createGame(g1);
+		Collection<MarketCard> cards = marketService.findByGame(g1);
+
+		//
+		assertTrue(marketService.findAll().containsAll(cards));
+
+	}
+
+	@Test
+	void TestFindByGameOnDeck() {
+		Game g1 = new Game();
+		gameService.createGame(g1);
+		Collection<MarketCard> cards = marketService.findByGameOnDeck(g1);
+
+		//
+		assertTrue(marketService.findByGame(g1).containsAll(cards));
+
+		//
+		assertTrue(cards.size() <= 5);
+	}
+
 	private MarketCard NewMarketCard(String name, String url, Integer cost, String description) {
 		MarketCard marketCard = new MarketCard();
 		marketCard.setCost(cost);

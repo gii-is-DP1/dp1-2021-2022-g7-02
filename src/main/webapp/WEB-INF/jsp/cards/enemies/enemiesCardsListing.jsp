@@ -25,9 +25,6 @@
 				<th style="width: 10%;">Glory</th>
 				<th style="width: 10%;">Extraglory</th>
 				<th style="width: 10%;">Extragold</th>
-				
-				<th style="width: 5%;"></th>
-				<th style="width: 5%;"></th>
 
 
 			</tr>
@@ -42,23 +39,20 @@
 					<td><c:out value="${enemy.glory}" /></td>
 					<td><c:out value="${enemy.extraGlory}" /></td>
 					<td><c:out value="${enemy.extraGold}" /></td>
-					
-					
-					
-					<td><a href="/cards/enemies/${enemy.id}/edit"> <span
-							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-					</a></td>
-					<td><a href="/cards/enemies/${enemy.id}/delete"> <span
-							class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-					</a></td>
 				</tr>
 
 
 			</c:forEach>
 		</tbody>
 	</table>
-	<p>
-		<a href="/cards/enemies/new" class="btn  btn-success"><span
-			class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add enemy</a>
-	</p>
+     <c:if test="${pag != 0}">      
+	<td>
+		<a href="/cards/enemies/${pag-1}"> <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Previous page</a>
+	</td>
+	</c:if>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<td>
+		<a href="/cards/enemies/${pag+1}"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>Next Page</a>
+	</td>
+
 </petclinic:layout>

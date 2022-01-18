@@ -12,10 +12,14 @@ import java.util.Random;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import javax.persistence.Tuple;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.notimeforheroes.actions.Action;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
@@ -87,58 +91,59 @@ public class GameService {
 	public static final Integer NUMBER_ITEMS_IN_MARKET = 5;
 
 	
+	
 	public Collection<Game> findAvailableGames(){
 		return userService.isUserAdmin(userService.getLoggedUser()) ? gameRepository.findAll() : gameRepository.findPublicAndOwn(userService.getLoggedUser());
 	}
-
+	//
 	public Collection<Game> findAll(){
 		return gameRepository.findAll();
 	}
-	
-	public List<Object> findRanking(){
+	//
+	public List<Tuple> findRanking(){
 		return gameRepository.findRanking();
 	}
-
+	//
 	public Optional<Game> findById(Integer id){
 		return gameRepository.findById(id);
-		
 	}
-	
+	//
 	public Collection<Game> findAllEnded(){
 		return gameRepository.findAllEnded();
 	}
-
+	//
 	public Collection<Game> findByWinner(User user){
 		return gameRepository.findByWinner(user);
 	}
-	
+	//
 	public Collection<Game> findAllByIsInProgress(){
 		return gameRepository.findAllByIsInProgress(true);
 	}
-
+	//
 	public Collection<Game> findAllByCreator(User user){
 		return gameRepository.findAllByCreator(user);
 	}
-
+	//
 	public Optional<Game> findByJoinCode(String joinCode){
 		return gameRepository.findByJoinCode(joinCode.trim());
 	}
-
+	//
 	public Collection<Game> findByUser(User user){
 		return gameRepository.findByUser(user);
 	}
 	
+	//
 	public Integer findBetweenDates(User user, LocalDate LocalDate1, LocalDate LocalDate2){
 		Date date1=Date.valueOf(LocalDate1);
 		Date date2=Date.valueOf(LocalDate2);
 		return gameRepository.findBetweenDates(user, date1, date2);
 	}
-
-
+	//
 	public Optional<Game> findGameInProgressByUser(User user){
 		return gameRepository.findGameInProgressByUser(user);
 	}
 
+	//HAY QUE HACERLO
 	public TreeMap<Integer,User> getClassification(Game game){
 		TreeMap<Integer,User> players = new TreeMap<Integer,User>(Collections.reverseOrder());
 		for (User user : game.getUsers()) {
@@ -166,7 +171,7 @@ public class GameService {
 		}
 
 	}
-
+	//
 	@Transactional
 	public void createGame(@Valid Game game){	
 		
@@ -184,7 +189,9 @@ public class GameService {
 			List<User> users = new ArrayList<>();
 			users.add(creator);
 			game.setUsers(users);
+			game.setIsInProgress(true);
 			gameRepository.save(game);
+			
 
 			//Añade los enemigos a la partida y los pone todos ONDECK menos 3 que pone ONTABLE
 			List<EnemyCard> enemies = (ArrayList<EnemyCard>) enemyCardService.findAllByIsBoss(false);
@@ -226,6 +233,7 @@ public class GameService {
 
 	}
 
+	//
 	@Transactional
 	public void addPlayerToGame(@Valid Game game, User user) throws GameFullException, GameCurrentNotUniqueException{
 		
@@ -317,12 +325,13 @@ public class GameService {
 		game.setGameState(GameState.BUYING);
 	}
 
-
+	//
 	@Transactional
 	public void updateGame(@Valid Game game){
 		gameRepository.save(game);
 	}
 	
+	//
 	@Transactional
 	public void deleteGame(Game game) {
 		gameRepository.deleteById(game.getId());
@@ -370,24 +379,25 @@ public class GameService {
 				//Disparo rápido
 				case 4:case 5:case 6:case 7:case 8:case 9:
 					skillCardsService.useDisparoRápido(enemiesTargetedList, game, user, skillCard);
-					//pone la skill para ponerlo en el mazo de descarte
-					gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
 					break;	
-					
+				
+				case 11:case 12:
+					skillCardsService.useLluviaDeFlechas(enemiesTargetedList, game, user, skillCard);
+					break;
+				case 13:case 14:
+					skillCardsService.useRecogerFlechas(game, user, skillCard);
+					break;
 			
 				default://Si no requiere lógica adicional
 					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);
-					//pone la skill para ponerlo en el mazo de descarte
-					gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
 					break;
 			}
-			
+			//pone la skill en el mazo de descarte
+			gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
 		}else{
 			throw new CardNotSelectedException();
 		}	
-		
 	}
-
 	private void checkIfNumberOfEnemiesIsOK(Integer numberOfEnemiesRequired, List<EnemyCard> listEnemyCardsSelectedId, Game game) throws IncorrectNumberOfEnemiesException,Exception {
 		switch (numberOfEnemiesRequired) {
 			case 0:	//si la carta no requiere enemigo, da igual el enemigo que selecciones
@@ -413,6 +423,7 @@ public class GameService {
 
 	@Transactional
 	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies){
+
 
 		for(Action action : actions){
 			switch (action.getType()) {
@@ -462,11 +473,16 @@ public class GameService {
 					}
 					break;
 				case DEFENSE:
+					GameUser player = gameUserService.findByGameAndUser(game, user).get();
+					player.setDamageShielded(action.cantidad);
+					gameUserService.saveGameUser(player);
 					break;
 				case DISCARD:
 					gamesUsersSkillCardsService.discardCards(game,user,action.getCantidad());
 					break;
 				case ENDATTACKPHASE:
+					game.setGameState(GameState.DEFENDING);
+					updateGame(game);
 					break;
 					
 				default:
@@ -474,7 +490,6 @@ public class GameService {
 			}
 		}
 
-		
 	}
 
 	@Transactional	
@@ -485,6 +500,18 @@ public class GameService {
 		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
 		User newUser = users.get(newIndex);
 		game.setUserPlaying(newUser);
+			//Skippea el jugador si está muerto
+		while(gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0){
+			newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
+			newUser = users.get(newIndex);
+			game.setUserPlaying(newUser);
+		}
+
+		//Rellena las cartas del nuevo jugador
+
+		gamesUsersSkillCardsService.drawCards(game, newUser, 4 - skillCardsService.findAllAvailableSkillsByGameAndUser(game, newUser).size());
+
+
 		//Rellena la tienda con 5 objetos si alguno fue comprado
 		List<MarketCard> onTableMarket=(List<MarketCard>) marketCardService.findAllByGameAndOnTable(game);
 		List<MarketCard> onDeckMarket=(List<MarketCard>) marketCardService.findByGameOnDeck(game);

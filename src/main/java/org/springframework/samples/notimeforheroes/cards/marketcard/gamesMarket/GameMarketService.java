@@ -18,9 +18,6 @@ public class GameMarketService {
 	GameMarketRepository gameMarketRepository;
 
 	@Autowired
-	GameMarketService gameMarketService;
-
-	@Autowired
 	MarketCardsService marketService;
 
 	public Collection<GameMarket> findAll(){
