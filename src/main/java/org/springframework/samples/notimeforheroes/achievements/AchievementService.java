@@ -3,9 +3,7 @@ package org.springframework.samples.notimeforheroes.achievements;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.achievements.exceptions.DuplicatedAchievementNameException;
@@ -39,22 +37,12 @@ public class AchievementService {
 		return achievementsRepo.findAll();
 	}
 
-	//
-	@Transactional
-	public Optional<Achievement> findById(Integer id) {
-		return achievementsRepo.findById(id);
-	}
+
 
 	//
 	@Transactional
 	public void deleteAchievement(Achievement achievement) {
 		achievementsRepo.deleteById(achievement.getId());
-	}
-
-	//
-	@Transactional
-	public void createAchievement(@Valid Achievement achievement) {
-		achievementsRepo.save(achievement);
 	}
 
 	//

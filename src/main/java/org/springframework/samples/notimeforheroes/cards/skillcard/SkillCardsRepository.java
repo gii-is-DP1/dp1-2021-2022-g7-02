@@ -20,6 +20,8 @@ public interface SkillCardsRepository extends CrudRepository<SkillCard, Integer>
 	Collection<SkillCard> findAll();
 	
 	Collection<SkillCard> findByColor(String color);
+	
+	SkillCard findByName(String name);
 
 	@Query(nativeQuery = true, value = "SELECT * FROM HEROES_SKILLS hs WHERE hs.fk_heroe = ?1;")
 	Collection<SkillCard> findByHeroe(HeroeCard heroe);

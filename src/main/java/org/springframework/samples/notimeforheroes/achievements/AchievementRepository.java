@@ -9,4 +9,6 @@ public interface AchievementRepository extends CrudRepository<Achievement, Integ
 	
 	Collection<Achievement> findAll();
 	
+
+	
 }

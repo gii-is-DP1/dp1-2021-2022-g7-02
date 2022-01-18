@@ -11,8 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarketService;
+import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
+import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,9 @@ public class MarketCardsService {
 
 	@Autowired
 	GameMarketService gameMarketService;
+	
+	@Autowired
+	SkillCardsService skillCardService;
 	
 	@Transactional
 	public Collection<MarketCard> findAllPage(Integer pageNo, Integer pageSize){
@@ -58,6 +62,11 @@ public class MarketCardsService {
 	public Collection<MarketCard> findAllByGameAndOnTable(Game game){
 		
 		return marketRepository.findAllByGameAndOnTable(game);
+	}
+	
+	public SkillCard marketToSkill(MarketCard card) {
+		return skillCardService.findByName(card.getName());
+
 	}
 	
 	

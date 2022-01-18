@@ -8,8 +8,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.notimeforheroes.actions.Action;
-import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;

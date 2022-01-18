@@ -17,9 +17,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.samples.notimeforheroes.actions.Action;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
@@ -171,6 +168,22 @@ public class GameService {
 		}
 
 	}
+	
+	/*public SkillCard marketToSkill(GameUser gameuser, MarketCard card, HeroeCard heroe) {
+		SkillCard skill= new SkillCard();
+		List<Action> actions=(List<Action>) card.getActions();
+		skill.setDescription(card.getDescription());
+		skill.setName(card.getName());
+		skill.setUrl(card.getUrl());
+		skill.setActions(actions);
+		skill.setColor(heroe.getColor());
+		skillCardsService.saveSkillCard(skill);
+		GamesUsersSkillCards gameUserSkill=gamesUsersSkillCardsService.findByGameUserSkill(gameuser, skill).get();
+		gameUserSkill.setSkillState(SkillState.ONDECK);
+		gamesUsersSkillCardsService.saveGameUserSkillCard(gameUserSkill);
+		return skill;
+	}*/
+	
 	//
 	@Transactional
 	public void createGame(@Valid Game game){	
@@ -297,16 +310,43 @@ public class GameService {
 		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
 		MarketCard item=marketCardService.findById(itemId).get();
 		GameMarket itemInGame =gameMarketService.findOneItemInGame(game, itemId);
+		List<SkillCard> skills=(List<SkillCard>) gameuser.getSkillCards();
 		int actualGold=gameuser.getGold();
 		int costItem=item.getCost();
 		
 		if(actualGold>=costItem) {
 			gameuser.setGold(actualGold-costItem);
 			gameuser.getItems().add(item);
+			SkillCard newSkill=marketCardService.marketToSkill(item);
+			skills.add(newSkill);
+			gameuser.setSkillCards(skills);
 			gameUserService.saveGameUser(gameuser);
 			
+			for(int i = 0; i<4;i++){
+				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, skills.get(i)).get();
+				card.setSkillState(SkillState.ONHAND);
+				gamesUsersSkillCardsService.saveGameUserSkillCard(card);
+			}
+			for(int i = 4; i<skills.size(); i++){
+				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, skills.get(i)).get();
+				card.setSkillState(SkillState.ONDECK);
+			}
+			/*GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, newSkill).get();
+			card.setSkillState(SkillState.ONDECK);
+			gamesUsersSkillCardsService.saveGameUserSkillCard(card);*/
+			
+			/*Collection<SkillCard> skillCard=new ArrayList<SkillCard>();
+			skillCard.add(newSkill);
+			skillCard.addAll(gameuser.getSkillCards());
+			gameuser.getSkillCards().clear();
+			gameuser.getSkillCards().addAll(skillCard);
+			gameUserService.saveGameUser(gameuser);*/
+			
+
 			itemInGame.setItemState(ItemState.SOLD);
 			gameMarketService.createGameMarket(itemInGame);
+			
+
 		}
 		else {
 			throw new DontHaveEnoughGoldToBuyException();
@@ -500,7 +540,7 @@ public class GameService {
 		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
 		User newUser = users.get(newIndex);
 		game.setUserPlaying(newUser);
-			//Skippea el jugador si está muerto
+		//Skippea el jugador si está muerto
 		while(gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0){
 			newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
 			newUser = users.get(newIndex);
