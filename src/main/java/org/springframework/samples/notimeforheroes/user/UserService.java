@@ -47,6 +47,7 @@ public class UserService {
 		}
 	}
 	
+	//
 	@Transactional
 	public Collection<User> findAll(){
 		return userRepository.findAll();
@@ -110,20 +111,21 @@ public class UserService {
 		}
 
 		return players;
-	}	
+	}
+
 	@Transactional
 	public void deleteUser(User user) {
 		Collection<Game> gamesOfUser = gameService.findAllByCreator(user);
+		Collection<Game> gamesWhereUser = gameService.findByUser(user);
 		for(Game game : gamesOfUser){
 			gameService.deleteGame(game);
 		}
-		for(Game game : user.getGames()){
+		for(Game game : gamesWhereUser){
 			game.getUsers().remove(user);
 		}
 
 		userRepository.deleteById(user.getId());
-		}
-	
+	}
 	
 	@Transactional(rollbackOn = DuplicatedUserEmailException.class)
 	public void saveUser(@Valid User user) throws DataAccessException,DuplicatedUserEmailException { 

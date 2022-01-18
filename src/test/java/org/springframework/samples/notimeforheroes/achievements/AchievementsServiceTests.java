@@ -19,51 +19,56 @@ public class AchievementsServiceTests {
 
 	@Autowired
 	private AchievementService achievementsService;
-	
+
 	@Test
-	public void testNoAchievement(){
-		Collection<Achievement> achievements=achievementsService.findAll();
-		for(Achievement ac : achievements) {
+	void testFindAll() {
+		Integer achievement = achievementsService.findAll().size();
+	}
+
+	@Test
+	void testNoAchievement() {
+		Collection<Achievement> achievements = achievementsService.findAll();
+		for (Achievement ac : achievements) {
 			achievementsService.deleteAchievement(ac);
 		}
 		assertThat(achievementsService.findAll().isEmpty()).isTrue();
 	}
-	
+
 	@Test
-	public void testOneAchievement(){
-		Collection<Achievement> achievements=achievementsService.findAll();
-		for(Achievement ac : achievements) {
+	void testOneAchievement() {
+		Collection<Achievement> achievements = achievementsService.findAll();
+		for (Achievement ac : achievements) {
 			achievementsService.deleteAchievement(ac);
 		}
-		
-		Achievement achievement= new Achievement();
+
+		Achievement achievement = new Achievement();
 		achievement.setName("Beginner");
 		achievement.setDescription("Play 5 games");
 		achievementsService.createAchievement(achievement);
 		assertThat(achievementsService.findAll().size()).isEqualTo(1);
 	}
-	
+
 	@Test
-	public void testMoreThanOneAchievements(){
-		Collection<Achievement> achievements=achievementsService.findAll();
-		
-		for(Achievement ac : achievements) {
+	void testMoreThanOneAchievements() {
+		Collection<Achievement> achievements = achievementsService.findAll();
+
+		for (Achievement ac : achievements) {
 			achievementsService.deleteAchievement(ac);
 		}
-		
-		Achievement  achievement= new Achievement();
+
+		Achievement achievement = new Achievement();
 		achievement.setName("Beginner");
 		achievement.setDescription("Play 5 games");
 		achievementsService.createAchievement(achievement);
-		
-		Achievement  achievement1= new Achievement();
+
+		Achievement achievement1 = new Achievement();
 		achievement1.setName("Amateur");
 		achievement1.setDescription("Play 10 games");
 		achievementsService.createAchievement(achievement1);
-		
+
 		assertThat(achievementsService.findAll().size()).isGreaterThan(1);
 	}
-	
+
 	@Test
 	void testNewAchievement() {
 		Achievement achievement = new Achievement();
@@ -71,17 +76,24 @@ public class AchievementsServiceTests {
 		achievement.setDescription("Play 5 games");
 		achievementsService.createAchievement(achievement);
 		Collection<Achievement> achievementsInDatabase = achievementsService.findAll();
-		
+
+		//
 		assertTrue(achievementsInDatabase.contains(achievement));
+
+		achievementsService.deleteAchievement(achievement);
+		achievementsInDatabase = achievementsService.findAll();
+
+		//
+		assertFalse(achievementsInDatabase.contains(achievement));
 	}
-	
+
 	@Test
 	void testDeleteAchievement() {
 		Achievement achievement = new Achievement();
 		achievement.setName("Beginner");
 		achievement.setDescription("Play 5 games");
 		achievementsService.createAchievement(achievement);
-		
+
 		assertTrue(achievementsService.findAll().contains(achievement));
 		achievementsService.deleteAchievement(achievement);
 		assertFalse(achievementsService.findAll().contains(achievement));
@@ -89,7 +101,7 @@ public class AchievementsServiceTests {
 	}
 
 	@Test
-	public void testEditAchievement(){
+	public void testEditAchievement() {
 		Achievement achievement = achievementsService.findById(1).get();
 		String oldName = achievement.getName();
 
@@ -100,22 +112,38 @@ public class AchievementsServiceTests {
 		achievement = achievementsService.findById(1).get();
 		assertThat(achievement.getName()).isEqualTo(newName);
 	}
-	
-
 
 	@Test
-	public void testEditAchievementSameName() throws DuplicatedAchievementNameException{
+	void testFindById() {
+
+		Achievement achievement = new Achievement();
+		achievement.setName("Beginner");
+		achievement.setDescription("Play 5 games");
+		achievementsService.createAchievement(achievement);
+
+		Achievement achievement2 = new Achievement();
+		achievement2.setName("Beginner2");
+		achievement2.setDescription("Play 10 games");
+		achievementsService.createAchievement(achievement2);
+
+		//
+		assertTrue(achievementsService.findById(achievement.getId()).get().equals(achievement));
+
+		//
+		assertFalse(achievementsService.findById(achievement.getId()).get().equals(achievement2));
+	}
+
+	@Test
+	public void testEditAchievementSameName() throws DuplicatedAchievementNameException {
 		String name = achievementsService.findById(1).get().getName();
 
-		Achievement achievement= new Achievement();
+		Achievement achievement = new Achievement();
 		achievement.setName(name);
 		achievement.setDescription("Play 10 games");
-	
-				
-		Assertions.assertThrows(DuplicatedAchievementNameException.class, () ->{
-			achievementsService.saveAchievement(achievement);
-		});	
 
-		
+		Assertions.assertThrows(DuplicatedAchievementNameException.class, () -> {
+			achievementsService.saveAchievement(achievement);
+		});
+
 	}
 }
