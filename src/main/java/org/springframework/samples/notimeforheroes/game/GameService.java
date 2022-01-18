@@ -17,9 +17,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.samples.notimeforheroes.actions.Action;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
@@ -376,16 +373,26 @@ public class GameService {
 			
 			//Comprobamos si la carta requiere lógica adicional
 			switch (skillCard.getId()) {
-				//Disparo rápido
 				case 4:case 5:case 6:case 7:case 8:case 9:
 					skillCardsService.useDisparoRápido(enemiesTargetedList, game, user, skillCard);
 					break;	
-				
 				case 11:case 12:
 					skillCardsService.useLluviaDeFlechas(enemiesTargetedList, game, user, skillCard);
 					break;
 				case 13:case 14:
 					skillCardsService.useRecogerFlechas(game, user, skillCard);
+					break;
+				case 20: case 21:
+					skillCardsService.useEscudo(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
+				case 22: case 23: case 24: case 25:
+					skillCardsService.useEspadazo(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
+				case 28:
+					skillCardsService.useTodoONada(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
+				case 29:
+					skillCardsService.useVozDeAliento(game, user, skillCard);
 					break;
 			
 				default://Si no requiere lógica adicional
@@ -423,8 +430,6 @@ public class GameService {
 
 	@Transactional
 	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies){
-
-
 		for(Action action : actions){
 			switch (action.getType()) {
 				case DAMAGE:
@@ -473,16 +478,13 @@ public class GameService {
 					}
 					break;
 				case DEFENSE:
-					GameUser player = gameUserService.findByGameAndUser(game, user).get();
-					player.setDamageShielded(action.cantidad);
-					gameUserService.saveGameUser(player);
+					gamesUsersSkillCardsService.defendDamage(game, user, action.cantidad);
 					break;
 				case DISCARD:
 					gamesUsersSkillCardsService.discardCards(game,user,action.getCantidad());
 					break;
 				case ENDATTACKPHASE:
-					game.setGameState(GameState.DEFENDING);
-					updateGame(game);
+					gamesUsersSkillCardsService.endAttackTurn(game);
 					break;
 					
 				default:

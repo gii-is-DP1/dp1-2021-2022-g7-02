@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -37,7 +38,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -97,7 +97,7 @@ public class GameController {
 	GamesEnemiesService gamesEnemiesService;
 	
 	@Autowired
-	GamesUsersSkillCardsService gameUserSkillCards;
+	GamesUsersSkillCardsService gameUserSkillCardsService;
 	
 	@GetMapping()
 	public String listGames(ModelMap model) {
@@ -155,28 +155,13 @@ public class GameController {
 	}
 
 	
-	@GetMapping("/{gameId}/defendGame")
-	public String listDefendGame(ModelMap model, @PathVariable("gameId") int gameId) {
-		Game game = gameService.findById(gameId).get();
-		User user = userService.getLoggedUser();
-		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
-		enemiesOnTable.stream().forEach(enemy -> enemy.setHealthInGame(gamesEnemiesService.findByGameAndEnemy(game, enemy).get().getHealth()));
-		//Coge los enemigos que queden restante
+	@GetMapping("/{gameId}/defense")
+	public String listDefendGame(ModelMap model, @PathVariable("gameId") int gameId) throws Exception {
 		
-		Optional<HeroeCard> heroe = gameUserService.findHeroeOfGameUser(game, user);
-		GameUser gameUser =gameUserService.findByGameAndUser(game, user).get();
-		heroe.get().setMaxHealth(gameUser.getHeroeHealth());
-		//Coge el tu heroe y le pone la vida que le queda en esa partida
-		Integer numberOfSkillCards = gameUserSkillCards.findAllAvailableSkillsandOnTableByGameAndUser(game,user).size();
-		//numero de cartas que tienes en tu mazo y en la mano para que lo puedas saber
-		model.addAttribute("heroes", heroe.get());
-		model.addAttribute("enemies", enemiesOnTable);
-		model.addAttribute("numberOfSkillCards", numberOfSkillCards);
-		model.addAttribute("game",game);
-		model.addAttribute("user", user);
-		
-		
-		return DEFEND_VIEW;
+		Game game = gameService.findById(gameId).orElse(null);
+		game.setGameState(GameState.DEFENDING);
+		gameService.updateGame(game);
+		return "redirect:/games/"+gameId;
 	}
 	
 	@GetMapping("/{gameId}/marketGame")
@@ -224,14 +209,44 @@ public class GameController {
 				return ATTACK_VIEW;
 			}
 				
-			case DEFENDING:
-				return DEFEND_VIEW;		
-			case BUYING:
-				model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
-				model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
-				return MARKET_VIEW;
-			default:
-				throw new Exception();
+			case DEFENDING:{
+				//Aplica el daño
+				Integer daño = enemyCardService.findOnTableEnemiesByGame(game).stream().map(enemyCard -> gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth()).collect(Collectors.summingInt(Integer::intValue));
+				if(gameUserService.findByGameAndUser(game, user).get().getDamageShielded() != null){
+					if(daño - gameUserService.findByGameAndUser(game, user).get().getDamageShielded() >= 0){
+						daño -= gameUserService.findByGameAndUser(game, user).get().getDamageShielded();
+					}else{
+						daño = 0;
+					}
+				}
+				GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
+				gameUserSkillCardsService.discardCards(game, user, daño);
+				gameUser.setDamageShielded(0);
+				gameUserService.saveGameUser(gameUser);
+
+				//Coge el tu heroe y le pone la vida que le queda en esa partida
+				Optional<HeroeCard> heroe = gameUserService.findHeroeOfGameUser(game, user);
+				heroe.get().setMaxHealth(gameUser.getHeroeHealth());
+				
+				//numero de cartas que tienes en tu mazo y en la mano para que lo puedas saber
+				Integer numberOfSkillCards = gameUserSkillCardsService.findAllAvailableSkillsandOnTableByGameAndUser(game,user).size();
+
+
+				
+				model.addAttribute("heroes", heroe.get());
+				model.addAttribute("enemies", enemiesOnTable);
+				model.addAttribute("numberOfSkillCards", numberOfSkillCards);
+				model.addAttribute("game",game);
+				model.addAttribute("user", user);
+					return DEFEND_VIEW;	
+				}	
+				case BUYING:
+					model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
+					model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
+					return MARKET_VIEW;
+				default:
+					throw new Exception();
+			
 	}
 }
 

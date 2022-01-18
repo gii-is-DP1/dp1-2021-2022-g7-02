@@ -49,7 +49,7 @@ public class GameUserService {
 		return gameUserRepository.findById(id);
 	}
 
-	public Collection<GameUser> findAllByGame(Game game){
+	public List<GameUser> findAllByGame(Game game){
 		return gameUserRepository.findAllByGame(game);
 	}
 

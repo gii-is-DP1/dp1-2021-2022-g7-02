@@ -10,7 +10,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
 import org.springframework.samples.petclinic.model.NamedEntity;
 
 import lombok.Getter;
