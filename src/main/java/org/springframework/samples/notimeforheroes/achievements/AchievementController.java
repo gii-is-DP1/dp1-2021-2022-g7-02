@@ -30,6 +30,7 @@ public class AchievementController {
 	@GetMapping
 	public String listAchievements(ModelMap model) {
 		model.addAttribute("achievement", achievementService.findAll());
+		model.addAttribute("results", achievementService.achievedAchievement());
 		return ACHIEVEMENTS_LISTING;
 		
 	}
