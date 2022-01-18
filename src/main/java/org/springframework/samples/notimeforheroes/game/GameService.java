@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.persistence.Tuple;
@@ -183,6 +182,22 @@ public class GameService {
 		}
 
 	}
+	
+	/*public SkillCard marketToSkill(GameUser gameuser, MarketCard card, HeroeCard heroe) {
+		SkillCard skill= new SkillCard();
+		List<Action> actions=(List<Action>) card.getActions();
+		skill.setDescription(card.getDescription());
+		skill.setName(card.getName());
+		skill.setUrl(card.getUrl());
+		skill.setActions(actions);
+		skill.setColor(heroe.getColor());
+		skillCardsService.saveSkillCard(skill);
+		GamesUsersSkillCards gameUserSkill=gamesUsersSkillCardsService.findByGameUserSkill(gameuser, skill).get();
+		gameUserSkill.setSkillState(SkillState.ONDECK);
+		gamesUsersSkillCardsService.saveGameUserSkillCard(gameUserSkill);
+		return skill;
+	}*/
+	
 
 	//
 	@Transactional
@@ -311,20 +326,46 @@ public class GameService {
 	}
 
 	@Transactional
-	public void buyMarketItem(@Valid Game game, User user, int itemId) throws DontHaveEnoughGoldToBuyException {
-		GameUser gameuser = gameUserService.findByGameAndUser(game, user).get();
-		MarketCard item = marketCardService.findById(itemId).get();
-		GameMarket itemInGame = gameMarketService.findOneItemInGame(game, itemId);
-		int actualGold = gameuser.getGold();
-		int costItem = item.getCost();
+	public void buyMarketItem(@Valid Game game, User user, int itemId) throws DontHaveEnoughGoldToBuyException{
+		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
+		MarketCard item=marketCardService.findById(itemId).get();
+		GameMarket itemInGame =gameMarketService.findOneItemInGame(game, itemId);
+		List<SkillCard> skills=(List<SkillCard>) gameuser.getSkillCards();
+		int actualGold=gameuser.getGold();
+		int costItem=item.getCost();
+		
+		if(actualGold>=costItem) {
+			gameuser.setGold(actualGold-costItem);
 
-		if (actualGold >= costItem) {
-			gameuser.setGold(actualGold - costItem);
 			gameuser.getItems().add(item);
+			SkillCard newSkill=marketCardService.marketToSkill(item);
+			skills.add(newSkill);
+			gameuser.setSkillCards(skills);
 			gameUserService.saveGameUser(gameuser);
-
+			
+			for(int i = 0; i<4;i++){
+				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, skills.get(i)).get();
+				card.setSkillState(SkillState.ONHAND);
+				gamesUsersSkillCardsService.saveGameUserSkillCard(card);
+			}
+			for(int i = 4; i<skills.size(); i++){
+				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, skills.get(i)).get();
+				card.setSkillState(SkillState.ONDECK);
+			}
+			/*GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, newSkill).get();
+			card.setSkillState(SkillState.ONDECK);
+			gamesUsersSkillCardsService.saveGameUserSkillCard(card);*/
+			
+			/*Collection<SkillCard> skillCard=new ArrayList<SkillCard>();
+			skillCard.add(newSkill);
+			skillCard.addAll(gameuser.getSkillCards());
+			gameuser.getSkillCards().clear();
+			gameuser.getSkillCards().addAll(skillCard);
+			gameUserService.saveGameUser(gameuser);*/
+			
 			itemInGame.setItemState(ItemState.SOLD);
 			gameMarketService.createGameMarket(itemInGame);
+			
 		} else {
 			throw new DontHaveEnoughGoldToBuyException();
 		}

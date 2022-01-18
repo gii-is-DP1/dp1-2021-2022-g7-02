@@ -80,6 +80,11 @@ public class SkillCardsService {
 	public Collection<SkillCard> findByColor(String color) {
 		return skillRepository.findByColor(color);
 	}
+	
+	@Transactional
+	public SkillCard findByName(String name) {
+		return skillRepository.findByName(name);
+	}
 
 	public Collection<SkillCard> findByGameAndUser(Game game, User user) {
 		return skillRepository.findAllSkillsByGameAndUser(game, user);
