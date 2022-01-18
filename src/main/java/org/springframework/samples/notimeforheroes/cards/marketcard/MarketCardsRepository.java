@@ -10,7 +10,7 @@ public interface MarketCardsRepository extends CrudRepository<MarketCard, Intege
 
 	Collection<MarketCard> findAll();
 
-	@Query(nativeQuery = true, value = "SELECT gm.fk_market FROM games_markets gm WHERE gm.fk_game=?1")
+	@Query(nativeQuery = true, value = "SELECT m.* FROM games_markets gm JOIN market m WHERE gm.fk_game=?1 AND gm.fk_market = m.id")
 	//@Query("SELECT gm.fk_market FROM GameMarket gm WHERE gm.Game.id=?1")
 	Collection<MarketCard> findAllByGame(Game game);
 
