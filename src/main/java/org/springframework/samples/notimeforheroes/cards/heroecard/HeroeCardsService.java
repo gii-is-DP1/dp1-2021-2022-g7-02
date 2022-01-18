@@ -21,6 +21,7 @@ public class HeroeCardsService {
 	@Autowired
 	HeroeCardsRepository heroeCardsRepo;
 
+	//
 	@Transactional
 	public Collection<HeroeCard> findAllPage(Integer pageNo, Integer pageSize) {
 		Pageable pagin = PageRequest.of(pageNo, pageSize);
@@ -44,11 +45,13 @@ public class HeroeCardsService {
 		return heroeCardsRepo.findById(id);
 	}
 
+	//
 	@Transactional
 	public void deleteHeroeCard(HeroeCard card) {
 		heroeCardsRepo.deleteById(card.getId());
 	}
 
+	//
 	@Transactional
 	public void createHeroeCard(@Valid HeroeCard card) {
 		heroeCardsRepo.save(card);
@@ -64,11 +67,12 @@ public class HeroeCardsService {
 		return heroeCardsRepo.findByColor(color);
 	}
 
+	//
 	public Collection<HeroeCard> findByColorAndGame(String color, Game game) {
 		return heroeCardsRepo.findByColorAndGame(color, game);
 	}
 
-	
+	//
 	public Collection<HeroeCard> findHeroesOfGame(Game game) {
 		return heroeCardsRepo.findHeroesOfGame(game);
 	}

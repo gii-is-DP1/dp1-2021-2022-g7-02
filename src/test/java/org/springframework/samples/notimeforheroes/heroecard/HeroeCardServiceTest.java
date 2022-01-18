@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
@@ -25,6 +26,10 @@ import org.springframework.samples.notimeforheroes.game.GameService;
 import org.springframework.samples.notimeforheroes.game.GameServiceTests;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
+import org.springframework.samples.notimeforheroes.user.User;
+import org.springframework.samples.notimeforheroes.user.UserService;
+import org.springframework.samples.notimeforheroes.user.UsersServiceTests;
+import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -41,10 +46,17 @@ public class HeroeCardServiceTest {
 	GameService gameService;
 
 	@Autowired
-	GameServiceTests gameServiceTest;
+	UserService userService;
 
 	@Test
-	void TestFindAllHeroeCard() {
+	void testFindAllHeroeCardPagination() {
+		Integer heroeCards = heroeCardsService.findAllPage(0, 2).size();
+		assertTrue(heroeCards == 2);
+
+	}
+
+	@Test
+	void testFindAllHeroeCard() {
 		Integer AllHeroeCards = heroeCardsService.findAll().size();
 		HeroeCard heroeCard = NewHeroeCard("name", "url", 2, "skill", "color");
 		heroeCardsService.createHeroeCard(heroeCard);
@@ -54,21 +66,21 @@ public class HeroeCardServiceTest {
 	}
 
 	@Test
-	void TestFindByIdHeroeCard() {
+	void testFindByIdHeroeCard() {
 		HeroeCard heroeCard = NewHeroeCard("name", "url", 2, "skill", "color");
 		heroeCardsService.createHeroeCard(heroeCard);
 		assertTrue(heroeCardsService.findById(heroeCard.getId()).orElse(null).equals(heroeCard));
 	}
 
 	@Test
-	void TestFindByNameHeroeCard() {
+	void testFindByNameHeroeCard() {
 		HeroeCard heroeCard = NewHeroeCard("name", "url", 2, "skill", "color");
 		heroeCardsService.createHeroeCard(heroeCard);
 		assertTrue(heroeCardsService.findByName(heroeCard.getName()).equals(heroeCard));
 	}
 
 	@Test
-	void TestFindByColorHeroeCard() {
+	void testFindByColorHeroeCard() {
 		HeroeCard heroeCard = NewHeroeCard("name", "url", 2, "skill", "azul");
 		heroeCardsService.createHeroeCard(heroeCard);
 		Collection<HeroeCard> NewHeroeCardsByColor = heroeCardsService.findByColor("azul");
@@ -76,7 +88,62 @@ public class HeroeCardServiceTest {
 	}
 
 	@Test
-	void TestEditHeroeCard() {
+	void testFindHeroesOfGame() throws DataAccessException, DuplicatedUserEmailException {
+		User user1 = UsersServiceTests.userConstructor("Antonio", "Paco", "pacoan", "p1a@gmail.com", "1234");
+
+		Game game = gameConstructor(1, LocalDate.now(), 10, false);
+		gameService.createGame(game);
+
+		HeroeCard heroeCard = NewHeroeCard("name", "url", 2, "skill", "azul");
+		heroeCardsService.createHeroeCard(heroeCard);
+
+		userService.saveUser(user1);
+		List<User> lista = new ArrayList<User>();
+		lista.add(user1);
+
+		game.setUsers(lista);
+		gameService.updateGame(game);
+
+		GameUser gameUser1 = gameUserService.findByGameAndUser(game, user1).get();
+		gameUser1.setHeroe(heroeCard);
+		gameUserService.saveGameUser(gameUser1);
+
+		//
+		assertTrue(heroeCardsService.findHeroesOfGame(game).contains(heroeCard));
+
+	}
+
+	@Test
+	void testFindByColorAndGame() throws DataAccessException, DuplicatedUserEmailException {
+
+		User user1 = UsersServiceTests.userConstructor("Antonio", "Paco", "pacoan", "p1a@gmail.com", "1234");
+
+		Game game = gameConstructor(1, LocalDate.now(), 10, false);
+		gameService.createGame(game);
+
+		HeroeCard heroeCard = NewHeroeCard("name", "url", 2, "skill", "azul");
+		heroeCardsService.createHeroeCard(heroeCard);
+
+		userService.saveUser(user1);
+		List<User> lista = new ArrayList<User>();
+		lista.add(user1);
+
+		game.setUsers(lista);
+		gameService.updateGame(game);
+
+		GameUser gameUser1 = gameUserService.findByGameAndUser(game, user1).get();
+		gameUser1.setHeroe(heroeCard);
+		gameUserService.saveGameUser(gameUser1);
+
+		Collection<HeroeCard> heroeCardColl = heroeCardsService.findByColorAndGame("azul", game);
+
+		//
+		assertTrue(heroeCardColl.contains(heroeCard));
+
+	}
+
+	@Test
+	void testEditHeroeCard() {
 		HeroeCard heroecard = heroeCardsService.findById(1).get();
 		String oldColor = heroecard.getColor();
 
@@ -89,7 +156,7 @@ public class HeroeCardServiceTest {
 	}
 
 	@Test
-	void TestDeleteHeroeCard() {
+	void testDeleteHeroeCard() {
 		HeroeCard heroeCard = NewHeroeCard("name", "url", 2, "skill", "color");
 		heroeCardsService.createHeroeCard(heroeCard);
 
@@ -103,7 +170,7 @@ public class HeroeCardServiceTest {
 	}
 
 	@Test
-	public void TestNewHeroeCard() {
+	public void testNewHeroeCard() {
 		Integer Heroes = heroeCardsService.findAll().size();
 
 		HeroeCard heroeCard = NewHeroeCard("name", "url", 2, "skill", "color");
@@ -125,20 +192,14 @@ public class HeroeCardServiceTest {
 		return heroeCard;
 	}
 
-	public GameUser NewGameUser(HeroeCard heroe, Integer maxHealth, Collection<SkillCard> skill,
-			List<MarketCard> market,
-			Boolean hasEscapeToken, Integer gold, Integer glory, Boolean winner, Integer damageShielded) {
-		GameUser gameUser = new GameUser();
-		gameUser.setHeroe(heroe);
-		gameUser.setDamageShielded(damageShielded);
-		gameUser.setGlory(glory);
-		gameUser.setGold(gold);
-		gameUser.setHasEscapeToken(hasEscapeToken);
-		gameUser.setHeroeHealth(maxHealth);
-		gameUser.setItems(market);
-		gameUser.setSkillCards(skill);
-		gameUser.setWinner(winner);
-		return gameUser;
+	public Game gameConstructor(int creatorId, LocalDate date, int duration, boolean isInProgress) {
+		Game g = new Game();
+		g.setCreator(userService.findById(creatorId).get());
+		g.setDate(date);
+		g.setDuration(duration);
+		g.setIsInProgress(isInProgress);
+
+		return g;
 	}
 
 }
