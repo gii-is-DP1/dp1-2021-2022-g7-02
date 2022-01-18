@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
 import org.springframework.samples.notimeforheroes.game.Game;

@@ -58,7 +58,6 @@ public class GamesEnemiesService {
                     //SI EL ATAQUE ES VÁLIDO
 
                     //Se aplica el daño
-                    System.out.print("ANTERIORMENTE TENÍA " + gamesEnemies.getHealth() + ". ");
                     gamesEnemies.setHealth(gamesEnemies.getHealth() - damage);
                     System.out.println("[DEBUG]: ENEMIGO DAÑADO CON " + damage + " DE DAÑO Y TIENE " + gamesEnemies.getHealth() + " DE VIDA RESTANTE");
                     if(gamesEnemies.getHealth() < 1){   //Si el enemigo muere
@@ -75,12 +74,6 @@ public class GamesEnemiesService {
                         if(enemiesOnDeck.size() == 0){  //Si no hay más enemigos
                             game.setIsInProgress(false);
                             gameService.updateGame(game);
-                        }else{
-                            /*//esto no va aqui, porque esto se hace al terminar el turno
-                            GamesEnemies nextEnemy = enemiesOnDeck.get(0);
-                            nextEnemy.setEnemyState(EnemyState.ONTABLE);
-                            createGamesEnemies(nextEnemy);
-                            */
                         }
                     }
                     this.saveGamesEnemies(gamesEnemies);

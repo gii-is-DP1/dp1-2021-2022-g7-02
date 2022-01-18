@@ -2,7 +2,6 @@ package org.springframework.samples.notimeforheroes.game;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,17 +14,16 @@ import java.util.Optional;
 import java.util.TreeMap;
 
 import javax.persistence.Tuple;
-import javax.persistence.TupleElement;
-import javax.validation.constraints.Null;
-
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+<<<<<<< HEAD
+=======
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
+>>>>>>> b434d1c5d6e855688f18cf59f59fe2a8d4cb66b7
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;

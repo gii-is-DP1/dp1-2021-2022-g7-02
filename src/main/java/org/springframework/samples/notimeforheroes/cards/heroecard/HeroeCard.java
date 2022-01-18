@@ -1,7 +1,6 @@
 package org.springframework.samples.notimeforheroes.cards.heroecard;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
