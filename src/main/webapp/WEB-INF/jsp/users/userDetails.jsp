@@ -29,7 +29,7 @@
 		</tr>
 	</table>
 
-	<td><a href="/users"> <span
+	<td><a href="/users/0"> <span
 			class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
 	</a></td>
 

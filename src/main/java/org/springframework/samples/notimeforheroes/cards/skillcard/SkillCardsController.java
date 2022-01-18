@@ -32,6 +32,8 @@ public class SkillCardsController {
 	
 	@GetMapping("/{pageNo}")
 	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Integer lastPage = SkillService.findAll().size()/5;
+		model.addAttribute("lastPag", lastPage);
 		Collection<SkillCard> lista = SkillService.findAllPage(pageNo, 5);
 		model.addAttribute("skills", lista);
 		model.addAttribute("pag", pageNo);

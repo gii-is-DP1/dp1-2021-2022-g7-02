@@ -17,6 +17,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
+import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
+import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemiesService;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
@@ -41,6 +43,9 @@ public class EnemyCardServiceTest {
 
 	@Autowired
 	GameUserService gameUserService;
+	
+	@Autowired
+	GamesEnemiesService gamesEnemie;
 
 	@Test
 	void testFindAllEnemiesPagination() {
@@ -59,14 +64,38 @@ public class EnemyCardServiceTest {
 	}
 
 	@Test
-	void testCountOnTableEnemiesByGame() throws DataAccessException, DuplicatedUserEmailException {
+	void testCountOnTableEnemiesByGame() {
 		Game game = gameConstructor(1, LocalDate.now(), 10, false);
 		gameService.createGame(game);
 
 		Integer enemies = enemyCardService.countOnTableEnemiesByGame(game);
 
-		assertTrue(enemies <= 4);
+		assertTrue(enemies == 3);
 
+	}
+	
+	@Test
+	void testFindOnDeckEnemiesByGame() {
+		Game game = gameConstructor(1, LocalDate.now(), 10, false);
+		gameService.createGame(game);
+		
+		Integer enemiesOnTable = enemyCardService.countOnTableEnemiesByGame(game);
+		Integer enemiesOnDeck = enemyCardService.findOnDeckEnemiesByGame(game).size();
+		Integer enemies = enemyCardService.findAll().size() - 2;
+		
+		assertTrue(enemies - enemiesOnTable == enemiesOnDeck  );
+				
+	}
+	
+	@Test
+	void testFindEnemyOfGamesEnemies() {
+		EnemyCard enemy = NewEnemyCard(0, 0, 0, 0, "easdasds", "uasdasdrl");
+		enemyCardService.createEnemyCard(enemy);
+		
+		Game game = gameConstructor(1, LocalDate.now(), 10, false);
+		gameService.createGame(game);
+
+		assertTrue(enemyCardService.findOnTableEnemiesByGame(game).size() == 3);
 	}
 
 	@Test

@@ -30,6 +30,8 @@ public class MarketCardsController {
 	
 	@GetMapping("/{pageNo}")
 	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Integer lastPage = MarketService.findAll().size()/5;
+		model.addAttribute("lastPag", lastPage);
 		Collection<MarketCard> lista = MarketService.findAllPage(pageNo, 5);
 		model.addAttribute("market", lista);
 		model.addAttribute("pag", pageNo);

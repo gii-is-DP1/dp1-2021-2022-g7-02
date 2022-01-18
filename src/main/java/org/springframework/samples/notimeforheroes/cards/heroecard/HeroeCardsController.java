@@ -31,6 +31,8 @@ public class HeroeCardsController {
 	
 	@GetMapping("/{pageNo}")
 	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Integer lastPage = HeroeCardService.findAll().size()/4;
+		model.addAttribute("lastPag", lastPage);
 		Collection<HeroeCard> lista = HeroeCardService.findAllPage(pageNo, 4);
 		model.addAttribute("heroes", lista);
 		model.addAttribute("pag", pageNo);

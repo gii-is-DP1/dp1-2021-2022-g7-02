@@ -39,5 +39,17 @@
 
 		</tbody>
 	</table>
+	<c:if test="${pag != 0}">      
+	<td>
+		<a href="/achievements/${pag-1}"> <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Previous page</a>
+	</td>
+	</c:if>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<c:if test="${pag != lastPag}">      
+	<td>
+		<a href="/achievements/${pag+1}"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>Next Page</a>
+	</td>
+	</c:if>
+	
 
 </petclinic:layout>

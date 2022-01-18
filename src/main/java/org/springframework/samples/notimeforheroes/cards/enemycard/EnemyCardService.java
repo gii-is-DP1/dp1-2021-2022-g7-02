@@ -45,6 +45,7 @@ public class EnemyCardService {
 		return enemyCardRepo.findById(id);
 	}
 
+	//
 	public Collection<EnemyCard> findOnTableEnemiesByGame(Game game) {
 		return enemyCardRepo.findOnTableEnemiesByGame(game);
 	}
@@ -54,10 +55,12 @@ public class EnemyCardService {
 		return enemyCardRepo.countOnTableEnemiesByGame(game);
 	}
 
+	//
 	public Collection<EnemyCard> findOnDeckEnemiesByGame(Game game) {
 		return enemyCardRepo.findOnDeckEnemiesByGame(game);
 	}
 
+	//
 	public Optional<EnemyCard> findEnemyOfGamesEnemies(GamesEnemies ge) {
 		return enemyCardRepo.findEnemyOfGamesEnemies(ge);
 	}
@@ -67,11 +70,13 @@ public class EnemyCardService {
 		return enemyCardRepo.findAllByIsBoss(isBoss);
 	}
 
+	//
 	@Transactional
 	public void deleteEnemyCard(EnemyCard card) {
 		enemyCardRepo.deleteById(card.getId());
 	}
 
+	//
 	@Transactional
 	public void createEnemyCard(@Valid EnemyCard card) {
 		enemyCardRepo.save(card);
