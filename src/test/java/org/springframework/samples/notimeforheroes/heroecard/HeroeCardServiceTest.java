@@ -5,16 +5,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-<<<<<<< HEAD
 import java.util.Collection;
-=======
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
->>>>>>> b434d1c5d6e855688f18cf59f59fe2a8d4cb66b7
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +20,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
-<<<<<<< HEAD
-=======
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.game.Game;
@@ -36,7 +31,6 @@ import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.samples.notimeforheroes.user.UsersServiceTests;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
->>>>>>> b434d1c5d6e855688f18cf59f59fe2a8d4cb66b7
 import org.springframework.stereotype.Service;
 import java.util.List;
 
