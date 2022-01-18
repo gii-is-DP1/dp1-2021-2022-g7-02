@@ -94,13 +94,8 @@ public class GameController {
 	GamesEnemiesService gamesEnemiesService;
 
 	@Autowired
-<<<<<<< HEAD
 	GamesUsersSkillCardsService gameUserSkillCardsService;
-	
-=======
-	GamesUsersSkillCardsService gameUserSkillCards;
 
->>>>>>> b434d1c5d6e855688f18cf59f59fe2a8d4cb66b7
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
@@ -156,7 +151,7 @@ public class GameController {
 		return GAMES_WINNER;
 	}
 
-<<<<<<< HEAD
+
 	
 	@GetMapping("/{gameId}/defense")
 	public String listDefendGame(ModelMap model, @PathVariable("gameId") int gameId) throws Exception {
@@ -165,31 +160,6 @@ public class GameController {
 		game.setGameState(GameState.DEFENDING);
 		gameService.updateGame(game);
 		return "redirect:/games/"+gameId;
-=======
-	@GetMapping("/{gameId}/defendGame")
-	public String listDefendGame(ModelMap model, @PathVariable("gameId") int gameId) {
-		Game game = gameService.findById(gameId).get();
-		User user = userService.getLoggedUser();
-		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
-		enemiesOnTable.stream().forEach(
-				enemy -> enemy.setHealthInGame(gamesEnemiesService.findByGameAndEnemy(game, enemy).get().getHealth()));
-		// Coge los enemigos que queden restante
-
-		Optional<HeroeCard> heroe = gameUserService.findHeroeOfGameUser(game, user);
-		GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
-		heroe.get().setMaxHealth(gameUser.getHeroeHealth());
-		// Coge el tu heroe y le pone la vida que le queda en esa partida
-		Integer numberOfSkillCards = gameUserSkillCards.findAllAvailableSkillsandOnTableByGameAndUser(game, user)
-				.size();
-		// numero de cartas que tienes en tu mazo y en la mano para que lo puedas saber
-		model.addAttribute("heroes", heroe.get());
-		model.addAttribute("enemies", enemiesOnTable);
-		model.addAttribute("numberOfSkillCards", numberOfSkillCards);
-		model.addAttribute("game", game);
-		model.addAttribute("user", user);
-
-		return DEFEND_VIEW;
->>>>>>> b434d1c5d6e855688f18cf59f59fe2a8d4cb66b7
 	}
 
 	@GetMapping("/{gameId}/marketGame")
@@ -241,8 +211,6 @@ public class GameController {
 						gameUserService.findByGameAndUser(game, user).get().getHasEscapeToken());
 				return ATTACK_VIEW;
 			}
-<<<<<<< HEAD
-				
 			case DEFENDING:{
 				//Aplica el daño
 				Integer daño = enemyCardService.findOnTableEnemiesByGame(game).stream().map(enemyCard -> gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth()).collect(Collectors.summingInt(Integer::intValue));
@@ -278,22 +246,9 @@ public class GameController {
 					model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
 					model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 					return MARKET_VIEW;
-				default:
-					throw new Exception();
-			
-=======
-
-			case DEFENDING:
-				return DEFEND_VIEW;
-			case BUYING:
-				model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
-				model.addAttribute("user", gameUserService
-						.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
-				return MARKET_VIEW;
 			default:
 				throw new Exception();
 		}
->>>>>>> b434d1c5d6e855688f18cf59f59fe2a8d4cb66b7
 	}
 
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
