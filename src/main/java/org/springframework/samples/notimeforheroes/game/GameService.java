@@ -189,7 +189,9 @@ public class GameService {
 			List<User> users = new ArrayList<>();
 			users.add(creator);
 			game.setUsers(users);
+			game.setIsInProgress(true);
 			gameRepository.save(game);
+			
 
 			//Añade los enemigos a la partida y los pone todos ONDECK menos 3 que pone ONTABLE
 			List<EnemyCard> enemies = (ArrayList<EnemyCard>) enemyCardService.findAllByIsBoss(false);
@@ -377,24 +379,25 @@ public class GameService {
 				//Disparo rápido
 				case 4:case 5:case 6:case 7:case 8:case 9:
 					skillCardsService.useDisparoRápido(enemiesTargetedList, game, user, skillCard);
-					//pone la skill para ponerlo en el mazo de descarte
-					gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
 					break;	
-					
+				
+				case 11:case 12:
+					skillCardsService.useLluviaDeFlechas(enemiesTargetedList, game, user, skillCard);
+					break;
+				case 13:case 14:
+					skillCardsService.useRecogerFlechas(game, user, skillCard);
+					break;
 			
 				default://Si no requiere lógica adicional
 					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);
-					//pone la skill para ponerlo en el mazo de descarte
-					gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
 					break;
 			}
-			
+			//pone la skill en el mazo de descarte
+			gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
 		}else{
 			throw new CardNotSelectedException();
 		}	
-		
 	}
-
 	private void checkIfNumberOfEnemiesIsOK(Integer numberOfEnemiesRequired, List<EnemyCard> listEnemyCardsSelectedId, Game game) throws IncorrectNumberOfEnemiesException,Exception {
 		switch (numberOfEnemiesRequired) {
 			case 0:	//si la carta no requiere enemigo, da igual el enemigo que selecciones
@@ -420,6 +423,7 @@ public class GameService {
 
 	@Transactional
 	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies){
+
 
 		for(Action action : actions){
 			switch (action.getType()) {
@@ -469,11 +473,16 @@ public class GameService {
 					}
 					break;
 				case DEFENSE:
+					GameUser player = gameUserService.findByGameAndUser(game, user).get();
+					player.setDamageShielded(action.cantidad);
+					gameUserService.saveGameUser(player);
 					break;
 				case DISCARD:
 					gamesUsersSkillCardsService.discardCards(game,user,action.getCantidad());
 					break;
 				case ENDATTACKPHASE:
+					game.setGameState(GameState.DEFENDING);
+					updateGame(game);
 					break;
 					
 				default:
@@ -481,7 +490,6 @@ public class GameService {
 			}
 		}
 
-		
 	}
 
 	@Transactional	
@@ -492,6 +500,18 @@ public class GameService {
 		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
 		User newUser = users.get(newIndex);
 		game.setUserPlaying(newUser);
+			//Skippea el jugador si está muerto
+		while(gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0){
+			newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0 : (users.indexOf(game.getUserPlaying()) + 1);
+			newUser = users.get(newIndex);
+			game.setUserPlaying(newUser);
+		}
+
+		//Rellena las cartas del nuevo jugador
+
+		gamesUsersSkillCardsService.drawCards(game, newUser, 4 - skillCardsService.findAllAvailableSkillsByGameAndUser(game, newUser).size());
+
+
 		//Rellena la tienda con 5 objetos si alguno fue comprado
 		List<MarketCard> onTableMarket=(List<MarketCard>) marketCardService.findAllByGameAndOnTable(game);
 		List<MarketCard> onDeckMarket=(List<MarketCard>) marketCardService.findByGameOnDeck(game);

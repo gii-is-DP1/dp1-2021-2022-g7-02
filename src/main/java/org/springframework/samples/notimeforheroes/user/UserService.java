@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
+import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,10 @@ public class UserService {
 	//
 	public Optional<User> findByUsername(String username){
 		return userRepository.findByUsername(username);
+	}
+
+	public User findByGameUser(GameUser gameUser){
+		return userRepository.findByGameUser(gameUser).get();
 	}
 
 	public Collection<User> findAllInGameWithHeroeSelected(Game game){

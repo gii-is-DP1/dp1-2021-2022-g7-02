@@ -41,5 +41,7 @@ public class GameUser extends BaseEntity{
     private Integer glory = 0;
 
     private Boolean winner;
+
+    private Integer damageShielded;
     
 }
