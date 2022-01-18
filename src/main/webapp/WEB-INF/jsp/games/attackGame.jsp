@@ -9,6 +9,7 @@
     <form:form action="" method="POST">
     <h2>ENEMIGOS</h2>
         <div class=row>
+            <input type="checkbox" id="${enemyCard.getId()}" name="enemySelected" value="0" hidden="true" checked="true">
             <c:forEach items="${enemies}" var="enemyCard">
                 <div class=col-md-4>
                     <img src="${enemyCard.url}">

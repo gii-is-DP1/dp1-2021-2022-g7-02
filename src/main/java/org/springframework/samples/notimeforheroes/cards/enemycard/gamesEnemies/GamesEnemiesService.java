@@ -58,6 +58,7 @@ public class GamesEnemiesService {
                     //SI EL ATAQUE ES VÁLIDO
 
                     //Se aplica el daño
+                    System.out.print("ANTERIORMENTE TENÍA " + gamesEnemies.getHealth() + ". ");
                     gamesEnemies.setHealth(gamesEnemies.getHealth() - damage);
                     System.out.println("[DEBUG]: ENEMIGO DAÑADO CON " + damage + " DE DAÑO Y TIENE " + gamesEnemies.getHealth() + " DE VIDA RESTANTE");
                     if(gamesEnemies.getHealth() < 1){   //Si el enemigo muere

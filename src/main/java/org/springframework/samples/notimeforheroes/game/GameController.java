@@ -37,6 +37,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -206,6 +207,7 @@ public class GameController {
 
 	@GetMapping("/{gameId}")
 	public String gamePlaying(ModelMap model, @PathVariable("gameId") int gameId) throws Exception{
+
 		Game game = gameService.findById(gameId).get();
 		User user = userService.getLoggedUser();
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
@@ -230,14 +232,19 @@ public class GameController {
 				return MARKET_VIEW;
 			default:
 				throw new Exception();
-		}
 	}
+}
 
 
 
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
 	public String attackPhase(ModelMap model, @RequestParam("skillUsed") Integer skillCardId, @RequestParam("enemySelected") List<Integer> listEnemyCardsSelectedId, HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception{
 		try {
+				//Esto hace que la lista esté vacía si no se selecciona ningun enemigo
+				Object aux = 0;
+				listEnemyCardsSelectedId.remove(aux);
+
+
 				gameService.useCard(skillCardId, gameService.findById(gameId).get(), userService.getLoggedUser(),listEnemyCardsSelectedId);
 				return "redirect:"+gameId;
 			
@@ -312,7 +319,6 @@ public class GameController {
 		}
 
 		if(game.getCreator().equals(userService.getLoggedUser())){
-			game.setIsInProgress(true);
 			gameService.updateGame(game);
 		}
 		if(!model.containsAttribute("hasSelected")){
