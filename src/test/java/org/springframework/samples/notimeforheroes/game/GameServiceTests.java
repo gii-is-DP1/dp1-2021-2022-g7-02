@@ -7,7 +7,10 @@ import static org.junit.Assert.assertEquals;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
@@ -262,8 +265,10 @@ public class GameServiceTests {
 
 		gameService.updateGame(g1);
 
-		Optional<Game> progressGame1 = gameService.findGameInProgressByUser(userService.findById(this.user1.getId()).orElse(null));
-		Optional<Game> progressGame2 = gameService.findGameInProgressByUser(userService.findById(this.user1.getId()).orElse(null));
+		Optional<Game> progressGame1 = gameService
+				.findGameInProgressByUser(userService.findById(this.user1.getId()).orElse(null));
+		Optional<Game> progressGame2 = gameService
+				.findGameInProgressByUser(userService.findById(this.user1.getId()).orElse(null));
 
 		//
 		assertTrue(!progressGame1.equals(null) && !progressGame2.equals(null));
@@ -272,8 +277,10 @@ public class GameServiceTests {
 		g1.setUsers(users);
 		gameService.updateGame(g1);
 
-		Optional<Game> progressGame11 = gameService.findGameInProgressByUser(userService.findById(this.user1.getId()).orElse(null));
-		Optional<Game> progressGame22 = gameService.findGameInProgressByUser(userService.findById(this.user1.getId()).orElse(null));
+		Optional<Game> progressGame11 = gameService
+				.findGameInProgressByUser(userService.findById(this.user1.getId()).orElse(null));
+		Optional<Game> progressGame22 = gameService
+				.findGameInProgressByUser(userService.findById(this.user1.getId()).orElse(null));
 
 		//
 		assertFalse(progressGame11.equals(null) && !progressGame22.equals(null));
@@ -313,8 +320,12 @@ public class GameServiceTests {
 		Game g3 = gameConstructor(2, LocalDate.now(), 10, false);
 		userService.saveUser(this.user1);
 		userService.saveUser(this.user2);
-		g1.setWinner(this.user1); g2.setWinner(this.user2); g3.setWinner(this.user2);
-		gameService.updateGame(g1); gameService.updateGame(g2); gameService.updateGame(g3);
+		g1.setWinner(this.user1);
+		g2.setWinner(this.user2);
+		g3.setWinner(this.user2);
+		gameService.updateGame(g1);
+		gameService.updateGame(g2);
+		gameService.updateGame(g3);
 
 		List<Tuple> ranking = gameService.findRanking();
 
@@ -359,7 +370,12 @@ public class GameServiceTests {
 		userService.saveUser(this.user2);
 		User gamer1 = this.user1;
 		User gamer2 = this.user2;
-		List<User> lista = new ArrayList<User>() {{add(gamer1);add(gamer2);}};
+		List<User> lista = new ArrayList<User>() {
+			{
+				add(gamer1);
+				add(gamer2);
+			}
+		};
 		g1.setUsers(lista);
 		g2.setUsers(lista);
 		gameService.updateGame(g1);
@@ -379,37 +395,41 @@ public class GameServiceTests {
 	}
 
 	@Test
-	void testGetClassification() {
+	void testGetClassification() throws DataAccessException, DuplicatedUserEmailException {
 
 		Game g1 = gameConstructor(1, LocalDate.now(), 1000, false);
 
-		User gamer1 = userService.findById(1).orElse(null);
-		User gamer2 = userService.findById(2).orElse(null);
+		userService.saveUser(this.user1);
+		userService.saveUser(this.user2);
 		List<User> lista = new ArrayList<User>() {
 			{
-				add(gamer1);
-				add(gamer2);
+				add(user1);
+				add(user2);
 			}
 		};
 		g1.setUsers(lista);
-		gameService.createGame(g1);
+		gameService.updateGame(g1);
 
-		for (User user : g1.getUsers()) {
-			int plus = 0;
-			GameUser gamer = gameUserService.findByGameAndUser(g1, user).orElse(null);
-			gamer.setGlory(130 + plus);
-			gamer.setGold(18);
-			gameUserService.saveGameUser(gamer);
-			plus = 30;
-		}
+		GameUser gameUser1 = gameUserService.findByGameAndUser(g1, this.user1).orElse(null);
+		gameUser1.setGlory(100);
+		gameUser1.setGold(6);
+		gameUserService.saveGameUser(gameUser1);
 
-		TreeMap<Integer, User> resEsperado = new TreeMap<Integer, User>();
-		resEsperado.put(166, gamer2);
-		resEsperado.put(136, gamer1);
+		GameUser gameUser2 = gameUserService.findByGameAndUser(g1, this.user2).orElse(null);
+		gameUser2.setGlory(101);
+		gameUser2.setGold(6);
+		gameUserService.saveGameUser(gameUser2);
 
-		TreeMap<Integer, User> clasi = gameService.getClassification(g1);
+		Map<Integer, User> clasi = gameService.getClassification(g1);
+		Map<Integer, User> resEsperado = new HashMap<Integer, User>();
+		resEsperado.put(103, this.user2);
+		resEsperado.put(102, this.user1);
 
-		System.out.println(resEsperado);
+		//
+		assertTrue(clasi.equals(resEsperado));
+
+		//
+		assertFalse(clasi.get(103).equals(this.user1));
 	}
 
 	@Test
