@@ -111,6 +111,11 @@ public class GamesUsersSkillCardsService {
             player.setHeroeHealth(player.getHeroeHealth() - 1);  
             gamesUsersService.saveGameUser(player);
 
+            //si el numero de vidas del jugador es 0 pasa al siguiente turno y en el metodo endTurn si el jugador tiene 0 vidas, salta su turno
+            if(player.getHeroeHealth()==0){
+                gameService.endTurn(game);
+            }
+
             //Volver a poner todas las cartas en el mazo
             skillCardsService.findAllOnDiscardedSkillsByGameAndUser(game, user).stream().forEach(c -> {
                 GamesUsersSkillCards gusc = findByGameUserSkill(game, user, c).get();

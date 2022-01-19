@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.persistence.Tuple;
@@ -87,7 +86,9 @@ public class GameService {
 	public static final Integer MAX_NUMBER_PLAYERS = 4;
 	public static final Integer NUMBER_ENEMIES = 3;
 	public static final Integer NUMBER_ITEMS_IN_MARKET = 5;
-
+	public static final Integer NUMBER_ITEMS_OF_MARKET = 15;
+	public static final Integer NUMBER_ITEMS_ON_HAND = 4;
+	
 	public Collection<Game> findAvailableGames() {
 		return userService.isUserAdmin(userService.getLoggedUser()) ? gameRepository.findAll()
 				: gameRepository.findPublicAndOwn(userService.getLoggedUser());
@@ -183,6 +184,7 @@ public class GameService {
 		}
 
 	}
+	
 
 	//
 	@Transactional
@@ -284,24 +286,46 @@ public class GameService {
 			GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
 			List<SkillCard> skillCards = (List<SkillCard>) skillCardsService.findByColor(heroeCard.getColor());
 			gameUser.setHeroe(heroeCard);
-			gameUser.setSkillCards(skillCards);
 			gameUser.setGlory(0);
 			gameUser.setGold(0);
 			gameUser.setHasEscapeToken(true);
 			gameUser.setHeroeHealth(heroeCard.getMaxHealth());
 			gameUser.setDamageShielded(0);
+
+			
+			// Baraja las cartas de skill
+			Collections.shuffle(skillCards);
+			//Convierte todas las cartas de mercado a skill 
+			//para que cuando sea comprada por el jugador ya este creada la relacion gameuser_skill
+			List<MarketCard> market=(List<MarketCard>) marketCardService.findAll();
+			List<SkillCard> skillMarket=new ArrayList<SkillCard>();
+			for(int i=0; i<market.size();i++) {
+				skillMarket.add(marketCardService.marketToSkill(market.get(i)));
+			}
+			Collections.shuffle(skillMarket);
+			skillCards.addAll(0, skillMarket);
+			
+			gameUser.setSkillCards(skillCards);
+
 			gameUserService.saveGameUser(gameUser);
 
-			// Baraja las cartas de skill y a cuatro al azar las pone como ONHAND (por
-			// defecto están ONDECK)
-			Collections.shuffle(skillCards);
-			for (int i = 0; i < 4; i++) {
+			// Pone 4 cartas de skill ONHAND (por
+			// defecto están ONDECK) y al resto ONDECK
+			//Tambien pone a las de mercado ONMARKET que en la lista son las primeras 15 
+			//ya que son añadidas al principio de la lista skills tras barajar esta para que esten aleatorias
+			for (int i = 0; i < NUMBER_ITEMS_OF_MARKET; i++) {
+				GamesUsersSkillCards card = gamesUsersSkillCardsService
+						.findByGameUserSkill(game, user, skillCards.get(i)).get();
+				card.setSkillState(SkillState.ONMARKET);
+				gamesUsersSkillCardsService.saveGameUserSkillCard(card);
+			}
+			for (int i = NUMBER_ITEMS_OF_MARKET; i < NUMBER_ITEMS_OF_MARKET+NUMBER_ITEMS_ON_HAND; i++) {
 				GamesUsersSkillCards card = gamesUsersSkillCardsService
 						.findByGameUserSkill(game, user, skillCards.get(i)).get();
 				card.setSkillState(SkillState.ONHAND);
 				gamesUsersSkillCardsService.saveGameUserSkillCard(card);
 			}
-			for (int i = 4; i < skillCards.size(); i++) {
+			for (int i =  NUMBER_ITEMS_OF_MARKET+NUMBER_ITEMS_ON_HAND; i < skillCards.size(); i++) {
 				GamesUsersSkillCards card = gamesUsersSkillCardsService
 						.findByGameUserSkill(game, user, skillCards.get(i)).get();
 				card.setSkillState(SkillState.ONDECK);
@@ -312,21 +336,32 @@ public class GameService {
 	}
 
 	@Transactional
-	public void buyMarketItem(@Valid Game game, User user, int itemId) throws DontHaveEnoughGoldToBuyException {
-		GameUser gameuser = gameUserService.findByGameAndUser(game, user).get();
-		MarketCard item = marketCardService.findById(itemId).get();
-		GameMarket itemInGame = gameMarketService.findOneItemInGame(game, itemId);
-		int actualGold = gameuser.getGold();
-		int costItem = item.getCost();
-
-		if (actualGold >= costItem) {
-			gameuser.setGold(actualGold - costItem);
+	public void buyMarketItem(@Valid Game game, User user, int itemId) throws DontHaveEnoughGoldToBuyException{
+		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
+		MarketCard item=marketCardService.findById(itemId).get();
+		GameMarket itemInGame =gameMarketService.findOneItemInGame(game, itemId);
+		int actualGold=gameuser.getGold();
+		int costItem=item.getCost();
+		//Si el user tiene oro suficiente lo compt¡ra
+		if(actualGold>=costItem) {
+			//Actualizamos el oro y items del user
+			gameuser.setGold(actualGold-costItem);
 			gameuser.getItems().add(item);
 			gameUserService.saveGameUser(gameuser);
-
+			
+			//Cambiamos de estado de la carta de mercado en la baraja del user para ponerla en el mazo
+			SkillCard newSkill=marketCardService.marketToSkill(item);
+			GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, newSkill).get();
+			card.setSkillState(SkillState.ONDECK);
+			gamesUsersSkillCardsService.saveGameUserSkillCard(card);
+			
+			//Actualizamos el item del market como comprado
 			itemInGame.setItemState(ItemState.SOLD);
 			gameMarketService.createGameMarket(itemInGame);
-		} else {
+			
+		} 
+		//Si no tiene oro suficiente salta exception
+		else {
 			throw new DontHaveEnoughGoldToBuyException();
 		}
 	}
@@ -558,7 +593,6 @@ public class GameService {
 
 	@Transactional
 	public void endTurn(Game game) {
-
 		// Nuevo jugador
 		List<User> users = new ArrayList<>(game.getUsers());
 		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
@@ -621,6 +655,5 @@ public class GameService {
 		}
 
 		game.setGameState(GameState.ATTACKING);
-
 	}
 }

@@ -14,13 +14,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsService;
 
-import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarket;
 import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarketService;
-import org.springframework.samples.notimeforheroes.cards.scenecard.SceneCard;
+import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.game.Game;
 
 import org.springframework.samples.notimeforheroes.game.GameService;
-import org.springframework.samples.notimeforheroes.game.GameServiceTests;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +60,15 @@ public class MarketCardServiceTest {
 
 		//
 		assertTrue(marketService.findById(marketCard.getId()).orElse(null).equals(marketCard));
+	}
+	
+	@Test
+	void testMarkettoSkill() {
+		MarketCard marketCard = marketService.findById(1).get();
+		SkillCard skill=marketService.marketToSkill(marketCard);
+		
+		//
+		assertTrue(marketCard.getName()==skill.getName());
 	}
 
 	@Test
@@ -124,7 +131,7 @@ public class MarketCardServiceTest {
 		Collection<MarketCard> cards = marketService.findByGameOnDeck(g1);
 
 		//
-		assertTrue(cards.size() <= 5);
+		assertTrue(cards.size() <= 15);
 	}
 
 	@Test
@@ -135,11 +142,11 @@ public class MarketCardServiceTest {
 		Collection<MarketCard> cards = marketService.findAllByGameAndOnTable(g1);
 
 		// Comprobamos que coge 5 cartas para ponerlas a la venta
-		assertTrue(cards.size() == 5);
+		assertTrue(cards.size() <= 5);
 
 	}
 
-	private MarketCard NewMarketCard(String name, String url, Integer cost, String description) {
+	public static MarketCard NewMarketCard(String name, String url, Integer cost, String description) {
 		MarketCard marketCard = new MarketCard();
 		marketCard.setCost(cost);
 		marketCard.setDescription(description);

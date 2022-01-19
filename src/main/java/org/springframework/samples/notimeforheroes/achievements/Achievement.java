@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.petclinic.model.NamedEntity;
 
@@ -22,10 +23,10 @@ public class Achievement extends NamedEntity{
 	private String description;
 	
 	@Column(name="number")
-    @NotEmpty
+    @NotNull
 	private Integer numberAchievement;
 
 	@Column(name="type")
-    @NotEmpty
+    @NotNull
 	private AchievementType type;
 }

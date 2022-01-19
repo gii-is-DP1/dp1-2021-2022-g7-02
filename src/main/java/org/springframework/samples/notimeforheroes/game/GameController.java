@@ -1,13 +1,15 @@
 package org.springframework.samples.notimeforheroes.game;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.Timer;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/games")
-public class GameController {
+public class GameController { 
 
 	public static final String GAMES_LISTING = "games/listadoGames";
 	public static final String GAMES_FORM = "games/createOrUpdateGamesForm";
@@ -96,6 +98,9 @@ public class GameController {
 	@Autowired
 	GamesUsersSkillCardsService gameUserSkillCardsService;
 
+	Timer timer;
+	int second;
+	boolean countOn=false;
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
@@ -164,18 +169,10 @@ public class GameController {
 
 	@GetMapping("/{gameId}/marketGame")
 	public String listMarketGame(ModelMap model, @PathVariable("gameId") int gameId) {
-
-		/*
-		 * Todo esto debería ir en el case BUYING
-		 * del switch del GetMapping(/{gameId})
-		 */
-		Game game = gameService.findById(gameId).get();
-		model.addAttribute("game", game);
-		model.addAttribute("market", marketService.findAllByGameAndOnTable(gameService.findById(gameId).get()));
-		model.addAttribute("user", userService.getLoggedUser());
-		model.addAttribute("gameUser", gameUserService
-				.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
-		return MARKET_VIEW;
+		Game game = gameService.findById(gameId).orElse(null);
+		game.setGameState(GameState.BUYING);
+		gameService.updateGame(game);
+		return "redirect:/games/"+gameId;
 	}
 
 	@GetMapping("/{gameId}/endTurn")
@@ -183,6 +180,8 @@ public class GameController {
 		Game game = gameService.findById(gameId).get();
 		if (game.getUserPlaying().equals(userService.getLoggedUser()) && game.getIsInProgress()) {
 			gameService.endTurn(game);
+			timer.stop();
+			countOn=false;
 			return "redirect:/games/" + gameId;
 		} else {
 			model.addAttribute("message", "No puedes cambiar de turno en este momento");
@@ -196,6 +195,15 @@ public class GameController {
 
 		Game game = gameService.findById(gameId).get();
 		User user = userService.getLoggedUser();
+		GameUser player= gameUserService.findByGameAndUser(game, user).get();
+
+		if(game.getUsers().size()<2){
+			//metodo de acabar la partida
+		}
+		if(player.getHeroeHealth()==0){
+			gameService.endTurn(game);
+			countOn=false;
+		}
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
 		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
 		enemiesOnTable.stream().forEach(
@@ -204,7 +212,11 @@ public class GameController {
 		model.addAttribute("enemies", enemiesOnTable);
 		model.addAttribute("game", game);
 		model.addAttribute("user", user);
-
+		model.addAttribute("player", player);
+		if(user==game.getUserPlaying()&& !countOn){
+			fiveMinutesTimer(model,game,user,player);
+				
+		}
 		switch (game.getGameState()) {
 			case ATTACKING: {
 				model.addAttribute("hasEscapeToken",
@@ -243,14 +255,40 @@ public class GameController {
 					return DEFEND_VIEW;	
 				}	
 				case BUYING:
-					model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
-					model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
+					model.addAttribute("game", game);
+					model.addAttribute("market", marketService.findAllByGameAndOnTable(gameService.findById(gameId).get()));
+					model.addAttribute("user", userService.getLoggedUser());
+					model.addAttribute("gameUser", gameUserService
+							.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 					return MARKET_VIEW;
 			default:
 				throw new Exception();
 		}
 	}
 
+	private void fiveMinutesTimer(ModelMap model,Game game, User user, GameUser player) throws InterruptedException {
+		second=300;
+		simpleTimer(model,player,game);
+		timer.start();
+		countOn=true;
+	}
+
+	private void simpleTimer(ModelMap model,GameUser player, Game game) {
+		timer = new Timer(1000, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				second--;
+				System.out.println(second);
+				if(second==0){
+					player.setHeroeHealth(0);
+					gameUserService.saveGameUser(player);
+					timer.stop();					
+				}
+			}
+		});
+
+	}
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
 	public String attackPhase(ModelMap model, @RequestParam("skillUsed") Integer skillCardId,
 			@RequestParam("enemySelected") List<Integer> listEnemyCardsSelectedId, HttpServletResponse response,

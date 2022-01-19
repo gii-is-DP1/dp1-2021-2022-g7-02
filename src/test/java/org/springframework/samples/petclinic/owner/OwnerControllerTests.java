@@ -29,7 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * Test class for {@link OwnerController}
  *
  * @author Colin But
- */
+ */ 
 
 @WebMvcTest(controllers = OwnerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class OwnerControllerTests {
@@ -38,7 +38,7 @@ class OwnerControllerTests {
 
 	@Autowired
 	private OwnerController ownerController;
-
+ 
 	@MockBean
 	private OwnerService clinicService;
 

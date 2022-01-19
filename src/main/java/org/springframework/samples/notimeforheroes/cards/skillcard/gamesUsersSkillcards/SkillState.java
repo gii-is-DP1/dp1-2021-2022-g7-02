@@ -2,5 +2,5 @@ package org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSk
 
 public enum SkillState {
 
-	ONDECK, ONHAND, DISCARD;
+	ONDECK, ONHAND, DISCARD, ONMARKET;
 }

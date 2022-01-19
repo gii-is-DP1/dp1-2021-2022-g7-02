@@ -51,6 +51,7 @@ public class SkillCardsService {
 	@Autowired
 	GamesEnemiesService gamesEnemiesService;
 
+	//
 	@Transactional
 	public Collection<SkillCard> findAllPage(Integer pageNo, Integer pageSize) {
 		Pageable pagin = PageRequest.of(pageNo, pageSize);
@@ -81,30 +82,40 @@ public class SkillCardsService {
 		return skillRepository.findByColor(color);
 	}
 
+	//
+	@Transactional
+	public SkillCard findByName(String name) {
+		return skillRepository.findByName(name);
+	}
+
+	//
 	public Collection<SkillCard> findByGameAndUser(Game game, User user) {
 		return skillRepository.findAllSkillsByGameAndUser(game, user);
 	}
 
+	//
 	public List<SkillCard> findAllAvailableSkillsByGameAndUser(Game game, User user) {
 		return skillRepository.findAllAvailableSkillsByGameAndUser(game, user);
 	}
 
+	//
 	public List<SkillCard> findAllOnDeckSkillsByGameAndUser(Game game, User user) {
 		return skillRepository.findAllOnDeckSkillsByGameAndUser(game, user);
 	}
 
+	//
 	public List<SkillCard> findAllOnDiscardedSkillsByGameAndUser(Game game, User user) {
 		return skillRepository.findAllOnDiscardedSkillsByGameAndUser(game, user);
 	}
 
 	public Integer numberOfEnemiesOfSkillCard(SkillCard skillCard) throws Exception {
 		Integer skillCardId = skillCard.getId();
-		List<Integer> noEnemyRequiredIdList = List.of(1, 13, 14, 20, 21, 26, 27, 29, 30, 39, 43, 56, 57, 58);
+		List<Integer> noEnemyRequiredIdList = List.of(1, 13, 14, 20, 21, 26, 27, 29, 30, 39, 43, 56, 57, 58, 62, 64, 65, 67, 68, 69, 70, 71, 72);
 		List<Integer> oneEnemyRequiredIdList = List.of(2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 16, 17,
 				18, 19, 22, 23, 24, 25, 28, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52,
-				53, 54, 55);
+				53, 54, 55, 59, 60, 61, 63, 73);
 		List<Integer> twoEnemiesRequiredIdList = List.of(11, 12);
-		List<Integer> threeEnemiesRequiredIdList = List.of(31);
+		List<Integer> threeEnemiesRequiredIdList = List.of(31, 66);
 
 		if (noEnemyRequiredIdList.contains(skillCardId))
 			return 0;
@@ -174,48 +185,51 @@ public class SkillCardsService {
 		}
 	}
 
-
-    public void useEscudo(EnemyCard enemyTargeted, Game game, User user, SkillCard skillCard) {
-		Integer dañoDeEnemigoSeleccionado = gamesEnemiesService.findByGameAndEnemy(game, enemyTargeted).get().getHealth();
+	public void useEscudo(EnemyCard enemyTargeted, Game game, User user, SkillCard skillCard) {
+		Integer dañoDeEnemigoSeleccionado = gamesEnemiesService.findByGameAndEnemy(game, enemyTargeted).get()
+				.getHealth();
 		gamesUsersSkillCardsService.defendDamage(game, user, dañoDeEnemigoSeleccionado);
 		gamesUsersSkillCardsService.endAttackTurn(game);
-    }
-
-
-    public void useEspadazo(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
+	}
+	
+	public void useEspadazo(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
 		gamesEnemiesService.damageEnemy(game, enemyCard, user, 1);
 		Integer numeroRandom = new Random().nextInt(4);
-		if(numeroRandom == 0)
+		if (numeroRandom == 0)
 			gamesUsersSkillCardsService.drawCards(game, user, 1);
-    }
-
+	}
 
 	public void useTodoONada(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
 		Integer daño = 1;
 		List<SkillCard> mazo = findAllOnDeckSkillsByGameAndUser(game, user);
-		for(SkillCard card : mazo){	//Comprueba cual es la siguiente carta del mazo que tiene una única acción de daño, y le añade el valor de dicho daño al ataque
-			List<Action> attackActions = card.getActions().stream().filter(action -> action.getType().equals(TypesActions.DAMAGE)).collect(Collectors.toList());
-			if(attackActions.size() == 1){
+		for (SkillCard card : mazo) { // Comprueba cual es la siguiente carta del mazo que tiene una única acción de
+										// daño, y le añade el valor de dicho daño al ataque
+			List<Action> attackActions = card.getActions().stream()
+					.filter(action -> action.getType().equals(TypesActions.DAMAGE)).collect(Collectors.toList());
+			if (attackActions.size() == 1) {
 				daño += attackActions.get(0).getCantidad();
 				break;
-			}		
+			}
 		}
 		gamesEnemiesService.damageEnemy(game, enemyCard, user, daño);
 	}
 
+	public void useVozDeAliento(Game game, User user, SkillCard skillCard) throws Exception {
 
-    public void useVozDeAliento(Game game, User user, SkillCard skillCard) throws Exception {
-
-		//Devuelve dos cartas del mazo de descarte a todos los jugadores vivos
-		for(User userInGame : game.getUsers()){
+		// Devuelve dos cartas del mazo de descarte a todos los jugadores vivos
+		for (User userInGame : game.getUsers()) {
 			List<SkillCard> cartasDescartadas = findAllOnDiscardedSkillsByGameAndUser(game, userInGame);
-			if(cartasDescartadas.size() == 1 && gameUserService.findByGameAndUser(game, userInGame).get().getHeroeHealth() > 0){
-				GamesUsersSkillCards gusc = gamesUsersSkillCardsService.findByGameUserSkill(game, userInGame, cartasDescartadas.get(0)).orElse(null);
+			if (cartasDescartadas.size() == 1
+					&& gameUserService.findByGameAndUser(game, userInGame).get().getHeroeHealth() > 0) {
+				GamesUsersSkillCards gusc = gamesUsersSkillCardsService
+						.findByGameUserSkill(game, userInGame, cartasDescartadas.get(0)).orElse(null);
 				gusc.setSkillState(SkillState.ONDECK);
 				gamesUsersSkillCardsService.saveGameUserSkillCard(gusc);
-			}else if(cartasDescartadas.size() >= 2 && gameUserService.findByGameAndUser(game, userInGame).get().getHeroeHealth() > 0){
-				for(int i = 0; i<2 ; i++){
-					GamesUsersSkillCards gusc = gamesUsersSkillCardsService.findByGameUserSkill(game, userInGame, cartasDescartadas.get(i)).orElse(null);
+			} else if (cartasDescartadas.size() >= 2
+					&& gameUserService.findByGameAndUser(game, userInGame).get().getHeroeHealth() > 0) {
+				for (int i = 0; i < 2; i++) {
+					GamesUsersSkillCards gusc = gamesUsersSkillCardsService
+							.findByGameUserSkill(game, userInGame, cartasDescartadas.get(i)).orElse(null);
 					gusc.setSkillState(SkillState.ONDECK);
 					gamesUsersSkillCardsService.saveGameUserSkillCard(gusc);
 				}
@@ -224,7 +238,6 @@ public class SkillCardsService {
 		gamesUsersSkillCardsService.drawCards(game, user, 1);
 		gamesUsersSkillCardsService.gainGlory(game, user, 1);
     }
-
 	public void useAuraProtectora(Game game, User user, SkillCard skillCard){
 		gamesUsersSkillCardsService.defendDamage(game, user, 100);
 		gamesUsersSkillCardsService.discardCards(game, user, enemyCardService.findOnTableEnemiesByGame(game).size());
@@ -261,6 +274,7 @@ public class SkillCardsService {
 		//50% de posibilidades de hacer 2 de daño.
 		gamesEnemiesService.damageEnemy(game, enemyCard, user, Integer.valueOf(new Random().nextInt(2)).equals(0) ? 1 : 2);
     }
+	
 
 	public void useOrbeCurativo(Game game, User user, SkillCard skillCard) throws Exception{
 		for(User userInGame : game.getUsers()){
