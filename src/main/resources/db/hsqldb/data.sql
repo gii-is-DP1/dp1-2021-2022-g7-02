@@ -199,6 +199,7 @@ INSERT INTO skills(id,name,url,description,color) VALUES (56,'Robar Bolsillos', 
 INSERT INTO skills(id,name,url,description,color) VALUES (57,'Saqueo', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
 INSERT INTO skills(id,name,url,description,color) VALUES (58,'Saqueo', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
 
+--MARKET SKILLS
 INSERT INTO skills(id,name,url,description) VALUES (59,'Daga Elfica 1', '\resources\images\market\DagaEfica.png', ' ');
 INSERT INTO skills(id,name,url,description) VALUES (60,'Daga Elfica 2', '\resources\images\market\DagaEfica.png', ' ');
 INSERT INTO skills(id,name,url,description) VALUES (61,'Alabarda Orca', '\resources\images\market\AlabardaOrca.png', ' ');

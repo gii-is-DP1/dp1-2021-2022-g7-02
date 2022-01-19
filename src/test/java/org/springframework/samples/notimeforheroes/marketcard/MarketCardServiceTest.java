@@ -14,12 +14,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsService;
 
-import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarket;
 import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarketService;
+import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.game.Game;
 
 import org.springframework.samples.notimeforheroes.game.GameService;
-import org.springframework.samples.notimeforheroes.game.GameServiceTests;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +60,15 @@ public class MarketCardServiceTest {
 
 		//
 		assertTrue(marketService.findById(marketCard.getId()).orElse(null).equals(marketCard));
+	}
+	
+	@Test
+	void testMarkettoSkill() {
+		MarketCard marketCard = marketService.findById(1).get();
+		SkillCard skill=marketService.marketToSkill(marketCard);
+		
+		//
+		assertTrue(marketCard.getName()==skill.getName());
 	}
 
 	@Test

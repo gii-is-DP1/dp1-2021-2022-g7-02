@@ -69,13 +69,11 @@ public class MarketCardsService {
 		return marketRepository.findAllByGameAndOnTable(game);
 	}
 	
+	//
 	public SkillCard marketToSkill(MarketCard card) {
 		return skillCardService.findByName(card.getName());
-
 	}
 	
-	
-
 	//
 	@Transactional
 	public void saveMarketCard(@Valid MarketCard market) {
