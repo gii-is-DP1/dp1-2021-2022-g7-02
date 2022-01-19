@@ -323,6 +323,9 @@ public class GameController {
 				} catch (IncorrectNumberOfEnemiesException e) {
 					model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
 					return gamePlaying(model, gameId);
+				} catch(DontHaveEnoughGoldToBuyException e){
+					model.addAttribute("message", "Necesitas más oro para ejecutar esta acción");
+					return gamePlaying(model, gameId);
 				} catch (Exception e) {
 					e.printStackTrace();
 					model.addAttribute("message", "Error desconocido al usar carta");
@@ -335,10 +338,7 @@ public class GameController {
 				} catch (DontHaveEnoughGoldToBuyException e) {
 					model.addAttribute("message", "No tienes suficiente dinero para comprar este item");
 					return gamePlaying(model, gameId);
-				}catch(DontHaveEnoughGoldToBuyException e){
-			    model.addAttribute("message", "Necesitas más oro para ejecutar esta acción");
-			    return gamePlaying(model, gameId);
-	    	}catch (ItemNotSelectedException e) {
+				}catch (ItemNotSelectedException e) {
 					model.addAttribute("message", "Por Favor selecciona una carta para comprar o finalice su turno");
 					return gamePlaying(model, gameId);
 				}catch (Exception e) {
