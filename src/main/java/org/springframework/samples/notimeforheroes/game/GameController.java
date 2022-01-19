@@ -140,20 +140,30 @@ public class GameController {
 		}
 	}
 
-	@GetMapping("/endGame/{gameId}")
-	public String selectWinner(ModelMap model, @PathVariable("gameId") int gameId) {
+	@GetMapping("/endGame/{gameId}/{hordaDerrotada}")
+	public String selectWinner(ModelMap model, @PathVariable("gameId") int gameId, @PathVariable("hordaDerrotada") Boolean hordaDerrotada) {
+
 		Game game = gameService.findById(gameId).orElse(null);
-		Map<Integer, User> players = gameService.getClassification(game);
 
-		User winner = players.get(0);
-		players.remove(0);
+		if(hordaDerrotada == true){
+			Map<Integer, User> players = gameService.getClassification(game);
 
-		game.setWinner(winner);
-		gameService.updateGame(game);
+			User winner = players.get(0);
+			players.remove(0);
 
-		model.addAttribute("winner", winner);
-		model.addAttribute("players", players);
-		return GAMES_WINNER;
+			game.setWinner(winner);
+			game.setIsInProgress(false);
+			gameService.updateGame(game);
+			model.addAttribute("hordaDerrotada", hordaDerrotada);
+			model.addAttribute("winner", winner);
+			model.addAttribute("players", players);
+			return GAMES_WINNER;
+		}else{
+			game.setIsInProgress(false);
+			gameService.updateGame(game);
+			model.addAttribute("hordaDerrotada", hordaDerrotada);
+			return GAMES_WINNER;
+		}
 	}
 
 
@@ -197,12 +207,12 @@ public class GameController {
 		User user = userService.getLoggedUser();
 		GameUser player= gameUserService.findByGameAndUser(game, user).get();
 
-		if(game.getUsers().size()<2){
-			//metodo de acabar la partida
-		}
 		if(player.getHeroeHealth()==0){
 			gameService.endTurn(game);
 			countOn=false;
+		}
+		if(enemyCardService.findOnDeckEnemiesByGame(game).size() == 0 && enemyCardService.findOnTableEnemiesByGame(game).size()==0){
+			return "redirect:/games/endGame/${gameId}/" + true;
 		}
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
 		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
