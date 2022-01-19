@@ -30,48 +30,46 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
 
 	public static final String USER_LISTING = "users/userListing";
-	public static final String USER_FORM =  "users/createOrUpdateUserForm";
-	public static final String USER_DETAILS =  "users/userDetails";
-	public static final String USER_PROFILE =  "users/userProfile";
-	public static final String USER_GAME_STATS_DURATION =  "users/userGameStatsDuration";
-	public static final String USER_GAME_STATS =  "users/userGameStats";
+	public static final String USER_FORM = "users/createOrUpdateUserForm";
+	public static final String USER_DETAILS = "users/userDetails";
+	public static final String USER_PROFILE = "users/userProfile";
+	public static final String USER_GAME_STATS_DURATION = "users/userGameStatsDuration";
+	public static final String USER_GAME_STATS = "users/userGameStats";
 
-	
 	@Autowired
 	GameService gameService;
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	GameUserService gameUserService;
-	
+
 	@Autowired
 	HeroeCardsService heroeCardService;
-	
+
 	@GetMapping("/{pageNo}")
-	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
-		Integer lastPage = userService.findAll().size()/4;
+	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo) {
+		Integer lastPage = userService.findAll().size() / 4;
 		model.addAttribute("lastPag", lastPage);
 		Collection<User> lista = userService.findAllPage(pageNo, 4);
 		model.addAttribute("user", lista);
 		model.addAttribute("pag", pageNo);
 		return USER_LISTING;
 	}
-	
+
 	@GetMapping
 	public String listUsers(ModelMap model) {
 		model.addAttribute("user", userService.findAll());
 		return USER_LISTING;
 	}
-	
 
 	@GetMapping("/profile/gameStats")
 	public String GameStats(ModelMap model) {
 		User user = userService.getLoggedUser();
 		Integer heroeFav = gameUserService.getHeroeFav(user);
-		if(heroeFav == null) {
-			model.addAttribute("heroe",null );
+		if (heroeFav == null) {
+			model.addAttribute("heroe", null);
 		} else {
 			Optional<HeroeCard> heroe = heroeCardService.findById(heroeFav);
 			model.addAttribute("heroe", heroe.get());
@@ -81,18 +79,16 @@ public class UserController {
 		model.addAttribute("AllGlory", gameUserService.getAllGloryByUser(user));
 
 		return USER_GAME_STATS;
-		
-		
 	}
-	
+
 	@GetMapping("/profile/gameDuration")
 	public String GameStatsDuration(ModelMap model) {
 		Collection<Game> games = gameService.findAllEnded();
 
 		Collection<Integer> durations = new ArrayList<Integer>();
-		for(Game g : games) {
-			if(g.getDuration() == null) {
-				
+		for (Game g : games) {
+			if (g.getDuration() == null) {
+
 			} else {
 				durations.add(g.getDuration());
 			}
@@ -107,7 +103,7 @@ public class UserController {
 
 		return USER_GAME_STATS_DURATION;
 	}
-	
+
 	@GetMapping("/profile")
 	public String PlayerProfile(ModelMap model) {
 		User user = userService.getLoggedUser();
@@ -115,10 +111,10 @@ public class UserController {
 		model.addAttribute("games", gameService.findByUser(user));
 		Map<User, Integer> players = userService.getListOfOpponents(user);
 		model.addAttribute("players", players);
-		Integer playsInWeek=gameService.findBetweenDates(user, LocalDate.now().minusDays(7), LocalDate.now());
-		Integer playsInMonth=gameService.findBetweenDates(user, LocalDate.now().minusDays(30), LocalDate.now());
+		Integer playsInWeek = gameService.findBetweenDates(user, LocalDate.now().minusDays(7), LocalDate.now());
+		Integer playsInMonth = gameService.findBetweenDates(user, LocalDate.now().minusDays(30), LocalDate.now());
 		model.addAttribute("Week", playsInWeek);
-		model.addAttribute("Month",playsInMonth);
+		model.addAttribute("Month", playsInMonth);
 		return USER_PROFILE;
 	}
 
@@ -129,14 +125,15 @@ public class UserController {
 	}
 
 	@PostMapping("/profile/edit")
-	public String profileEdit(RedirectAttributes redirect,ModelMap model, @Valid User modifiedUser, BindingResult result){
-		
+	public String profileEdit(RedirectAttributes redirect, ModelMap model, @Valid User modifiedUser,
+			BindingResult result) {
+
 		User loggedUser = userService.getLoggedUser();
-		
-		if(result.hasErrors()){
+
+		if (result.hasErrors()) {
 			model.addAttribute("message", "The user has errors");
 			return USER_FORM;
-		}else{
+		} else {
 			BeanUtils.copyProperties(modifiedUser, loggedUser, "id");
 			model.addAttribute("user", loggedUser);
 			listUsers(model);
@@ -144,42 +141,42 @@ public class UserController {
 			return "redirect:/users/profile";
 		}
 	}
-	
+
 	@GetMapping("/{id}/edit")
 	public String editUser(ModelMap model, @PathVariable("id") int id) {
 		Optional<User> user = userService.findById(id);
-		if(user.isPresent()) {
-			if(userService.getLoggedUser().getId().equals(id) || userService.getLoggedUser().isAdmin()){
+		if (user.isPresent()) {
+			if (userService.getLoggedUser().getId().equals(id) || userService.getLoggedUser().isAdmin()) {
 				model.addAttribute("user", user.get());
 				return USER_FORM;
-			}else {
+			} else {
 				model.addAttribute("message", "You can't edit this user");
 				return listUsers(model);
 			}
-			
+
 		} else {
 			model.addAttribute("message", "This user doesn't exist");
 			return listUsers(model);
 		}
 	}
-	
+
 	@PostMapping("/{id}/edit")
-	public String editUser(RedirectAttributes redirect,ModelMap model, @PathVariable("id") int id, @Valid User modifiedUser, BindingResult result) {
+	public String editUser(RedirectAttributes redirect, ModelMap model, @PathVariable("id") int id,
+			@Valid User modifiedUser, BindingResult result) {
 		Optional<User> user = userService.findById(id);
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			model.addAttribute("message", "The user has errors");
 			return USER_FORM;
 		} else {
 			int userId = userService.getLoggedUser().getId();
 
-			if(user.get().getId()==userId) {
+			if (user.get().getId() == userId) {
 				BeanUtils.copyProperties(modifiedUser, user.get(), "id");
 				model.addAttribute("user", user.get());
 				listUsers(model);
 				redirect.addFlashAttribute("message", "User modified");
 				return "redirect:/users/{id}/details";
-			}
-			else {
+			} else {
 				redirect.addFlashAttribute("message", "You cannot modify this user");
 				return "redirect:/users/0";
 			}
@@ -187,11 +184,10 @@ public class UserController {
 		}
 	}
 
-	
 	@GetMapping("/{id}/details")
 	public String PlayerDetails(ModelMap model, @PathVariable("id") int id) {
 		Optional<User> user = userService.findById(id);
-		if(user.isPresent()) {
+		if (user.isPresent()) {
 			model.addAttribute("user", user.get());
 			return USER_DETAILS;
 		} else {
@@ -199,18 +195,18 @@ public class UserController {
 			return listUsers(model);
 		}
 	}
-	
-	
+
 	@GetMapping("/new")
 	public String newUser(Map<String, Object> map) {
 		User user = new User();
 		map.put("user", user);
 		return USER_FORM;
 	}
-	
+
 	@PostMapping("/new")
-	public String newUser(@Valid User user,BindingResult result, ModelMap model,RedirectAttributes redirect) throws DataAccessException, DuplicatedUserEmailException {
-		if(result.hasErrors()) {
+	public String newUser(@Valid User user, BindingResult result, ModelMap model, RedirectAttributes redirect)
+			throws DataAccessException, DuplicatedUserEmailException {
+		if (result.hasErrors()) {
 			return USER_FORM;
 		} else {
 			userService.saveUser(user);
@@ -218,7 +214,7 @@ public class UserController {
 			return "redirect:/users/0";
 		}
 	}
-	
+
 	@GetMapping("/{id}/delete")
 	public String deleteUser(RedirectAttributes redirect, ModelMap model, @PathVariable("id") int id) {
 		Optional<User> user = userService.findById(id);
@@ -228,6 +224,5 @@ public class UserController {
 		return "redirect:/users/0";
 
 	}
-	
-	
+
 }
