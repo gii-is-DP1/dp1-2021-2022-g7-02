@@ -110,12 +110,12 @@ public class SkillCardsService {
 
 	public Integer numberOfEnemiesOfSkillCard(SkillCard skillCard) throws Exception {
 		Integer skillCardId = skillCard.getId();
-		List<Integer> noEnemyRequiredIdList = List.of(1, 13, 14, 20, 21, 26, 27, 29, 30, 39, 43, 56, 57, 58);
+		List<Integer> noEnemyRequiredIdList = List.of(1, 13, 14, 20, 21, 26, 27, 29, 30, 39, 43, 56, 57, 58, 62, 64, 65, 67, 68, 69, 70, 71, 72);
 		List<Integer> oneEnemyRequiredIdList = List.of(2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 16, 17,
 				18, 19, 22, 23, 24, 25, 28, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52,
-				53, 54, 55);
+				53, 54, 55, 59, 60, 61, 63, 73);
 		List<Integer> twoEnemiesRequiredIdList = List.of(11, 12);
-		List<Integer> threeEnemiesRequiredIdList = List.of(31);
+		List<Integer> threeEnemiesRequiredIdList = List.of(31, 66);
 
 		if (noEnemyRequiredIdList.contains(skillCardId))
 			return 0;
@@ -221,7 +221,7 @@ public class SkillCardsService {
 		gamesUsersSkillCardsService.defendDamage(game, user, dañoDeEnemigoSeleccionado);
 		gamesUsersSkillCardsService.endAttackTurn(game);
 	}
-
+	
 	public void useEspadazo(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
 		gamesEnemiesService.damageEnemy(game, enemyCard, user, 1);
 		Integer numeroRandom = new Random().nextInt(4);
