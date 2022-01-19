@@ -289,31 +289,48 @@ public class GameController {
 		});
 
 	}
+  
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
-	public String attackPhase(ModelMap model, @RequestParam("skillUsed") Integer skillCardId,
-			@RequestParam("enemySelected") List<Integer> listEnemyCardsSelectedId, HttpServletResponse response,
-			@PathVariable("gameId") Integer gameId) throws Exception {
-		try {
-			// Esto hace que la lista esté vacía si no se selecciona ningun enemigo
-			Object aux = 0;
-			listEnemyCardsSelectedId.remove(aux);
+	public String attackPhase(ModelMap model, @RequestParam(value="skillUsed", required=false) Integer skillCardId,
+			@RequestParam(value="enemySelected") Optional<List<Integer>> listEnemyCardsSelectedId, 
+			@RequestParam(value="itemSelected", required=false) Integer id, HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception {
+		Game game = gameService.findById(gameId).get();	
+		switch (game.getGameState()) {
+			case ATTACKING:
+				try {
+					// Esto hace que la lista esté vacía si no se selecciona ningun enemigo
+					List<Integer> listEnemys=listEnemyCardsSelectedId.get();
+					Object aux = 0;
+					listEnemys.remove(aux);
 
-			gameService.useCard(skillCardId, gameService.findById(gameId).get(), userService.getLoggedUser(),
-					listEnemyCardsSelectedId);
-			return "redirect:" + gameId;
+					gameService.useCard(skillCardId, gameService.findById(gameId).get(), userService.getLoggedUser(),
+							listEnemys);
+					return "redirect:" + gameId;
 
-		} catch (CardNotSelectedException e) {
-			model.addAttribute("message", "Por favor, seleccione una carta, acabe su turno o use su ficha de escape");
-			return gamePlaying(model, gameId);
-		} catch (IncorrectNumberOfEnemiesException e) {
-			model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
-			return gamePlaying(model, gameId);
-		} catch (Exception e) {
-			model.addAttribute("message", "Error desconocido al usar carta");
-			//e.printStackTrace();
-			return gamePlaying(model, gameId);
+				} catch (CardNotSelectedException e) {
+					model.addAttribute("message", "Por favor, seleccione una carta, acabe su turno o use su ficha de escape");
+					return gamePlaying(model, gameId);
+				} catch (IncorrectNumberOfEnemiesException e) {
+					model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
+					return gamePlaying(model, gameId);
+				} catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", "Error desconocido al usar carta");
+					return gamePlaying(model, gameId);
+				}
+			case BUYING:
+				try {
+					gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
+					return "redirect:/games/{gameId}/marketGame/";
+				} catch (DontHaveEnoughGoldToBuyException e) {
+					model.addAttribute("message", "You don´t have enough money to buy this item");
+					return listMarketGame(model, gameId);
+				}
+			default:
+				throw new Exception();
+	
+
 		}
-
 	}
 
 	@GetMapping("/{gameId}/escape")
@@ -431,19 +448,6 @@ public class GameController {
 
 		gameService.selectFirstPlayer(gameId);
 		return selectPlayerToStart(model, gameId, response);
-	}
-
-	@RequestMapping(value = "/{gameId}/marketGame", method = RequestMethod.POST)
-	public String buyMarketItem(@PathVariable("gameId") int gameId, ModelMap model,
-			@RequestParam("itemSelected") int id, HttpServletResponse response) {
-
-		try {
-			gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
-			return "redirect:/games/{gameId}/marketGame/";
-		} catch (DontHaveEnoughGoldToBuyException e) {
-			model.addAttribute("message", "You don´t have enough money to buy this item");
-			return listMarketGame(model, gameId);
-		}
 	}
 
 	@GetMapping("/details/{gameId}")
