@@ -20,8 +20,8 @@
                 </div>
             </c:forEach>
         </div>
-        <c:if test="${game.getUserPlaying() == user}">
-        <h2>HABILIDADES</h2>     
+        <c:if test="${game.getUserPlaying() == user && player.getHeroeHealth()!=0}">
+            <h2>HABILIDADES</h2>     
             <div class=row>
                 <c:forEach items="${skillCardsOnHand}" var="skillCard">
                     <div class=col-md-3>
@@ -50,6 +50,9 @@
                     
                 </div>
             </div>
+        </c:if>
+        <c:if test="${player.getHeroeHealth()==0}">
+            <h2>HAS MUERTO ESPERA A QUE LA PARTIDA TERMINE</h2>
         </c:if>
         </form:form>
         

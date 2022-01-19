@@ -572,7 +572,6 @@ public class GameService {
 
 	@Transactional
 	public void endTurn(Game game) {
-
 		// Nuevo jugador
 		List<User> users = new ArrayList<>(game.getUsers());
 		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
@@ -635,6 +634,5 @@ public class GameService {
 		}
 
 		game.setGameState(GameState.ATTACKING);
-
 	}
 }
