@@ -475,6 +475,23 @@ public class GameService {
 				case 44:
 					skillCardsService.useTorrenteDeLuz(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
+				case 45: case 46:
+					skillCardsService.useAlCorazon(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
+				case 47: case 48: case 49:
+					skillCardsService.useAtaqueFurtivo(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
+				case 50: case 51: case 52:
+					skillCardsService.useBallestaPrecisa(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
+				case 55:
+					skillCardsService.useEngañar(game, user, skillCard);
+					break;
+				case 56:
+					skillCardsService.useRobarBolsillos(game, user, skillCard);
+					break;
+				case 57:
+					skillCardsService.useSaqueo(game, user, skillCard);
 			
 				default://Si no requiere lógica adicional
 					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);

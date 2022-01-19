@@ -24,6 +24,7 @@ import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSki
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.SkillState;
 import org.springframework.samples.notimeforheroes.game.Game;
+import org.springframework.samples.notimeforheroes.game.exceptions.DontHaveEnoughGoldToBuyException;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
@@ -290,5 +291,56 @@ public class SkillCardsService {
 		game.getUsers().stream().filter(otherUser -> !otherUser.equals(user))
 								.forEach(otherUser -> gamesUsersSkillCardsService.recoverCards(game, otherUser, 2));		
 	}
+
+	public void useAlCorazon(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
+		gamesEnemiesService.damageEnemy(game, enemyCard, user, 4);
+		if(new Random().nextInt(100) < 35){	//Probabilidad del 35%
+			gamesUsersSkillCardsService.gainGold(game, user, 1);
+		}
+		gamesUsersSkillCardsService.discardCards(game, user, 1);
+	}
+
+	public void useAtaqueFurtivo(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
+		
+		gamesEnemiesService.damageEnemy(game, enemyCard, user, 2);
+		if(new Random().nextInt(4) == 0){
+			gamesUsersSkillCardsService.gainGold(game, user, 1);
+		}
+	}
+
+    public void useBallestaPrecisa(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
+		Boolean masDeLaMitadDeLaVida = (enemyCard.getMaxHealth() / 2.0) < gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth();
+		gamesEnemiesService.damageEnemy(game, enemyCard, user, masDeLaMitadDeLaVida ? 3 : 2);
+    }
+
+	public void useEngañar(Game game, User user, SkillCard skillCard) throws Exception {
+		GameUser player = gameUserService.findByGameAndUser(game, user).get();
+		if(player.getGlory() != null && player.getGold() >= 2){
+			gamesUsersSkillCardsService.loseGold(game, user, 2);
+			gamesUsersSkillCardsService.defendDamage(game, user, 2);
+		}else{
+			throw new DontHaveEnoughGoldToBuyException();
+		}
+	}
+
+	public void useRobarBolsillos(Game game, User user, SkillCard skillCard) throws Exception {
+		List<User> otherUsersWithOneGold = game.getUsers().stream()
+				.filter(u -> !u.equals(user))
+				.map(u -> gameUserService.findByGameAndUser(game, u).get())
+				.filter(player -> player.getGold() >= 1)
+				.map(player -> userService.findByGameUser(player))
+				.collect(Collectors.toList());
+
+		gamesUsersSkillCardsService.gainGold(game, user, otherUsersWithOneGold.size());
+		for (User u : otherUsersWithOneGold) {
+			gamesUsersSkillCardsService.loseGold(game, u, 1);
+		}
+	}
+
+    public void useSaqueo(Game game, User user, SkillCard skillCard) throws Exception {
+		gamesUsersSkillCardsService.gainGold(game, user, 2 * enemyCardService.findOnTableEnemiesByGame(game).size());
+    }
+
+
 
 }

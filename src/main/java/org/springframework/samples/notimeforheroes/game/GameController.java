@@ -308,7 +308,10 @@ public class GameController {
 		} catch (IncorrectNumberOfEnemiesException e) {
 			model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
 			return gamePlaying(model, gameId);
-		} catch (Exception e) {
+		}catch(DontHaveEnoughGoldToBuyException e){
+			model.addAttribute("message", "Necesitas más oro para ejecutar esta acción");
+			return gamePlaying(model, gameId);
+		}catch (Exception e) {
 			model.addAttribute("message", "Error desconocido al usar carta");
 			//e.printStackTrace();
 			return gamePlaying(model, gameId);
