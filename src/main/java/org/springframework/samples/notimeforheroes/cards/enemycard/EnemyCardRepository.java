@@ -3,6 +3,7 @@ package org.springframework.samples.notimeforheroes.cards.enemycard;
 
 	
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -24,7 +25,7 @@ public interface EnemyCardRepository extends CrudRepository<EnemyCard, Integer>{
 		Collection<EnemyCard> findAllByIsBoss(Boolean isBoss);
 
 		@Query(nativeQuery = true, value = "SELECT e.* FROM Enemies e JOIN Games_Enemies ge WHERE e.id = ge.fk_enemy AND ge.fk_game = ?1 AND ge.enemy_state = 0;")
-		Collection<EnemyCard> findOnTableEnemiesByGame(Game game);
+		List<EnemyCard> findOnTableEnemiesByGame(Game game);
 
 		@Query(nativeQuery = true, value = "SELECT COUNT(e.*) FROM Enemies e JOIN Games_Enemies ge WHERE e.id = ge.fk_enemy AND ge.fk_game = ?1 AND ge.enemy_state = 0;")
 		Integer countOnTableEnemiesByGame(Game game);
