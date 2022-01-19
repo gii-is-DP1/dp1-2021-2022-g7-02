@@ -29,6 +29,7 @@ import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNo
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
 import org.springframework.samples.notimeforheroes.game.exceptions.IncorrectNumberOfEnemiesException;
+import org.springframework.samples.notimeforheroes.game.exceptions.ItemNotSelectedException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
@@ -140,20 +141,30 @@ public class GameController {
 		}
 	}
 
-	@GetMapping("/endGame/{gameId}")
-	public String selectWinner(ModelMap model, @PathVariable("gameId") int gameId) {
+	@GetMapping("/endGame/{gameId}/{hordaDerrotada}")
+	public String selectWinner(ModelMap model, @PathVariable("gameId") int gameId, @PathVariable("hordaDerrotada") Boolean hordaDerrotada) {
+
 		Game game = gameService.findById(gameId).orElse(null);
-		Map<Integer, User> players = gameService.getClassification(game);
 
-		User winner = players.get(0);
-		players.remove(0);
+		if(hordaDerrotada == true){
+			Map<Integer, User> players = gameService.getClassification(game);
 
-		game.setWinner(winner);
-		gameService.updateGame(game);
+			User winner = players.get(0);
+			players.remove(0);
 
-		model.addAttribute("winner", winner);
-		model.addAttribute("players", players);
-		return GAMES_WINNER;
+			game.setWinner(winner);
+			game.setIsInProgress(false);
+			gameService.updateGame(game);
+			model.addAttribute("hordaDerrotada", hordaDerrotada);
+			model.addAttribute("winner", winner);
+			model.addAttribute("players", players);
+			return GAMES_WINNER;
+		}else{
+			game.setIsInProgress(false);
+			gameService.updateGame(game);
+			model.addAttribute("hordaDerrotada", hordaDerrotada);
+			return GAMES_WINNER;
+		}
 	}
 
 
@@ -197,12 +208,12 @@ public class GameController {
 		User user = userService.getLoggedUser();
 		GameUser player= gameUserService.findByGameAndUser(game, user).get();
 
-		if(game.getUsers().size()<2){
-			//metodo de acabar la partida
-		}
 		if(player.getHeroeHealth()==0){
 			gameService.endTurn(game);
 			countOn=false;
+		}
+		if(enemyCardService.findOnDeckEnemiesByGame(game).size() == 0 && enemyCardService.findOnTableEnemiesByGame(game).size()==0){
+			return "redirect:/games/endGame/${gameId}/" + true;
 		}
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
 		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
@@ -279,7 +290,6 @@ public class GameController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				second--;
-				System.out.println(second);
 				if(second==0){
 					player.setHeroeHealth(0);
 					gameUserService.saveGameUser(player);
@@ -289,34 +299,57 @@ public class GameController {
 		});
 
 	}
+  
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
-	public String attackPhase(ModelMap model, @RequestParam("skillUsed") Integer skillCardId,
-			@RequestParam("enemySelected") List<Integer> listEnemyCardsSelectedId, HttpServletResponse response,
-			@PathVariable("gameId") Integer gameId) throws Exception {
-		try {
-			// Esto hace que la lista esté vacía si no se selecciona ningun enemigo
-			Object aux = 0;
-			listEnemyCardsSelectedId.remove(aux);
+	public String attackPhase(ModelMap model, @RequestParam(value="skillUsed", required=false) Integer skillCardId,
+			@RequestParam(value="enemySelected") Optional<List<Integer>> listEnemyCardsSelectedId, 
+			@RequestParam(value="itemSelected", required=false) Optional<Integer> id, HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception {
+		Game game = gameService.findById(gameId).get();	
+		switch (game.getGameState()) {
+			case ATTACKING:
+				try {
+					// Esto hace que la lista esté vacía si no se selecciona ningun enemigo
+					List<Integer> listEnemys=listEnemyCardsSelectedId.get();
+					Object aux = 0;
+					listEnemys.remove(aux);
 
-			gameService.useCard(skillCardId, gameService.findById(gameId).get(), userService.getLoggedUser(),
-					listEnemyCardsSelectedId);
-			return "redirect:" + gameId;
+					gameService.useCard(skillCardId, gameService.findById(gameId).get(), userService.getLoggedUser(),
+							listEnemys);
+					return "redirect:" + gameId;
 
-		} catch (CardNotSelectedException e) {
-			model.addAttribute("message", "Por favor, seleccione una carta, acabe su turno o use su ficha de escape");
-			return gamePlaying(model, gameId);
-		} catch (IncorrectNumberOfEnemiesException e) {
-			model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
-			return gamePlaying(model, gameId);
-		}catch(DontHaveEnoughGoldToBuyException e){
-			model.addAttribute("message", "Necesitas más oro para ejecutar esta acción");
-			return gamePlaying(model, gameId);
-		}catch (Exception e) {
-			model.addAttribute("message", "Error desconocido al usar carta");
-			//e.printStackTrace();
-			return gamePlaying(model, gameId);
+				} catch (CardNotSelectedException e) {
+					model.addAttribute("message", "Por favor, seleccione una carta, acabe su turno o use su ficha de escape");
+					return gamePlaying(model, gameId);
+				} catch (IncorrectNumberOfEnemiesException e) {
+					model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
+					return gamePlaying(model, gameId);
+				} catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", "Error desconocido al usar carta");
+					return gamePlaying(model, gameId);
+				}
+			case BUYING:
+				try {
+					gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
+					return "redirect:"+gameId;
+				} catch (DontHaveEnoughGoldToBuyException e) {
+					model.addAttribute("message", "No tienes suficiente dinero para comprar este item");
+					return gamePlaying(model, gameId);
+				}catch(DontHaveEnoughGoldToBuyException e){
+			    model.addAttribute("message", "Necesitas más oro para ejecutar esta acción");
+			    return gamePlaying(model, gameId);
+	    	}catch (ItemNotSelectedException e) {
+					model.addAttribute("message", "Por Favor selecciona una carta para comprar o finalice su turno");
+					return gamePlaying(model, gameId);
+				}catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", "Error desconocido al comprar carta");
+					return gamePlaying(model, gameId);
+				}
+			default:
+				throw new Exception();
+
 		}
-
 	}
 
 	@GetMapping("/{gameId}/escape")
@@ -434,19 +467,6 @@ public class GameController {
 
 		gameService.selectFirstPlayer(gameId);
 		return selectPlayerToStart(model, gameId, response);
-	}
-
-	@RequestMapping(value = "/{gameId}/marketGame", method = RequestMethod.POST)
-	public String buyMarketItem(@PathVariable("gameId") int gameId, ModelMap model,
-			@RequestParam("itemSelected") int id, HttpServletResponse response) {
-
-		try {
-			gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
-			return "redirect:/games/{gameId}/marketGame/";
-		} catch (DontHaveEnoughGoldToBuyException e) {
-			model.addAttribute("message", "You don´t have enough money to buy this item");
-			return listMarketGame(model, gameId);
-		}
 	}
 
 	@GetMapping("/details/{gameId}")

@@ -42,6 +42,7 @@ import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNo
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
 import org.springframework.samples.notimeforheroes.game.exceptions.IncorrectNumberOfEnemiesException;
+import org.springframework.samples.notimeforheroes.game.exceptions.ItemNotSelectedException;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
@@ -336,33 +337,42 @@ public class GameService {
 	}
 
 	@Transactional
-	public void buyMarketItem(@Valid Game game, User user, int itemId) throws DontHaveEnoughGoldToBuyException{
+	public void buyMarketItem(@Valid Game game, User user, Optional<Integer> itemId) throws DontHaveEnoughGoldToBuyException, ItemNotSelectedException, Exception{
 		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
-		MarketCard item=marketCardService.findById(itemId).get();
-		GameMarket itemInGame =gameMarketService.findOneItemInGame(game, itemId);
-		int actualGold=gameuser.getGold();
-		int costItem=item.getCost();
-		//Si el user tiene oro suficiente lo compt¡ra
-		if(actualGold>=costItem) {
-			//Actualizamos el oro y items del user
-			gameuser.setGold(actualGold-costItem);
-			gameuser.getItems().add(item);
-			gameUserService.saveGameUser(gameuser);
-			
-			//Cambiamos de estado de la carta de mercado en la baraja del user para ponerla en el mazo
-			SkillCard newSkill=marketCardService.marketToSkill(item);
-			GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, newSkill).get();
-			card.setSkillState(SkillState.ONDECK);
-			gamesUsersSkillCardsService.saveGameUserSkillCard(card);
-			
-			//Actualizamos el item del market como comprado
-			itemInGame.setItemState(ItemState.SOLD);
-			gameMarketService.createGameMarket(itemInGame);
-			
-		} 
-		//Si no tiene oro suficiente salta exception
-		else {
-			throw new DontHaveEnoughGoldToBuyException();
+
+		if (!game.getUserPlaying().equals(user)) {
+			throw new Exception();
+		}
+		else if(itemId.isPresent()) {
+			Optional<MarketCard> itemOp=marketCardService.findById(itemId.get());
+			GameMarket itemInGame =gameMarketService.findOneItemInGame(game, itemId.get());
+			MarketCard item=itemOp.get();
+			int actualGold=gameuser.getGold();
+			int costItem=item.getCost();
+			//Si el user tiene oro suficiente lo compra
+			if(actualGold>=costItem) {
+				//Actualizamos el oro y items del user
+				gameuser.setGold(actualGold-costItem);
+				gameuser.getItems().add(item);
+				gameUserService.saveGameUser(gameuser);
+				
+				//Cambiamos de estado de la carta de mercado en la baraja del user para ponerla en el mazo
+				SkillCard newSkill=marketCardService.marketToSkill(item);
+				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, newSkill).get();
+				card.setSkillState(SkillState.ONDECK);
+				gamesUsersSkillCardsService.saveGameUserSkillCard(card);
+				
+				//Actualizamos el item del market como comprado
+				itemInGame.setItemState(ItemState.SOLD);
+				gameMarketService.createGameMarket(itemInGame);
+				
+			} 
+			//Si no tiene oro suficiente salta exception
+			else {
+				throw new DontHaveEnoughGoldToBuyException();
+			}
+		}else{
+			throw new ItemNotSelectedException();
 		}
 	}
 
