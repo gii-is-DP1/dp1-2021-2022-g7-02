@@ -46,7 +46,9 @@ public class GamesUsersSkillCardsService {
     }
 
     public Optional<GamesUsersSkillCards> findByGameUserSkill(Game game, User user, SkillCard skillCard){
-        return gamesUsersSkillCardsRepository.findByGameUserSkill(gamesUsersService.findByGameAndUser(game, user).get(), skillCard);
+
+        Optional<GameUser> player = gamesUsersService.findByGameAndUser(game, user);
+        return gamesUsersSkillCardsRepository.findByGameUserSkill(player.orElse(null), skillCard);
     }
 
     public void saveGameUserSkillCard(@Valid GamesUsersSkillCards gameUserSkillCard){
@@ -60,9 +62,12 @@ public class GamesUsersSkillCardsService {
 
     @Transactional
     public void discardSkill(Game game, User user, SkillCard skillCard) {   //Descarta la skillcard
-        GamesUsersSkillCards gamesUsersSkillCards = this.findByGameUserSkill(game, user, skillCard).get();
-		gamesUsersSkillCards.setSkillState(SkillState.DISCARD);
-		this.saveGameUserSkillCard(gamesUsersSkillCards);
+        Optional<GamesUsersSkillCards> gamesUsersSkillCardsOpt = this.findByGameUserSkill(game, user, skillCard);
+        if(gamesUsersSkillCardsOpt.isPresent()){
+            GamesUsersSkillCards gamesUsersSkillCards = gamesUsersSkillCardsOpt.get();
+            gamesUsersSkillCards.setSkillState(SkillState.DISCARD);
+		    this.saveGameUserSkillCard(gamesUsersSkillCards);
+        }
     }
 
     public void drawCards(Game game, User user, Integer cantidad) {
@@ -97,7 +102,7 @@ public class GamesUsersSkillCardsService {
         try {
             List<SkillCard> onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
             Integer cartasRestantes = onDeckCards.size();
-        if(cartasRestantes < cantidad){
+        if(cartasRestantes <= cantidad){
 
             System.out.println("[DISCARD] El jugador " + user.getUsername() + " pierde una vida!");
 
@@ -145,13 +150,16 @@ public class GamesUsersSkillCardsService {
     }
 
     public void recoverCards(Game game, User user, Integer cantidad) {
-        List<SkillCard> onDiscardDeckCards = skillCardsService.findAllOnDiscardedSkillsByGameAndUser(game, user);
-        if(onDiscardDeckCards.size()<cantidad) cantidad=onDiscardDeckCards.size();
+        if(gamesUsersService.findByGameAndUser(game, user).get().getHeroeHealth() > 0){
+            List<SkillCard> onDiscardDeckCards = skillCardsService.findAllOnDiscardedSkillsByGameAndUser(game, user);
+            if(onDiscardDeckCards.size()<cantidad) cantidad=onDiscardDeckCards.size();
 
-        for (int i = 0; i < cantidad; i++) {
-            GamesUsersSkillCards gusc= findByGameUserSkill(game, user, onDiscardDeckCards.get(i)).get();
-            gusc.setSkillState(SkillState.ONDECK);
-            saveGameUserSkillCard(gusc);
+            for (int i = 0; i < cantidad; i++) {
+                System.out.println("[RECOVERCARDS] El jugador " + user.getUsername() + " ha recuperado la carta " + onDiscardDeckCards.get(i).getName());
+                GamesUsersSkillCards gusc= findByGameUserSkill(game, user, onDiscardDeckCards.get(i)).get();
+                gusc.setSkillState(SkillState.ONDECK);
+                saveGameUserSkillCard(gusc);
+            }
         }
     }
 
@@ -230,10 +238,5 @@ public class GamesUsersSkillCardsService {
         game.setGameState(GameState.DEFENDING);
 		gameService.updateGame(game);
     }
-
-    
-
-    
-
 }
 

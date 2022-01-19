@@ -49,7 +49,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/games")
-public class GameController {
+public class GameController { 
 
 	public static final String GAMES_LISTING = "games/listadoGames";
 	public static final String GAMES_FORM = "games/createOrUpdateGamesForm";
@@ -289,6 +289,7 @@ public class GameController {
 		});
 
 	}
+  
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
 	public String attackPhase(ModelMap model, @RequestParam(value="skillUsed", required=false) Integer skillCardId,
 			@RequestParam(value="enemySelected") Optional<List<Integer>> listEnemyCardsSelectedId, 
@@ -327,6 +328,7 @@ public class GameController {
 				}
 			default:
 				throw new Exception();
+	
 
 		}
 	}

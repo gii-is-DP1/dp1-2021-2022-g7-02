@@ -2,6 +2,7 @@ package org.springframework.samples.notimeforheroes.cards.enemycard;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -46,7 +47,7 @@ public class EnemyCardService {
 	}
 
 	//
-	public Collection<EnemyCard> findOnTableEnemiesByGame(Game game) {
+	public List<EnemyCard> findOnTableEnemiesByGame(Game game) {
 		return enemyCardRepo.findOnTableEnemiesByGame(game);
 	}
 

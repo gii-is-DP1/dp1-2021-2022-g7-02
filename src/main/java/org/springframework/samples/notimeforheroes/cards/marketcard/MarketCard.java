@@ -28,7 +28,7 @@ public class MarketCard extends NamedEntity{
 		
 	@Column(columnDefinition = "LONGTEXT")
 	private String description;
-
+ 
 	@ManyToMany
 	@JoinTable(name = "actions_marketCard",
 		joinColumns = {@JoinColumn(name = "fk_skillcard")},

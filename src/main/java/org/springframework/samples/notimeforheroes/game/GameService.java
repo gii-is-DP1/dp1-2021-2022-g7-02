@@ -290,6 +290,8 @@ public class GameService {
 			gameUser.setGold(0);
 			gameUser.setHasEscapeToken(true);
 			gameUser.setHeroeHealth(heroeCard.getMaxHealth());
+			gameUser.setDamageShielded(0);
+
 			
 			// Baraja las cartas de skill
 			Collections.shuffle(skillCards);
@@ -304,6 +306,7 @@ public class GameService {
 			skillCards.addAll(0, skillMarket);
 			
 			gameUser.setSkillCards(skillCards);
+
 			gameUserService.saveGameUser(gameUser);
 
 			// Pone 4 cartas de skill ONHAND (por
@@ -439,7 +442,6 @@ public class GameService {
 				case 13:case 14:
 					skillCardsService.useRecogerFlechas(game, user, skillCard);
 					break;
-
 				case 20: case 21:
 					skillCardsService.useEscudo(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
@@ -452,13 +454,40 @@ public class GameService {
 				case 29:
 					skillCardsService.useVozDeAliento(game, user, skillCard);
 					break;
+				case 30:
+					skillCardsService.useAuraProtectora(game, user, skillCard);
+					break;
+				case 31:
+					skillCardsService.useBolaDeFuego(game, user, skillCard);
+					break;
+				case 32: case 33:
+					skillCardsService.useDisparoGelido(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
+				case 34:
+					skillCardsService.useFlechaCorrosiva(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
+				case 35: case 36: case 37: case 38: 
+					skillCardsService.useGolpeDeBaston(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
+				case 39:
+					skillCardsService.useOrbeCurativo(game, user, skillCard);
+					break;
+				case 44:
+					skillCardsService.useTorrenteDeLuz(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
 			
 				default://Si no requiere lógica adicional
 					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);
 					break;
 			}
 			// pone la skill en el mazo de descarte
-			gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
+			try {
+				gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
+			} catch (Exception e) {
+				System.err.println("--Error descartando carta");
+				e.printStackTrace();
+			}
+			
 		} else {
 			throw new CardNotSelectedException();
 		}

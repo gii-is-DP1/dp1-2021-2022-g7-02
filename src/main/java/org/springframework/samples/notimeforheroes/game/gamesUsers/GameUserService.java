@@ -53,9 +53,13 @@ public class GameUserService {
 		return gameUserRepository.findAllByGame(game);
 	}
 
-	public Optional<GameUser> findByGameAndUser(Game game, User user) {
-		return gameUserRepository.findByGameAndUser(game.getId(), user.getId());
+	public List<GameUser> findAllByGameOrderByHealth(Game game){
+		return gameUserRepository.findAllByGameOrderByHealth(game);
 	}
+
+	public Optional<GameUser> findByGameAndUser(Game game, User user){
+		return gameUserRepository.findByGameAndUser(game, user);
+  }
 
 	public Optional<HeroeCard> findHeroeOfGameUser(Game game, User user) {
 		Optional<Integer> heroeId = gameUserRepository.findHeroeOfGameUser(game.getId(), user.getId());

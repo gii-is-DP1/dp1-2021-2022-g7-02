@@ -142,8 +142,7 @@ public class SkillCardsService {
 
 	// ----------------------------------------------------------------------------------------//
 	// ----------------------------------------------------------------------------------------//
-	// -------------------------LOGICA DE
-	// CARTAS-----------------------------------------------//
+	// -------------------------LOGICA DE CARTAS-----------------------------------------------//
 	// ----------------------------------------------------------------------------------------//
 	// ----------------------------------------------------------------------------------------//
 
@@ -167,41 +166,12 @@ public class SkillCardsService {
 	}
 
 	@Transactional
-	public void useLluviaDeFlechas(List<EnemyCard> enemiesTargetedList, Game game, User user, SkillCard skillCard) {
+	public void useLluviaDeFlechas(List<EnemyCard> enemiesTargetedList, Game game, User user, SkillCard skillCard) throws Exception {
 		for (EnemyCard enemyCard : enemiesTargetedList) {
-			try {
-				gamesEnemiesService.damageEnemy(game, enemyCard, user, 2);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			gamesEnemiesService.damageEnemy(game, enemyCard, user, 2);
 		}
-
-		Collection<GameUser> players = gameUserService.findAllByGame(game);
-		players.remove(gameUserService.findByGameAndUser(game, user).get());
-		GameUser playerWithLessWounds = players.stream().sorted(new Comparator<GameUser>() {
-			@Override
-			public int compare(GameUser p1, GameUser p2) {
-				Integer heridasP1 = p1.getHeroe().getMaxHealth() - p1.getHeroeHealth();
-				Integer heridasP2 = p2.getHeroe().getMaxHealth() - p2.getHeroeHealth();
-				return heridasP1 < heridasP2 ? -1 : heridasP1 == heridasP2 ? 0 : 1;
-			}
-		}).collect(Collectors.toList()).get(0);
-
-		System.out.println("Cartas en el mazo del jugador "
-				+ userService.findByGameUser(playerWithLessWounds).getUsername() + ": "
-				+ findAllOnDeckSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
-		System.out.println("Cartas descartadas del jugador "
-				+ userService.findByGameUser(playerWithLessWounds).getUsername() + ": "
-				+ findAllOnDiscardedSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
-
-		gamesUsersSkillCardsService.discardCards(game, userService.findByGameUser(playerWithLessWounds), 2);
-
-		System.out.println("Cartas en el mazo del jugador "
-				+ userService.findByGameUser(playerWithLessWounds).getUsername() + ": "
-				+ findAllOnDeckSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
-		System.out.println("Cartas descartadas del jugador "
-				+ userService.findByGameUser(playerWithLessWounds).getUsername() + ": "
-				+ findAllOnDiscardedSkillsByGameAndUser(game, userService.findByGameUser(playerWithLessWounds)).size());
+		GameUser playerWithLessWounds = gameUserService.findAllByGameOrderByHealth(game).get(0);
+		gamesUsersSkillCardsService.discardCards(game, userService.findByGameUser(playerWithLessWounds), 2);		
 	}
 
 	public void useRecogerFlechas(Game game, User user, SkillCard skillCard) {
@@ -265,10 +235,60 @@ public class SkillCardsService {
 				}
 			}
 		}
-
 		gamesUsersSkillCardsService.drawCards(game, user, 1);
 		gamesUsersSkillCardsService.gainGlory(game, user, 1);
+    }
+	public void useAuraProtectora(Game game, User user, SkillCard skillCard){
+		gamesUsersSkillCardsService.defendDamage(game, user, 100);
+		gamesUsersSkillCardsService.discardCards(game, user, enemyCardService.findOnTableEnemiesByGame(game).size());
+	}
 
+	public void useBolaDeFuego(Game game, User user, SkillCard skillCard) throws Exception {
+
+		List<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
+		for (EnemyCard e : enemiesOnTable) {
+			gamesEnemiesService.damageEnemy(game, e, user, 2);
+		}
+
+		game.getUsers().stream().filter(otherUser -> !otherUser.equals(user))
+								.forEach(otherUser -> gamesUsersSkillCardsService.discardCards(game, otherUser, 1));
+
+	}
+
+    public void useDisparoGelido(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
+		GameUser player = gameUserService.findByGameAndUser(game, user).get();
+		gamesUsersSkillCardsService.drawCards(game, user, 1);
+		if(!player.getDamageShielded().equals(gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth())){
+			gamesUsersSkillCardsService.defendDamage(game, user, gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth());
+		}
+		gamesEnemiesService.damageEnemy(game, enemyCard, user, 1);
+	}
+
+	public void useFlechaCorrosiva(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
+		Integer numeroAleatorio = new Random().nextInt(5);
+		gamesEnemiesService.damageEnemy(game, enemyCard, user, numeroAleatorio.equals(0) ? 1 : 2);
+		gamesUsersSkillCardsService.discardCards(game, user, 1);
+	}
+
+    public void useGolpeDeBaston(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
+		//50% de posibilidades de hacer 2 de daño.
+		gamesEnemiesService.damageEnemy(game, enemyCard, user, Integer.valueOf(new Random().nextInt(2)).equals(0) ? 1 : 2);
+    }
+	
+
+	public void useOrbeCurativo(Game game, User user, SkillCard skillCard) throws Exception{
+		for(User userInGame : game.getUsers()){
+			gamesUsersSkillCardsService.recoverCards(game, userInGame, 2);
+		}
+		gamesUsersSkillCardsService.gainLife(game, user, 1);
+	}
+
+	public void useTorrenteDeLuz(EnemyCard enemyCard, Game game, User user, SkillCard skillCard) throws Exception {
+		gamesEnemiesService.damageEnemy(game, enemyCard, user, 2);
+		gamesUsersSkillCardsService.gainGlory(game, user, 1);
+			
+		game.getUsers().stream().filter(otherUser -> !otherUser.equals(user))
+								.forEach(otherUser -> gamesUsersSkillCardsService.recoverCards(game, otherUser, 2));		
 	}
 
 }

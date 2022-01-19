@@ -14,10 +14,10 @@ public class AchievementController {
 
 
 	public static final String ACHIEVEMENTS_LISTING = "achievements/achievementsListing";
-	
+	 
 	@Autowired
 	AchievementService achievementService;
-	
+	 
 	
 	@GetMapping("/{pageNo}")
 	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
