@@ -49,7 +49,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/games")
-public class GameController {
+public class GameController { 
 
 	public static final String GAMES_LISTING = "games/listadoGames";
 	public static final String GAMES_FORM = "games/createOrUpdateGamesForm";

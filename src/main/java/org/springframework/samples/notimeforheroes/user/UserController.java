@@ -211,7 +211,7 @@ public class UserController {
 		} else {
 			userService.saveUser(user);
 			redirect.addFlashAttribute("message", "User created");
-			return "redirect:/users/0";
+			return "redirect:/";
 		}
 	}
 
