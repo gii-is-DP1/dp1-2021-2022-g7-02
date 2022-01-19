@@ -29,6 +29,7 @@ import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNo
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
 import org.springframework.samples.notimeforheroes.game.exceptions.IncorrectNumberOfEnemiesException;
+import org.springframework.samples.notimeforheroes.game.exceptions.ItemNotSelectedException;
 import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthenticatedError;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
@@ -303,7 +304,7 @@ public class GameController {
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
 	public String attackPhase(ModelMap model, @RequestParam(value="skillUsed", required=false) Integer skillCardId,
 			@RequestParam(value="enemySelected") Optional<List<Integer>> listEnemyCardsSelectedId, 
-			@RequestParam(value="itemSelected", required=false) Integer id, HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception {
+			@RequestParam(value="itemSelected", required=false) Optional<Integer> id, HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception {
 		Game game = gameService.findById(gameId).get();	
 		switch (game.getGameState()) {
 			case ATTACKING:
@@ -331,10 +332,17 @@ public class GameController {
 			case BUYING:
 				try {
 					gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
-					return "redirect:/games/{gameId}/marketGame/";
+					return "redirect:"+gameId;
 				} catch (DontHaveEnoughGoldToBuyException e) {
-					model.addAttribute("message", "You don´t have enough money to buy this item");
-					return listMarketGame(model, gameId);
+					model.addAttribute("message", "No tienes suficiente dinero para comprar este item");
+					return gamePlaying(model, gameId);
+				}catch (ItemNotSelectedException e) {
+					model.addAttribute("message", "Por Favor selecciona una carta para comprar o finalice su turno");
+					return gamePlaying(model, gameId);
+				}catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", "Error desconocido al comprar carta");
+					return gamePlaying(model, gameId);
 				}
 			default:
 				throw new Exception();
