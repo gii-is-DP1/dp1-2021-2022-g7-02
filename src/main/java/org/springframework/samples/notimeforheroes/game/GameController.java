@@ -2,7 +2,6 @@ package org.springframework.samples.notimeforheroes.game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.Action;
 import javax.swing.Timer;
 import javax.validation.Valid;
 
@@ -171,18 +169,10 @@ public class GameController {
 
 	@GetMapping("/{gameId}/marketGame")
 	public String listMarketGame(ModelMap model, @PathVariable("gameId") int gameId) {
-
-		/*
-		 * Todo esto debería ir en el case BUYING
-		 * del switch del GetMapping(/{gameId})
-		 */
-		Game game = gameService.findById(gameId).get();
-		model.addAttribute("game", game);
-		model.addAttribute("market", marketService.findAllByGameAndOnTable(gameService.findById(gameId).get()));
-		model.addAttribute("user", userService.getLoggedUser());
-		model.addAttribute("gameUser", gameUserService
-				.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
-		return MARKET_VIEW;
+		Game game = gameService.findById(gameId).orElse(null);
+		game.setGameState(GameState.BUYING);
+		gameService.updateGame(game);
+		return "redirect:/games/"+gameId;
 	}
 
 	@GetMapping("/{gameId}/endTurn")
@@ -265,8 +255,11 @@ public class GameController {
 					return DEFEND_VIEW;	
 				}	
 				case BUYING:
-					model.addAttribute("market", marketService.findByGameOnDeck(gameService.findById(gameId).get()));
-					model.addAttribute("user", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
+					model.addAttribute("game", game);
+					model.addAttribute("market", marketService.findAllByGameAndOnTable(gameService.findById(gameId).get()));
+					model.addAttribute("user", userService.getLoggedUser());
+					model.addAttribute("gameUser", gameUserService
+							.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 					return MARKET_VIEW;
 			default:
 				throw new Exception();

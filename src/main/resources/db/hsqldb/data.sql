@@ -199,20 +199,21 @@ INSERT INTO skills(id,name,url,description,color) VALUES (56,'Robar Bolsillos', 
 INSERT INTO skills(id,name,url,description,color) VALUES (57,'Saqueo', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
 INSERT INTO skills(id,name,url,description,color) VALUES (58,'Saqueo', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
 
-INSERT INTO skills(id,name,url,description) VALUES (59,'Daga Elfica 1', '\resources\images\market\DagaEfica.png', 'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
-INSERT INTO skills(id,name,url,description) VALUES (60,'Daga Elfica 2', '\resources\images\market\DagaEfica.png', 'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
+--MARKET SKILLS
+INSERT INTO skills(id,name,url,description) VALUES (59,'Daga Elfica 1', '\resources\images\market\DagaEfica.png', ' ');
+INSERT INTO skills(id,name,url,description) VALUES (60,'Daga Elfica 2', '\resources\images\market\DagaEfica.png', ' ');
 INSERT INTO skills(id,name,url,description) VALUES (61,'Alabarda Orca', '\resources\images\market\AlabardaOrca.png', ' ');
 INSERT INTO skills(id,name,url,description) VALUES (62,'Armadura de Placas', '\resources\images\market\ArmaduradePlacas.png', 'Recupera 4 cartas');
 INSERT INTO skills(id,name,url,description) VALUES (63,'Capa Elfica', '\resources\images\market\CapaElfica.png', 'El enemigo elegido no causa daño esta ronda');
 INSERT INTO skills(id,name,url,description) VALUES (64,'Elixir de Concentracion 1', '\resources\images\market\ElixirdeConcentracion.png', 'Roba 3 cartas');
 INSERT INTO skills(id,name,url,description) VALUES (65,'Elixir de Concentracion 2', '\resources\images\market\ElixirdeConcentracion.png', 'Roba 3 cartas');
-INSERT INTO skills(id,name,url,description) VALUES (66,'Piedra de Amolar', '\resources\images\market\PiedradeAmolar.png', '+1 al daño de la carta');
+INSERT INTO skills(id,name,url,description) VALUES (66,'Piedra de Amolar', '\resources\images\market\PiedradeAmolar.png', 'Hace 1 de daños a los 3 enemigos de la mesa');
 INSERT INTO skills(id,name,url,description) VALUES (67,'Pocion Curativa 1', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
 INSERT INTO skills(id,name,url,description) VALUES (68,'Pocion Curativa 2', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
 INSERT INTO skills(id,name,url,description) VALUES (69,'Pocion Curativa 3', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
 INSERT INTO skills(id,name,url,description) VALUES (70,'Pocion Curativa 4', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
-INSERT INTO skills(id,name,url,description) VALUES (71,'Vial de Conjuracion 1', '\resources\images\market\VialdeConjuracion.png', 'Busca una carta en tu pila');
-INSERT INTO skills(id,name,url,description) VALUES (72,'Vial de Conjuracion 2', '\resources\images\market\VialdeConjuracion.png', 'Busca una carta en tu pila');
+INSERT INTO skills(id,name,url,description) VALUES (71,'Vial de Conjuracion 1', '\resources\images\market\VialdeConjuracion.png', 'Recupera una carta de tu pila');
+INSERT INTO skills(id,name,url,description) VALUES (72,'Vial de Conjuracion 2', '\resources\images\market\VialdeConjuracion.png', 'Recupera una carta de tu pila');
 INSERT INTO skills(id,name,url,description) VALUES (73,'Arco Compuesto', '\resources\images\market\ArcoCompuesto.png', ' ');
 
 
@@ -231,20 +232,20 @@ INSERT INTO scenes(id,name,url,description) VALUES (4,'Mercado de Lotharion', 'h
 
 
 
-INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica 1', '\resources\images\market\DagaEfica.png', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
-INSERT INTO market(id,name,url,cost,description) VALUES (2,'Daga Elfica 2', '\resources\images\market\DagaEfica.png', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
+INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica 1', '\resources\images\market\DagaEfica.png', 3,' ');
+INSERT INTO market(id,name,url,cost,description) VALUES (2,'Daga Elfica 2', '\resources\images\market\DagaEfica.png', 3,' ');
 INSERT INTO market(id,name,url,cost,description) VALUES (3,'Alabarda Orca', '\resources\images\market\AlabardaOrca.png', 5,' ');
 INSERT INTO market(id,name,url,cost,description) VALUES (4,'Armadura de Placas', '\resources\images\market\ArmaduradePlacas.png', 4,'Recupera 4 cartas');
 INSERT INTO market(id,name,url,cost,description) VALUES (5,'Capa Elfica', '\resources\images\market\CapaElfica.png', 3,'El enemigo elegido no causa daño esta ronda');
 INSERT INTO market(id,name,url,cost,description) VALUES (6,'Elixir de Concentracion 1', '\resources\images\market\ElixirdeConcentracion.png', 3,'Roba 3 cartas');
 INSERT INTO market(id,name,url,cost,description) VALUES (7,'Elixir de Concentracion 2', '\resources\images\market\ElixirdeConcentracion.png', 3,'Roba 3 cartas');
-INSERT INTO market(id,name,url,cost,description) VALUES (8,'Piedra de Amolar', '\resources\images\market\PiedradeAmolar.png', 4,'+1 al daño de la carta');
+INSERT INTO market(id,name,url,cost,description) VALUES (8,'Piedra de Amolar', '\resources\images\market\PiedradeAmolar.png', 4,'Hace 1 de daños a los 3 enemigos de la mesa');
 INSERT INTO market(id,name,url,cost,description) VALUES (9,'Pocion Curativa 1', '\resources\images\market\PocionCurativa.png', 8,'Retira una ficha de herida');
 INSERT INTO market(id,name,url,cost,description) VALUES (10,'Pocion Curativa 2', '\resources\images\market\PocionCurativa.png', 8,'Retira una ficha de herida');
 INSERT INTO market(id,name,url,cost,description) VALUES (11,'Pocion Curativa 3', '\resources\images\market\PocionCurativa.png', 8,'Retira una ficha de herida');
 INSERT INTO market(id,name,url,cost,description) VALUES (12,'Pocion Curativa 4', '\resources\images\market\PocionCurativa.png', 8,'Retira una ficha de herida');
-INSERT INTO market(id,name,url,cost,description) VALUES (13,'Vial de Conjuracion 1', '\resources\images\market\VialdeConjuracion.png', 5,'Busca una carta en tu pila');
-INSERT INTO market(id,name,url,cost,description) VALUES (14,'Vial de Conjuracion 2', '\resources\images\market\VialdeConjuracion.png', 5,'Busca una carta en tu pila');
+INSERT INTO market(id,name,url,cost,description) VALUES (13,'Vial de Conjuracion 1', '\resources\images\market\VialdeConjuracion.png', 5,'Recupera una carta de tu pila');
+INSERT INTO market(id,name,url,cost,description) VALUES (14,'Vial de Conjuracion 2', '\resources\images\market\VialdeConjuracion.png', 5,'Recupera una carta de tu pila');
 INSERT INTO market(id,name,url,cost,description) VALUES (15,'Arco Compuesto', '\resources\images\market\ArcoCompuesto.png', 5,' ');
 
 
@@ -604,17 +605,26 @@ INSERT INTO actions_skill_card (fk_skillCard,fk_actions) VALUES (59, 3);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (60, 3);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (61, 5);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (62, 71);
-INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (63, 40);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (38, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (39, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (40, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (41, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (42, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (43, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (44, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 63);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (64, 10);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (65, 10);
-INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (66, 4);
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (66, 2);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (67, 34);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (68, 34);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (69, 34);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (70, 34);
-INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (71, 3);
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (71, 8);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (72, 8);
-INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (73, 8);
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (73, 5);
 
 
 --Games
