@@ -309,8 +309,8 @@ public class GameController {
 			model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
 			return gamePlaying(model, gameId);
 		} catch (Exception e) {
-			e.printStackTrace();
 			model.addAttribute("message", "Error desconocido al usar carta");
+			//e.printStackTrace();
 			return gamePlaying(model, gameId);
 		}
 
