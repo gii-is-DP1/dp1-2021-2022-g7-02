@@ -335,7 +335,10 @@ public class GameController {
 				} catch (DontHaveEnoughGoldToBuyException e) {
 					model.addAttribute("message", "No tienes suficiente dinero para comprar este item");
 					return gamePlaying(model, gameId);
-				}catch (ItemNotSelectedException e) {
+				}catch(DontHaveEnoughGoldToBuyException e){
+			    model.addAttribute("message", "Necesitas más oro para ejecutar esta acción");
+			    return gamePlaying(model, gameId);
+	    	}catch (ItemNotSelectedException e) {
 					model.addAttribute("message", "Por Favor selecciona una carta para comprar o finalice su turno");
 					return gamePlaying(model, gameId);
 				}catch (Exception e) {
@@ -345,7 +348,6 @@ public class GameController {
 				}
 			default:
 				throw new Exception();
-	
 
 		}
 	}
