@@ -290,7 +290,6 @@ public class GameController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				second--;
-				System.out.println(second);
 				if(second==0){
 					player.setHeroeHealth(0);
 					gameUserService.saveGameUser(player);
