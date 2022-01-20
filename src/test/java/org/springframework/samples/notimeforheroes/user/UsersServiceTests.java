@@ -304,12 +304,12 @@ public class UsersServiceTests {
 	}
 
 	@Test
-	public void testEditUserSameName() throws DuplicatedUserEmailException {
+	public void testEditUserSameEmail() throws DuplicatedUserEmailException {
 		String email = this.user1.getEmail();
 
 		User user = new User();
 		user.setEmail(email);
-		user.setName(this.user1.getName());
+		user.setName("Jose");
 		user.setLastname("Sota");
 		user.setUsername("Jose7");
 		user.setPassword("1234");

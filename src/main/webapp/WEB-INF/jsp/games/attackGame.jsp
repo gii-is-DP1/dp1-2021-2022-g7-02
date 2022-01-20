@@ -107,6 +107,7 @@
             <c:out value="${game.getUserPlaying()}" />, pulsa para recargar
         </a>
     </c:if>
+    
 
 
 </petclinic:layout>

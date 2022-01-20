@@ -167,7 +167,7 @@ public class GameService {
 
 		return players;
 	}
-
+	//
 	public String getGameUrl(Game game) {
 		// Si no está en progreso o no se ha elegido heroe, devuelve waiting/{gameId}
 		if (!game.getIsInProgress()
@@ -186,8 +186,8 @@ public class GameService {
 		}
 
 	}
-	
 
+	
 	//
 	@Transactional
 	public void createGame(@Valid Game game) {
@@ -270,7 +270,7 @@ public class GameService {
 		}
 		gameRepository.save(game);
 	}
-
+	//
 	@Transactional
 	public void selectHeroe(@Valid Game game, User user, String heroe) throws HeroeNotAvailableException {
 		HeroeCard heroeCard = heroeCardsService.findByName(heroe);
@@ -329,7 +329,7 @@ public class GameService {
 			throw new HeroeNotAvailableException();
 		}
 	}
-
+	
 	@Transactional
 	public void buyMarketItem(@Valid Game game, User user, Optional<Integer> itemId) throws DontHaveEnoughGoldToBuyException, ItemNotSelectedException, Exception{
 		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
@@ -398,7 +398,7 @@ public class GameService {
 	public void deleteGame(Game game) {
 		gameRepository.deleteById(game.getId());
 	}
-
+	//
 	@Transactional
 	public void selectFirstPlayer(Integer gameId) {
 		// Elige el primer jugador a jugar y pone el estado de la partida en ATTACKING
@@ -623,13 +623,22 @@ public class GameService {
 		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
 				: (users.indexOf(game.getUserPlaying()) + 1);
 		User newUser = users.get(newIndex);
-		// Skippea el jugador si está muerto
-		while (gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0) {
-			newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
-					: (users.indexOf(game.getUserPlaying()) + 1);
-		}
-		newUser = users.get(newIndex);
 		game.setUserPlaying(newUser);
+
+		// Skippea el jugador si está muerto
+		//while (gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0) {
+		//	newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
+		//			: (users.indexOf(game.getUserPlaying()) + 1);
+		//}
+		if(gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth()<=0){
+			if(users.indexOf(game.getUserPlaying()) + 1 >= users.size()){
+				newUser = users.get(0);
+			}else{
+				newUser = users.get(newIndex);
+			} 
+		}
+		game.setUserPlaying(newUser);
+
 		// Rellena las cartas del nuevo jugador
 
 		gamesUsersSkillCardsService.drawCards(game, newUser,
