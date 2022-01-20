@@ -502,7 +502,9 @@ public class GameService {
 				case 57: case 58:
 					skillCardsService.useSaqueo(game, user, skillCard);
 					break;
-			
+				case 63:
+					skillCardsService.useCapaElfica(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
 				default://Si no requiere lógica adicional
 					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);
 					break;
@@ -552,7 +554,7 @@ public class GameService {
 	}
 
 	@Transactional
-	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies) {
+	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies) throws Exception {
 
 		for (Action action : actions) {
 			switch (action.getType()) {
@@ -595,11 +597,7 @@ public class GameService {
 					}
 					break;
 				case GAINLIFE:
-					try {
 						gamesUsersSkillCardsService.gainLife(game, user, action.getCantidad());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 					break;
 				case DEFENSE:
 					gamesUsersSkillCardsService.defendDamage(game, user, action.cantidad);

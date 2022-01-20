@@ -343,6 +343,12 @@ public class SkillCardsService {
 		gamesUsersSkillCardsService.gainGold(game, user, oroGanado);
     }
 
+	public void useCapaElfica(EnemyCard enemyTargeted, Game game, User user, SkillCard skillCard) {
+		Integer dañoDeEnemigoSeleccionado = gamesEnemiesService.findByGameAndEnemy(game, enemyTargeted).get()
+				.getHealth();
+		gamesUsersSkillCardsService.defendDamage(game, user, dañoDeEnemigoSeleccionado);
+	}
+
 
 
 }

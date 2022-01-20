@@ -256,11 +256,9 @@ public class GameController {
 				return ATTACK_VIEW;
 			}
 			case DEFENDING:{
-				GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
 
 				//Coge el tu heroe y le pone la vida que le queda en esa partida
 				Optional<HeroeCard> heroe = gameUserService.findHeroeOfGameUser(game, user);
-				heroe.get().setMaxHealth(gameUser.getHeroeHealth());
 				
 				//numero de cartas que tienes en tu mazo y en la mano para que lo puedas saber
 				Integer numberOfSkillCards = gameUserSkillCardsService.findAllAvailableSkillsandOnTableByGameAndUser(game,user).size();
@@ -343,7 +341,6 @@ public class GameController {
 				}
 			default:
 				throw new Exception();
-
 		}
 	}
 
