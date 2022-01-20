@@ -38,9 +38,6 @@ public class GamesEnemiesService {
         return gamesEnemiesRepository.findAllInGame(game);
     }
 
-    public Collection<GamesEnemies> findAllInGameOnTable(Game game){
-        return gamesEnemiesRepository.findAllInGameOnTable(game);
-    }
 
     public Optional<GamesEnemies> findByGameAndEnemy(Game game, EnemyCard enemyCard){
         return gamesEnemiesRepository.findByGameAndEnemy(game, enemyCard);

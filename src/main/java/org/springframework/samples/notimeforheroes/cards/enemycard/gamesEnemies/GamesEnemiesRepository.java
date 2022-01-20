@@ -16,14 +16,8 @@ public interface GamesEnemiesRepository extends CrudRepository<GamesEnemies, Int
     @Query(nativeQuery = true, value = "SELECT * FROM games_enemies ge WHERE ge.fk_game = ?1")
     Collection<GamesEnemies> findAllInGame(Game game);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM games_enemies ge WHERE ge.fk_game = ?1 AND ge.enemy_state = 0")
-    List<GamesEnemies> findAllInGameOnTable(Game game);
-
     @Query(nativeQuery = true, value = "SELECT * FROM games_enemies ge WHERE ge.fk_game = ?1 AND ge.enemy_state = 1")
     List<GamesEnemies> findAllInGameOnDeck(Game game);
-
-    @Query(nativeQuery = true, value = "SELECT * FROM games_enemies ge WHERE ge.fk_game = ?1 AND ge.enemy_state = 2")
-    List<GamesEnemies> findAllInGameDead(Game game);
 
     @Query(nativeQuery = true, value = "SELECT * FROM games_enemies ge WHERE ge.fk_game = ?1 AND ge.fk_enemy = ?2")
     Optional<GamesEnemies> findByGameAndEnemy(Game game, EnemyCard enemyCard);
