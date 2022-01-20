@@ -89,7 +89,7 @@ public class AchievementsServiceTests {
 
 
 	@Test
-	public void testEditAchievementSameName() throws DuplicatedAchievementNameException {
+	public void testSaveAchievementSameName() throws DuplicatedAchievementNameException {
 		List<Achievement> achievements = (List<Achievement>) achievementsService.findAll();
 
 		String name = achievements.get(0).getName();

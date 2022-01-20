@@ -6,7 +6,11 @@ import static org.junit.Assert.assertTrue;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,40 +63,67 @@ public class GameUserServiceTest {
     }
 
     @Test
-    void testFindAllGameUser() {
-
-        GameUser gameUser = new GameUser();
-        gameUser.setDamageShielded(1);
-        gameUser.setHeroe(heroeCardsService.findByName("Feldon"));
-        gameUserService.saveGameUser(gameUser);
-        Collection<GameUser> gameUsersN = gameUserService.findAll();
-
-        //
-        assertTrue(gameUsersN.contains(gameUser));
-
-    }
-
-    @Test
-    void testFindByIdGameUser() {
-        GameUser gameUser = new GameUser();
-        gameUserService.saveGameUser(gameUser);
-
-        //
-        assertTrue(gameUserService.findById(gameUser.getId()).orElse(null).equals(gameUser));
-    }
-
-    @Test
-    void testFindAllbyGame() {
+    void testFindAllGameUser() throws DataAccessException, DuplicatedUserEmailException {
+        User user1 = UsersServiceTests.userConstructor("Antonio", "Paco", "pacoan", "p1a@gmail.com", "1234");
 
         Game game = gameConstructor(1, LocalDate.now(), 10, false);
         gameService.createGame(game);
 
-        Collection<GameUser> gameUsersN = gameUserService.findAllByGame(game);
+        userService.saveUser(user1);
+        List<User> lista = new ArrayList<User>();
+        lista.add(user1);
 
-        Collection<GameUser> gameUsersN1 = gameUserService.findAll();
+        game.setUsers(lista);
+        gameService.updateGame(game);
+
+        GameUser gameUser1 = gameUserService.findByGameAndUser(game, user1).get();
+
+        assertTrue(gameUserService.findAll().contains(gameUser1));
+
+    }
+
+    @Test
+    void testFindByIdGameUser() throws DataAccessException, DuplicatedUserEmailException {
+
+        User user1 = UsersServiceTests.userConstructor("Antonio", "Paco", "pacoan", "p1a@gmail.com", "1234");
+
+        Game game = gameConstructor(1, LocalDate.now(), 10, false);
+        gameService.createGame(game);
+
+        userService.saveUser(user1);
+        List<User> lista = new ArrayList<User>();
+        lista.add(user1);
+
+        game.setUsers(lista);
+        gameService.updateGame(game);
+        
+        GameUser gameUser1 = gameUserService.findByGameAndUser(game, user1).get();
+
 
         //
-        assertTrue(gameUsersN.containsAll(gameUsersN1));
+        assertTrue(gameUserService.findById(gameUser1.getId()).get().equals(gameUser1));
+    }
+
+    @Test
+    void testFindAllbyGame() throws DataAccessException, DuplicatedUserEmailException {
+        User user1 = UsersServiceTests.userConstructor("Antonio", "Paco", "pacoan", "p1a@gmail.com", "1234");
+
+        Game game = gameConstructor(1, LocalDate.now(), 10, false);
+        gameService.createGame(game);
+        
+        userService.saveUser(user1);
+        List<User> lista = new ArrayList<User>();
+        lista.add(user1);
+
+        game.setUsers(lista);
+        gameService.updateGame(game);
+        
+        Collection<GameUser> gameUsersN = gameUserService.findAllByGame(game);
+
+        ;
+
+        //
+        assertTrue(gameUsersN.contains(gameUserService.findByGameAndUser(game, user1).get()));
 
     }
 
@@ -112,10 +143,103 @@ public class GameUserServiceTest {
 
         GameUser gameUser1 = gameUserService.findByGameAndUser(game, user1).get();
 
-        Collection<Game> gameByUser = gameService.findByUser(user1);
+        assertTrue(gameUserService.findAll().contains(gameUser1));
+
 
     }
 
+    @Test
+    void testgetAllGoldByUser() throws DataAccessException, DuplicatedUserEmailException {
+        User user1 = UsersServiceTests.userConstructor("Antonio", "Paco", "pacoan", "p1a@gmail.com", "1234");
+
+        Game game = gameConstructor(1, LocalDate.now(), 10, false);
+        gameService.createGame(game);
+
+        userService.saveUser(user1);
+        List<User> lista = new ArrayList<User>();
+        lista.add(user1);
+
+        game.setUsers(lista);
+        gameService.updateGame(game);
+        
+        Integer gold=7;
+        gameUserService.findByGameAndUser(game, user1).get().setGold(gold);
+        gameUserService.saveGameUser(gameUserService.findByGameAndUser(game, user1).get());
+        assertTrue(gameUserService.getAllGoldByUser(user1)==gold);
+    }
+
+    @Test
+    void testgetAllGloryByUser() throws DataAccessException, DuplicatedUserEmailException {
+        User user1 = UsersServiceTests.userConstructor("Antonio", "Paco", "pacoan", "p1a@gmail.com", "1234");
+
+        Game game = gameConstructor(1, LocalDate.now(), 10, false);
+        gameService.createGame(game);
+
+        userService.saveUser(user1);
+        List<User> lista = new ArrayList<User>();
+        lista.add(user1);
+
+        game.setUsers(lista);
+        gameService.updateGame(game);
+        
+        Integer glory=7;
+        gameUserService.findByGameAndUser(game, user1).get().setGlory(glory);
+        gameUserService.saveGameUser(gameUserService.findByGameAndUser(game, user1).get());
+        assertTrue(gameUserService.getAllGloryByUser(user1)==glory);
+    }
+    
+    @Test
+    void testgetHeroeFav() throws DataAccessException, DuplicatedUserEmailException {
+        User user1 = UsersServiceTests.userConstructor("Antonio", "Paco", "pacoan", "p1a@gmail.com", "1234");
+
+        Game game = gameConstructor(1, LocalDate.now(), 10, false);
+        gameService.createGame(game);
+
+        userService.saveUser(user1);
+        List<User> lista = new ArrayList<User>();
+        lista.add(user1);
+
+        game.setUsers(lista);
+        gameService.updateGame(game);
+        
+        HeroeCard heroe=heroeCardsService.findById(1).get();
+        gameUserService.findByGameAndUser(game, user1).get().setHeroe(heroe);;
+        gameUserService.saveGameUser(gameUserService.findByGameAndUser(game, user1).get());
+        assertTrue(gameUserService.getHeroeFav(user1)==heroe.getId());
+        assertFalse(gameUserService.getHeroeFav(user1)==heroe.getId()+1);
+    }
+
+    @Test
+    void testgetAllUsesOfaHeroeByUser() throws DataAccessException, DuplicatedUserEmailException {
+        User user1 = UsersServiceTests.userConstructor("Antonio", "Paco", "pacoan", "p1a@gmail.com", "1234");
+
+        Game game = gameConstructor(1, LocalDate.now(), 10, false);
+        gameService.createGame(game);
+
+        Game game1 = gameConstructor(1, LocalDate.now(), 15, false);
+        gameService.createGame(game1);
+
+        userService.saveUser(user1);
+        List<User> lista = new ArrayList<User>();
+        lista.add(user1);
+
+        game.setUsers(lista);
+        gameService.updateGame(game);
+        
+        game1.setUsers(lista);
+        gameService.updateGame(game1);
+        
+        HeroeCard heroe=heroeCardsService.findById(1).get();
+        
+        gameUserService.findByGameAndUser(game, user1).get().setHeroe(heroe);
+        gameUserService.saveGameUser(gameUserService.findByGameAndUser(game, user1).get());
+        
+        gameUserService.findByGameAndUser(game1, user1).get().setHeroe(heroe);
+        gameUserService.saveGameUser(gameUserService.findByGameAndUser(game1, user1).get());
+        
+        assertTrue(gameUserService.getAllUsesOfaHeroeByUser(user1, 1)==2);
+    }
+    
     public Game gameConstructor(int creatorId, LocalDate date, int duration, boolean isInProgress) {
         Game g = new Game();
         g.setCreator(userService.findById(creatorId).get());
@@ -125,5 +249,11 @@ public class GameUserServiceTest {
 
         return g;
     }
+    
+
+
+
+
+
 
 }
