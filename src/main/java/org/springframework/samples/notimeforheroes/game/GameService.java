@@ -494,8 +494,9 @@ public class GameService {
 				case 56:
 					skillCardsService.useRobarBolsillos(game, user, skillCard);
 					break;
-				case 57:
+				case 57: case 58:
 					skillCardsService.useSaqueo(game, user, skillCard);
+					break;
 			
 				default://Si no requiere lógica adicional
 					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);
