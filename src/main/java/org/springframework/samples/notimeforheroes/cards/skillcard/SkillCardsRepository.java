@@ -22,9 +22,6 @@ public interface SkillCardsRepository extends CrudRepository<SkillCard, Integer>
 	
 	SkillCard findByName(String name);
 
-	@Query(nativeQuery = true, value = "SELECT * FROM HEROES_SKILLS hs WHERE hs.fk_heroe = ?1;")
-	Collection<SkillCard> findByHeroe(HeroeCard heroe);
-
 	@Query(nativeQuery = true, value = "SELECT s.* FROM GAMES_USERS gu JOIN GAMES_USERS_SKILL_CARDS gus JOIN SKILLS s WHERE gu.FK_GAME = ?1 AND gu.FK_USER = ?2 AND gu.ID = gus.GAME_USER_ID AND gus.SKILL_CARDS_ID  = s.ID")
 	Collection<SkillCard> findAllSkillsByGameAndUser(Game game, User user);
 

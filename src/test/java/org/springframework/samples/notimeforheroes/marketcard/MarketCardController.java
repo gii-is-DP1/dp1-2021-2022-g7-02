@@ -34,7 +34,7 @@ import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsSer
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsService;
 import org.springframework.samples.notimeforheroes.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.user.AuthoritiesService;
+import org.springframework.samples.notimeforheroes.user.AuthoritiesService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;

@@ -70,26 +70,6 @@ public class GameUserService {
 		return heroeCardsService.findById(heroeId.orElse(-1));
 	}
 
-	public Collection<SkillCard> findSkillCardsOfGameUser(Game game, User user) {
-		Optional<Integer> heroeId = gameUserRepository.findHeroeOfGameUser(game.getId(), user.getId());
-		String color = heroeCardsService.findById(heroeId.get()).get().getColor();
-		return skillCardService.findByColor(color);
-	}
-
-	public Collection<MarketCard> findItemsOfGameUser(Game game, User user) {
-		Collection<MarketCard> cards = new ArrayList<MarketCard>();
-		Optional<List<Integer>> ids = gameUserRepository.findItemsOfGameUser(game.getId(), user.getId());
-		for (int i = 0; i < ids.get().size(); i++) {
-			cards.add(marketCardService.findById(ids.get().get(i)).get());
-		}
-		return cards;
-	}
-
-	@Transactional
-	public void deleteGameUser(GameUser gameUser) {
-		gameUserRepository.deleteById(gameUser.getId());
-	}
-
 	@Transactional
 	public void saveGameUser(@Valid GameUser gameUser) {
 		gameUserRepository.save(gameUser);

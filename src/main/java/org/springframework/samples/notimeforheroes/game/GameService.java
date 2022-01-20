@@ -370,17 +370,6 @@ public class GameService {
 		}
 	}
 
-	@Transactional
-	public void defendHeroe(@Valid Game game, User user) {
-		Collection<EnemyCard> enemycardsontable = enemyCardService.findOnTableEnemiesByGame(game);
-		int lifeToRest = 0;
-		for (EnemyCard enemy : enemycardsontable) {// Almacena la vida de los enemigos restantes
-			lifeToRest += enemy.getHealthInGame();
-		}
-		gamesUsersSkillCardsService.discardCards(game, user, lifeToRest);
-
-		game.setGameState(GameState.BUYING);
-	}
 
 	//
 	@Transactional
