@@ -38,6 +38,7 @@ import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSki
 import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.SkillState;
 import org.springframework.samples.notimeforheroes.game.exceptions.CardNotSelectedException;
 import org.springframework.samples.notimeforheroes.game.exceptions.DontHaveEnoughGoldToBuyException;
+import org.springframework.samples.notimeforheroes.game.exceptions.GameAlreadyStartedException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameCurrentNotUniqueException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
 import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
@@ -251,30 +252,23 @@ public class GameService {
 
 	//
 	@Transactional
-	public void addPlayerToGame(@Valid Game game, User user) throws GameFullException, GameCurrentNotUniqueException {
+	public void addPlayerToGame(@Valid Game game, User user) throws GameFullException, GameCurrentNotUniqueException, GameAlreadyStartedException {
 
 		if (game.getUsers().size() < MAX_NUMBER_PLAYERS) {
 			if (!this.findGameInProgressByUser(user).isPresent()) {
-				// Si el jugador no esta en otra partida en curso y la partida no está en curso,
-				// lo añade
-
-				game.getUsers().add(user);
-				try {
+				if(game.getUserPlaying() == null){
+					game.getUsers().add(user);
 					this.updateGame(game);
-				} catch (Exception e) {
-					System.err.println("SOPKSIODBJEOIRBJEIRUHJUEIRBN");
+				}else{
+					throw new GameAlreadyStartedException(); //La partida ya está en curso.
 				}
-
 			} else {
-				throw new GameCurrentNotUniqueException(); // Lanza excepción si el jugador ya está en otra partida en
-															// curso
+				throw new GameCurrentNotUniqueException(); //si el jugador ya está en otra partida en curso											
 			}
-
 		} else {
 			throw new GameFullException(); // Lanza excepción si la partida está llena
 		}
 		gameRepository.save(game);
-
 	}
 
 	@Transactional
