@@ -166,7 +166,7 @@ public class GameService {
 			gameUserService.saveGameUser(gameUser);
 			players.put(gameUser.getGlory(), user);
 		}
-		players.entrySet().stream().sorted(Map.Entry.<Integer, User>comparingByKey().reversed());
+		players.entrySet().stream().sorted(Map.Entry.<Integer, User>comparingByKey());
 
 		return players;
 	}
@@ -688,9 +688,6 @@ public class GameService {
 								.setEnemyState(EnemyState.ONTABLE);
 					}
 				}
-			} else{
-				game.setIsInProgress(true);
-				gameService.updateGame(game);
 			}
 		}
 		game.setGameState(GameState.ATTACKING);
