@@ -146,6 +146,27 @@ public class GameController {
 		}
 	}
 
+	@GetMapping("/exitGame")
+    public String exitGame(ModelMap model) {
+
+		User user = userService.getLoggedUser();
+		Game game = gameService.findGameInProgressByUser(user).orElse(null);
+		if(game != null){
+			Collection<User> lista = game.getUsers();
+			lista.remove(user);
+			game.setUsers(lista);
+			gameService.updateGame(game);
+
+			if(lista.isEmpty()){
+				gameService.deleteGame(game);
+			}
+			return "redirect:/games";
+		}
+		else{
+			return "redirect:/games";
+		}  
+    }
+
 	@GetMapping("/endGame/{gameId}/{hordaDerrotada}")
 	public String selectWinner(ModelMap model, @PathVariable("gameId") int gameId, @PathVariable("hordaDerrotada") Boolean hordaDerrotada) {
 
@@ -220,24 +241,18 @@ public class GameController {
 		Game game = gameService.findById(gameId).get();
 		User user = userService.getLoggedUser();
 		Optional<GameUser> playerOpt = gameUserService.findByGameAndUser(game, user);
-
-		if(!playerOpt.isPresent()){		//Si el jugador no pertenece a la partida
-			model.addAttribute("message", "You don't belong to this game!");
-			return listGames(model);
-		}
-		GameUser player = playerOpt.get();
-
-
-		if(player.getHeroeHealth()==0){
-			gameService.endTurn(game);
-			countOn=false;
-		}
 		if(enemyCardService.countOnDeckEnemiesByGame(game) == 0 && enemyCardService.countOnTableEnemiesByGame(game)==0){
 			return "redirect:/games/endGame/{gameId}/" + true;
 		}else if(gameUserService.findByGameUsersAlive(game).size() == 0){
 			return "redirect:/games/endGame/{gameId}/" + false;
 		}
 
+		if(!playerOpt.isPresent()){		//Si el jugador no pertenece a la partida
+			model.addAttribute("message", "You don't belong to this game!");
+			return listGames(model);
+		}
+		GameUser player = playerOpt.get();
+		
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
 		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
 		enemiesOnTable.stream().forEach(
@@ -261,6 +276,15 @@ public class GameController {
 			return ATTACK_VIEW;
 		}
 
+		//Si el jugador está muerto, salta turno y se queda en attackview
+		if(player.getHeroeHealth()<=0){
+			gameService.endTurn(game);
+			countOn=false;
+			if(!game.getUserPlaying().equals(userService.getLoggedUser())){
+				response.addHeader("Refresh", "1");
+			}
+			return ATTACK_VIEW;
+		}
 
 		switch (game.getGameState()) {
 			case ATTACKING: {
@@ -364,7 +388,7 @@ public class GameController {
 			case BUYING:
 				try {
 					gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
-					return "redirect:/games/{gameId}" ;
+					return "redirect:/games/{gameId}";
 				} catch (DontHaveEnoughGoldToBuyException e) {
 					System.err.println("Excepción DontHaveEnoughGoldToBuy controlada");
 					model.addAttribute("message", "No tienes suficiente dinero para comprar este item");

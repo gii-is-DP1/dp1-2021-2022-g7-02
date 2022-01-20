@@ -186,8 +186,8 @@ public class GameService {
 		}
 
 	}
-	
 
+	
 	//
 	@Transactional
 	public void createGame(@Valid Game game) {
@@ -623,11 +623,17 @@ public class GameService {
 		game.setUserPlaying(newUser);
 
 		// Skippea el jugador si está muerto
-		while (gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0) {
-			newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
-					: (users.indexOf(game.getUserPlaying()) + 1);
+		//while (gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0) {
+		//	newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
+		//			: (users.indexOf(game.getUserPlaying()) + 1);
+		//}
+		if(gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth()<=0){
+			if(users.indexOf(game.getUserPlaying()) + 1 >= users.size()){
+				newUser = users.get(0);
+			}else{
+				newUser = users.get(newIndex);
+			} 
 		}
-		newUser = users.get(newIndex);
 		game.setUserPlaying(newUser);
 
 		// Rellena las cartas del nuevo jugador

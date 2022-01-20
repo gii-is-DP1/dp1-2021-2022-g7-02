@@ -37,7 +37,7 @@
     </c:if>
     <c:if test="${hordaDerrotada == false}">
         <div class="text-align: center;">
-            <h2>¡Habéis perdido!</h2>
+            <h2>Habeis perdido!</h2>
         </div>
     </c:if>
     
