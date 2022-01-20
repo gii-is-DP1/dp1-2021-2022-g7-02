@@ -153,6 +153,8 @@ public class GameController {
 		Game game = gameService.findGameInProgressByUser(user).orElse(null);
 		if(game != null){
 			Collection<User> lista = game.getUsers();
+			GameUser player = gameUserService.findByGameAndUser(game, user).get();
+			gameUserService.deleteGameUser(player);
 			lista.remove(user);
 			game.setUsers(lista);
 			gameService.updateGame(game);
@@ -174,18 +176,17 @@ public class GameController {
 
 		if(hordaDerrotada == true && enemyCardService.countOnTableEnemiesByGame(game)==0){
 			Map<Integer, User> players = gameService.getClassification(game);
-			System.out.println("ha entrado en el metodo de seleccionar winner");
 			User winner = players.get(players.keySet().toArray()[0]);
-			players.remove(players.keySet().toArray()[0]);
 
 			game.setWinner(winner);
 			game.setIsInProgress(false);
 			gameService.updateGame(game);
 			model.addAttribute("hordaDerrotada", hordaDerrotada);
-			model.addAttribute("winner", winner);
 			model.addAttribute("players", players);
 			return GAMES_WINNER;
-		}else{
+		}
+		else{
+			game.setIsInProgress(false);
 			gameService.updateGame(game);
 			model.addAttribute("hordaDerrotada", hordaDerrotada);
 			return GAMES_WINNER;

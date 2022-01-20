@@ -10,20 +10,23 @@
     <c:if test="${hordaDerrotada == true}">
         <div class="text-align: center;">
             <h2>Enhorabuena, habeis derrotado a la horda.</h2>
-            <h2>Winner</h2>
-            <c:out value="${winner}"/>
+            <h2>Clasificacion</h2>
         </div>
         
         <table id="statsTable" class="table table-striped">
             <thead>
                 <tr>
+                    <th>Position</th>
                     <th>User</th>
                     <th>Glory</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${players}" var="player">
+                <c:forEach items="${players}" var="player" varStatus="status">
                     <tr>
+                        <td>
+                            <c:out value="${status.count}"></c:out>
+                        </td>
                         <td>
                             <c:out value="${player.value}"/>
                         </td>
