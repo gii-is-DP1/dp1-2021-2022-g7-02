@@ -154,8 +154,8 @@ public class GameController {
 		if(hordaDerrotada == true){
 			Map<Integer, User> players = gameService.getClassification(game);
 
-			User winner = players.get(0);
-			players.remove(0);
+			User winner = players.get(players.keySet().toArray()[0]);
+			players.remove(players.keySet().toArray()[0]);
 
 			game.setWinner(winner);
 			game.setIsInProgress(false);
@@ -234,7 +234,9 @@ public class GameController {
 			countOn=false;
 		}
 		if(enemyCardService.findOnDeckEnemiesByGame(game).size() == 0 && enemyCardService.findOnTableEnemiesByGame(game).size()==0){
-			return "redirect:/games/endGame/${gameId}/" + true;
+			return "redirect:/games/endGame/{gameId}/" + true;
+		}else if(gameUserService.findByGameUsersAlive(game).size() == 0){
+			return "redirect:/games/endGame/{gameId}/" + false;
 		}
 
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);

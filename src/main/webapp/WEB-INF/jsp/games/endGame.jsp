@@ -9,7 +9,7 @@
 
     <c:if test="${hordaDerrotada == true}">
         <div class="text-align: center;">
-            <h2>Enhorabuena, habéis derrotado a la horda.</h2>
+            <h2>Enhorabuena, habeis derrotado a la horda.</h2>
             <h2>Winner</h2>
             <c:out value="${winner}"/>
         </div>
