@@ -24,7 +24,6 @@ import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsS
 
 import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarket;
 import org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket.GameMarketService;
-import org.springframework.samples.notimeforheroes.cards.scenecard.SceneCard;
 import org.springframework.samples.notimeforheroes.game.Game;
 
 import org.springframework.samples.notimeforheroes.game.GameService;

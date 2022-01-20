@@ -33,7 +33,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCardsService;
 import org.springframework.samples.notimeforheroes.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.user.AuthoritiesService;
+import org.springframework.samples.notimeforheroes.user.AuthoritiesService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;

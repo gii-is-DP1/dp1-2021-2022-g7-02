@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.notimeforheroes.game.Game;
-import org.springframework.samples.petclinic.model.NamedEntity;
+import org.springframework.samples.notimeforheroes.model.NamedEntity;
 
 import lombok.Getter;
 import lombok.Setter;

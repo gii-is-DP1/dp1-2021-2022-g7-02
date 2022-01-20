@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.samples.petclinic.model.NamedEntity;
+import org.springframework.samples.notimeforheroes.model.NamedEntity;
 
 import lombok.Getter;
 import lombok.Setter;

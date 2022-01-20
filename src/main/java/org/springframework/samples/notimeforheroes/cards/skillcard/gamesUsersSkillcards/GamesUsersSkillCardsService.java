@@ -41,9 +41,6 @@ public class GamesUsersSkillCardsService {
         return gamesUsersSkillCardsRepository.findAll();
     }
 
-    public Optional<GamesUsersSkillCards> findByGameUserSkill(GameUser gameUser, SkillCard skillCard){
-        return gamesUsersSkillCardsRepository.findByGameUserSkill(gameUser, skillCard);
-    }
 
     public Optional<GamesUsersSkillCards> findByGameUserSkill(Game game, User user, SkillCard skillCard){
 
@@ -152,11 +149,6 @@ public class GamesUsersSkillCardsService {
         } catch (Exception e) {
             e.printStackTrace();
         }         
-    }
-
-    @Transactional
-    public void deleteGamesUsersSkillCard(GamesUsersSkillCards g){
-        gamesUsersSkillCardsRepository.delete(g);
     }
 
     public void recoverCards(Game game, User user, Integer cantidad) {
