@@ -181,20 +181,7 @@ public class GameController {
 		game.setGameState(GameState.DEFENDING);
 		gameService.updateGame(game);
 
-		//Aplica el daño
-		User user = game.getUserPlaying();
-		Integer daño = enemyCardService.findOnTableEnemiesByGame(game).stream().map(enemyCard -> gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth()).collect(Collectors.summingInt(Integer::intValue));
-		if(gameUserService.findByGameAndUser(game, user).get().getDamageShielded() != null){
-			if(daño - gameUserService.findByGameAndUser(game, user).get().getDamageShielded() >= 0){
-				daño -= gameUserService.findByGameAndUser(game, user).get().getDamageShielded();
-			}else{
-				daño = 0;
-			}
-		}
-		GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
-		gameUserSkillCardsService.discardCards(game, user, daño);
-		gameUser.setDamageShielded(0);
-		gameUserService.saveGameUser(gameUser);
+		gameService.defendHeroe(game, userService.getLoggedUser());
 		
 		return "redirect:/games/"+gameId;
 	}
@@ -302,33 +289,11 @@ public class GameController {
 		}
 	}
 
-	private void fiveMinutesTimer(ModelMap model,Game game, User user, GameUser player) throws InterruptedException {
-		second=300;
-		simpleTimer(model,player,game);
-		timer.start();
-		countOn=true;
-	}
-
-	private void simpleTimer(ModelMap model,GameUser player, Game game) {
-		timer = new Timer(1000, new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				second--;
-				if(second==0){
-					player.setHeroeHealth(0);
-					//gameUserService.saveGameUser(player);
-					timer.stop();					
-				}
-			}
-		});
-
-	}
-  
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
 	public String attackPhase(ModelMap model, @RequestParam(value="skillUsed", required=false) Integer skillCardId,
 			@RequestParam(value="enemySelected") Optional<List<Integer>> listEnemyCardsSelectedId, 
-			@RequestParam(value="itemSelected", required=false) Optional<Integer> id, HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception {
+			@RequestParam(value="itemSelected", required=false) Optional<Integer> id, 
+			HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception {
 		Game game = gameService.findById(gameId).get();	
 		switch (game.getGameState()) {
 			case ATTACKING:
@@ -360,6 +325,10 @@ public class GameController {
 			case BUYING:
 				try {
 					gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
+					model.addAttribute("game", game);
+					model.addAttribute("market", marketService.findAllByGameAndOnTable(gameService.findById(gameId).get()));
+					model.addAttribute("user", userService.getLoggedUser());
+					model.addAttribute("gameUser", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 					return MARKET_VIEW;
 				} catch (DontHaveEnoughGoldToBuyException e) {
 					model.addAttribute("message", "No tienes suficiente dinero para comprar este item");
@@ -376,6 +345,29 @@ public class GameController {
 				throw new Exception();
 
 		}
+	}
+
+	private void fiveMinutesTimer(ModelMap model,Game game, User user, GameUser player) throws InterruptedException {
+		second=300;
+		simpleTimer(model,player,game);
+		timer.start();
+		countOn=true;
+	}
+
+	private void simpleTimer(ModelMap model,GameUser player, Game game) {
+		timer = new Timer(1000, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				second--;
+				if(second==0){
+					player.setHeroeHealth(0);
+					//gameUserService.saveGameUser(player);
+					timer.stop();					
+				}
+			}
+		});
+
 	}
 
 	@GetMapping("/{gameId}/escape")
