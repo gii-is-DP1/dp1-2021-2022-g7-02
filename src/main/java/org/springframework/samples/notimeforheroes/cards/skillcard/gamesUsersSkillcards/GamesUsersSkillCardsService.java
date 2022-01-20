@@ -86,6 +86,8 @@ public class GamesUsersSkillCardsService {
             //guardas para que la vida de tu heroe se quede guardado
             gamesUsersService.saveGameUser(player);
         }
+        
+        onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
         for(int i = 0; i<cantidad; i++){
             GamesUsersSkillCards gusc = findByGameUserSkill(game, user, onDeckCards.get(i)).get();
             System.out.println("[DRAW] El jugador " + user.getUsername() + " ha robado la carta " + onDeckCards.get(i).getName());
@@ -196,23 +198,12 @@ public class GamesUsersSkillCardsService {
     }
 
     public void gainLife(Game game, User user, Integer cantidad) throws Exception {
-        Optional<GameUser> gameUserOpt = gamesUsersService.findByGameAndUser(game, user);
-
-        if(gameUserOpt.isPresent()){
-            GameUser gameUser=gameUserOpt.get();
-            //si su vida es menor que la vida maxima
-            if(gameUser.getHeroeHealth()<gameUser.getHeroe().getMaxHealth()){
-                if(gameUser.getHeroeHealth() + cantidad > gameUser.getHeroe().getMaxHealth())
-                    gameUser.setHeroeHealth(gameUser.getHeroe().getMaxHealth());
-                else{
-                    gameUser.setHeroeHealth(gameUser.getHeroeHealth()+cantidad);
-                }
-                    
-                System.out.println("[GAINLIFE] El jugador " + user.getUsername() + " ha ganado " + cantidad + " de vida");  
-            } 
-            gamesUsersService.saveGameUser(gameUser);
-        }else{  //SI EL USER NO ESTÁ EN GAME
-            throw new Exception("Player at game not found");
+        GameUser gameUser = gamesUsersService.findByGameAndUser(game, user).get();
+        Integer currentHealth = gameUser.getHeroeHealth();
+        Integer maxHealth = gameUser.getHeroe().getMaxHealth();
+        if(currentHealth < maxHealth){
+            gameUser.setHeroeHealth(currentHealth + cantidad < maxHealth ? currentHealth + cantidad : maxHealth);
+            System.out.println( String.format("[GAINLIFE] El jugador %s ha ganado %d de vida (%d + %d = %d)", user.getUsername(), cantidad, currentHealth, cantidad, gameUser.getHeroeHealth()));
         }
     }
 
