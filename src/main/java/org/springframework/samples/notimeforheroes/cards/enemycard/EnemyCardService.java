@@ -55,7 +55,11 @@ public class EnemyCardService {
 	public Integer countOnTableEnemiesByGame(Game game) {
 		return enemyCardRepo.countOnTableEnemiesByGame(game);
 	}
-
+	
+	
+	public Integer countOnDeckEnemiesByGame(Game game){
+		return enemyCardRepo.countOnDeckEnemiesByGame(game);
+	}
 	//
 	public Collection<EnemyCard> findOnDeckEnemiesByGame(Game game) {
 		return enemyCardRepo.findOnDeckEnemiesByGame(game);
@@ -70,7 +74,6 @@ public class EnemyCardService {
 	public Collection<EnemyCard> findAllByIsBoss(Boolean isBoss) {
 		return enemyCardRepo.findAllByIsBoss(isBoss);
 	}
-
 	//
 	@Transactional
 	public void deleteEnemyCard(EnemyCard card) {
