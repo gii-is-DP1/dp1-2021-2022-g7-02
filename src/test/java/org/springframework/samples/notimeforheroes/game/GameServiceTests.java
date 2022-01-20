@@ -20,7 +20,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
+import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCardsService;
+import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
+import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCardsService;
+import org.springframework.samples.notimeforheroes.game.exceptions.DontHaveEnoughGoldToBuyException;
 import org.springframework.samples.notimeforheroes.game.exceptions.GameFullException;
+import org.springframework.samples.notimeforheroes.game.exceptions.HeroeNotAvailableException;
+import org.springframework.samples.notimeforheroes.game.exceptions.ItemNotSelectedException;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
@@ -38,7 +45,11 @@ public class GameServiceTests {
 	private UserService userService;
 	@Autowired
 	private GameUserService gameUserService;
-
+	@Autowired
+	private HeroeCardsService heroeCardService;
+	@Autowired
+	private MarketCardsService marketCardService;
+	
 	User user1 = UsersServiceTests.userConstructor("Antonio", "Paco", "pacoan", "pa@gmail.com", "1234");
 	User user2 = UsersServiceTests.userConstructor("Jose", "Manuel", "manujo", "manu@gmail.com", "123234");
 	User user3 = UsersServiceTests.userConstructor("Manuel", "Jose", "chema", "chema@gmail.com", "13234");
@@ -163,6 +174,20 @@ public class GameServiceTests {
 		assertFalse(gamesWinner2.contains(g1) && gamesWinner2.contains(g2));
 	}
 
+	@Test
+	void testGetUrl() throws DataAccessException, DuplicatedUserEmailException {
+		Game g1 = gameConstructor(1, LocalDate.now(), 0, false);
+		userService.saveUser(this.user1);
+		List<User> users = new ArrayList<User>();
+		users.add(this.user1);
+		
+		g1.setUsers(users);
+		gameService.updateGame(g1);
+
+		//
+		assertTrue(gameService.getGameUrl(g1).equals("waiting/" + g1.getId()));
+
+	}
 	@Test
 	void testFindAllEnded() {
 
@@ -449,6 +474,47 @@ public class GameServiceTests {
 
 		assertTrue(!gameByCode.equals(null));
 	}
+	
+	@Test
+	void testSelectHeroe() throws HeroeNotAvailableException, DataAccessException, DuplicatedUserEmailException {
+		Game g1 = gameConstructor(1, LocalDate.now(), 10, false);
+
+		userService.saveUser(this.user1);
+
+		List<User> users = new ArrayList<User>();
+		users.add(this.user1);
+
+		g1.setUsers(users);
+
+		gameService.updateGame(g1);
+		HeroeCard heroe=heroeCardService.findById(1).get();
+		gameService.selectHeroe(g1, user1, heroe.getName());
+		gameService.updateGame(g1);
+		GameUser gameUser = gameUserService.findByGameAndUser(g1, user1).get();
+
+		assertTrue(gameUser.getHeroe().equals(heroe));
+	}
+	
+	
+	@Test
+	void testSelectFirstPlayer() throws DontHaveEnoughGoldToBuyException, ItemNotSelectedException, Exception {
+		Game g1 = gameConstructor(1, LocalDate.now(), 10, true);
+
+		userService.saveUser(this.user1);
+
+		List<User> users = new ArrayList<User>();
+		users.add(this.user1);
+		
+
+		
+		g1.setUsers(users);
+		gameService.updateGame(g1);
+		
+		gameService.selectFirstPlayer(g1.getId());
+		gameService.updateGame(g1);
+		assertTrue(g1.getUserPlaying().equals(user1));
+	}
+	
 
 	public Game gameConstructor(int creatorId, LocalDate date, int duration, boolean isInProgress) {
 		Game g = new Game();

@@ -368,15 +368,19 @@ public class GameController {
 					return "redirect:" + gameId;
 
 				} catch (CardNotSelectedException e) {
+					System.err.println("Excepción CardNotSelected controlada");
 					model.addAttribute("message", "Por favor, seleccione una carta, acabe su turno o use su ficha de escape");
 					return gamePlaying(model, gameId, response);
 				} catch (IncorrectNumberOfEnemiesException e) {
+					System.err.println("Excepción IncorrectNumberOfEnemies controlada");
 					model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
 					return gamePlaying(model, gameId, response);
 				} catch(DontHaveEnoughGoldToBuyException e){
+					System.err.println("Excepción DontHaveEnoughGoldToBuyException controlada");
 					model.addAttribute("message", "Necesitas más oro para ejecutar esta acción");
 					return gamePlaying(model, gameId, response);
 				} catch (Exception e) {
+					System.err.println("Excepción controlada");
 					e.printStackTrace();
 					model.addAttribute("message", "Error desconocido al usar carta");
 					return gamePlaying(model, gameId, response);
@@ -386,12 +390,15 @@ public class GameController {
 					gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
 					return "redirect:/games/{gameId}";
 				} catch (DontHaveEnoughGoldToBuyException e) {
+					System.err.println("Excepción DontHaveEnoughGoldToBuy controlada");
 					model.addAttribute("message", "No tienes suficiente dinero para comprar este item");
 					return gamePlaying(model, gameId, response);
 				}catch (ItemNotSelectedException e) {
+					System.err.println("Excepción ItemNotSelected controlada");
 					model.addAttribute("message", "Por Favor selecciona una carta para comprar o finalice su turno");
 					return gamePlaying(model, gameId, response);
 				}catch (Exception e) {
+					System.err.println("Excepción controlada");
 					e.printStackTrace();
 					model.addAttribute("message", "Error desconocido al comprar carta");
 					return gamePlaying(model, gameId, response);
@@ -421,6 +428,7 @@ public class GameController {
 				model.addAttribute("message", "No puedes usar tu ficha de escape en este momento");
 			}
 		} catch (Exception e) {
+			System.err.println("Excepción controlada");
 			e.printStackTrace();
 		}
 
@@ -492,9 +500,11 @@ public class GameController {
 			gameService.selectHeroe(gameService.findById(gameId).get(), userService.getLoggedUser(), heroe);
 			return "redirect:/games/selectPlayerToStart/" + gameId;
 		} catch (HeroeNotAvailableException e) {
+			System.err.println("Excepción HeroeNotAvailable controlada");
 			model.addAttribute("message", "Este héroe no está disponible");
 			return selectHeroe(model, gameId);
 		} catch (Exception e) {
+			System.err.println("Excepción controlada");
 			model.addAttribute("message", "Error al seleccionar héroe");
 			e.printStackTrace();
 			return selectHeroe(model, gameId);

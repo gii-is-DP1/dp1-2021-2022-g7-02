@@ -84,32 +84,6 @@ public class GameMarketServiceTest {
         assertTrue(gameMarketCardSize <= 15);
     }
 
-    /*
-     * @Test
-     * void testFindAllMarketCard() {
-     * Integer AllMarketCards = marketService.findAll().size();
-     * MarketCard marketCard = NewMarketCard("Name", "url", 1, "description");
-     * marketService.saveMarketCard(marketCard);
-     * 
-     * Integer NewAllMarketCard = marketService.findAll().size();
-     * 
-     * //
-     * assertTrue(NewAllMarketCard == AllMarketCards + 1);
-     * }
-     */
-
-    /**
-     * private MarketCard NewMarketCard(String name, String url, Integer cost,
-     * String description) {
-     * MarketCard marketCard = new MarketCard();
-     * marketCard.setCost(cost);
-     * marketCard.setDescription(description);
-     * marketCard.setName(name);
-     * marketCard.setUrl(url);
-     * return marketCard;
-     * }
-     */
-
     public GameMarket newGameMarket(ItemState itemState) {
         GameMarket gameMarket = new GameMarket();
         gameMarket.setItemState(itemState);
