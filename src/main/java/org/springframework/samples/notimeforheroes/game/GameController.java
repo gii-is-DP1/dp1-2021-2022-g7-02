@@ -317,7 +317,7 @@ public class GameController {
 				second--;
 				if(second==0){
 					player.setHeroeHealth(0);
-					gameUserService.saveGameUser(player);
+					//gameUserService.saveGameUser(player);
 					timer.stop();					
 				}
 			}

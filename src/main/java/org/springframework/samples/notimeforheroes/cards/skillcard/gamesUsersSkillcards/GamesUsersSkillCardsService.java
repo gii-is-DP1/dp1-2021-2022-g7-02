@@ -89,6 +89,8 @@ public class GamesUsersSkillCardsService {
             //guardas para que la vida de tu heroe se quede guardado
             gamesUsersService.saveGameUser(player);
         }
+        
+        onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
         for(int i = 0; i<cantidad; i++){
             GamesUsersSkillCards gusc = findByGameUserSkill(game, user, onDeckCards.get(i)).get();
             System.out.println("[DRAW] El jugador " + user.getUsername() + " ha robado la carta " + onDeckCards.get(i).getName());
