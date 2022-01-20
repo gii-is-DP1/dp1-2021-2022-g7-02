@@ -45,7 +45,7 @@
 	</c:if>
 
 	<c:if test="${game.getUserPlaying() == user}">
-		<a class="btn btn-default" href="/games/${game.id}/marketGame">Ir a mercado</a>
+		<a class="btn btn-default" href="/games/${game.id}/">Ir a mercado</a>
 	</c:if>
 
 
