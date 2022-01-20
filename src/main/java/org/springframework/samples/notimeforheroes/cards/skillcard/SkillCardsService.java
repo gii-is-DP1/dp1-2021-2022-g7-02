@@ -338,7 +338,8 @@ public class SkillCardsService {
 	}
 
     public void useSaqueo(Game game, User user, SkillCard skillCard) throws Exception {
-		gamesUsersSkillCardsService.gainGold(game, user, 2 * enemyCardService.findOnTableEnemiesByGame(game).size());
+		Integer oroGanado = 2 * enemyCardService.findOnTableEnemiesByGame(game).size();
+		gamesUsersSkillCardsService.gainGold(game, user, oroGanado);
     }
 
 
