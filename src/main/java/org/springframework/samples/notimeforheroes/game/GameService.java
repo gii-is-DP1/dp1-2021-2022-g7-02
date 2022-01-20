@@ -660,6 +660,7 @@ public class GameService {
 		if (onTableEnemies.size() < NUMBER_ENEMIES) {
 			int enemiesToTable = NUMBER_ENEMIES - onTableEnemies.size();
 
+			
 			if (onDeckEnemies.size() < enemiesToTable) {
 				for (int t = 0; t < onDeckEnemies.size(); t++) {
 					gamesEnemiesService.findByGameAndEnemy(game, onDeckEnemies.get(t)).get()

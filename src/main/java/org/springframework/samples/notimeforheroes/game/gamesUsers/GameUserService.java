@@ -57,6 +57,10 @@ public class GameUserService {
 		return gameUserRepository.findAllByGameOrderByHealth(game);
 	}
 
+	public List<GameUser> findByGameUsersAlive(Game game){
+		return gameUserRepository.findByGameUsersAlive(game);
+	}
+
 	public Optional<GameUser> findByGameAndUser(Game game, User user){
 		return gameUserRepository.findByGameAndUser(game, user);
   }
