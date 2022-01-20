@@ -375,14 +375,19 @@ public class GameService {
 
 	@Transactional
 	public void defendHeroe(@Valid Game game, User user) {
-		Collection<EnemyCard> enemycardsontable = enemyCardService.findOnTableEnemiesByGame(game);
-		int lifeToRest = 0;
-		for (EnemyCard enemy : enemycardsontable) {// Almacena la vida de los enemigos restantes
-			lifeToRest += enemy.getHealthInGame();
+		//Aplica el daño
+		Integer daño = enemyCardService.findOnTableEnemiesByGame(game).stream().map(enemyCard -> gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth()).collect(Collectors.summingInt(Integer::intValue));
+		if(gameUserService.findByGameAndUser(game, user).get().getDamageShielded() != null){
+			if(daño - gameUserService.findByGameAndUser(game, user).get().getDamageShielded() >= 0){
+				daño -= gameUserService.findByGameAndUser(game, user).get().getDamageShielded();
+			}else{
+				daño = 0;
+			}
 		}
-		gamesUsersSkillCardsService.discardCards(game, user, lifeToRest);
-
-		game.setGameState(GameState.BUYING);
+		GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
+		gamesUsersSkillCardsService.discardCards(game, user, daño);
+		gameUser.setDamageShielded(0);
+		gameUserService.saveGameUser(gameUser);
 	}
 
 	//
@@ -500,7 +505,9 @@ public class GameService {
 				case 57: case 58:
 					skillCardsService.useSaqueo(game, user, skillCard);
 					break;
-			
+				case 63:
+					skillCardsService.useCapaElfica(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
 				default://Si no requiere lógica adicional
 					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);
 					break;
@@ -550,7 +557,7 @@ public class GameService {
 	}
 
 	@Transactional
-	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies) {
+	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies) throws Exception {
 
 		for (Action action : actions) {
 			switch (action.getType()) {
@@ -593,11 +600,7 @@ public class GameService {
 					}
 					break;
 				case GAINLIFE:
-					try {
 						gamesUsersSkillCardsService.gainLife(game, user, action.getCantidad());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 					break;
 				case DEFENSE:
 					gamesUsersSkillCardsService.defendDamage(game, user, action.cantidad);

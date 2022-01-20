@@ -212,8 +212,8 @@ INSERT INTO skills(id,name,url,description) VALUES (67,'Pocion Curativa 1', '\re
 INSERT INTO skills(id,name,url,description) VALUES (68,'Pocion Curativa 2', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
 INSERT INTO skills(id,name,url,description) VALUES (69,'Pocion Curativa 3', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
 INSERT INTO skills(id,name,url,description) VALUES (70,'Pocion Curativa 4', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
-INSERT INTO skills(id,name,url,description) VALUES (71,'Vial de Conjuracion 1', '\resources\images\market\VialdeConjuracion.png', 'Recupera una carta de tu pila');
-INSERT INTO skills(id,name,url,description) VALUES (72,'Vial de Conjuracion 2', '\resources\images\market\VialdeConjuracion.png', 'Recupera una carta de tu pila');
+INSERT INTO skills(id,name,url,description) VALUES (71,'Vial de Conjuracion 1', '\resources\images\market\VialdeConjuracion.png', 'Recupera 5 cartas');
+INSERT INTO skills(id,name,url,description) VALUES (72,'Vial de Conjuracion 2', '\resources\images\market\VialdeConjuracion.png', 'Recupera 5 cartas');
 INSERT INTO skills(id,name,url,description) VALUES (73,'Arco Compuesto', '\resources\images\market\ArcoCompuesto.png', ' ');
 
 
@@ -287,6 +287,7 @@ INSERT INTO Actions (id, type, cantidad) VALUES (13, 2, 1);
 INSERT INTO Actions (id, type, cantidad) VALUES (14, 2, 2);
 INSERT INTO Actions (id, type, cantidad) VALUES (15, 2, 3);
 INSERT INTO Actions (id, type, cantidad) VALUES (71, 2, 4);
+INSERT INTO Actions (id, type, cantidad) VALUES (72, 2, 5);
 --gainglory
 INSERT INTO Actions (id, type, cantidad) VALUES (16, 3, 0);
 INSERT INTO Actions (id, type, cantidad) VALUES (17, 3, 1);
@@ -601,10 +602,14 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 58);
 
 --Actions of MarketCard
+    --daga elfica
 INSERT INTO actions_skill_card (fk_skillCard,fk_actions) VALUES (59, 3);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (60, 3);
+    --alabarda orca
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (61, 5);
+    --armadura de placas
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (62, 71);
+    --capa elfica
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 63);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 63);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (38, 63);
@@ -615,15 +620,20 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (42, 63);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (43, 63);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (44, 63);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 63);
+    --elixir de concetración
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (64, 10);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (65, 10);
+    --piedra de amolar
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (66, 2);
+    --pocion curativa
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (67, 34);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (68, 34);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (69, 34);
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (70, 34);
-INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (71, 8);
-INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (72, 8);
+    --vial de conjuracion
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (71, 72);
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (72, 72);
+    --arco compuesto
 INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (73, 5);
 
 

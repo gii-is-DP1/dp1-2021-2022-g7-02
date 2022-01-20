@@ -175,7 +175,7 @@ public class SkillCardsService {
 		gamesUsersSkillCardsService.discardCards(game, userService.findByGameUser(playerWithLessWounds), 2);		
 	}
 
-	public void useRecogerFlechas(Game game, User user, SkillCard skillCard) {
+	public void useRecogerFlechas(Game game, User user, SkillCard skillCard) throws Exception {
 		List<SkillCard> disparoRapidoCards = this.findAllOnDiscardedSkillsByGameAndUser(game, user).stream()
 				.filter(card -> card.getName().equals("Disparo Rapido")).collect(Collectors.toList());
 		if (disparoRapidoCards.size() != 0) {
@@ -184,6 +184,7 @@ public class SkillCardsService {
 			gusc.setSkillState(SkillState.ONDECK);
 			gamesUsersSkillCardsService.saveGameUserSkillCard(gusc);
 		}
+		gamesUsersSkillCardsService.gainGold(game, user, 1);
 	}
 
 	public void useEscudo(EnemyCard enemyTargeted, Game game, User user, SkillCard skillCard) {
@@ -341,6 +342,12 @@ public class SkillCardsService {
 		Integer oroGanado = 2 * enemyCardService.findOnTableEnemiesByGame(game).size();
 		gamesUsersSkillCardsService.gainGold(game, user, oroGanado);
     }
+
+	public void useCapaElfica(EnemyCard enemyTargeted, Game game, User user, SkillCard skillCard) {
+		Integer dañoDeEnemigoSeleccionado = gamesEnemiesService.findByGameAndEnemy(game, enemyTargeted).get()
+				.getHealth();
+		gamesUsersSkillCardsService.defendDamage(game, user, dañoDeEnemigoSeleccionado);
+	}
 
 
 

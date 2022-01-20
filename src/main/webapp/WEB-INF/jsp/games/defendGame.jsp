@@ -28,7 +28,7 @@
 				<img src="${heroes.url}">
 				<h2>
 					Vida restante:
-					<c:out value="${heroes.maxHealth}" />
+					<c:out value="${player.getHeroeHealth()}" />
 				</h2>
 			</div>
 		</div>
