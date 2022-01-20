@@ -186,6 +186,7 @@ public class GameController {
 			model.addAttribute("players", players);
 			return GAMES_WINNER;
 		}else{
+			game.setIsInProgress(false);
 			gameService.updateGame(game);
 			model.addAttribute("hordaDerrotada", hordaDerrotada);
 			return GAMES_WINNER;

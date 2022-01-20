@@ -71,6 +71,9 @@ public class GameService {
 	HeroeCardsService heroeCardsService;
 
 	@Autowired
+	GameService gameService;
+
+	@Autowired
 	GamesUsersSkillCardsService gamesUsersSkillCardsService;
 
 	@Autowired
@@ -667,7 +670,6 @@ public class GameService {
 		List<EnemyCard> onDeckEnemies = (List<EnemyCard>) enemyCardService.findOnDeckEnemiesByGame(game);
 		if (onTableEnemies.size() < NUMBER_ENEMIES) {
 			int enemiesToTable = NUMBER_ENEMIES - onTableEnemies.size();
-
 			if(onDeckEnemies.size()>=0){
 				System.out.println("renueva enemigos");
 				if (onDeckEnemies.size() < enemiesToTable) {
@@ -683,6 +685,9 @@ public class GameService {
 								.setEnemyState(EnemyState.ONTABLE);
 					}
 				}
+			} else{
+				game.setIsInProgress(true);
+				gameService.updateGame(game);
 			}
 		}
 		game.setGameState(GameState.ATTACKING);
