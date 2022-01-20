@@ -151,9 +151,9 @@ public class GameController {
 
 		Game game = gameService.findById(gameId).orElse(null);
 
-		if(hordaDerrotada == true){
+		if(hordaDerrotada == true && enemyCardService.countOnTableEnemiesByGame(game)==0){
 			Map<Integer, User> players = gameService.getClassification(game);
-
+			System.out.println("ha entrado en el metodo de seleccionar winner");
 			User winner = players.get(players.keySet().toArray()[0]);
 			players.remove(players.keySet().toArray()[0]);
 
@@ -165,7 +165,6 @@ public class GameController {
 			model.addAttribute("players", players);
 			return GAMES_WINNER;
 		}else{
-			game.setIsInProgress(false);
 			gameService.updateGame(game);
 			model.addAttribute("hordaDerrotada", hordaDerrotada);
 			return GAMES_WINNER;
@@ -201,7 +200,7 @@ public class GameController {
 	}
 
 	@GetMapping("/{gameId}/endTurn")
-	public String endTurn(ModelMap model, @PathVariable("gameId") int gameId) throws Exception {
+	public String endTurn(ModelMap model, @PathVariable("gameId") int gameId, HttpServletResponse response) throws Exception {
 		Game game = gameService.findById(gameId).get();
 		if (game.getUserPlaying().equals(userService.getLoggedUser()) && game.getIsInProgress()) {
 			gameService.endTurn(game);
@@ -212,11 +211,11 @@ public class GameController {
 			model.addAttribute("message", "No puedes cambiar de turno en este momento");
 		}
 
-		return gamePlaying(model, gameId);
+		return gamePlaying(model, gameId, response);
 	}
 
 	@GetMapping("/{gameId}")
-	public String gamePlaying(ModelMap model, @PathVariable("gameId") int gameId) throws Exception {
+	public String gamePlaying(ModelMap model, @PathVariable("gameId") int gameId, HttpServletResponse response) throws Exception {
 
 		Game game = gameService.findById(gameId).get();
 		User user = userService.getLoggedUser();
@@ -233,7 +232,7 @@ public class GameController {
 			gameService.endTurn(game);
 			countOn=false;
 		}
-		if(enemyCardService.findOnDeckEnemiesByGame(game).size() == 0 && enemyCardService.findOnTableEnemiesByGame(game).size()==0){
+		if(enemyCardService.countOnDeckEnemiesByGame(game) == 0 && enemyCardService.countOnTableEnemiesByGame(game)==0){
 			return "redirect:/games/endGame/{gameId}/" + true;
 		}else if(gameUserService.findByGameUsersAlive(game).size() == 0){
 			return "redirect:/games/endGame/{gameId}/" + false;
@@ -258,6 +257,7 @@ public class GameController {
 
 		//Si el jugador no está jugando, siempre irá a attackview
 		if(!game.getUserPlaying().equals(userService.getLoggedUser())){
+			response.addHeader("Refresh", "5");
 			return ATTACK_VIEW;
 		}
 
@@ -345,32 +345,32 @@ public class GameController {
 
 				} catch (CardNotSelectedException e) {
 					model.addAttribute("message", "Por favor, seleccione una carta, acabe su turno o use su ficha de escape");
-					return gamePlaying(model, gameId);
+					return gamePlaying(model, gameId, response);
 				} catch (IncorrectNumberOfEnemiesException e) {
 					model.addAttribute("message", "Esa carta no puede aplicarse a ese número de enemigos");
-					return gamePlaying(model, gameId);
+					return gamePlaying(model, gameId, response);
 				} catch(DontHaveEnoughGoldToBuyException e){
 					model.addAttribute("message", "Necesitas más oro para ejecutar esta acción");
-					return gamePlaying(model, gameId);
+					return gamePlaying(model, gameId, response);
 				} catch (Exception e) {
 					e.printStackTrace();
 					model.addAttribute("message", "Error desconocido al usar carta");
-					return gamePlaying(model, gameId);
+					return gamePlaying(model, gameId, response);
 				}
 			case BUYING:
 				try {
 					gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
-					return "redirect:"+gameId;
+					return MARKET_VIEW;
 				} catch (DontHaveEnoughGoldToBuyException e) {
 					model.addAttribute("message", "No tienes suficiente dinero para comprar este item");
-					return gamePlaying(model, gameId);
+					return gamePlaying(model, gameId, response);
 				}catch (ItemNotSelectedException e) {
 					model.addAttribute("message", "Por Favor selecciona una carta para comprar o finalice su turno");
-					return gamePlaying(model, gameId);
+					return gamePlaying(model, gameId, response);
 				}catch (Exception e) {
 					e.printStackTrace();
 					model.addAttribute("message", "Error desconocido al comprar carta");
-					return gamePlaying(model, gameId);
+					return gamePlaying(model, gameId, response);
 				}
 			default:
 				throw new Exception();
@@ -379,7 +379,7 @@ public class GameController {
 	}
 
 	@GetMapping("/{gameId}/escape")
-	public String escape(ModelMap model, @PathVariable("gameId") int gameId) throws Exception {
+	public String escape(ModelMap model, @PathVariable("gameId") int gameId, HttpServletResponse response) throws Exception {
 		try {
 			Game game = gameService.findById(gameId).get();
 			if (game.getUserPlaying().equals(userService.getLoggedUser()) && game.getIsInProgress()) {
@@ -400,7 +400,7 @@ public class GameController {
 			e.printStackTrace();
 		}
 
-		return gamePlaying(model, gameId);
+		return gamePlaying(model, gameId, response);
 	}
 
 	@GetMapping("/current")

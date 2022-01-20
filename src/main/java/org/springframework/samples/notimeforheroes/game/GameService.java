@@ -619,15 +619,13 @@ public class GameService {
 		Integer newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
 				: (users.indexOf(game.getUserPlaying()) + 1);
 		User newUser = users.get(newIndex);
-		game.setUserPlaying(newUser);
 		// Skippea el jugador si está muerto
 		while (gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0) {
 			newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
 					: (users.indexOf(game.getUserPlaying()) + 1);
-			newUser = users.get(newIndex);
-			game.setUserPlaying(newUser);
 		}
-
+		newUser = users.get(newIndex);
+		game.setUserPlaying(newUser);
 		// Rellena las cartas del nuevo jugador
 
 		gamesUsersSkillCardsService.drawCards(game, newUser,
@@ -660,22 +658,23 @@ public class GameService {
 		if (onTableEnemies.size() < NUMBER_ENEMIES) {
 			int enemiesToTable = NUMBER_ENEMIES - onTableEnemies.size();
 
-			
-			if (onDeckEnemies.size() < enemiesToTable) {
-				for (int t = 0; t < onDeckEnemies.size(); t++) {
-					gamesEnemiesService.findByGameAndEnemy(game, onDeckEnemies.get(t)).get()
-							.setEnemyState(EnemyState.ONTABLE);
+			if(onDeckEnemies.size()>=0){
+				System.out.println("renueva enemigos");
+				if (onDeckEnemies.size() < enemiesToTable) {
+					for (int t = 0; t < onDeckEnemies.size(); t++) {
+						gamesEnemiesService.findByGameAndEnemy(game, onDeckEnemies.get(t)).get()
+								.setEnemyState(EnemyState.ONTABLE);
+					}
 				}
-			}
-
-			else {
-				for (int t = 0; t < enemiesToTable; t++) {
-					gamesEnemiesService.findByGameAndEnemy(game, onDeckEnemies.get(t)).get()
-							.setEnemyState(EnemyState.ONTABLE);
+			
+				else {
+					for (int t = 0; t < enemiesToTable; t++) {
+						gamesEnemiesService.findByGameAndEnemy(game, onDeckEnemies.get(t)).get()
+								.setEnemyState(EnemyState.ONTABLE);
+					}
 				}
 			}
 		}
-
 		game.setGameState(GameState.ATTACKING);
 	}
 }

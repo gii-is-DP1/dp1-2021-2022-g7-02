@@ -24,6 +24,9 @@ public interface EnemyCardRepository extends CrudRepository<EnemyCard, Integer>{
 
 		Collection<EnemyCard> findAllByIsBoss(Boolean isBoss);
 
+		@Query(nativeQuery = true, value = "SELECT COUNT(e.*) FROM Enemies e JOIN Games_Enemies ge WHERE e.id = ge.fk_enemy AND ge.fk_game = ?1 AND ge.enemy_state = 1;")
+		Integer countOnDeckEnemiesByGame(Game game);
+
 		@Query(nativeQuery = true, value = "SELECT e.* FROM Enemies e JOIN Games_Enemies ge WHERE e.id = ge.fk_enemy AND ge.fk_game = ?1 AND ge.enemy_state = 0;")
 		List<EnemyCard> findOnTableEnemiesByGame(Game game);
 
