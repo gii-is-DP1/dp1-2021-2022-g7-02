@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,57 +46,50 @@ public class EnemyCardServiceTest {
 	GameUserService gameUserService;
 	
 	@Autowired
-	GamesEnemiesService gamesEnemie;
+	GamesEnemiesService gamesEnemiesService;
 
 	@Test
 	void testFindAllEnemiesPagination() {
-		Integer enemies = enemyCardService.findAllPage(0, 2).size();
-		assertTrue(enemies == 2);
+		assertThat(enemyCardService.findAllPage(0, 2).size()).isEqualTo(2);
 	}
 
 	@Test
-	void TestNoEnemyCard() {
+	void testNoEnemyCard() {
+		EnemyCard card = new EnemyCard();
+		card.setName("ExampleName");
+		enemyCardService.createEnemyCard(card);
+
 		Collection<EnemyCard> enemyCard = enemyCardService.findAll();
 		for (EnemyCard c : enemyCard) {
 			enemyCardService.deleteEnemyCard(c);
 		}
-		assertThat(enemyCardService.findAll().isEmpty()).isTrue();
+		assertThat(enemyCardService.findAll().size()).isEqualTo(0);
 
 	}
 
 	@Test
-	void testCountOnTableEnemiesByGame() {
+	void testNumberOfEnemiesCorrect() {
 		Game game = gameConstructor(1, LocalDate.now(), 10, false);
 		gameService.createGame(game);
 
-		Integer enemies = enemyCardService.countOnTableEnemiesByGame(game);
-
-		assertTrue(enemies == 3);
-
-	}
-	
-	@Test
-	void testFindOnDeckEnemiesByGame() {
-		Game game = gameConstructor(1, LocalDate.now(), 10, false);
-		gameService.createGame(game);
-		
-		Integer enemiesOnTable = enemyCardService.countOnTableEnemiesByGame(game);
+		Integer enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game).size();
 		Integer enemiesOnDeck = enemyCardService.findOnDeckEnemiesByGame(game).size();
-		Integer enemies = enemyCardService.findAll().size() - 2;
-		
-		assertTrue(enemies - enemiesOnTable == enemiesOnDeck  );
-				
+
+		assertThat(enemiesOnTable).isEqualTo(3);
+		assertThat(enemiesOnDeck).isEqualTo(10);
+
 	}
 	
 	@Test
 	void testFindEnemyOfGamesEnemies() {
-		EnemyCard enemy = NewEnemyCard(0, 0, 0, 0, "easdasds", "uasdasdrl");
-		enemyCardService.createEnemyCard(enemy);
 		
 		Game game = gameConstructor(1, LocalDate.now(), 10, false);
 		gameService.createGame(game);
 
-		assertTrue(enemyCardService.findOnTableEnemiesByGame(game).size() == 3);
+		List<EnemyCard> ge = gamesEnemiesService.findAllInGame(game).stream()
+						.map(gameEnemy -> enemyCardService.findEnemyOfGamesEnemies(gameEnemy).get()).collect(Collectors.toList());
+
+		assertTrue(ge.containsAll(game.getEnemies()));
 	}
 
 	@Test

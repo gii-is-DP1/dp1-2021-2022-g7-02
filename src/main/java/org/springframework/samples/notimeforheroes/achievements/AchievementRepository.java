@@ -1,6 +1,7 @@
 package org.springframework.samples.notimeforheroes.achievements;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,8 @@ public interface AchievementRepository extends CrudRepository<Achievement, Integ
 	Page<Achievement> findAll(Pageable page);	
 	
 	Collection<Achievement> findAll();
+
+	List<Achievement> findAllByName(String name);
 	
 
 	
