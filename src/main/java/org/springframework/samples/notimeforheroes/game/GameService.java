@@ -162,12 +162,12 @@ public class GameService {
 		for (User user : game.getUsers()) {
 			GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
 			gameUser.setGlory(gameUser.getGlory() + gameUser.getGold() / 3);
-			gameUser.setGold(gameUser.getGold() % 3);
+			gameUser.setGold(gameUser.getGold() / 3);
 			gameUserService.saveGameUser(gameUser);
 			players.put(gameUser.getGlory(), user);
 		}
 		players.entrySet().stream().sorted(Map.Entry.<Integer, User>comparingByKey());
-
+		
 		return players;
 	}
 	//

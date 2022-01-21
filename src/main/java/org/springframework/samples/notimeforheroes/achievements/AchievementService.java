@@ -76,8 +76,11 @@ public class AchievementService {
 			achievementsRepo.save(achievement);
 	}
 	
-	public List<Boolean> achievedAchievement(){ 
-			List<Achievement> achievements=(List<Achievement>) achievementsRepo.findAll();
+	public List<Boolean> achievedAchievement(Integer pageNo, Integer pageSize){ 
+			Pageable pagin = PageRequest.of(pageNo, pageSize);
+			List<Achievement> achievements = new ArrayList<Achievement>();
+			Page<Achievement> pageResult = achievementsRepo.findAll(pagin);
+			achievements.addAll(pageResult.getContent());
 			List<Boolean> res=new ArrayList<Boolean>();
             for(int i=0;i<achievements.size(); i++) {
                 AchievementType type=achievements.get(i).getType();

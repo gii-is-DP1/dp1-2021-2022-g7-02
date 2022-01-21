@@ -26,7 +26,7 @@ public class AchievementController {
 		model.addAttribute("achievement", lista);
 		model.addAttribute("pag", pageNo);
 		model.addAttribute("lastPag", lastPage);
-		model.addAttribute("results", achievementService.achievedAchievement());
+		model.addAttribute("results", achievementService.achievedAchievement(pageNo,3));
 		return ACHIEVEMENTS_LISTING;
 	}
 	
@@ -34,7 +34,6 @@ public class AchievementController {
 	@GetMapping
 	public String listAchievements(ModelMap model) {
 		model.addAttribute("achievement", achievementService.findAll());
-		model.addAttribute("results", achievementService.achievedAchievement());
 		return ACHIEVEMENTS_LISTING;
 		
 	}
