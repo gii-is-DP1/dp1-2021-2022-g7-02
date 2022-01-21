@@ -23,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${players}" var="player" varStatus="status">
+            <c:forEach items="${ranking}" var="player" varStatus="status">
                 <tr>
                     <td>
                         <c:out value="${status.count}"/>

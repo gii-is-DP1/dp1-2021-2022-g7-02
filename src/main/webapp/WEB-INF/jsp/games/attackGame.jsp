@@ -11,7 +11,12 @@
         <c:forEach items="${players}" var="playerTable">
             <div class="col-md-3">
                 <div class="row">
-                    <h1 style="color: rgb(223, 145, 0); text-decoration: underline; font-weight: bold;"><c:out value="${userService.findByGameUser(playerTable).getUsername()}"></c:out></h1>
+                    <div class="col-md-3">
+                        <h1 style="display: inline-block; color: rgb(223, 145, 0); text-decoration: underline; font-weight: bold;"><c:out value="${userService.findByGameUser(playerTable).getUsername()}"></c:out></h1>
+                    </div>
+                    <div class="col-md-3">
+                        <h1 style="display: inline-block; color: rgb(223, 145, 0);">(<c:out value="${playerTable.getHeroe().getName()}"></c:out>)</h1>
+                    </div>                    
                 </div>
                 <div class="row">
                     <h2 style="color: rgb(0, 232, 8);">Vida: <c:out value="${playerTable.getHeroeHealth()}"></c:out></h2>
