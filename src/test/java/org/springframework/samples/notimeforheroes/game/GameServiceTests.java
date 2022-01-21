@@ -31,6 +31,7 @@ import org.springframework.samples.notimeforheroes.game.exceptions.ItemNotSelect
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
+import org.springframework.samples.notimeforheroes.user.UserGlory;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.samples.notimeforheroes.user.UsersServiceTests;
 import org.springframework.samples.notimeforheroes.user.exceptions.DuplicatedUserEmailException;
@@ -431,25 +432,22 @@ public class GameServiceTests {
 		gameService.updateGame(g1);
 
 		GameUser gameUser1 = gameUserService.findByGameAndUser(g1, this.user1).orElse(null);
-		gameUser1.setGlory(100);
-		gameUser1.setGold(6);
+		gameUser1.setGlory(22);
+		gameUser1.setGold(1);
 		gameUserService.saveGameUser(gameUser1);
 
 		GameUser gameUser2 = gameUserService.findByGameAndUser(g1, this.user2).orElse(null);
-		gameUser2.setGlory(101);
-		gameUser2.setGold(6);
+		gameUser2.setGlory(26);
+		gameUser2.setGold(1);
 		gameUserService.saveGameUser(gameUser2);
 
-		Map<Integer, User> clasi = gameService.getClassification(g1);
-		Map<Integer, User> resEsperado = new HashMap<Integer, User>();
-		resEsperado.put(103, this.user2);
-		resEsperado.put(102, this.user1);
+		List<UserGlory> clasi = gameService.getClassification(g1);
 
 		//
-		assertTrue(clasi.equals(resEsperado));
+		assertTrue(clasi.get(0).getUser().equals(this.user2) && clasi.get(1).getUser().equals(this.user1));
 
 		//
-		assertFalse(clasi.get(103).equals(this.user1));
+		assertFalse(clasi.get(0).getUser().equals(this.user1) && clasi.get(1).getUser().equals(this.user2));
 	}
 
 	@Test

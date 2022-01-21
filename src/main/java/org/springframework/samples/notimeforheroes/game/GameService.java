@@ -5,18 +5,22 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-
+import javax.swing.Timer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.Tuple;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.hibernate.jpa.spi.TupleBuilderTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.actions.Action;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
@@ -47,10 +51,13 @@ import org.springframework.samples.notimeforheroes.game.exceptions.ItemNotSelect
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
+import org.springframework.samples.notimeforheroes.user.UserGlory;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import javassist.compiler.ast.Pair;
 
 @Service
 public class GameService {
@@ -87,6 +94,9 @@ public class GameService {
 
 	@Autowired
 	GamesEnemiesService gamesEnemiesService;
+	
+
+	
 
 	public static final Integer MAX_NUMBER_PLAYERS = 4;
 	public static final Integer NUMBER_ENEMIES = 3;
@@ -158,17 +168,33 @@ public class GameService {
 	}
 
 	//
-	public Map<Integer, User> getClassification(Game game) {
-		Map<Integer, User> players = new HashMap<Integer, User>();
+	public List<UserGlory> getClassification(Game game) {
+		List<UserGlory> players = new ArrayList<UserGlory>();
 		for (User user : game.getUsers()) {
 			GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
 			gameUser.setGlory(gameUser.getGlory() + gameUser.getGold() / 3);
 			gameUser.setGold(gameUser.getGold() % 3);
 			gameUserService.saveGameUser(gameUser);
-			players.put(gameUser.getGlory(), user);
+			Integer gloria = gameUser.getGlory();
+			UserGlory userGlory = new UserGlory();
+			userGlory.setGlory(gloria);
+			userGlory.setUser(user);
+			players.add(userGlory);
 		}
-		players.entrySet().stream().sorted(Map.Entry.<Integer, User>comparingByKey());
-
+		players.sort(new Comparator<UserGlory>() {
+            @Override
+            public int compare(UserGlory p1, UserGlory p2) {
+                return p2.getGlory() - p1.getGlory();
+            }
+        });
+		System.out.println(players);
+		User winner = players.get(0).getUser();
+		game.setWinner(winner);
+		game.setIsInProgress(false);
+		gameService.updateGame(game);
+		GameUser guWinner = gameUserService.findByGameAndUser(game, winner).orElse(null);
+		guWinner.setWinner(true);
+		gameUserService.saveGameUser(guWinner);
 		return players;
 	}
 
@@ -214,6 +240,7 @@ public class GameService {
 		game.setUsers(users);
 		game.setIsInProgress(true);
 		gameRepository.save(game);
+        System.out.println("[GAME] Se ha creado la partida " + game.getId());
 
 		// Añade los enemigos a la partida y los pone todos ONDECK menos 3 que pone
 		// ONTABLE
@@ -261,7 +288,8 @@ public class GameService {
 
 		if (game.getUsers().size() < MAX_NUMBER_PLAYERS) {
 			if (!this.findGameInProgressByUser(user).isPresent()) {
-				if (game.getUserPlaying() == null) {
+				if(game.getUserPlaying() == null){
+	                System.out.println("[GAME] El jugador " + user.getUsername() + " se ha unido a la partida" + game.getId());
 					game.getUsers().add(user);
 					this.updateGame(game);
 				} else {
@@ -284,6 +312,7 @@ public class GameService {
 		if (cardsOfSameColor.size() == 0) {
 			// Si no hay nadie que haya elegido una carta de su color, asigna el héroe y las
 			// habilidades al usuario en la partida (gameUser)
+            System.out.println("[GAME] El jugador " + user.getUsername() + " ha elegido al heroe " + heroeCard.getName());
 			GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
 			List<SkillCard> skillCards = (List<SkillCard>) skillCardsService.findByColor(heroeCard.getColor());
 			gameUser.setHeroe(heroeCard);
@@ -344,16 +373,18 @@ public class GameService {
 
 		if (!game.getUserPlaying().equals(user)) {
 			throw new Exception();
-		} else if (itemId.isPresent()) {
-			Optional<MarketCard> itemOp = marketCardService.findById(itemId.get());
-			GameMarket itemInGame = gameMarketService.findOneItemInGame(game, itemId.get());
-			MarketCard item = itemOp.get();
-			int actualGold = gameuser.getGold();
-			int costItem = item.getCost();
-			// Si el user tiene oro suficiente lo compra
-			if (actualGold >= costItem) {
-				// Actualizamos el oro y items del user
-				gameuser.setGold(actualGold - costItem);
+		}
+		else if(itemId.isPresent()) {
+			Optional<MarketCard> itemOp=marketCardService.findById(itemId.get());
+			GameMarket itemInGame =gameMarketService.findOneItemInGame(game, itemId.get());
+			MarketCard item=itemOp.get();
+			int actualGold=gameuser.getGold();
+			int costItem=item.getCost();
+			//Si el user tiene oro suficiente lo compra
+			if(actualGold>=costItem) {
+	            System.out.println("[BUY] El jugador " + user.getUsername() + " ha comprado la carta " + item.getName());
+				//Actualizamos el oro y items del user
+				gameuser.setGold(actualGold-costItem);
 				gameuser.getItems().add(item);
 				gameUserService.saveGameUser(gameuser);
 
@@ -391,6 +422,7 @@ public class GameService {
 				daño = 0;
 			}
 		}
+        System.out.println("[DEFEND] El jugador " + user.getUsername() + " ha sufrido " + daño + " de daño");
 		GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
 		gamesUsersSkillCardsService.discardCards(game, user, daño);
 		gameUser.setDamageShielded(0);
@@ -429,6 +461,8 @@ public class GameService {
 		game.setUserPlaying(firstUser);
 		game.setGameState(GameState.ATTACKING);
 		this.updateGame(game);
+        System.out.println("[GAME] El jugador " + firstUser.getUsername() + " ha sido elegido como primer jugador de la partida " + gameId );
+
 	}
 
 	@Transactional
@@ -543,6 +577,7 @@ public class GameService {
 			}
 			// pone la skill en el mazo de descarte
 			try {
+		        System.out.println("[ATTACK] El jugador " + user.getUsername() + " ha usado la carta " + skillCard.getName());
 				gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
 			} catch (Exception e) {
 				System.err.println("--Error descartando carta");
@@ -705,6 +740,7 @@ public class GameService {
 						.setEnemyState(EnemyState.ONTABLE);
 			}
 		}
+        System.out.println("[GAME] Se ha terminado el turno de la partida " + game.getId());
 		game.setGameState(GameState.ATTACKING);
 	}
 }
