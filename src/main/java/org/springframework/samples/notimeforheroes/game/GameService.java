@@ -93,7 +93,8 @@ public class GameService {
 	public static final Integer NUMBER_ITEMS_IN_MARKET = 5;
 	public static final Integer NUMBER_ITEMS_OF_MARKET = 15;
 	public static final Integer NUMBER_ITEMS_ON_HAND = 4;
-	
+	public static final Integer MAX_NUMBER_SKILLS_IN_HAND = 4;
+
 	public Collection<Game> findAvailableGames() {
 		return userService.isUserAdmin(userService.getLoggedUser()) ? gameRepository.findAll()
 				: gameRepository.findPublicAndOwn(userService.getLoggedUser());
@@ -170,6 +171,7 @@ public class GameService {
 
 		return players;
 	}
+
 	//
 	public String getGameUrl(Game game) {
 		// Si no está en progreso o no se ha elegido heroe, devuelve waiting/{gameId}
@@ -190,7 +192,6 @@ public class GameService {
 
 	}
 
-	
 	//
 	@Transactional
 	public void createGame(@Valid Game game) {
@@ -255,24 +256,26 @@ public class GameService {
 
 	//
 	@Transactional
-	public void addPlayerToGame(@Valid Game game, User user) throws GameFullException, GameCurrentNotUniqueException, GameAlreadyStartedException {
+	public void addPlayerToGame(@Valid Game game, User user)
+			throws GameFullException, GameCurrentNotUniqueException, GameAlreadyStartedException {
 
 		if (game.getUsers().size() < MAX_NUMBER_PLAYERS) {
 			if (!this.findGameInProgressByUser(user).isPresent()) {
-				if(game.getUserPlaying() == null){
+				if (game.getUserPlaying() == null) {
 					game.getUsers().add(user);
 					this.updateGame(game);
-				}else{
-					throw new GameAlreadyStartedException(); //La partida ya está en curso.
+				} else {
+					throw new GameAlreadyStartedException(); // La partida ya está en curso.
 				}
 			} else {
-				throw new GameCurrentNotUniqueException(); //si el jugador ya está en otra partida en curso											
+				throw new GameCurrentNotUniqueException(); // si el jugador ya está en otra partida en curso
 			}
 		} else {
 			throw new GameFullException(); // Lanza excepción si la partida está llena
 		}
 		gameRepository.save(game);
 	}
+
 	//
 	@Transactional
 	public void selectHeroe(@Valid Game game, User user, String heroe) throws HeroeNotAvailableException {
@@ -290,40 +293,41 @@ public class GameService {
 			gameUser.setHeroeHealth(heroeCard.getMaxHealth());
 			gameUser.setDamageShielded(0);
 
-			
 			// Baraja las cartas de skill
 			Collections.shuffle(skillCards);
-			//Convierte todas las cartas de mercado a skill 
-			//para que cuando sea comprada por el jugador ya este creada la relacion gameuser_skill
-			List<MarketCard> market=(List<MarketCard>) marketCardService.findAll();
-			List<SkillCard> skillMarket=new ArrayList<SkillCard>();
-			for(int i=0; i<market.size();i++) {
+			// Convierte todas las cartas de mercado a skill
+			// para que cuando sea comprada por el jugador ya este creada la relacion
+			// gameuser_skill
+			List<MarketCard> market = (List<MarketCard>) marketCardService.findAll();
+			List<SkillCard> skillMarket = new ArrayList<SkillCard>();
+			for (int i = 0; i < market.size(); i++) {
 				skillMarket.add(marketCardService.marketToSkill(market.get(i)));
 			}
 			Collections.shuffle(skillMarket);
 			skillCards.addAll(0, skillMarket);
-			
+
 			gameUser.setSkillCards(skillCards);
 
 			gameUserService.saveGameUser(gameUser);
 
 			// Pone 4 cartas de skill ONHAND (por
 			// defecto están ONDECK) y al resto ONDECK
-			//Tambien pone a las de mercado ONMARKET que en la lista son las primeras 15 
-			//ya que son añadidas al principio de la lista skills tras barajar esta para que esten aleatorias
+			// Tambien pone a las de mercado ONMARKET que en la lista son las primeras 15
+			// ya que son añadidas al principio de la lista skills tras barajar esta para
+			// que esten aleatorias
 			for (int i = 0; i < NUMBER_ITEMS_OF_MARKET; i++) {
 				GamesUsersSkillCards card = gamesUsersSkillCardsService
 						.findByGameUserSkill(game, user, skillCards.get(i)).get();
 				card.setSkillState(SkillState.ONMARKET);
 				gamesUsersSkillCardsService.saveGameUserSkillCard(card);
 			}
-			for (int i = NUMBER_ITEMS_OF_MARKET; i < NUMBER_ITEMS_OF_MARKET+NUMBER_ITEMS_ON_HAND; i++) {
+			for (int i = NUMBER_ITEMS_OF_MARKET; i < NUMBER_ITEMS_OF_MARKET + NUMBER_ITEMS_ON_HAND; i++) {
 				GamesUsersSkillCards card = gamesUsersSkillCardsService
 						.findByGameUserSkill(game, user, skillCards.get(i)).get();
 				card.setSkillState(SkillState.ONHAND);
 				gamesUsersSkillCardsService.saveGameUserSkillCard(card);
 			}
-			for (int i =  NUMBER_ITEMS_OF_MARKET+NUMBER_ITEMS_ON_HAND; i < skillCards.size(); i++) {
+			for (int i = NUMBER_ITEMS_OF_MARKET + NUMBER_ITEMS_ON_HAND; i < skillCards.size(); i++) {
 				GamesUsersSkillCards card = gamesUsersSkillCardsService
 						.findByGameUserSkill(game, user, skillCards.get(i)).get();
 				card.setSkillState(SkillState.ONDECK);
@@ -332,55 +336,58 @@ public class GameService {
 			throw new HeroeNotAvailableException();
 		}
 	}
-	
+
 	@Transactional
-	public void buyMarketItem(@Valid Game game, User user, Optional<Integer> itemId) throws DontHaveEnoughGoldToBuyException, ItemNotSelectedException, Exception{
-		GameUser gameuser =gameUserService.findByGameAndUser(game, user).get();
+	public void buyMarketItem(@Valid Game game, User user, Optional<Integer> itemId)
+			throws DontHaveEnoughGoldToBuyException, ItemNotSelectedException, Exception {
+		GameUser gameuser = gameUserService.findByGameAndUser(game, user).get();
 
 		if (!game.getUserPlaying().equals(user)) {
 			throw new Exception();
-		}
-		else if(itemId.isPresent()) {
-			Optional<MarketCard> itemOp=marketCardService.findById(itemId.get());
-			GameMarket itemInGame =gameMarketService.findOneItemInGame(game, itemId.get());
-			MarketCard item=itemOp.get();
-			int actualGold=gameuser.getGold();
-			int costItem=item.getCost();
-			//Si el user tiene oro suficiente lo compra
-			if(actualGold>=costItem) {
-				//Actualizamos el oro y items del user
-				gameuser.setGold(actualGold-costItem);
+		} else if (itemId.isPresent()) {
+			Optional<MarketCard> itemOp = marketCardService.findById(itemId.get());
+			GameMarket itemInGame = gameMarketService.findOneItemInGame(game, itemId.get());
+			MarketCard item = itemOp.get();
+			int actualGold = gameuser.getGold();
+			int costItem = item.getCost();
+			// Si el user tiene oro suficiente lo compra
+			if (actualGold >= costItem) {
+				// Actualizamos el oro y items del user
+				gameuser.setGold(actualGold - costItem);
 				gameuser.getItems().add(item);
 				gameUserService.saveGameUser(gameuser);
-				
-				//Cambiamos de estado de la carta de mercado en la baraja del user para ponerla en el mazo
-				SkillCard newSkill=marketCardService.marketToSkill(item);
+
+				// Cambiamos de estado de la carta de mercado en la baraja del user para ponerla
+				// en el mazo
+				SkillCard newSkill = marketCardService.marketToSkill(item);
 				GamesUsersSkillCards card = gamesUsersSkillCardsService.findByGameUserSkill(game, user, newSkill).get();
 				card.setSkillState(SkillState.ONDECK);
 				gamesUsersSkillCardsService.saveGameUserSkillCard(card);
-				
-				//Actualizamos el item del market como comprado
+
+				// Actualizamos el item del market como comprado
 				itemInGame.setItemState(ItemState.SOLD);
 				gameMarketService.createGameMarket(itemInGame);
-				
-			} 
-			//Si no tiene oro suficiente salta exception
+
+			}
+			// Si no tiene oro suficiente salta exception
 			else {
 				throw new DontHaveEnoughGoldToBuyException();
 			}
-		}else{
+		} else {
 			throw new ItemNotSelectedException();
 		}
 	}
 
 	@Transactional
 	public void defendHeroe(@Valid Game game, User user) {
-		//Aplica el daño
-		Integer daño = enemyCardService.findOnTableEnemiesByGame(game).stream().map(enemyCard -> gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth()).collect(Collectors.summingInt(Integer::intValue));
-		if(gameUserService.findByGameAndUser(game, user).get().getDamageShielded() != null){
-			if(daño - gameUserService.findByGameAndUser(game, user).get().getDamageShielded() >= 0){
+		// Aplica el daño
+		Integer daño = enemyCardService.findOnTableEnemiesByGame(game).stream()
+				.map(enemyCard -> gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth())
+				.collect(Collectors.summingInt(Integer::intValue));
+		if (gameUserService.findByGameAndUser(game, user).get().getDamageShielded() != null) {
+			if (daño - gameUserService.findByGameAndUser(game, user).get().getDamageShielded() >= 0) {
 				daño -= gameUserService.findByGameAndUser(game, user).get().getDamageShielded();
-			}else{
+			} else {
 				daño = 0;
 			}
 		}
@@ -401,6 +408,7 @@ public class GameService {
 	public void deleteGame(Game game) {
 		gameRepository.deleteById(game.getId());
 	}
+
 	//
 	@Transactional
 	public void selectFirstPlayer(Integer gameId) {
@@ -445,19 +453,30 @@ public class GameService {
 			// Comprobamos si la carta requiere lógica adicional
 			switch (skillCard.getId()) {
 
-				case 4:case 5:case 6:case 7:case 8:case 9:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+				case 9:
 					skillCardsService.useDisparoRápido(enemiesTargetedList, game, user, skillCard);
-					break;	
-				case 11:case 12:
+					break;
+				case 11:
+				case 12:
 					skillCardsService.useLluviaDeFlechas(enemiesTargetedList, game, user, skillCard);
 					break;
-				case 13:case 14:
+				case 13:
+				case 14:
 					skillCardsService.useRecogerFlechas(game, user, skillCard);
 					break;
-				case 20: case 21:
+				case 20:
+				case 21:
 					skillCardsService.useEscudo(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
-				case 22: case 23: case 24: case 25:
+				case 22:
+				case 23:
+				case 24:
+				case 25:
 					skillCardsService.useEspadazo(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
 				case 28:
@@ -472,13 +491,17 @@ public class GameService {
 				case 31:
 					skillCardsService.useBolaDeFuego(game, user, skillCard);
 					break;
-				case 32: case 33:
+				case 32:
+				case 33:
 					skillCardsService.useDisparoGelido(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
 				case 34:
 					skillCardsService.useFlechaCorrosiva(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
-				case 35: case 36: case 37: case 38: 
+				case 35:
+				case 36:
+				case 37:
+				case 38:
 					skillCardsService.useGolpeDeBaston(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
 				case 39:
@@ -487,13 +510,18 @@ public class GameService {
 				case 44:
 					skillCardsService.useTorrenteDeLuz(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
-				case 45: case 46:
+				case 45:
+				case 46:
 					skillCardsService.useAlCorazon(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
-				case 47: case 48: case 49:
+				case 47:
+				case 48:
+				case 49:
 					skillCardsService.useAtaqueFurtivo(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
-				case 50: case 51: case 52:
+				case 50:
+				case 51:
+				case 52:
 					skillCardsService.useBallestaPrecisa(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
 				case 55:
@@ -502,13 +530,14 @@ public class GameService {
 				case 56:
 					skillCardsService.useRobarBolsillos(game, user, skillCard);
 					break;
-				case 57: case 58:
+				case 57:
+				case 58:
 					skillCardsService.useSaqueo(game, user, skillCard);
 					break;
 				case 63:
 					skillCardsService.useCapaElfica(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
-				default://Si no requiere lógica adicional
+				default:// Si no requiere lógica adicional
 					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);
 					break;
 			}
@@ -519,7 +548,7 @@ public class GameService {
 				System.err.println("--Error descartando carta");
 				e.printStackTrace();
 			}
-			
+
 		} else {
 			throw new CardNotSelectedException();
 		}
@@ -557,7 +586,8 @@ public class GameService {
 	}
 
 	@Transactional
-	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies) throws Exception {
+	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies)
+			throws Exception {
 
 		for (Action action : actions) {
 			switch (action.getType()) {
@@ -600,7 +630,7 @@ public class GameService {
 					}
 					break;
 				case GAINLIFE:
-						gamesUsersSkillCardsService.gainLife(game, user, action.getCantidad());
+					gamesUsersSkillCardsService.gainLife(game, user, action.getCantidad());
 					break;
 				case DEFENSE:
 					gamesUsersSkillCardsService.defendDamage(game, user, action.cantidad);
@@ -628,66 +658,51 @@ public class GameService {
 		User newUser = users.get(newIndex);
 		game.setUserPlaying(newUser);
 
-		// Skippea el jugador si está muerto
-		//while (gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0) {
-		//	newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
-		//			: (users.indexOf(game.getUserPlaying()) + 1);
-		//}
-		if(gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth()<=0){
-			if(users.indexOf(game.getUserPlaying()) + 1 >= users.size()){
+		// Pasa al siguiente jugador si el nuevo está muerto (se volverá a llamar a
+		// endTurn si este también está muerto)
+		if (gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0) {
+			if (users.indexOf(game.getUserPlaying()) + 1 >= users.size()) {
 				newUser = users.get(0);
-			}else{
+			} else {
 				newUser = users.get(newIndex);
-			} 
+			}
 		}
 		game.setUserPlaying(newUser);
 
 		// Rellena las cartas del nuevo jugador
 
 		gamesUsersSkillCardsService.drawCards(game, newUser,
-				4 - skillCardsService.findAllAvailableSkillsByGameAndUser(game, newUser).size());
+				MAX_NUMBER_SKILLS_IN_HAND - skillCardsService.findAllAvailableSkillsByGameAndUser(game, newUser).size());
 
 		// Rellena la tienda con 5 objetos si alguno fue comprado
 		List<MarketCard> onTableMarket = (List<MarketCard>) marketCardService.findAllByGameAndOnTable(game);
 		List<MarketCard> onDeckMarket = (List<MarketCard>) marketCardService.findByGameOnDeck(game);
 		if (onTableMarket.size() < NUMBER_ITEMS_IN_MARKET) {
-
+			
 			int marketToTable = NUMBER_ITEMS_IN_MARKET - onTableMarket.size();
-
-			if (onDeckMarket.size() < marketToTable) {
-				for (int i = 0; i < onDeckMarket.size(); i++) {
-					gameMarketService.findOneItemInGame(game, onDeckMarket.get(i).getId())
-							.setItemState(ItemState.ONTABLE);
-				}
+			marketToTable = (onDeckMarket.size() >= marketToTable) ? marketToTable : onDeckMarket.size();
+			for (int i = 0; i < marketToTable; i++) {
+				gameMarketService.findOneItemInGame(game, onDeckMarket.get(i).getId())
+						.setItemState(ItemState.ONTABLE);
 			}
 
-			else {
-				for (int i = 0; i < marketToTable; i++) {
-					gameMarketService.findOneItemInGame(game, onDeckMarket.get(i).getId())
-							.setItemState(ItemState.ONTABLE);
-				}
-			}
 		}
 		// Rellena la arena con 3 enemigos si alguno fue eliminado
 		List<EnemyCard> onTableEnemies = (List<EnemyCard>) enemyCardService.findOnTableEnemiesByGame(game);
 		List<EnemyCard> onDeckEnemies = (List<EnemyCard>) enemyCardService.findOnDeckEnemiesByGame(game);
 		if (onTableEnemies.size() < NUMBER_ENEMIES) {
 			int enemiesToTable = NUMBER_ENEMIES - onTableEnemies.size();
-			if(onDeckEnemies.size()>=0){
-				System.out.println("renueva enemigos");
-				if (onDeckEnemies.size() < enemiesToTable) {
-					for (int t = 0; t < onDeckEnemies.size(); t++) {
-						gamesEnemiesService.findByGameAndEnemy(game, onDeckEnemies.get(t)).get()
-								.setEnemyState(EnemyState.ONTABLE);
-					}
+			enemiesToTable = (onDeckEnemies.size() >= enemiesToTable) ? enemiesToTable : onDeckEnemies.size();
+			for (int t = 0; t < enemiesToTable; t++) {
+				EnemyCard enemyAdded = onDeckEnemies.get(t);
+				if(enemyAdded.getId() == 14){	//Si es el boss 2 le da uno de vida a todos los enemigos
+					onTableEnemies.stream().map(e -> gamesEnemiesService.findByGameAndEnemy(game, e).get()).forEach(gameEnemy -> {
+						gameEnemy.setHealth(gameEnemy.getHealth() + 1);
+						gamesEnemiesService.saveGamesEnemies(gameEnemy);
+					});
 				}
-			
-				else {
-					for (int t = 0; t < enemiesToTable; t++) {
-						gamesEnemiesService.findByGameAndEnemy(game, onDeckEnemies.get(t)).get()
-								.setEnemyState(EnemyState.ONTABLE);
-					}
-				}
+				gamesEnemiesService.findByGameAndEnemy(game, enemyAdded).get()
+						.setEnemyState(EnemyState.ONTABLE);
 			}
 		}
 		game.setGameState(GameState.ATTACKING);
