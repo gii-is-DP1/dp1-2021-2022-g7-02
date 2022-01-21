@@ -100,9 +100,6 @@ public class GameController {
 	@Autowired
 	GamesUsersSkillCardsService gameUserSkillCardsService;
 
-	Timer timer;
-	int second;
-	boolean countOn=false;
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
@@ -192,8 +189,6 @@ public class GameController {
 			return GAMES_WINNER;
 		}
 	}
-
-
 	
 	@GetMapping("/{gameId}/defense")
 	public String listDefendGame(ModelMap model, @PathVariable("gameId") int gameId) throws Exception {
@@ -213,8 +208,6 @@ public class GameController {
 		Game game = gameService.findById(gameId).get();
 		if (game.getUserPlaying().equals(userService.getLoggedUser()) && game.getIsInProgress()) {
 			gameService.endTurn(game);
-			timer.stop();
-			countOn=false;
 			return "redirect:/games/" + gameId;
 		} else {
 			model.addAttribute("message", "No puedes cambiar de turno en este momento");
@@ -223,11 +216,25 @@ public class GameController {
 		return gamePlaying(model, gameId, response);
 	}
 
+	@RequestMapping("/{gameId}/deletePlayer/{playerId}")
+	public String deletePlayer(ModelMap model, @PathVariable("gameId") Integer gameId,@PathVariable("playerId") Integer userId, HttpServletResponse response) throws Exception{
+		User user= userService.findById(userId).get();
+		Game game = gameService.findById(gameId).get();
+		GameUser gameUser= gameUserService.findByGameAndUser(game, user).get();
+		List<GameUser> listGameUsers=gameUserService.findAllByGame(game);
+		if(listGameUsers.contains(gameUser)){
+			gameService.endTurn(game);
+			gameUserService.deleteGameUser(gameUser);	
+		}
+		return "redirect:/games/"+gameId;
+
+	}
 	@GetMapping("/{gameId}")
 	public String gamePlaying(ModelMap model, @PathVariable("gameId") int gameId, HttpServletResponse response) throws Exception {
 
 		Game game = gameService.findById(gameId).get();
 		User user = userService.getLoggedUser();
+		User creator= game.getCreator();
 		Optional<GameUser> playerOpt = gameUserService.findByGameAndUser(game, user);
 		if(enemyCardService.countOnDeckEnemiesByGame(game) == 0 && enemyCardService.countOnTableEnemiesByGame(game)==0){
 			return "redirect:/games/endGame/{gameId}/" + true;
@@ -239,8 +246,8 @@ public class GameController {
 			model.addAttribute("message", "You don't belong to this game!");
 			return listGames(model);
 		}
+
 		GameUser player = playerOpt.get();
-		
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
 		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
 		enemiesOnTable.stream().forEach(
@@ -251,12 +258,10 @@ public class GameController {
 		model.addAttribute("enemies", enemiesOnTable);
 		model.addAttribute("game", game);
 		model.addAttribute("user", user);
+		model.addAttribute("creator",creator);
 		model.addAttribute("player", player);
 		model.addAttribute("players", gameUserService.findAllByGame(game));
 		model.addAttribute("userService", userService);
-		if(user==game.getUserPlaying()&& !countOn){
-			fiveMinutesTimer(model,game,user,player);		
-		}
 
 		//Si el jugador no está jugando, siempre irá a attackview
 		if(!game.getUserPlaying().equals(userService.getLoggedUser())){
@@ -267,7 +272,6 @@ public class GameController {
 		//Si el jugador está muerto, salta turno y se queda en attackview
 		if(player.getHeroeHealth()<=0){
 			gameService.endTurn(game);
-			countOn=false;
 			if(!game.getUserPlaying().equals(userService.getLoggedUser())){
 				response.addHeader("Refresh", "1");
 			}
@@ -374,29 +378,6 @@ public class GameController {
 			default:
 				throw new Exception();
 		}
-	}
-
-	private void fiveMinutesTimer(ModelMap model,Game game, User user, GameUser player) throws InterruptedException {
-		second=300;
-		simpleTimer(model,player,game);
-		timer.start();
-		countOn=true;
-	}
-
-	private void simpleTimer(ModelMap model,GameUser player, Game game) {
-		timer = new Timer(1000, new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				second--;
-				if(second==0){
-					player.setHeroeHealth(0);
-					//gameUserService.saveGameUser(player);
-					timer.stop();					
-				}
-			}
-		});
-
 	}
 
 	@GetMapping("/{gameId}/escape")
