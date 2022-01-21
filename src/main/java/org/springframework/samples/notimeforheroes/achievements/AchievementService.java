@@ -3,6 +3,8 @@ package org.springframework.samples.notimeforheroes.achievements;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -61,14 +63,9 @@ public class AchievementService {
 	@Transactional(rollbackOn = DuplicatedAchievementNameException.class)
 	public void saveAchievement(Achievement achievement)
 			throws DataAccessException, DuplicatedAchievementNameException {
-		List<String> names = new ArrayList<String>();
-		List<Achievement> achievements = (List<Achievement>) this.findAll();
-		for (int i = 0; i < achievements.size(); i++) {
-			names.add(achievements.get(i).getName());
-			if (!achievements.get(i).getId().equals(achievement.getId()))
-				names.add(achievements.get(i).getName());
-		}
-		if (names.contains(achievement.getName())) {
+		List<String> names = achievementsRepo.findAllByName(achievement.getName()).stream()
+											.map(ac -> ac.getName()).collect(Collectors.toList());
+		if (names.size() != 0) {
 			throw new DuplicatedAchievementNameException();
 		} else
 			achievementsRepo.save(achievement);

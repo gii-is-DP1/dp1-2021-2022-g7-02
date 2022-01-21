@@ -2,6 +2,7 @@ package org.springframework.samples.notimeforheroes.achievements;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,14 +34,41 @@ public class AchievementsServiceTests {
 		achievement.setNumberAchievement(5);
 		achievement.setType(AchievementType.PLAY);
 		achievementsService.saveAchievement(achievement);
-		Integer achievementN1 = achievementsService.findAll().size();
-		assertTrue(achievementN1 == achievementN + 1);
+		Collection<Achievement> achievementsFinal = achievementsService.findAll();
+		assertTrue(achievementsFinal.size() == achievementN + 1);
+		assertTrue(achievementsFinal.contains(achievement));
 	}
 
 	@Test
-	void testNoAchievement() {
-		Collection<Achievement> achievements = achievementsService.findAll();
-		for (Achievement ac : achievements) {
+	void testFindPage() throws DataAccessException, DuplicatedAchievementNameException{
+		Achievement achievement1 = new Achievement();
+		achievement1.setName("Ach 1");
+		achievement1.setDescription("Ach 1");
+		achievement1.setNumberAchievement(1);
+		achievement1.setType(AchievementType.PLAY);
+		achievementsService.saveAchievement(achievement1);
+
+		Achievement achievement2 = new Achievement();
+		achievement2.setName("Ach 2");
+		achievement2.setDescription("Ach 2");
+		achievement2.setNumberAchievement(2);
+		achievement2.setType(AchievementType.PLAY);
+		achievementsService.saveAchievement(achievement2);
+
+		Achievement achievement3 = new Achievement();
+		achievement3.setName("Ach 3");
+		achievement3.setDescription("Ach 3");
+		achievement3.setNumberAchievement(3);
+		achievement3.setType(AchievementType.PLAY);
+		achievementsService.saveAchievement(achievement3);
+
+		assertThat(achievementsService.findAllPage(0, 2).size()).isEqualTo(2);
+	}
+
+	@Test
+	void testNoAchievement() throws DataAccessException, DuplicatedAchievementNameException {
+		Achievement achievement1 = new Achievement();achievement1.setName("Ach 1");achievement1.setDescription("Ach 1");achievement1.setNumberAchievement(1);achievement1.setType(AchievementType.PLAY);achievementsService.saveAchievement(achievement1);
+		for (Achievement ac : achievementsService.findAll()) {
 			achievementsService.deleteAchievement(ac);
 		}
 		assertThat(achievementsService.findAll().isEmpty()).isTrue();

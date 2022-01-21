@@ -25,6 +25,7 @@ import org.springframework.samples.notimeforheroes.enemycard.EnemyCardServiceTes
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
 import org.springframework.samples.notimeforheroes.marketcard.MarketCardServiceTest;
+import org.springframework.samples.notimeforheroes.user.User;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.stereotype.Service;
 
@@ -103,5 +104,16 @@ public class GameEnemiesServiceTest {
 
 	        return g;
 	    }
+
+		public static User userConstructor(String lastname, String name, String username, String email, String password) {
+			User u = new User();
+			u.setEmail(email);
+			u.setLastname(lastname);
+			u.setPassword(password);
+			u.setUsername(username);
+			u.setName(name);
+	
+			return u;
+		}
     
 }
