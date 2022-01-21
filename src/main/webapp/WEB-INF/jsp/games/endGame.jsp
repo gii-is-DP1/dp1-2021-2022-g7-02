@@ -28,10 +28,10 @@
                             <c:out value="${status.count}"></c:out>
                         </td>
                         <td>
-                            <c:out value="${player.value}"/>
+                            <c:out value="${player.getUser()}"/>
                         </td>
                         <td>
-                            <c:out value="${player.key}"/>
+                            <c:out value="${player.getGlory()}"/>
                         </td>
                     </tr>
                 </c:forEach> 

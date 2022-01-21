@@ -35,6 +35,7 @@ import org.springframework.samples.notimeforheroes.game.exceptions.NotAuthentica
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
+import org.springframework.samples.notimeforheroes.user.UserGlory;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -175,12 +176,7 @@ public class GameController {
 		Game game = gameService.findById(gameId).orElse(null);
 
 		if(hordaDerrotada == true && enemyCardService.countOnTableEnemiesByGame(game)==0){
-			Map<Integer, User> players = gameService.getClassification(game);
-			User winner = players.get(players.keySet().toArray()[0]);
-
-			game.setWinner(winner);
-			game.setIsInProgress(false);
-			gameService.updateGame(game);
+			List<UserGlory> players = gameService.getClassification(game);
 			model.addAttribute("hordaDerrotada", hordaDerrotada);
 			model.addAttribute("players", players);
 			return GAMES_WINNER;
