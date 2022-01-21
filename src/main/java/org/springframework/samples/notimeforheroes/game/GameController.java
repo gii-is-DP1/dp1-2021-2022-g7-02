@@ -67,6 +67,7 @@ public class GameController {
 	public static final String GAMES_WINNER = "games/endGame";
 	public static final String RANKING = "games/playersRanking";
 	public static final String DEFEND_VIEW = "games/defendGame";
+	public static Integer TIME_INICIO = 0;
 
 	@Autowired
 	GameService gameService;
@@ -100,7 +101,13 @@ public class GameController {
 
 	@Autowired
 	GamesUsersSkillCardsService gameUserSkillCardsService;
-
+	
+	
+	public long timer() {
+		long startTime = System.currentTimeMillis();
+		return startTime;
+	}
+	
 	@GetMapping()
 	public String listGames(ModelMap model) {
 		model.addAttribute("games", gameService.findAvailableGames());
@@ -169,7 +176,6 @@ public class GameController {
 
 	@GetMapping("/endGame/{gameId}/{hordaDerrotada}")
 	public String selectWinner(ModelMap model, @PathVariable("gameId") int gameId, @PathVariable("hordaDerrotada") Boolean hordaDerrotada) {
-
 		Game game = gameService.findById(gameId).orElse(null);
 
 		if(hordaDerrotada == true && enemyCardService.countOnTableEnemiesByGame(game)==0){
@@ -233,8 +239,14 @@ public class GameController {
 		User creator= game.getCreator();
 		Optional<GameUser> playerOpt = gameUserService.findByGameAndUser(game, user);
 		if(enemyCardService.countOnDeckEnemiesByGame(game) == 0 && enemyCardService.countOnTableEnemiesByGame(game)==0){
+			Integer time=(int) (timer()-TIME_INICIO);
+			game.setDuration(time);
+			gameService.updateGame(game);
 			return "redirect:/games/endGame/{gameId}/" + true;
 		}else if(gameUserService.findByGameUsersAlive(game).size() == 0){
+			Integer time=(int) (timer()-TIME_INICIO);
+			game.setDuration(time/1000);
+			gameService.updateGame(game);
 			return "redirect:/games/endGame/{gameId}/" + false;
 		}
 
@@ -499,7 +511,7 @@ public class GameController {
 	@PostMapping("/selectPlayerToStart/{gameId}")
 	public String selectPlayerToStart(ModelMap model, @PathVariable("gameId") int gameId, RedirectAttributes redirect,
 			HttpServletResponse response) {
-
+		TIME_INICIO=(int) timer();
 		gameService.selectFirstPlayer(gameId);
 		return selectPlayerToStart(model, gameId, response);
 	}
@@ -557,13 +569,6 @@ public class GameController {
 
 			return "redirect:/games/waiting/" + game.getId();
 		}
-	}
-
-	@GetMapping("/join")
-	public String joinGame(ModelMap model) {
-		User loggedUser = userService.getLoggedUser();
-		model.addAttribute("user", loggedUser);
-		return GAMES_LISTING;
 	}
 
 	@GetMapping("/waiting/{gameId}")
