@@ -276,7 +276,6 @@ public class GameController {
 			response.addHeader("Refresh", "5");
 			return ATTACK_VIEW;
 		}
-
 		//Si el jugador está muerto, salta turno y se queda en attackview
 		if(player.getHeroeHealth()<=0){
 			gameService.endTurn(game);
@@ -285,7 +284,6 @@ public class GameController {
 			}
 			return ATTACK_VIEW;
 		}
-
 		switch (game.getGameState()) {
 			case ATTACKING: {
 				model.addAttribute("hasEscapeToken",
@@ -293,13 +291,11 @@ public class GameController {
 				return ATTACK_VIEW;
 			}
 			case DEFENDING:{
-
 				//Coge el tu heroe y le pone la vida que le queda en esa partida
 				Optional<HeroeCard> heroe = gameUserService.findHeroeOfGameUser(game, user);
-				
 				//numero de cartas que tienes en tu mazo y en la mano para que lo puedas saber
 				Integer numberOfSkillCards = gameUserSkillCardsService.findAllAvailableSkillsandOnTableByGameAndUser(game,user).size();
-				
+
 				game.setGameState(GameState.BUYING);
 				gameService.updateGame(game);
 
@@ -309,13 +305,10 @@ public class GameController {
 				model.addAttribute("numberOfSkillCards", numberOfSkillCards);
 				model.addAttribute("game",game);
 				model.addAttribute("user", user);
-				
 					return DEFEND_VIEW;	
 				}	
 				case BUYING:
-					model.addAttribute("game", game);
 					model.addAttribute("market", marketService.findAllByGameAndOnTable(gameService.findById(gameId).get()));
-					model.addAttribute("user", userService.getLoggedUser());
 					model.addAttribute("gameUser", gameUserService
 							.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
 					return MARKET_VIEW;
