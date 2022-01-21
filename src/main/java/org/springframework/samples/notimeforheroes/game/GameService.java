@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
@@ -175,8 +176,13 @@ public class GameService {
 			userGlory.setUser(user);
 			players.add(userGlory);
 		}
-		Collections.sort(players, (a, b) -> a.getGlory().compareTo(b.getGlory()));
-		Collections.sort(players, Collections.reverseOrder());
+		players.sort(new Comparator<UserGlory>() {
+            @Override
+            public int compare(UserGlory p1, UserGlory p2) {
+                return p2.getGlory() - p1.getGlory();
+            }
+        });
+		System.out.println(players);
 		User winner = players.get(0).getUser();
 		game.setWinner(winner);
 		game.setIsInProgress(false);
@@ -184,7 +190,6 @@ public class GameService {
 		GameUser guWinner = gameUserService.findByGameAndUser(game, winner).orElse(null);
 		guWinner.setWinner(true);
 		gameUserService.saveGameUser(guWinner);
-		
 		return players;
 	}
 	//
