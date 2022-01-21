@@ -469,9 +469,7 @@ public class GameService {
 	public void useCard(Integer skillCardId, Game game, User user, List<Integer> listEnemyCardsSelectedId)
 			throws CardNotSelectedException, IncorrectNumberOfEnemiesException, Exception {
 		// si el usuario que esta jugando no es el usuario correspondiente
-		if (!game.getUserPlaying().equals(user)) {
-			throw new Exception();
-		}
+		if (!game.getUserPlaying().equals(user)) throw new Exception();
 
 		Optional<SkillCard> skillcardOpt = skillCardsService.findById(skillCardId);
 		List<EnemyCard> enemiesTargetedList = listEnemyCardsSelectedId.stream()
@@ -487,87 +485,46 @@ public class GameService {
 			// Comprobamos si la carta requiere lógica adicional
 			switch (skillCard.getId()) {
 
-				case 4:
-				case 5:
-				case 6:
-				case 7:
-				case 8:
-				case 9:
-					skillCardsService.useDisparoRápido(enemiesTargetedList, game, user, skillCard);
-					break;
-				case 11:
-				case 12:
-					skillCardsService.useLluviaDeFlechas(enemiesTargetedList, game, user, skillCard);
-					break;
-				case 13:
-				case 14:
-					skillCardsService.useRecogerFlechas(game, user, skillCard);
-					break;
-				case 20:
-				case 21:
-					skillCardsService.useEscudo(enemiesTargetedList.get(0), game, user, skillCard);
-					break;
-				case 22:
-				case 23:
-				case 24:
-				case 25:
-					skillCardsService.useEspadazo(enemiesTargetedList.get(0), game, user, skillCard);
-					break;
+				case 4:case 5:case 6:case 7:case 8:case 9:
+					skillCardsService.useDisparoRápido(enemiesTargetedList, game, user, skillCard);break;
+				case 11:case 12:
+					skillCardsService.useLluviaDeFlechas(enemiesTargetedList, game, user, skillCard);break;
+				case 13:case 14:
+					skillCardsService.useRecogerFlechas(game, user, skillCard);break;
+				case 20:case 21:
+					skillCardsService.useEscudo(enemiesTargetedList.get(0), game, user, skillCard);break;
+				case 22:case 23:case 24:case 25:
+					skillCardsService.useEspadazo(enemiesTargetedList.get(0), game, user, skillCard);break;
 				case 28:
-					skillCardsService.useTodoONada(enemiesTargetedList.get(0), game, user, skillCard);
-					break;
+					skillCardsService.useTodoONada(enemiesTargetedList.get(0), game, user, skillCard);break;
 				case 29:
-					skillCardsService.useVozDeAliento(game, user, skillCard);
-					break;
+					skillCardsService.useVozDeAliento(game, user, skillCard);break;
 				case 30:
-					skillCardsService.useAuraProtectora(game, user, skillCard);
-					break;
+					skillCardsService.useAuraProtectora(game, user, skillCard);break;
 				case 31:
-					skillCardsService.useBolaDeFuego(game, user, skillCard);
-					break;
-				case 32:
-				case 33:
-					skillCardsService.useDisparoGelido(enemiesTargetedList.get(0), game, user, skillCard);
-					break;
+					skillCardsService.useBolaDeFuego(game, user, skillCard);break;
+				case 32:case 33:
+					skillCardsService.useDisparoGelido(enemiesTargetedList.get(0), game, user, skillCard);break;
 				case 34:
-					skillCardsService.useFlechaCorrosiva(enemiesTargetedList.get(0), game, user, skillCard);
-					break;
-				case 35:
-				case 36:
-				case 37:
-				case 38:
-					skillCardsService.useGolpeDeBaston(enemiesTargetedList.get(0), game, user, skillCard);
-					break;
+					skillCardsService.useFlechaCorrosiva(enemiesTargetedList.get(0), game, user, skillCard);break;
+				case 35:case 36:case 37:case 38:
+					skillCardsService.useGolpeDeBaston(enemiesTargetedList.get(0), game, user, skillCard);break;
 				case 39:
-					skillCardsService.useOrbeCurativo(game, user, skillCard);
-					break;
+					skillCardsService.useOrbeCurativo(game, user, skillCard);break;
 				case 44:
-					skillCardsService.useTorrenteDeLuz(enemiesTargetedList.get(0), game, user, skillCard);
-					break;
-				case 45:
-				case 46:
-					skillCardsService.useAlCorazon(enemiesTargetedList.get(0), game, user, skillCard);
-					break;
-				case 47:
-				case 48:
-				case 49:
-					skillCardsService.useAtaqueFurtivo(enemiesTargetedList.get(0), game, user, skillCard);
-					break;
-				case 50:
-				case 51:
-				case 52:
-					skillCardsService.useBallestaPrecisa(enemiesTargetedList.get(0), game, user, skillCard);
-					break;
+					skillCardsService.useTorrenteDeLuz(enemiesTargetedList.get(0), game, user, skillCard);break;
+				case 45:case 46:
+					skillCardsService.useAlCorazon(enemiesTargetedList.get(0), game, user, skillCard);break;
+				case 47:case 48:case 49:
+					skillCardsService.useAtaqueFurtivo(enemiesTargetedList.get(0), game, user, skillCard);break;
+				case 50:case 51:case 52:
+					skillCardsService.useBallestaPrecisa(enemiesTargetedList.get(0), game, user, skillCard);break;
 				case 55:
-					skillCardsService.useEngañar(game, user, skillCard);
-					break;
+					skillCardsService.useEngañar(game, user, skillCard);break;
 				case 56:
-					skillCardsService.useRobarBolsillos(game, user, skillCard);
-					break;
-				case 57:
-				case 58:
-					skillCardsService.useSaqueo(game, user, skillCard);
-					break;
+					skillCardsService.useRobarBolsillos(game, user, skillCard);break;
+				case 57:case 58:
+					skillCardsService.useSaqueo(game, user, skillCard);break;
 				case 63:
 					skillCardsService.useCapaElfica(enemiesTargetedList.get(0), game, user, skillCard);
 					break;
@@ -576,14 +533,8 @@ public class GameService {
 					break;
 			}
 			// pone la skill en el mazo de descarte
-			try {
-		        System.out.println("[ATTACK] El jugador " + user.getUsername() + " ha usado la carta " + skillCard.getName());
-				gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
-			} catch (Exception e) {
-				System.err.println("--Error descartando carta");
-				e.printStackTrace();
-			}
-
+		    System.out.println("[ATTACK] El jugador " + user.getUsername() + " ha usado la carta " + skillCard.getName());
+			gamesUsersSkillCardsService.discardSkill(game, user, skillCard);
 		} else {
 			throw new CardNotSelectedException();
 		}
