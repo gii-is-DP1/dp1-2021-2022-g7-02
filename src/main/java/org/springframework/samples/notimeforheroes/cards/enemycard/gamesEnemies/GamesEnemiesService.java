@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCardService;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyState;
+import org.springframework.samples.notimeforheroes.cards.skillcard.gamesUsersSkillcards.GamesUsersSkillCardsService;
 import org.springframework.samples.notimeforheroes.game.Game;
 import org.springframework.samples.notimeforheroes.game.GameService;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
@@ -29,6 +30,9 @@ public class GamesEnemiesService {
 
     @Autowired
     GameService gameService;
+
+    @Autowired
+    GamesUsersSkillCardsService gamesUsersSkillCardsService;
 
     public Collection<GamesEnemies> findAll(){
         return gamesEnemiesRepository.findAll();
@@ -57,8 +61,14 @@ public class GamesEnemiesService {
                     //Se aplica el daño
                     gamesEnemies.setHealth(gamesEnemies.getHealth() - damage);
                     System.out.println("[DEBUG]: ENEMIGO DAÑADO CON " + damage + " DE DAÑO Y TIENE " + gamesEnemies.getHealth() + " DE VIDA RESTANTE");
+                    
+                    //El enemigo numero 13 te hace daño cuando le pegas
+                    if(enemyCard.getId()==13) gamesUsersSkillCardsService.discardCards(game, user, 1);  
+                    
+                    //El enemigo numero 15 te recupera una carta si le haces uno de daño
+                    if(enemyCard.getId().equals(15) && damage.equals(1)) gamesUsersSkillCardsService.recoverCards(game, user, 1);
+                    
                     if(gamesEnemies.getHealth() < 1){   //Si el enemigo muere
-
                         //El jugador mata al enemigo y recibe la recompensa
                         gamesEnemies.setEnemyState(EnemyState.DEAD);
                         gameUser.setGold(gameUser.getGold() + enemyCard.getExtraGold());

@@ -92,8 +92,8 @@ public class GamesUsersSkillCardsService {
         }
 
         //Sólo se pueden robar tal que se tengan como máximo 4 en la mano
-        if(cantidad + skillCardsService.findAllAvailableSkillsByGameAndUser(game, user).size() > 4)
-            cantidad = 4 - skillCardsService.findAllAvailableSkillsByGameAndUser(game, user).size();
+        if(cantidad + skillCardsService.findAllAvailableSkillsByGameAndUser(game, user).size() > gameService.MAX_NUMBER_SKILLS_IN_HAND)
+            cantidad = gameService.MAX_NUMBER_SKILLS_IN_HAND - skillCardsService.findAllAvailableSkillsByGameAndUser(game, user).size();
 
         //Roba cartas
         onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
