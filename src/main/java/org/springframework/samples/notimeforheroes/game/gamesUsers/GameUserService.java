@@ -70,14 +70,20 @@ public class GameUserService {
 		return heroeCardsService.findById(heroeId.orElse(-1));
 	}
 
-	@Transactional
-	public void saveGameUser(@Valid GameUser gameUser) {
-		gameUserRepository.save(gameUser);
+	public Collection<SkillCard> findSkillCardsOfGameUser(Game game, User user) {
+		Optional<Integer> heroeId = gameUserRepository.findHeroeOfGameUser(game.getId(), user.getId());
+		String color = heroeCardsService.findById(heroeId.get()).get().getColor();
+		return skillCardService.findByColor(color);
 	}
-	
+
 	@Transactional
 	public void deleteGameUser(GameUser gameUser) {
 		gameUserRepository.deleteById(gameUser.getId());
+	}
+
+	@Transactional
+	public void saveGameUser(@Valid GameUser gameUser) {
+		gameUserRepository.save(gameUser);
 	}
 
 	public Integer getAllGoldByUser(User user) {

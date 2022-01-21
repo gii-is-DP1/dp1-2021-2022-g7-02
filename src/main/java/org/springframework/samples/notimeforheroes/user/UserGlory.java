@@ -1,5 +1,7 @@
 package org.springframework.samples.notimeforheroes.user;
 
+//Clase auxiliar para la realización de la clasificación de jugadores por partida y obtención del ganador
+
 public class UserGlory {
     public User user;
     public Integer glory;
