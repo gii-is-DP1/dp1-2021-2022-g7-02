@@ -13,7 +13,7 @@
 <petclinic:layout pageName="games">
     
     <h2>Unirse a partida privada </h2>
-    <form:form name="join" action="games/join" method="POST">
+    <form:form name="join" action="games" method="POST">
         <div class="form-group has-feedback">
             Join Code:  <input type="text" name="joinCode" placeholder="Type join code"/>
             <input class="btn btn-default" type="submit" value="Join"/>
