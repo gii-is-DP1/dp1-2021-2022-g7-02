@@ -5,18 +5,22 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import javax.swing.Timer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.Tuple;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.hibernate.jpa.spi.TupleBuilderTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.notimeforheroes.actions.Action;
 import org.springframework.samples.notimeforheroes.cards.enemycard.EnemyCard;
@@ -47,10 +51,13 @@ import org.springframework.samples.notimeforheroes.game.exceptions.ItemNotSelect
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUser;
 import org.springframework.samples.notimeforheroes.game.gamesUsers.GameUserService;
 import org.springframework.samples.notimeforheroes.user.User;
+import org.springframework.samples.notimeforheroes.user.UserGlory;
 import org.springframework.samples.notimeforheroes.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import javassist.compiler.ast.Pair;
 
 @Service
 public class GameService {
@@ -160,17 +167,33 @@ public class GameService {
 	}
 
 	//
-	public Map<Integer, User> getClassification(Game game) {
-		Map<Integer, User> players = new HashMap<Integer, User>();
+	public List<UserGlory> getClassification(Game game) {
+		List<UserGlory> players = new ArrayList<UserGlory>();
 		for (User user : game.getUsers()) {
 			GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
 			gameUser.setGlory(gameUser.getGlory() + gameUser.getGold() / 3);
 			gameUser.setGold(gameUser.getGold() % 3);
 			gameUserService.saveGameUser(gameUser);
-			players.put(gameUser.getGlory(), user);
+			Integer gloria = gameUser.getGlory();
+			UserGlory userGlory = new UserGlory();
+			userGlory.setGlory(gloria);
+			userGlory.setUser(user);
+			players.add(userGlory);
 		}
-		players.entrySet().stream().sorted(Map.Entry.<Integer, User>comparingByKey());
-
+		players.sort(new Comparator<UserGlory>() {
+            @Override
+            public int compare(UserGlory p1, UserGlory p2) {
+                return p2.getGlory() - p1.getGlory();
+            }
+        });
+		System.out.println(players);
+		User winner = players.get(0).getUser();
+		game.setWinner(winner);
+		game.setIsInProgress(false);
+		gameService.updateGame(game);
+		GameUser guWinner = gameUserService.findByGameAndUser(game, winner).orElse(null);
+		guWinner.setWinner(true);
+		gameUserService.saveGameUser(guWinner);
 		return players;
 	}
 	//

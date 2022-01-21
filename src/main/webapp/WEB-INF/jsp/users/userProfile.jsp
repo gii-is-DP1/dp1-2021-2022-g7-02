@@ -81,7 +81,8 @@
                             <c:out value="${Month}"/>
                         </td>
                         <td>
-                            <c:out value="${Week/7}"/>
+                            <fmt:formatNumber var="formattedBillableTime" type="number" maxFractionDigits="3" value="${Week/7}" />
+                            <c:out value="${formattedBillableTime}"/>
                         </td>
                     </tr>
             </tbody>
