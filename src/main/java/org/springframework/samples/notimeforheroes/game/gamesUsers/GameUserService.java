@@ -74,6 +74,11 @@ public class GameUserService {
 	public void saveGameUser(@Valid GameUser gameUser) {
 		gameUserRepository.save(gameUser);
 	}
+	
+	@Transactional
+	public void deleteGameUser(GameUser gameUser) {
+		gameUserRepository.deleteById(gameUser.getId());
+	}
 
 	public Integer getAllGoldByUser(User user) {
 		Collection<Integer> gold = gameUserRepository.findAllGoldByUser(user);
