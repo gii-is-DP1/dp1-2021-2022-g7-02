@@ -41,7 +41,6 @@ public class GamesUsersSkillCardsService {
         return gamesUsersSkillCardsRepository.findAll();
     }
 
-
     public Optional<GamesUsersSkillCards> findByGameUserSkill(Game game, User user, SkillCard skillCard){
 
         Optional<GameUser> player = gamesUsersService.findByGameAndUser(game, user);
@@ -93,7 +92,7 @@ public class GamesUsersSkillCardsService {
 
         //Sólo se pueden robar tal que se tengan como máximo 4 en la mano
         if(cantidad + skillCardsService.findAllAvailableSkillsByGameAndUser(game, user).size() > gameService.MAX_NUMBER_SKILLS_IN_HAND)
-            cantidad = gameService.MAX_NUMBER_SKILLS_IN_HAND - skillCardsService.findAllAvailableSkillsByGameAndUser(game, user).size();
+            cantidad = gameService.MAX_NUMBER_SKILLS_IN_HAND - skillCardsService.findAllAvailableSkillsByGameAndUser(game, user).size() + 1;
 
         //Roba cartas
         onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
