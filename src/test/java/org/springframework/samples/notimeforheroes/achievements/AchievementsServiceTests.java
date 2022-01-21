@@ -21,7 +21,7 @@ public class AchievementsServiceTests {
 
 	@Autowired 
 	private AchievementService achievementsService;
-	
+	 
 	@Test
 	void testFindAll() throws DataAccessException, DuplicatedAchievementNameException {
 		Integer achievementN = achievementsService.findAll().size();

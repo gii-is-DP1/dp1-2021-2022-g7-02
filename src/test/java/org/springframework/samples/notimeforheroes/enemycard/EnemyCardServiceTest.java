@@ -137,7 +137,7 @@ public class EnemyCardServiceTest {
 		assertThat(enemyCardService.findAll().size()).isEqualTo(1);
 		assertThat(new ArrayList<>(enemyCardService.findAll()).get(0).getName()).isEqualTo(enemyCard.getName());
 	}
-
+ 
 	@Test
 	void TestMoreThanOneEnemyCard() {
 

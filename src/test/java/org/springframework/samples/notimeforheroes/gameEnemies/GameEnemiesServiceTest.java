@@ -95,6 +95,7 @@ public class GameEnemiesServiceTest {
 	        return gameEnemy;
 		}
 
+		
 	    public Game gameConstructor(int creatorId, LocalDate date, int duration, boolean isInProgress) {
 	        Game g = new Game();
 	        g.setCreator(userService.findById(creatorId).get());
