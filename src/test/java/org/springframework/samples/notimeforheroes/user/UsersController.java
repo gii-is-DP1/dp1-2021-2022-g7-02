@@ -68,7 +68,7 @@ public class UsersController {
 
 	}
 
-    @WithMockUser(value = "spring")
+    @WithMockUser(value = "TEST_USER_ID")
 	@Test
 	void testShowOwner() throws Exception {
 		mockMvc.perform(get("/users", TEST_USER_ID)).andExpect(status().isOk())

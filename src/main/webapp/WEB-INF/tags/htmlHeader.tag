@@ -12,9 +12,9 @@ PetClinic :: a Spring Framework demonstration
     <%-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags --%>
 
     <spring:url value="/resources/images/favicon.png" var="favicon"/>
-    <link rel="shortcut icon" type="image/x-icon" href="${favicon}">
+    <link rel="shortcut icon"  type="image/x-icon" href="${favicon}">
 
-    <title>PetClinic :: a Spring Framework demonstration</title>
+    <title>No Time For Heroes</title>
 
     <%-- CSS generated from LESS --%>
     <spring:url value="/resources/css/petclinic.css" var="petclinicCss"/>
