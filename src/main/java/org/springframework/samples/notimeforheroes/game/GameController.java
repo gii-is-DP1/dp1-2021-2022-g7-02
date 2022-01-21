@@ -240,7 +240,7 @@ public class GameController {
 		Optional<GameUser> playerOpt = gameUserService.findByGameAndUser(game, user);
 		if(enemyCardService.countOnDeckEnemiesByGame(game) == 0 && enemyCardService.countOnTableEnemiesByGame(game)==0){
 			Integer time=(int) (timer()-TIME_INICIO);
-			game.setDuration(time);
+			game.setDuration(time/1000);
 			gameService.updateGame(game);
 			return "redirect:/games/endGame/{gameId}/" + true;
 		}else if(gameUserService.findByGameUsersAlive(game).size() == 0){
@@ -270,7 +270,7 @@ public class GameController {
 		model.addAttribute("player", player);
 		model.addAttribute("players", gameUserService.findAllByGame(game));
 		model.addAttribute("userService", userService);
-
+		model.addAttribute("gameUserService", gameUserService);
 		//Si el jugador no está jugando, siempre irá a attackview
 		if(!game.getUserPlaying().equals(userService.getLoggedUser())){
 			response.addHeader("Refresh", "5");
