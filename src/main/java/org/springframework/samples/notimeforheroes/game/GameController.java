@@ -146,6 +146,29 @@ public class GameController {
 		}
 	}
 
+	@GetMapping("/exitGame")
+    public String exitGame(ModelMap model) {
+
+		User user = userService.getLoggedUser();
+		Game game = gameService.findGameInProgressByUser(user).orElse(null);
+		if(game != null){
+			Collection<User> lista = game.getUsers();
+			GameUser player = gameUserService.findByGameAndUser(game, user).get();
+			gameUserService.deleteGameUser(player);
+			lista.remove(user);
+			game.setUsers(lista);
+			gameService.updateGame(game);
+
+			if(lista.isEmpty()){
+				gameService.deleteGame(game);
+			}
+			return "redirect:/games";
+		}
+		else{
+			return "redirect:/games";
+		}  
+    }
+
 	@GetMapping("/endGame/{gameId}/{hordaDerrotada}")
 	public String selectWinner(ModelMap model, @PathVariable("gameId") int gameId, @PathVariable("hordaDerrotada") Boolean hordaDerrotada) {
 
@@ -153,18 +176,17 @@ public class GameController {
 
 		if(hordaDerrotada == true && enemyCardService.countOnTableEnemiesByGame(game)==0){
 			Map<Integer, User> players = gameService.getClassification(game);
-			System.out.println("ha entrado en el metodo de seleccionar winner");
 			User winner = players.get(players.keySet().toArray()[0]);
-			players.remove(players.keySet().toArray()[0]);
 
 			game.setWinner(winner);
 			game.setIsInProgress(false);
 			gameService.updateGame(game);
 			model.addAttribute("hordaDerrotada", hordaDerrotada);
-			model.addAttribute("winner", winner);
 			model.addAttribute("players", players);
 			return GAMES_WINNER;
-		}else{
+		}
+		else{
+			game.setIsInProgress(false);
 			gameService.updateGame(game);
 			model.addAttribute("hordaDerrotada", hordaDerrotada);
 			return GAMES_WINNER;
@@ -181,20 +203,7 @@ public class GameController {
 		game.setGameState(GameState.DEFENDING);
 		gameService.updateGame(game);
 
-		//Aplica el daño
-		User user = game.getUserPlaying();
-		Integer daño = enemyCardService.findOnTableEnemiesByGame(game).stream().map(enemyCard -> gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth()).collect(Collectors.summingInt(Integer::intValue));
-		if(gameUserService.findByGameAndUser(game, user).get().getDamageShielded() != null){
-			if(daño - gameUserService.findByGameAndUser(game, user).get().getDamageShielded() >= 0){
-				daño -= gameUserService.findByGameAndUser(game, user).get().getDamageShielded();
-			}else{
-				daño = 0;
-			}
-		}
-		GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
-		gameUserSkillCardsService.discardCards(game, user, daño);
-		gameUser.setDamageShielded(0);
-		gameUserService.saveGameUser(gameUser);
+		gameService.defendHeroe(game, userService.getLoggedUser());
 		
 		return "redirect:/games/"+gameId;
 	}
@@ -220,24 +229,18 @@ public class GameController {
 		Game game = gameService.findById(gameId).get();
 		User user = userService.getLoggedUser();
 		Optional<GameUser> playerOpt = gameUserService.findByGameAndUser(game, user);
-
-		if(!playerOpt.isPresent()){		//Si el jugador no pertenece a la partida
-			model.addAttribute("message", "You don't belong to this game!");
-			return listGames(model);
-		}
-		GameUser player = playerOpt.get();
-
-
-		if(player.getHeroeHealth()==0){
-			gameService.endTurn(game);
-			countOn=false;
-		}
 		if(enemyCardService.countOnDeckEnemiesByGame(game) == 0 && enemyCardService.countOnTableEnemiesByGame(game)==0){
 			return "redirect:/games/endGame/{gameId}/" + true;
 		}else if(gameUserService.findByGameUsersAlive(game).size() == 0){
 			return "redirect:/games/endGame/{gameId}/" + false;
 		}
 
+		if(!playerOpt.isPresent()){		//Si el jugador no pertenece a la partida
+			model.addAttribute("message", "You don't belong to this game!");
+			return listGames(model);
+		}
+		GameUser player = playerOpt.get();
+		
 		Collection<SkillCard> skillsAvailable = skillCardsService.findAllAvailableSkillsByGameAndUser(game, user);
 		Collection<EnemyCard> enemiesOnTable = enemyCardService.findOnTableEnemiesByGame(game);
 		enemiesOnTable.stream().forEach(
@@ -261,6 +264,15 @@ public class GameController {
 			return ATTACK_VIEW;
 		}
 
+		//Si el jugador está muerto, salta turno y se queda en attackview
+		if(player.getHeroeHealth()<=0){
+			gameService.endTurn(game);
+			countOn=false;
+			if(!game.getUserPlaying().equals(userService.getLoggedUser())){
+				response.addHeader("Refresh", "1");
+			}
+			return ATTACK_VIEW;
+		}
 
 		switch (game.getGameState()) {
 			case ATTACKING: {
@@ -269,11 +281,9 @@ public class GameController {
 				return ATTACK_VIEW;
 			}
 			case DEFENDING:{
-				GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
 
 				//Coge el tu heroe y le pone la vida que le queda en esa partida
 				Optional<HeroeCard> heroe = gameUserService.findHeroeOfGameUser(game, user);
-				heroe.get().setMaxHealth(gameUser.getHeroeHealth());
 				
 				//numero de cartas que tienes en tu mazo y en la mano para que lo puedas saber
 				Integer numberOfSkillCards = gameUserSkillCardsService.findAllAvailableSkillsandOnTableByGameAndUser(game,user).size();
@@ -302,33 +312,11 @@ public class GameController {
 		}
 	}
 
-	private void fiveMinutesTimer(ModelMap model,Game game, User user, GameUser player) throws InterruptedException {
-		second=300;
-		simpleTimer(model,player,game);
-		timer.start();
-		countOn=true;
-	}
-
-	private void simpleTimer(ModelMap model,GameUser player, Game game) {
-		timer = new Timer(1000, new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				second--;
-				if(second==0){
-					player.setHeroeHealth(0);
-					gameUserService.saveGameUser(player);
-					timer.stop();					
-				}
-			}
-		});
-
-	}
-  
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.POST)
 	public String attackPhase(ModelMap model, @RequestParam(value="skillUsed", required=false) Integer skillCardId,
 			@RequestParam(value="enemySelected") Optional<List<Integer>> listEnemyCardsSelectedId, 
-			@RequestParam(value="itemSelected", required=false) Optional<Integer> id, HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception {
+			@RequestParam(value="itemSelected", required=false) Optional<Integer> id, 
+			HttpServletResponse response, @PathVariable("gameId") Integer gameId) throws Exception {
 		Game game = gameService.findById(gameId).get();	
 		switch (game.getGameState()) {
 			case ATTACKING:
@@ -364,7 +352,11 @@ public class GameController {
 			case BUYING:
 				try {
 					gameService.buyMarketItem(gameService.findById(gameId).get(), userService.getLoggedUser(), id);
-					return "redirect:/games/{gameId}" ;
+					model.addAttribute("game", game);
+					model.addAttribute("market", marketService.findAllByGameAndOnTable(gameService.findById(gameId).get()));
+					model.addAttribute("user", userService.getLoggedUser());
+					model.addAttribute("gameUser", gameUserService.findByGameAndUser(gameService.findById(gameId).get(), userService.getLoggedUser()).get());
+					return "redirect:/games/{gameId}";
 				} catch (DontHaveEnoughGoldToBuyException e) {
 					System.err.println("Excepción DontHaveEnoughGoldToBuy controlada");
 					model.addAttribute("message", "No tienes suficiente dinero para comprar este item");
@@ -381,8 +373,30 @@ public class GameController {
 				}
 			default:
 				throw new Exception();
-
 		}
+	}
+
+	private void fiveMinutesTimer(ModelMap model,Game game, User user, GameUser player) throws InterruptedException {
+		second=300;
+		simpleTimer(model,player,game);
+		timer.start();
+		countOn=true;
+	}
+
+	private void simpleTimer(ModelMap model,GameUser player, Game game) {
+		timer = new Timer(1000, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				second--;
+				if(second==0){
+					player.setHeroeHealth(0);
+					//gameUserService.saveGameUser(player);
+					timer.stop();					
+				}
+			}
+		});
+
 	}
 
 	@GetMapping("/{gameId}/escape")

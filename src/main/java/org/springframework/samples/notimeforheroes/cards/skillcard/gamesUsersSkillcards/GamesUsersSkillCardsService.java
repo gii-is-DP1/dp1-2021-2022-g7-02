@@ -70,22 +70,29 @@ public class GamesUsersSkillCardsService {
     public void drawCards(Game game, User user, Integer cantidad) {
         List<SkillCard> onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
         if(onDeckCards.size() <= cantidad){     //Si le quedan menos cartas en el mazo de las que tiene que robar
+            
             System.out.println("[DRAW] El jugador " + user.getUsername() + " pierde una vida!");
             GameUser player = gamesUsersService.findByGameAndUser(game, user).get();
             //le quito 1 de vida al heroe
-            //falta por concretar como se haria si llega a 0 vidas, para eliminarlo del juego
             player.setHeroeHealth(player.getHeroeHealth() - 1);
-            List<SkillCard> discardedCards = skillCardsService.findAllOnDiscardedSkillsByGameAndUser(game, user);
-            //devuelve todas las cartas del mazo de descarte al mazo
-            discardedCards.stream().forEach(c -> {
+            gamesUsersService.saveGameUser(player);
+            if(player.getHeroeHealth()==0){
+                gameService.endTurn(game);
+            }else{
+                List<SkillCard> discardedCards = skillCardsService.findAllOnDiscardedSkillsByGameAndUser(game, user);
+                //devuelve todas las cartas del mazo de descarte al mazo
+                discardedCards.stream().forEach(c -> {
                 GamesUsersSkillCards gusc = findByGameUserSkill(game, user, c).get();
                 gusc.setSkillState(SkillState.ONDECK);
                 //guardas en el repository el deck completo
                 gamesUsersSkillCardsRepository.save(gusc);
             });
-            //guardas para que la vida de tu heroe se quede guardado
-            gamesUsersService.saveGameUser(player);
+            }
+            
+            
         }
+        
+        onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
         for(int i = 0; i<cantidad; i++){
             GamesUsersSkillCards gusc = findByGameUserSkill(game, user, onDeckCards.get(i)).get();
             System.out.println("[DRAW] El jugador " + user.getUsername() + " ha robado la carta " + onDeckCards.get(i).getName());
@@ -111,10 +118,9 @@ public class GamesUsersSkillCardsService {
             //si el numero de vidas del jugador es 0 pasa al siguiente turno y en el metodo endTurn si el jugador tiene 0 vidas, salta su turno
             if(player.getHeroeHealth()==0){
                 gameService.endTurn(game);
-            }
-
-            //Volver a poner todas las cartas en el mazo
-            skillCardsService.findAllOnDiscardedSkillsByGameAndUser(game, user).stream().forEach(c -> {
+            }else{
+                //Volver a poner todas las cartas en el mazo
+                skillCardsService.findAllOnDiscardedSkillsByGameAndUser(game, user).stream().forEach(c -> {
                 GamesUsersSkillCards gusc = findByGameUserSkill(game, user, c).get();
                 gusc.setSkillState(SkillState.ONDECK);
                 gamesUsersSkillCardsRepository.save(gusc);
@@ -127,6 +133,10 @@ public class GamesUsersSkillCardsService {
                 gusc.setSkillState(SkillState.DISCARD);
                 saveGameUserSkillCard(gusc);
             }
+
+            }
+
+            
         }else{
             for(int i = 0; i<cantidad; i++){
                 GamesUsersSkillCards gusc = findByGameUserSkill(game, user, onDeckCards.get(i)).get();
@@ -196,23 +206,12 @@ public class GamesUsersSkillCardsService {
     }
 
     public void gainLife(Game game, User user, Integer cantidad) throws Exception {
-        Optional<GameUser> gameUserOpt = gamesUsersService.findByGameAndUser(game, user);
-
-        if(gameUserOpt.isPresent()){
-            GameUser gameUser=gameUserOpt.get();
-            //si su vida es menor que la vida maxima
-            if(gameUser.getHeroeHealth()<gameUser.getHeroe().getMaxHealth()){
-                if(gameUser.getHeroeHealth() + cantidad > gameUser.getHeroe().getMaxHealth())
-                    gameUser.setHeroeHealth(gameUser.getHeroe().getMaxHealth());
-                else{
-                    gameUser.setHeroeHealth(gameUser.getHeroeHealth()+cantidad);
-                }
-                    
-                System.out.println("[GAINLIFE] El jugador " + user.getUsername() + " ha ganado " + cantidad + " de vida");  
-            } 
-            gamesUsersService.saveGameUser(gameUser);
-        }else{  //SI EL USER NO ESTÁ EN GAME
-            throw new Exception("Player at game not found");
+        GameUser gameUser = gamesUsersService.findByGameAndUser(game, user).get();
+        Integer currentHealth = gameUser.getHeroeHealth();
+        Integer maxHealth = gameUser.getHeroe().getMaxHealth();
+        if(currentHealth < maxHealth){
+            gameUser.setHeroeHealth(currentHealth + cantidad < maxHealth ? currentHealth + cantidad : maxHealth);
+            System.out.println( String.format("[GAINLIFE] El jugador %s ha ganado %d de vida (%d + %d = %d)", user.getUsername(), cantidad, currentHealth, cantidad, gameUser.getHeroeHealth()));
         }
     }
 

@@ -71,6 +71,9 @@ public class GameService {
 	HeroeCardsService heroeCardsService;
 
 	@Autowired
+	GameService gameService;
+
+	@Autowired
 	GamesUsersSkillCardsService gamesUsersSkillCardsService;
 
 	@Autowired
@@ -163,7 +166,7 @@ public class GameService {
 			gameUserService.saveGameUser(gameUser);
 			players.put(gameUser.getGlory(), user);
 		}
-		players.entrySet().stream().sorted(Map.Entry.<Integer, User>comparingByKey().reversed());
+		players.entrySet().stream().sorted(Map.Entry.<Integer, User>comparingByKey());
 
 		return players;
 	}
@@ -186,8 +189,8 @@ public class GameService {
 		}
 
 	}
-	
 
+	
 	//
 	@Transactional
 	public void createGame(@Valid Game game) {
@@ -370,6 +373,22 @@ public class GameService {
 		}
 	}
 
+	@Transactional
+	public void defendHeroe(@Valid Game game, User user) {
+		//Aplica el daño
+		Integer daño = enemyCardService.findOnTableEnemiesByGame(game).stream().map(enemyCard -> gamesEnemiesService.findByGameAndEnemy(game, enemyCard).get().getHealth()).collect(Collectors.summingInt(Integer::intValue));
+		if(gameUserService.findByGameAndUser(game, user).get().getDamageShielded() != null){
+			if(daño - gameUserService.findByGameAndUser(game, user).get().getDamageShielded() >= 0){
+				daño -= gameUserService.findByGameAndUser(game, user).get().getDamageShielded();
+			}else{
+				daño = 0;
+			}
+		}
+		GameUser gameUser = gameUserService.findByGameAndUser(game, user).get();
+		gamesUsersSkillCardsService.discardCards(game, user, daño);
+		gameUser.setDamageShielded(0);
+		gameUserService.saveGameUser(gameUser);
+	}
 
 	//
 	@Transactional
@@ -486,7 +505,9 @@ public class GameService {
 				case 57: case 58:
 					skillCardsService.useSaqueo(game, user, skillCard);
 					break;
-			
+				case 63:
+					skillCardsService.useCapaElfica(enemiesTargetedList.get(0), game, user, skillCard);
+					break;
 				default://Si no requiere lógica adicional
 					executeActions(game, user, skillCard.getActions(), enemiesTargetedList);
 					break;
@@ -536,7 +557,7 @@ public class GameService {
 	}
 
 	@Transactional
-	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies) {
+	public void executeActions(Game game, User user, Collection<Action> actions, List<EnemyCard> enemies) throws Exception {
 
 		for (Action action : actions) {
 			switch (action.getType()) {
@@ -579,11 +600,7 @@ public class GameService {
 					}
 					break;
 				case GAINLIFE:
-					try {
 						gamesUsersSkillCardsService.gainLife(game, user, action.getCantidad());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 					break;
 				case DEFENSE:
 					gamesUsersSkillCardsService.defendDamage(game, user, action.cantidad);
@@ -612,11 +629,17 @@ public class GameService {
 		game.setUserPlaying(newUser);
 
 		// Skippea el jugador si está muerto
-		while (gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0) {
-			newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
-					: (users.indexOf(game.getUserPlaying()) + 1);
+		//while (gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth() <= 0) {
+		//	newIndex = (users.indexOf(game.getUserPlaying()) + 1) >= users.size() ? 0
+		//			: (users.indexOf(game.getUserPlaying()) + 1);
+		//}
+		if(gameUserService.findByGameAndUser(game, newUser).get().getHeroeHealth()<=0){
+			if(users.indexOf(game.getUserPlaying()) + 1 >= users.size()){
+				newUser = users.get(0);
+			}else{
+				newUser = users.get(newIndex);
+			} 
 		}
-		newUser = users.get(newIndex);
 		game.setUserPlaying(newUser);
 
 		// Rellena las cartas del nuevo jugador
@@ -650,7 +673,6 @@ public class GameService {
 		List<EnemyCard> onDeckEnemies = (List<EnemyCard>) enemyCardService.findOnDeckEnemiesByGame(game);
 		if (onTableEnemies.size() < NUMBER_ENEMIES) {
 			int enemiesToTable = NUMBER_ENEMIES - onTableEnemies.size();
-
 			if(onDeckEnemies.size()>=0){
 				System.out.println("renueva enemigos");
 				if (onDeckEnemies.size() < enemiesToTable) {

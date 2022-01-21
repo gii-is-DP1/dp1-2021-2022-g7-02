@@ -65,13 +65,6 @@ public class GamesEnemiesService {
                         gameUser.setGlory(gameUser.getGlory() + enemyCard.getGlory() + enemyCard.getExtraGlory());
                         gameUserService.saveGameUser(gameUser);
                         System.out.println("[DEBUG]: ENEMIGO ELIMINADO. EL JUGADOR "+ user.getUsername() + " AHORA TIENE " + gameUser.getGold() + " DE ORO Y " + gameUser.getGlory() + " DE GLORIA");
-
-                        List<GamesEnemies> enemiesOnDeck = gamesEnemiesRepository.findAllInGameOnDeck(game);
-
-                        if(enemiesOnDeck.size() == 0){  //Si no hay más enemigos
-                            game.setIsInProgress(false);
-                            gameService.updateGame(game);
-                        }
                     }
                     this.saveGamesEnemies(gamesEnemies);
                 }else{  //SI EL ENEMIGO NO ESTÁ ONTABLE
