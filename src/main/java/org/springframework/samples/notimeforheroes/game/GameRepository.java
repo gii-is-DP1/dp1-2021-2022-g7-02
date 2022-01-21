@@ -47,6 +47,6 @@ public interface GameRepository extends CrudRepository<Game, Integer>{
 	@Query(nativeQuery = true, value = "SELECT g.* FROM Games g JOIN Games_Users gu WHERE g.id = gu.fk_game AND g.is_in_progress = TRUE AND gu.fk_user = ?1")
 	Optional<Game> findGameInProgressByUser(User user);
 
-	@Query(nativeQuery = true, value = "SELECT  u.username as username, count(winner) as count  FROM GAMES g join users u where u.id=winner group by winner order by count(winner) desc, u.username asc LIMIT 10")
+	@Query(nativeQuery = true, value = "SELECT u.username as username, count(winner) as count  FROM GAMES g join users u where u.id=winner group by winner order by count(winner) desc, u.username asc LIMIT 10")
 	List<Tuple> findRanking();
 }
