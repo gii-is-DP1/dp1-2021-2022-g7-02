@@ -68,9 +68,10 @@ public class GamesUsersSkillCardsService {
     }
 
     public void drawCards(Game game, User user, Integer cantidad) {
+
+        //Quita una vida y pone todas las cartas del descarte en el mazo
         List<SkillCard> onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
-        if(onDeckCards.size() <= cantidad){     //Si le quedan menos cartas en el mazo de las que tiene que robar
-            
+        if(onDeckCards.size() <= cantidad){     
             System.out.println("[DRAW] El jugador " + user.getUsername() + " pierde una vida!");
             GameUser player = gamesUsersService.findByGameAndUser(game, user).get();
             //le quito 1 de vida al heroe
@@ -88,10 +89,13 @@ public class GamesUsersSkillCardsService {
                 gamesUsersSkillCardsRepository.save(gusc);
             });
             }
-            
-            
         }
-        
+
+        //Sólo se pueden robar tal que se tengan como máximo 4 en la mano
+        if(cantidad + skillCardsService.findAllAvailableSkillsByGameAndUser(game, user).size() > 4)
+            cantidad = 4 - skillCardsService.findAllAvailableSkillsByGameAndUser(game, user).size();
+
+        //Roba cartas
         onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
         for(int i = 0; i<cantidad; i++){
             GamesUsersSkillCards gusc = findByGameUserSkill(game, user, onDeckCards.get(i)).get();
@@ -106,49 +110,47 @@ public class GamesUsersSkillCardsService {
         try {
             List<SkillCard> onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
             Integer cartasRestantes = onDeckCards.size();
-        if(cartasRestantes <= cantidad){
+            if (cartasRestantes <= cantidad) {
+                System.out.println("[DISCARD] El jugador " + user.getUsername() + " pierde una vida!");
 
-            System.out.println("[DISCARD] El jugador " + user.getUsername() + " pierde una vida!");
+                // eliminar 1 vida
+                GameUser player = gamesUsersService.findByGameAndUser(game, user).get();
+                player.setHeroeHealth(player.getHeroeHealth() - 1);
+                gamesUsersService.saveGameUser(player);
 
-            //eliminar 1 vida
-            GameUser player= gamesUsersService.findByGameAndUser(game, user).get();
-            player.setHeroeHealth(player.getHeroeHealth() - 1);  
-            gamesUsersService.saveGameUser(player);
+                // si el numero de vidas del jugador es 0 pasa al siguiente turno y en el metodo
+                // endTurn si el jugador tiene 0 vidas, salta su turno
+                if (player.getHeroeHealth() == 0) {
+                    gameService.endTurn(game);
+                } else {
+                    // Volver a poner todas las cartas en el mazo
+                    skillCardsService.findAllOnDiscardedSkillsByGameAndUser(game, user).stream().forEach(c -> {
+                        GamesUsersSkillCards gusc = findByGameUserSkill(game, user, c).get();
+                        gusc.setSkillState(SkillState.ONDECK);
+                        gamesUsersSkillCardsRepository.save(gusc);
+                    });
 
-            //si el numero de vidas del jugador es 0 pasa al siguiente turno y en el metodo endTurn si el jugador tiene 0 vidas, salta su turno
-            if(player.getHeroeHealth()==0){
-                gameService.endTurn(game);
-            }else{
-                //Volver a poner todas las cartas en el mazo
-                skillCardsService.findAllOnDiscardedSkillsByGameAndUser(game, user).stream().forEach(c -> {
-                GamesUsersSkillCards gusc = findByGameUserSkill(game, user, c).get();
-                gusc.setSkillState(SkillState.ONDECK);
-                gamesUsersSkillCardsRepository.save(gusc);
-            });
-
-            onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
-            for(int i = 0; i<cantidad - cartasRestantes; i++){
-                GamesUsersSkillCards gusc = findByGameUserSkill(game, user, onDeckCards.get(i)).get();
-                System.out.println("[DISCARD] El jugador " + user.getUsername() + " pierde la carta " + onDeckCards.get(i).getName());
-                gusc.setSkillState(SkillState.DISCARD);
-                saveGameUserSkillCard(gusc);
+                    onDeckCards = skillCardsService.findAllOnDeckSkillsByGameAndUser(game, user);
+                    for (int i = 0; i < cantidad - cartasRestantes; i++) {
+                        GamesUsersSkillCards gusc = findByGameUserSkill(game, user, onDeckCards.get(i)).get();
+                        System.out.println("[DISCARD] El jugador " + user.getUsername() + " pierde la carta "
+                                + onDeckCards.get(i).getName());
+                        gusc.setSkillState(SkillState.DISCARD);
+                        saveGameUserSkillCard(gusc);
+                    }
+                }
+            } else {
+                for (int i = 0; i < cantidad; i++) {
+                    GamesUsersSkillCards gusc = findByGameUserSkill(game, user, onDeckCards.get(i)).get();
+                    System.out.println("[DISCARD] El jugador " + user.getUsername() + " pierde la carta "
+                            + onDeckCards.get(i).getName());
+                    gusc.setSkillState(SkillState.DISCARD);
+                    saveGameUserSkillCard(gusc);
+                }
             }
-
-            }
-
-            
-        }else{
-            for(int i = 0; i<cantidad; i++){
-                GamesUsersSkillCards gusc = findByGameUserSkill(game, user, onDeckCards.get(i)).get();
-                System.out.println("[DISCARD] El jugador " + user.getUsername() + " pierde la carta " + onDeckCards.get(i).getName());
-                gusc.setSkillState(SkillState.DISCARD);
-                saveGameUserSkillCard(gusc);
-            }
-        }
-            
         } catch (Exception e) {
             e.printStackTrace();
-        }         
+        }
     }
 
     public void recoverCards(Game game, User user, Integer cantidad) {
