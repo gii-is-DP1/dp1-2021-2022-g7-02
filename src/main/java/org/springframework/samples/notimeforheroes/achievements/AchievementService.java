@@ -51,8 +51,6 @@ public class AchievementService {
 		return achievementsRepo.findAll();
 	}
 
-
-
 	//
 	@Transactional
 	public void deleteAchievement(Achievement achievement) {
