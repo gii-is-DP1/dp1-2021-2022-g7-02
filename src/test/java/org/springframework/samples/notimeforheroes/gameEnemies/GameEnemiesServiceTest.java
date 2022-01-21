@@ -93,7 +93,7 @@ public class GameEnemiesServiceTest {
 	        GamesEnemies gameEnemy = new GamesEnemies();
 	        gameEnemy.setEnemyState(state);
 	        return gameEnemy;
-	    }
+		}
 
 	    public Game gameConstructor(int creatorId, LocalDate date, int duration, boolean isInProgress) {
 	        Game g = new Game();

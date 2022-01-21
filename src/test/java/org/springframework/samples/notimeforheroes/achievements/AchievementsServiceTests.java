@@ -21,8 +21,6 @@ public class AchievementsServiceTests {
 
 	@Autowired 
 	private AchievementService achievementsService;
-
-
 	
 	@Test
 	void testFindAll() throws DataAccessException, DuplicatedAchievementNameException {
