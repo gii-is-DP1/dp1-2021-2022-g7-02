@@ -28,7 +28,7 @@
 				<img src="${heroes.url}">
 				<h2>
 					Vida restante:
-					<c:out value="${heroes.maxHealth}" />
+					<c:out value="${player.getHeroeHealth()}" />
 				</h2>
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 	</c:if>
 
 	<c:if test="${game.getUserPlaying() == user}">
-		<a class="btn btn-default" href="/games/${game.id}/marketGame">Ir a mercado</a>
+		<a class="btn btn-default" href="/games/${game.id}/">Ir a mercado</a>
 	</c:if>
 
 

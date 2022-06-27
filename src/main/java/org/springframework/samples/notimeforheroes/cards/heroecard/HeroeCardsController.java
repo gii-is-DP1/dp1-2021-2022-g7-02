@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.cards.heroecard;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,6 +27,17 @@ public class HeroeCardsController {
 	@Autowired
 	HeroeCardsService HeroeCardService;
 	
+	
+	@GetMapping("/{pageNo}")
+	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Integer lastPage = HeroeCardService.findAll().size()/4;
+		model.addAttribute("lastPag", lastPage);
+		Collection<HeroeCard> lista = HeroeCardService.findAllPage(pageNo, 4);
+		model.addAttribute("heroes", lista);
+		model.addAttribute("pag", pageNo);
+
+		return HEROE_CARD_LISTING;
+	}
 	
 	@GetMapping
 	public String listHeroesCards(ModelMap model) {

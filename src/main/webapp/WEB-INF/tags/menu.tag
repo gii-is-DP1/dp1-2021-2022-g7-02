@@ -35,77 +35,78 @@ description="Name of the active menu: home, owners, vets or error"%>
 					<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
 					<span>Playing</span>
 				</petclinic:menuItem>
-
-				<sec:authorize access='hasAuthority("admin")'>
-					<petclinic:menuItem active="${name eq 'vets'}" url="/users" title="Users">
-						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-						<span>Users</span>
-					</petclinic:menuItem>
-
-
-					<petclinic:menuItem active="${name eq 'vets'}" url="" title="cards" dropdown="${true}">
-						<ul class="dropdown-menu">
-							<li>
-								<div class="row">
-									<div class="text-center">
-										<a href="<c:url value=" /cards/heroes" />">Heroes</a>
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="row">
-									<div class="text-center">
-										<a href="<c:url value=" /cards/scenes" />">Scenes</a>
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="row">
-									<div class="text-center">
-										<a href="<c:url value=" /cards/skills" />">Hero Skill</a>
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="row">
-									<div class="text-center">
-										<a href="<c:url value=" /cards/enemies" />">Enemies</a>
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="row">
-									<div class="text-center">
-										<a href="<c:url value=" /cards/market" />">Market cards</a>
-									</div>
-								</div>
-							</li>
-						</ul>
-						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-						<span>Cards</span>
-					</petclinic:menuItem>
-				
-
-					<petclinic:menuItem active="${name eq 'error'}" url="/oups"
-						title="trigger a RuntimeException to see how it is handled">
-						<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-						<span>Error</span>
-					</petclinic:menuItem>
-				</sec:authorize>
 				
 				<petclinic:menuItem active="${name eq 'ranking'}" url="/games/playersRanking" title="Ranking">
 					<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
 					<span>Ranking</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'achievements'}" url="/achievements" title="Achievements">
+				<petclinic:menuItem active="${name eq 'achievements'}" url="/achievements/0" title="Achievements">
 					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>
 					<span>Achievements</span>
 				</petclinic:menuItem>
+			
+				<petclinic:menuItem active="${name eq 'Exit Game'}" url="/games/exitGame" title="exit Game">
+					<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+					<span>Exit Game</span>
+				</petclinic:menuItem>
+
+				<sec:authorize access='hasAuthority("admin")'>
+					<petclinic:menuItem active="${name eq 'vets'}" url="" title="admin" dropdown="${true}">
+						<ul class="dropdown-menu">
+							<li>
+								<div class="row">
+									<div class="text-center">
+										<a href="<c:url value="/users/0"/>">Users</a>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<div class="row">
+									<div class="text-center">
+										<a href="<c:url value=" /cards/heroes/0" />">Heroes</a>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<div class="row">
+									<div class="text-center">
+										<a href="<c:url value=" /cards/skills/0" />">Hero Skill</a>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<div class="row">
+									<div class="text-center">
+									
+										<a href="<c:url value=" /cards/enemies/0" />">Enemies</a>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<div class="row">
+									<div class="text-center">
+										<a href="<c:url value=" /cards/market/0" />">Market cards</a>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<div class="row">
+									<div class="text-center">
+										<a href="<c:url value=" /error" />">Error</a>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Admin</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 			</ul>
 
 

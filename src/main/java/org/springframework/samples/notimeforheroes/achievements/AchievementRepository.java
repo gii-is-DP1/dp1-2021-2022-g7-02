@@ -1,16 +1,20 @@
 package org.springframework.samples.notimeforheroes.achievements;
 
 import java.util.Collection;
+import java.util.List;
 
-import org.springframework.samples.notimeforheroes.user.User;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 public interface AchievementRepository extends CrudRepository<Achievement, Integer>{
 
+	Page<Achievement> findAll(Pageable page);	
 	
 	Collection<Achievement> findAll();
 
-	//@Query("SELECT a FROM achievement_user a WHERE a.user_id == ?1")
-	Collection<Achievement> findByUser(Integer userId);
+	List<Achievement> findAllByName(String name);
+	
+
+	
 }

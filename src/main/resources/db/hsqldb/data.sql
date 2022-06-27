@@ -1,62 +1,3 @@
-/*
--- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
--- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
--- One vet user, named vet1 with passwor v3t
-INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
-INSERT INTO vets VALUES (1, 'James', 'Carter');
-INSERT INTO vets VALUES (2, 'Helen', 'Leary');
-INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
-INSERT INTO vets VALUES (4, 'Rafael', 'Ortega');
-INSERT INTO vets VALUES (5, 'Henry', 'Stevens');
-INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins');
-INSERT INTO specialties VALUES (1, 'radiology');
-INSERT INTO specialties VALUES (2, 'surgery');
-INSERT INTO specialties VALUES (3, 'dentistry');
-INSERT INTO vet_specialties VALUES (2, 1);
-INSERT INTO vet_specialties VALUES (3, 2);
-INSERT INTO vet_specialties VALUES (3, 3);
-INSERT INTO vet_specialties VALUES (4, 2);
-INSERT INTO vet_specialties VALUES (5, 1);
-INSERT INTO types VALUES (1, 'cat');
-INSERT INTO types VALUES (2, 'dog');
-INSERT INTO types VALUES (3, 'lizard');
-INSERT INTO types VALUES (4, 'snake');
-INSERT INTO types VALUES (5, 'bird');
-INSERT INTO types VALUES (6, 'hamster');
-INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
-INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
-INSERT INTO owners VALUES (3, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763', 'owner1');
-INSERT INTO owners VALUES (4, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198', 'owner1');
-INSERT INTO owners VALUES (5, 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765', 'owner1');
-INSERT INTO owners VALUES (6, 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6085552654', 'owner1');
-INSERT INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387', 'owner1');
-INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683', 'owner1');
-INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner1');
-INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 3);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (4, 'Jewel', '2010-03-07', 2, 3);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (5, 'Iggy', '2010-11-30', 3, 4);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (6, 'George', '2010-01-20', 4, 5);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (7, 'Samantha', '2012-09-04', 1, 6);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (8, 'Max', '2012-09-04', 1, 6);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (9, 'Lucky', '2011-08-06', 5, 7);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (10, 'Mulligan', '2007-02-24', 2, 8);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 9);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
-*/
-
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (1,'Juan','Garcia','juangar2', 'juan@hotmail.com','a23aze',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (2,'Alberto','Perez','peras2', 'Alberto@hotmail.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (3,'Pablo','Espada','pabloespada', 'pablo@email.com','123',TRUE);
@@ -64,6 +5,7 @@ INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (5,'Mario','Rodriguez','mario', 'mario@email.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (6,'Miguel Angel','Romalde','mromalde', 'mromalde@email.com','123',TRUE);
 INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (7,'Javier','Martínez','javier', 'javmarjae@email.com','123',TRUE);
+INSERT INTO users(id,name,lastname, username, email, password, enabled) VALUES (8,'Nabil','Fekir','elMago', 'nabilfekir8@email.com','123',FALSE);
 
 
 INSERT INTO authorities(id,authority,username) VALUES (1,'admin','pabloespada');
@@ -73,14 +15,54 @@ INSERT INTO authorities(id,authority,username) VALUES (4,'player','pabloespada2'
 INSERT INTO authorities(id,authority,username) VALUES (5,'admin','mromalde');
 INSERT INTO authorities(id,authority,username) VALUES (6,'admin','mario');
 INSERT INTO authorities(id,authority,username) VALUES (7,'admin','javier');
-
-INSERT INTO achievement(id,name,description) VALUES (1,'Rookie', 'Play the first game');
-INSERT INTO achievement(id,name,description) VALUES (2,'Experienced', 'Play five games');
-INSERT INTO achievement(id,name,description) VALUES (3,'First win', 'Win a game');
-INSERT INTO achievement(id,name,description) VALUES (4,'Some level', 'Win five games');
-INSERT INTO achievement(id,name,description) VALUES (5,'Pro', 'Win ten games');
-INSERT INTO achievement(id,name,description) VALUES (6,'Expert', 'Win twenty games');
-
+--Play games
+INSERT INTO achievement(id,name,description, number, type) VALUES (1,'Beginner', 'Play one game', 1, 0);
+INSERT INTO achievement(id,name,description, number, type) VALUES (2,'Student', 'Play two games', 2, 0);
+INSERT INTO achievement(id,name,description, number, type) VALUES (3,'Experienced', 'Play five games', 5, 0);
+--Win games
+INSERT INTO achievement(id,name,description, number, type) VALUES (4,'Cool', 'Win one game', 1, 1);
+INSERT INTO achievement(id,name,description, number, type) VALUES (5,'Not Bad', 'Win two games', 2, 1);
+INSERT INTO achievement(id,name,description, number, type) VALUES (6,'Pro', 'Win five games', 5, 1);
+--Play with Heroe1
+INSERT INTO achievement(id,name,description, number, type) VALUES (7,'Quack', 'Play one game with Taheral', 1, 2);
+INSERT INTO achievement(id,name,description, number, type) VALUES (8,'Wizard', 'Play two games with Taheral', 2, 2);
+INSERT INTO achievement(id,name,description, number, type) VALUES (9,'Witcher', 'Play Five games with Taheral', 5, 2);
+--Play with Heroe2
+INSERT INTO achievement(id,name,description, number, type) VALUES (10,'Archer', 'Play one game with Idril', 1, 3);
+INSERT INTO achievement(id,name,description, number, type) VALUES (11,'Hunter', 'Play two games with Idril', 2, 3);
+INSERT INTO achievement(id,name,description, number, type) VALUES (12,'Revenant', 'Play Five games with Idril', 5, 3);
+--Play with Heroe3
+INSERT INTO achievement(id,name,description, number, type) VALUES (13,'Thief', 'Play one game with Feldon', 1, 4);
+INSERT INTO achievement(id,name,description, number, type) VALUES (14,'Ninja', 'Play two games with Feldon', 2, 4);
+INSERT INTO achievement(id,name,description, number, type) VALUES (15,'Assasin', 'Play Five games with Feldon', 5, 4);
+--Play with Heroe4
+INSERT INTO achievement(id,name,description, number, type) VALUES (16,'Killer', 'Play one game with Lisavette', 1, 5);
+INSERT INTO achievement(id,name,description, number, type) VALUES (17,'Warrior', 'Play two games with Lisavette', 2, 5);
+INSERT INTO achievement(id,name,description, number, type) VALUES (18,'Boss', 'Play Five games with Lisavette', 5, 5);
+--Play with Heroe5
+INSERT INTO achievement(id,name,description, number, type) VALUES (19,'Quack', 'Play one game with Aranel', 1, 6);
+INSERT INTO achievement(id,name,description, number, type) VALUES (20,'Wizard', 'Play two games with Aranel', 2, 6);
+INSERT INTO achievement(id,name,description, number, type) VALUES (21,'Witcher', 'Play Five games with Aranel', 5, 6);
+--Play with Heroe6
+INSERT INTO achievement(id,name,description, number, type) VALUES (22,'Archer', 'Play one game with Beleth-Il', 1, 7);
+INSERT INTO achievement(id,name,description, number, type) VALUES (23,'Hunter', 'Play two games with Beleth-Il', 2, 7);
+INSERT INTO achievement(id,name,description, number, type) VALUES (24,'Revenant', 'Play Five games with Beleth-Il', 5, 7);
+--Play with Heroe7
+INSERT INTO achievement(id,name,description, number, type) VALUES (25,'Thief', 'Play one game with Neddia', 1, 8);
+INSERT INTO achievement(id,name,description, number, type) VALUES (26,'Ninja', 'Play two games with Neddia', 2, 8);
+INSERT INTO achievement(id,name,description, number, type) VALUES (27,'Assasin', 'Play Five games with Neddia', 5, 8);
+--Play with Heroe8
+INSERT INTO achievement(id,name,description, number, type) VALUES (28,'Killer', 'Play one game with Valerys', 1, 9);
+INSERT INTO achievement(id,name,description, number, type) VALUES (29,'Warrior', 'Play two games with Valerys', 2, 9);
+INSERT INTO achievement(id,name,description, number, type) VALUES (30,'Boss', 'Play Five games with Valerys', 5, 9);
+--Gold
+INSERT INTO achievement(id,name,description, number, type) VALUES (31,'Goblin', 'Obtain 10 gold coins', 10, 10);
+INSERT INTO achievement(id,name,description, number, type) VALUES (32,'Leprechaun', 'Obtain 20 gold coins', 20, 10);
+INSERT INTO achievement(id,name,description, number, type) VALUES (33,'Gollum', 'Obtain 50 gold coins', 50, 10);
+--Glory
+INSERT INTO achievement(id,name,description, number, type) VALUES (34,'Magno', 'Obtain 10 glory points', 10, 11);
+INSERT INTO achievement(id,name,description, number, type) VALUES (35,'Atila', 'Obtain 20 glory points', 20, 11);
+INSERT INTO achievement(id,name,description, number, type) VALUES (36,'Cesar', 'Obtain 50 glory points', 50, 11);
 
 INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (1,'Taheral','\resources\images\Taheral.png',2, 'Al realizar la maniobra de evasión, coge dos monedas por cada carta que descartes. Una vez por partida.','Morado');
 INSERT INTO heroes(id,name,url,max_health,skill,color) VALUES (2,'Idril','\resources\images\Idril.png',3, 'En cualquier momento puedes mirar las tres cartas inferiores de la horda y devolverlas al mazo en el orden que prefieras. Dos veces por partida.','Verde');
@@ -158,6 +140,23 @@ INSERT INTO skills(id,name,url,description,color) VALUES (56,'Robar Bolsillos', 
 INSERT INTO skills(id,name,url,description,color) VALUES (57,'Saqueo', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
 INSERT INTO skills(id,name,url,description,color) VALUES (58,'Saqueo', '\resources\images\RedSkills\Saqueo.png','Gana 2 Monedas por cada Enemigo vivo' ,'Rojo');
 
+--MARKET SKILLS
+INSERT INTO skills(id,name,url,description) VALUES (59,'Daga Elfica 1', '\resources\images\market\DagaEfica.png', ' ');
+INSERT INTO skills(id,name,url,description) VALUES (60,'Daga Elfica 2', '\resources\images\market\DagaEfica.png', ' ');
+INSERT INTO skills(id,name,url,description) VALUES (61,'Alabarda Orca', '\resources\images\market\AlabardaOrca.png', ' ');
+INSERT INTO skills(id,name,url,description) VALUES (62,'Armadura de Placas', '\resources\images\market\ArmaduradePlacas.png', 'Recupera 4 cartas');
+INSERT INTO skills(id,name,url,description) VALUES (63,'Capa Elfica', '\resources\images\market\CapaElfica.png', 'El enemigo elegido no causa daño esta ronda');
+INSERT INTO skills(id,name,url,description) VALUES (64,'Elixir de Concentracion 1', '\resources\images\market\ElixirdeConcentracion.png', 'Roba 3 cartas');
+INSERT INTO skills(id,name,url,description) VALUES (65,'Elixir de Concentracion 2', '\resources\images\market\ElixirdeConcentracion.png', 'Roba 3 cartas');
+INSERT INTO skills(id,name,url,description) VALUES (66,'Piedra de Amolar', '\resources\images\market\PiedradeAmolar.png', 'Hace 1 de daños a los 3 enemigos de la mesa');
+INSERT INTO skills(id,name,url,description) VALUES (67,'Pocion Curativa 1', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
+INSERT INTO skills(id,name,url,description) VALUES (68,'Pocion Curativa 2', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
+INSERT INTO skills(id,name,url,description) VALUES (69,'Pocion Curativa 3', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
+INSERT INTO skills(id,name,url,description) VALUES (70,'Pocion Curativa 4', '\resources\images\market\PocionCurativa.png', 'Retira una ficha de herida');
+INSERT INTO skills(id,name,url,description) VALUES (71,'Vial de Conjuracion 1', '\resources\images\market\VialdeConjuracion.png', 'Recupera 5 cartas');
+INSERT INTO skills(id,name,url,description) VALUES (72,'Vial de Conjuracion 2', '\resources\images\market\VialdeConjuracion.png', 'Recupera 5 cartas');
+INSERT INTO skills(id,name,url,description) VALUES (73,'Arco Compuesto', '\resources\images\market\ArcoCompuesto.png', ' ');
+
 
 --ASIGNAR SKILLS A HEROES
 INSERT INTO heroes_skills(fk_heroe, fk_skill) VALUES (1,1);
@@ -167,22 +166,22 @@ INSERT INTO heroes_skills(fk_heroe, fk_skill) VALUES (8,2);
 INSERT INTO heroes_skills(fk_heroe, fk_skill) VALUES (3,3);
 INSERT INTO heroes_skills(fk_heroe, fk_skill) VALUES (7,3);
 
-INSERT INTO scenes(id,name,url,description) VALUES (1,'Campo de batalla', 'https:','Cada enemigo vencido aportara 1 moneda adicional al héroe que lo derrotó' );
-INSERT INTO scenes(id,name,url,description) VALUES (2,'Lágrimas de Aradiel', 'https:','Una vez por turno, el héroe activo puede utilizar una carta de la mano de otro héroe (elegida al azar). Para hacerlo deberá entregarle 1 ficha de Gloria. Tras aplicar la carta, se descarta en la pila de Desgaste del propietario y este roba una nueva' );
-INSERT INTO scenes(id,name,url,description) VALUES (3,'Lodazal de Kalern', 'https:','Al comienzo del turno de cada héroe, el jugador de su izquierda elige un enemigo. El enemigo elegido vuelve a la parte inferior del mazo (si tuviera heridas, se descartan');
-INSERT INTO scenes(id,name,url,description) VALUES (4,'Mercado de Lotharion', 'https:','Mientras este sea el escenario activo, todos los articulos del mercado cuestan una Moneda menos');
 
-
-
-INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica', '\resources\images\market\DagaEfica.png', 3,'Si el heroe tiene (mano), recupera esta carta despues de jugarla');
-INSERT INTO market(id,name,url,cost,description) VALUES (2,'Alabarda Orca', '\resources\images\market\AlabardaOrca.png', 5,' ');
-INSERT INTO market(id,name,url,cost,description) VALUES (3,'Armadura de Placas', '\resources\images\market\ArmaduradePlacas.png', 4,'Recupera 4 cartas');
-INSERT INTO market(id,name,url,cost,description) VALUES (4,'Capa Elfica', '\resources\images\market\CapaElfica.png', 3,'El enemigo elegido no causa daño esta ronda');
-INSERT INTO market(id,name,url,cost,description) VALUES (5,'Elixir de Concentracion', '\resources\images\market\ElixirdeConcentracion.png', 3,'Roba 3 cartas');
-INSERT INTO market(id,name,url,cost,description) VALUES (6,'Piedra de Amolar', '\resources\images\market\PiedradeAmolar.png', 4,'+1 al daño de la carta');
-INSERT INTO market(id,name,url,cost,description) VALUES (7,'Pocion Curativa', '\resources\images\market\PocionCurativa.png', 8,'Retira una ficha de herida');
-INSERT INTO market(id,name,url,cost,description) VALUES (8,'Vialde de Conjuracion', '\resources\images\market\VialdeConjuracion.png', 5,'Busca una carta en tu pila');
-INSERT INTO market(id,name,url,cost,description) VALUES (9,'Arco Compuesto', '\resources\images\market\ArcoCompuesto.png', 5,' ');
+INSERT INTO market(id,name,url,cost,description) VALUES (1,'Daga Elfica 1', '\resources\images\market\DagaEfica.png', 3,' ');
+INSERT INTO market(id,name,url,cost,description) VALUES (2,'Daga Elfica 2', '\resources\images\market\DagaEfica.png', 3,' ');
+INSERT INTO market(id,name,url,cost,description) VALUES (3,'Alabarda Orca', '\resources\images\market\AlabardaOrca.png', 5,' ');
+INSERT INTO market(id,name,url,cost,description) VALUES (4,'Armadura de Placas', '\resources\images\market\ArmaduradePlacas.png', 4,'Recupera 4 cartas');
+INSERT INTO market(id,name,url,cost,description) VALUES (5,'Capa Elfica', '\resources\images\market\CapaElfica.png', 3,'El enemigo elegido no causa daño esta ronda');
+INSERT INTO market(id,name,url,cost,description) VALUES (6,'Elixir de Concentracion 1', '\resources\images\market\ElixirdeConcentracion.png', 3,'Roba 3 cartas');
+INSERT INTO market(id,name,url,cost,description) VALUES (7,'Elixir de Concentracion 2', '\resources\images\market\ElixirdeConcentracion.png', 3,'Roba 3 cartas');
+INSERT INTO market(id,name,url,cost,description) VALUES (8,'Piedra de Amolar', '\resources\images\market\PiedradeAmolar.png', 4,'Hace 1 de daños a los 3 enemigos de la mesa');
+INSERT INTO market(id,name,url,cost,description) VALUES (9,'Pocion Curativa 1', '\resources\images\market\PocionCurativa.png', 8,'Retira una ficha de herida');
+INSERT INTO market(id,name,url,cost,description) VALUES (10,'Pocion Curativa 2', '\resources\images\market\PocionCurativa.png', 8,'Retira una ficha de herida');
+INSERT INTO market(id,name,url,cost,description) VALUES (11,'Pocion Curativa 3', '\resources\images\market\PocionCurativa.png', 8,'Retira una ficha de herida');
+INSERT INTO market(id,name,url,cost,description) VALUES (12,'Pocion Curativa 4', '\resources\images\market\PocionCurativa.png', 8,'Retira una ficha de herida');
+INSERT INTO market(id,name,url,cost,description) VALUES (13,'Vial de Conjuracion 1', '\resources\images\market\VialdeConjuracion.png', 5,'Recupera una carta de tu pila');
+INSERT INTO market(id,name,url,cost,description) VALUES (14,'Vial de Conjuracion 2', '\resources\images\market\VialdeConjuracion.png', 5,'Recupera una carta de tu pila');
+INSERT INTO market(id,name,url,cost,description) VALUES (15,'Arco Compuesto', '\resources\images\market\ArcoCompuesto.png', 5,' ');
 
 
 INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (1,'Simple Enemy', '\resources\images\enemies\simpleEnemy1.png', false, 2, 1, 0, 0);
@@ -193,8 +192,8 @@ INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold
 INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (6,'Simple Enemy', '\resources\images\enemies\simpleEnemy3.png', false, 3, 1, 0, 1);
 INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (7,'Simple Enemy', '\resources\images\enemies\simpleEnemy4.png', false, 4, 2, 1, 0);
 INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (8,'Simple Enemy', '\resources\images\enemies\simpleEnemy4.png', false, 4, 2, 1, 0);
-INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (9,'Simple Enemy', '\resources\images\enemies\simpleEnemy5.png', false, 3, 3, 0, 0);
-INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (10,'Simple Enemy', '\resources\images\enemies\simpleEnemy5.png', false, 3, 3, 0, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (9,'Simple Enemy', '\resources\images\enemies\simpleEnemy5.png', false, 5, 3, 0, 0);
+INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (10,'Simple Enemy', '\resources\images\enemies\simpleEnemy5.png', false, 5, 3, 0, 0);
 INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (11,'Simple Enemy', '\resources\images\enemies\simpleEnemy6.png', false, 6, 4, 3, 0);
 INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (12,'Simple Enemy', '\resources\images\enemies\simpleEnemy6.png', false, 6, 4, 3, 0);
 INSERT INTO enemies(id,name,url,is_boss, max_health,glory,extra_glory,extra_gold) VALUES (13,'Boss 1', '\resources\images\enemies\boss1.png', true, 8, 4, 0, 0);
@@ -222,6 +221,8 @@ INSERT INTO Actions (id, type, cantidad) VALUES (12, 2, 0);
 INSERT INTO Actions (id, type, cantidad) VALUES (13, 2, 1);
 INSERT INTO Actions (id, type, cantidad) VALUES (14, 2, 2);
 INSERT INTO Actions (id, type, cantidad) VALUES (15, 2, 3);
+INSERT INTO Actions (id, type, cantidad) VALUES (71, 2, 4);
+INSERT INTO Actions (id, type, cantidad) VALUES (72, 2, 5);
 --gainglory
 INSERT INTO Actions (id, type, cantidad) VALUES (16, 3, 0);
 INSERT INTO Actions (id, type, cantidad) VALUES (17, 3, 1);
@@ -534,6 +535,42 @@ INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (20, 58);
 INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (17, 58);
+
+--Actions of MarketCard
+    --daga elfica
+INSERT INTO actions_skill_card (fk_skillCard,fk_actions) VALUES (59, 3);
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (60, 3);
+    --alabarda orca
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (61, 5);
+    --armadura de placas
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (62, 71);
+    --capa elfica
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (36, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (37, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (38, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (39, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (40, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (41, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (42, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (43, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (44, 63);
+INSERT INTO actions_skill_card (fk_actions, fk_skillCard) VALUES (45, 63);
+    --elixir de concetración
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (64, 10);
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (65, 10);
+    --piedra de amolar
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (66, 2);
+    --pocion curativa
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (67, 34);
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (68, 34);
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (69, 34);
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (70, 34);
+    --vial de conjuracion
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (71, 72);
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (72, 72);
+    --arco compuesto
+INSERT INTO actions_skill_card (fk_skillCard, fk_actions) VALUES (73, 5);
+
 
 --Games
 

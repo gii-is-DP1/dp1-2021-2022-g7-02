@@ -1,6 +1,5 @@
 package org.springframework.samples.notimeforheroes.cards.marketcard.gamesMarket;
 
-
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -18,27 +17,26 @@ public class GameMarketService {
 	GameMarketRepository gameMarketRepository;
 
 	@Autowired
-	GameMarketService gameMarketService;
-
-	@Autowired
 	MarketCardsService marketService;
 
-	public Collection<GameMarket> findAll(){
+	//
+	public Collection<GameMarket> findAll() {
 		return gameMarketRepository.findAll();
 	}
 
-	public Collection<GameMarket> findAllInGame(Game game){
+	//
+	public Collection<GameMarket> findAllInGame(Game game) {
 		return gameMarketRepository.findAllInGame(game);
 	}
-	
-	public GameMarket findOneItemInGame(Game game, int id){
+
+	//
+	public GameMarket findOneItemInGame(Game game, int id) {
 		return gameMarketRepository.findOneItemInGame(game, id);
 	}
-	
+
+	//
 	@Transactional
 	public void createGameMarket(@Valid GameMarket gameMarket) {
 		gameMarketRepository.save(gameMarket);
 	}
 }
-
-

@@ -10,13 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.springframework.samples.notimeforheroes.actions.Action;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemies;
-import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemiesRepository;
-import org.springframework.samples.notimeforheroes.cards.enemycard.gamesEnemies.GamesEnemiesService;
-import org.springframework.samples.notimeforheroes.game.Game;
-import org.springframework.samples.petclinic.model.NamedEntity;
+import org.springframework.samples.notimeforheroes.model.NamedEntity;
 
 import lombok.Getter;
 import lombok.Setter;

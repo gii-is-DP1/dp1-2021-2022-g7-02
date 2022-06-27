@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.cards.marketcard;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,6 +26,17 @@ public class MarketCardsController {
 	
 	@Autowired
 	MarketCardsService MarketService;
+	
+	@GetMapping("/{pageNo}")
+	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Integer lastPage = MarketService.findAll().size()/5;
+		model.addAttribute("lastPag", lastPage);
+		Collection<MarketCard> lista = MarketService.findAllPage(pageNo, 5);
+		model.addAttribute("market", lista);
+		model.addAttribute("pag", pageNo);
+
+		return MARKET_CARD_LISTING;
+	}
 	
 	@GetMapping
 	public String listMarketCard(ModelMap model) {

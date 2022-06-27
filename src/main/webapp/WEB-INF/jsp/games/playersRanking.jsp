@@ -23,16 +23,16 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${ranking}" var="ranking1" varStatus="status">
+            <c:forEach items="${ranking}" var="player" varStatus="status">
                 <tr>
                     <td>
-                        <c:out value="${status.count}"></c:out>
+                        <c:out value="${status.count}"/>
                     </td>
                     <td>
-                        <c:out value="${ranking1[0]}"/>
+                        <c:out value="${player.get(0)}"/>
                     </td>
                     <td>
-                        <c:out value="${ranking1[1]}"/>
+                        <c:out value="${player.get(1)}"/>
                     </td>
                 </tr>
             </c:forEach>

@@ -24,9 +24,6 @@
             <th style="width: 20%;">LastName</th>
             <th style="width: 20%;">Username</th>
             <th style="width: 60%x;">email</th>
-            <th style="width: 5%;"></th>
-            <th style="width: 5%;"></th>
-            <th style="width: 5%;"></th>
         </tr>
          </thead>
         <tbody>
@@ -42,22 +39,7 @@
                 </td>
                 <td>
                     <c:out value="${user.email}"/>
-                </td>
-                <td>
-                	<a href="/users/${user.id}/edit">
-                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                	</a>
-                </td>
-                <td>
-                	<a href="/users/${user.id}/delete">
-                	<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                	</a>
-                </td>
-                <td>
-                	<a href="/users/${user.id}/details">
-                	<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                	</a>
-                </td>                      
+                </td>                   
             </tr>
             
                     </tbody>
@@ -81,7 +63,8 @@
                             <c:out value="${Month}"/>
                         </td>
                         <td>
-                            <c:out value="${Week/7}"/>
+                            <fmt:formatNumber var="formattedBillableTime" type="number" maxFractionDigits="3" value="${Week/7}" />
+                            <c:out value="${formattedBillableTime}"/>
                         </td>
                     </tr>
             </tbody>

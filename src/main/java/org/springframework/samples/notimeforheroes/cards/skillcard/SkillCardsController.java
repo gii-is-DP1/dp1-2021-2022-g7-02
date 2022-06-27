@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.cards.skillcard;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,6 +27,18 @@ public class SkillCardsController {
 	
 	@Autowired
 	SkillCardsService SkillService;
+	
+	
+	@GetMapping("/{pageNo}")
+	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Integer lastPage = SkillService.findAll().size()/5;
+		model.addAttribute("lastPag", lastPage);
+		Collection<SkillCard> lista = SkillService.findAllPage(pageNo, 5);
+		model.addAttribute("skills", lista);
+		model.addAttribute("pag", pageNo);
+
+		return SKILL_CARD_LISTING;
+	}
 	
 	@GetMapping
 	public String listSkillCard(ModelMap model) {

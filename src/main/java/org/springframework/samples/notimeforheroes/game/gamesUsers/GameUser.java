@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.springframework.samples.notimeforheroes.cards.heroecard.HeroeCard;
 import org.springframework.samples.notimeforheroes.cards.marketcard.MarketCard;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
-import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.notimeforheroes.model.BaseEntity;
 
 import java.util.Collection;
 import java.util.List;
@@ -41,5 +41,7 @@ public class GameUser extends BaseEntity{
     private Integer glory = 0;
 
     private Boolean winner;
+
+    private Integer damageShielded;
     
 }

@@ -1,5 +1,6 @@
 package org.springframework.samples.notimeforheroes.cards.enemycard;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+ 
 @Controller
 @RequestMapping("/cards/enemies")
 public class EnemyCardController {
@@ -26,6 +27,16 @@ public class EnemyCardController {
 	@Autowired
 	EnemyCardService EnemyCardService;
 	
+	
+	@GetMapping("/{pageNo}")
+	public String getAll(ModelMap model, @PathVariable("pageNo") Integer pageNo){
+		Integer lastPage = EnemyCardService.findAll().size()/5;
+		model.addAttribute("lastPag", lastPage);
+		Collection<EnemyCard> lista = EnemyCardService.findAllPage(pageNo, 5);
+		model.addAttribute("enemies", lista);
+		model.addAttribute("pag", pageNo);
+		return ENEMY_CARD_LISTING;
+	}
 	
 	@GetMapping
 	public String listEnemiesCards(ModelMap model) {

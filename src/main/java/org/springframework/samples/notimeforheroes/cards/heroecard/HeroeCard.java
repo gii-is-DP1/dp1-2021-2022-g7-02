@@ -1,7 +1,6 @@
 package org.springframework.samples.notimeforheroes.cards.heroecard;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,7 @@ import javax.persistence.Table;
 
 import org.springframework.samples.notimeforheroes.actions.Action;
 import org.springframework.samples.notimeforheroes.cards.skillcard.SkillCard;
-import org.springframework.samples.petclinic.model.NamedEntity;
+import org.springframework.samples.notimeforheroes.model.NamedEntity;
 
 import lombok.Getter;
 import lombok.Setter;
