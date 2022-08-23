@@ -20,13 +20,7 @@ import lombok.Setter;
 @Table(name="games_markets")
 public class GameMarket extends BaseEntity{
 
-	/*@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="fk_game")
-	private Game game;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="fk_market")
-	private MarketCard market;*/
 	
     private ItemState itemState = ItemState.ONDECK;
 

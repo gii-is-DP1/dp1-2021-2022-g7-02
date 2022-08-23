@@ -119,6 +119,11 @@ public class GameService {
 	public List<Tuple> findRanking() {
 		return gameRepository.findRanking();
 	}
+	
+	public List<Tuple> findRankingHeroes() {
+		return gameRepository.findRankingHeroes();
+	}
+	
 
 	//
 	public Optional<Game> findById(Integer id) {

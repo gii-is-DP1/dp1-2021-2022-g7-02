@@ -129,11 +129,12 @@ public class UserController {
 			BindingResult result) {
 
 		User loggedUser = userService.getLoggedUser();
-
+		
 		if (result.hasErrors()) {
 			model.addAttribute("message", "The user has errors");
 			return USER_FORM;
 		} else {
+			
 			BeanUtils.copyProperties(modifiedUser, loggedUser, "id");
 			model.addAttribute("user", loggedUser);
 			listUsers(model);

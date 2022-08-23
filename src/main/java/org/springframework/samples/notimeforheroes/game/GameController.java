@@ -66,6 +66,7 @@ public class GameController {
 	public static final String MARKET_VIEW = "games/marketGame";
 	public static final String GAMES_WINNER = "games/endGame";
 	public static final String RANKING = "games/playersRanking";
+	public static final String RANKING_HEROES = "games/playersRankingHeroes";
 	public static final String DEFEND_VIEW = "games/defendGame";
 	public static Integer TIME_INICIO = 0;
 
@@ -120,6 +121,15 @@ public class GameController {
 		model.addAttribute("ranking", gameService.findRanking());
 		return RANKING;
 	}
+	
+	@GetMapping("/playersRankingHeroes")
+	public String listRankingHeroes(ModelMap model) {
+		model.addAttribute("rankingHeroes", gameService.findRankingHeroes());
+		return RANKING_HEROES;
+	}
+	
+	
+	
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public String joinGame(ModelMap model, @RequestParam("joinCode") String joinCode, HttpServletResponse response) {
