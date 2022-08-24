@@ -14,6 +14,10 @@
 
     <h2>Ranking</h2>
 
+    <p>
+    	<a href="/games/playersRanking" class="btn btn-success"><span  aria-hidden="true"></span>Ranking Usuarios</a>
+    </p>
+
     <table id="rankingTable" class="table table-striped">
         <thead>
             <tr>

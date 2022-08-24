@@ -16,8 +16,7 @@
         <div class="form-group has-feedback">
             <petclinic:inputField label="Name" name="name"/>
             <petclinic:inputField label="LastName" name="lastname"/> 
-            <label for="username">Username</label> 
-            <input type="text" value="${user.username}" readonly="readonly" name="username"/>         
+            <petclinic:inputField label="username" name="username"/>          
             <petclinic:inputField label="Email" name="email"/>  
             <petclinic:inputField label="Password" name="password"/>                                   
                                              

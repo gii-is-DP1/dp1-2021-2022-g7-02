@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.notimeforheroes.game.Game;
@@ -32,6 +33,7 @@ public class User extends NamedEntity implements Serializable{
 	private String username;
 
     @NotEmpty
+    @Email
 	private String email;
 	
     @NotEmpty

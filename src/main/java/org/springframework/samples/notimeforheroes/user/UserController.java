@@ -31,6 +31,7 @@ public class UserController {
 
 	public static final String USER_LISTING = "users/userListing";
 	public static final String USER_FORM = "users/createOrUpdateUserForm";
+	public static final String USER_FORM_NEW = "users/createUserForm";
 	public static final String USER_DETAILS = "users/userDetails";
 	public static final String USER_PROFILE = "users/userProfile";
 	public static final String USER_GAME_STATS_DURATION = "users/userGameStatsDuration";
@@ -201,14 +202,14 @@ public class UserController {
 	public String newUser(Map<String, Object> map) {
 		User user = new User();
 		map.put("user", user);
-		return USER_FORM;
+		return USER_FORM_NEW;
 	}
 
 	@PostMapping("/new")
 	public String newUser(@Valid User user, BindingResult result, ModelMap model, RedirectAttributes redirect)
 			throws DataAccessException, DuplicatedUserEmailException {
 		if (result.hasErrors()) {
-			return USER_FORM;
+			return USER_FORM_NEW;
 		} else {
 			userService.saveUser(user);
 			redirect.addFlashAttribute("message", "User created");

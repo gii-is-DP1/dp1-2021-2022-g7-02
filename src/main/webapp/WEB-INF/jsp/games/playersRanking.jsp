@@ -14,6 +14,10 @@
 
     <h2>Ranking</h2>
 
+    <p>
+    	<a href="/games/playersRankingHeroes" class="btn btn-success"><span  aria-hidden="true"></span>Ranking Heroes</a>
+    </p>
+
     <table id="rankingTable" class="table table-striped">
         <thead>
             <tr>
@@ -38,5 +42,7 @@
             </c:forEach>
         </tbody>
     </table>
+
+    
     
 </petclinic:layout>
