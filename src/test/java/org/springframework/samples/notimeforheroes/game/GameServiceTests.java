@@ -382,6 +382,68 @@ public class GameServiceTests {
 		//
 		assertFalse(res);
 	}
+	
+	@Test
+	void testRankingHeroes() throws HeroeNotAvailableException, DataAccessException, DuplicatedUserEmailException {
+		Game g1 = gameConstructor(1, LocalDate.now(), 10, false);
+		Game g2 = gameConstructor(1, LocalDate.now(), 10, false);
+		Game g3 = gameConstructor(1, LocalDate.now(), 10, false);
+
+		userService.saveUser(this.user1);
+
+		List<User> users = new ArrayList<User>();
+		users.add(this.user1);
+		
+		g1.setUsers(users);
+		g2.setUsers(users);
+		g3.setUsers(users);
+
+		gameService.updateGame(g1);
+		gameService.updateGame(g2);
+		gameService.updateGame(g3);
+
+
+		HeroeCard heroe=heroeCardService.findById(1).get();
+		HeroeCard heroe2=heroeCardService.findById(2).get();
+
+		gameService.selectHeroe(g1, user1, heroe.getName());
+		gameService.selectHeroe(g2, user1, heroe.getName());
+		gameService.selectHeroe(g3, user1, heroe2.getName());
+
+		gameService.updateGame(g1);
+		gameService.updateGame(g2);
+		gameService.updateGame(g3);
+
+
+		String name = "Taheral";
+		String name2 = "Idril";
+
+		assertTrue(name.equals(gameService.findRankingHeroes().get(0).get(0).toString()));
+		assertTrue(name2.equals(gameService.findRankingHeroes().get(1).get(0).toString()));
+		
+		Game g4 = gameConstructor(1, LocalDate.now(), 10, false);
+		Game g5 = gameConstructor(1, LocalDate.now(), 10, false);
+		
+		g4.setUsers(users);
+		g5.setUsers(users);
+		
+		gameService.updateGame(g4);
+		gameService.updateGame(g5);
+		
+		gameService.selectHeroe(g4, user1, heroe2.getName());
+		gameService.selectHeroe(g5, user1, heroe2.getName());
+
+		gameService.updateGame(g4);
+		gameService.updateGame(g5);
+		
+		assertFalse(name.equals(gameService.findRankingHeroes().get(0).get(0).toString()));
+		assertFalse(name2.equals(gameService.findRankingHeroes().get(1).get(0).toString()));
+
+
+
+
+
+	}
 
 	@Test
 	void testFindBetweenDates() throws DataAccessException, DuplicatedUserEmailException {
