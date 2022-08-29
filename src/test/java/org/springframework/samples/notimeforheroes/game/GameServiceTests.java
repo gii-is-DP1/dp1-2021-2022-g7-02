@@ -414,12 +414,8 @@ public class GameServiceTests {
 		gameService.updateGame(g2);
 		gameService.updateGame(g3);
 
-
-		String name = "Taheral";
-		String name2 = "Idril";
-
-		assertTrue(name.equals(gameService.findRankingHeroes().get(0).get(0).toString()));
-		assertTrue(name2.equals(gameService.findRankingHeroes().get(1).get(0).toString()));
+		assertTrue(heroeCardService.findById(1).get().getName().equals(gameService.findRankingHeroes().get(0).get(0).toString()));
+		assertTrue(heroeCardService.findById(2).get().getName().equals(gameService.findRankingHeroes().get(1).get(0).toString()));
 		
 		Game g4 = gameConstructor(1, LocalDate.now(), 10, false);
 		Game g5 = gameConstructor(1, LocalDate.now(), 10, false);
@@ -436,8 +432,8 @@ public class GameServiceTests {
 		gameService.updateGame(g4);
 		gameService.updateGame(g5);
 		
-		assertFalse(name.equals(gameService.findRankingHeroes().get(0).get(0).toString()));
-		assertFalse(name2.equals(gameService.findRankingHeroes().get(1).get(0).toString()));
+		assertFalse(heroeCardService.findById(1).equals(gameService.findRankingHeroes().get(0).get(0).toString()));
+		assertFalse(heroeCardService.findById(2).get().getName().equals(gameService.findRankingHeroes().get(1).get(0).toString()));
 
 
 

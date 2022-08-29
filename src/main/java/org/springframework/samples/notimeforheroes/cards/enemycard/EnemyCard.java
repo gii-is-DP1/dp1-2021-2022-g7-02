@@ -8,7 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
 import org.springframework.samples.notimeforheroes.actions.Action;
 import org.springframework.samples.notimeforheroes.model.NamedEntity;
 
@@ -24,6 +23,7 @@ import lombok.Setter;
 public class EnemyCard extends NamedEntity {
 	
     @Column()
+    
     public String url;
 	
 	private Boolean isBoss; //false no es boss, true si es boss
