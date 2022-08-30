@@ -14,6 +14,8 @@
                     <div class="col-md-3">
                         <h1 style="display: inline-block; color: rgb(223, 145, 0); text-decoration: underline; font-weight: bold;"><c:out value="${userService.findByGameUser(playerTable).getUsername()}"></c:out></h1>
                     </div>
+                </div>
+                <div class="row">   
                     <div class="col-md-3">
                         <h1 style="display: inline-block; color: rgb(223, 145, 0);">(<c:out value="${playerTable.getHeroe().getName()}"></c:out>)</h1>
                     </div>                    
